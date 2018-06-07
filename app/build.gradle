@@ -2,30 +2,44 @@ apply plugin: 'com.android.application'
 
 android {
     compileSdkVersion 26
+
+    signingConfigs {
+        config {
+            keyAlias 'key0'
+            keyPassword '123456'
+            storeFile file('E:/weiphoto/sharephoto.jks')
+            storePassword '123456'
+        }
+    }
+
     defaultConfig {
-        applicationId "dynamicphoto.zq.com.sharephoto"
+        applicationId "com.zq.dynamicphoto"
         minSdkVersion 14
         targetSdkVersion 26
         versionCode 1
         versionName "1.0"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+        signingConfig signingConfigs.config
     }
     buildTypes {
         release {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+            signingConfig signingConfigs.config
+        }
+        debug {
+            signingConfig signingConfigs.config
         }
     }
 }
 
 dependencies {
-    implementation fileTree(dir: 'libs', include: ['*.jar'])
+    implementation fileTree(include: ['*.jar'], dir: 'libs')
     implementation 'com.android.support:appcompat-v7:26.1.0'
     implementation 'com.android.support.constraint:constraint-layout:1.1.0'
     testImplementation 'junit:junit:4.12'
     androidTestImplementation 'com.android.support.test:runner:1.0.2'
     androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.2'
-
     compile 'com.zhy:autolayout:1.4.5'
     compile 'io.reactivex.rxjava2:rxjava:2.1.9'
     compile 'io.reactivex.rxjava2:rxandroid:2.0.2'
@@ -47,4 +61,7 @@ dependencies {
     annotationProcessor 'com.google.dagger:dagger-android-processor:2.11'
     compile 'com.squareup.okhttp3:logging-interceptor:3.9.1'
     compile 'com.squareup.okhttp3:okhttp:3.9.1'
+    compile 'com.tencent.mm.opensdk:wechat-sdk-android-with-mta:+'
+    implementation files('libs/commons-lang-2.4.jar')
+    implementation 'com.orhanobut:logger:2.2.0'
 }

@@ -1,9 +1,10 @@
-package dynamicphoto.zq.com.sharephoto.ui;
+package com.zq.dynamicphoto.ui;
 
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 
-import dynamicphoto.zq.com.sharephoto.R;
+import com.zq.dynamicphoto.R;
+
 
 public class HomeActivity extends AppCompatActivity {
 

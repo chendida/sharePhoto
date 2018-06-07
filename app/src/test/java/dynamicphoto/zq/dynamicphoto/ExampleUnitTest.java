@@ -1,4 +1,4 @@
-package dynamicphoto.zq.com.sharephoto;
+package dynamicphoto.zq.dynamicphoto;
 
 import org.junit.Test;
 

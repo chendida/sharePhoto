@@ -3,4 +3,7 @@
 
     <string name="network_connect_error">请检查网络是否连接</string>
     <string name="request_api_failed">请求数据失败</string>
+    <string name="wx_login">微信登录</string>
+    <string name="phone_login">手机号登录</string>
+    <string name="loading">加载中...</string>
 </resources>

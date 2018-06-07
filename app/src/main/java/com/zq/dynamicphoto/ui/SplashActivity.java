@@ -1,4 +1,4 @@
-package dynamicphoto.zq.com.sharephoto.ui;
+package com.zq.dynamicphoto.ui;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
@@ -19,6 +19,6 @@ public class SplashActivity extends Activity {
                 startActivity(new Intent(SplashActivity.this, LoginActivity.class));
                 finish();
             }
-        }, 1000);
+        }, 1500);
     }
 }

@@ -1,4 +1,4 @@
-package dynamicphoto.zq.com.sharephoto;
+package dynamicphoto.zq.dynamicphoto;
 
 import android.content.Context;
 import android.support.test.InstrumentationRegistry;

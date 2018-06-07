@@ -3,4 +3,13 @@
     <color name="colorPrimary">#3F51B5</color>
     <color name="colorPrimaryDark">#303F9F</color>
     <color name="colorAccent">#FF4081</color>
+
+    <!--背景颜色-->
+    <color name="layout_head_bg">#2f2e33</color>
+    <color name="white">#FFFFFF</color>
+    <color name="btn_login_bg_color">#04be01</color>
+
+
+    <!--文字颜色-->
+    <color name="tv_text_color1">#8e8e8e</color>
 </resources>

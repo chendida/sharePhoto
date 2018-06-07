@@ -1,9 +1,43 @@
-<?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
+<com.zhy.autolayout.AutoRelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="dynamicphoto.zq.com.sharephoto.ui.LoginActivity">
+    android:background="@drawable/login_bg"
+    >
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="302px"
+        android:layout_alignParentRight="true"
+        android:layout_marginRight="278px"
+        android:src="@drawable/login_logo"/>
+    <Button
+        android:id="@+id/btn_wx_login"
+        android:layout_width="600px"
+        android:layout_height="80px"
+        android:layout_marginTop="740px"
+        android:layout_centerHorizontal="true"
+        android:background="@color/btn_login_bg_color"
+        android:text="@string/wx_login"
+        android:textColor="@color/white"
+        android:textSize="28px"
+        />
+    <com.zhy.autolayout.AutoRelativeLayout
+        android:id="@+id/layout_phone_login"
+        android:layout_below="@+id/btn_wx_login"
+        android:layout_marginTop="10px"
+        android:layout_width="600px"
+        android:layout_height="80px"
+        android:layout_centerHorizontal="true">
+        <TextView
+            android:layout_marginTop="20px"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/phone_login"
+            android:textSize="28px"
+            android:textColor="@color/tv_text_color1"
+            android:layout_centerHorizontal="true"
+            />
+    </com.zhy.autolayout.AutoRelativeLayout>
+</com.zhy.autolayout.AutoRelativeLayout>
 
-</android.support.constraint.ConstraintLayout>
