@@ -8,6 +8,9 @@
     <string name="loading">加载中...</string>
     <string name="please_input_phone">请输入手机号</string>
     <string name="please_input_pwd">请输入登录密码</string>
+    <string name="please_input_bind_pwd">请输入密码</string>
+    <string name="please_input_identifying_code">请输入验证码</string>
+    <string name="get_identifying_code">获取验证码</string>
     <string name="forget_pwd">忘记密码</string>
     <string name="phone_num">1234567890</string>
     <string name="filter_code">0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ+-?@.</string>
@@ -15,4 +18,10 @@
     <string name="please_input_phone_format">请输入正确格式的手机号码</string>
     <string name="please_input_code">请输入验证码</string>
     <string name="pwd_length">密码不能少于6位</string>
+    <string name="tv_ok">确定</string>
+
+    <string name="tv_photo_dynamic">相册动态</string>
+    <string name="tv_friend_circle">朋友圈</string>
+    <string name="tv_live">直播</string>
+    <string name="tv_mine">我的</string>
 </resources>

@@ -43,7 +43,8 @@
             android:launchMode="singleTop"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme" />
-        <activity android:name=".ui.PhoneLoginActivity"></activity>
+        <activity android:name=".ui.PhoneLoginActivity" />
+        <activity android:name=".ui.ResetPwdActivity"></activity>
     </application>
 
 </manifest>

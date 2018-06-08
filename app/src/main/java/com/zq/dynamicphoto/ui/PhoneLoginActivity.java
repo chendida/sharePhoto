@@ -65,6 +65,7 @@ public class PhoneLoginActivity extends BaseActivity<ILoginView,PhoneLoginPresen
                 finish();
                 break;
             case R.id.layout_forget_pwd:
+                MFGT.startActivity(this,ResetPwdActivity.class);
                 break;
             case R.id.btn_login:
                 if (isAll()) {

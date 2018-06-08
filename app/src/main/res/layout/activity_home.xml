@@ -1,13 +1,56 @@
 <?xml version="1.0" encoding="utf-8"?>
-<com.zhy.autolayout.AutoRelativeLayout
+<com.zhy.autolayout.AutoLinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    >
-    <TextView
-        android:layout_width="wrap_content"
+    android:fitsSystemWindows="true"
+    android:clipToPadding="true"
+    android:orientation="vertical">
+
+    <include
+        layout="@layout/layout_head"/>
+
+    <com.zq.dynamicphoto.ui.widge.ScrollViewPager
+        android:id="@+id/view_pager"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"/>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1px"
+        android:background="@color/line_bg_color"/>
+
+    <RadioGroup
+        android:id="@+id/rg_tab"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="@string/app_name"
-        android:layout_centerInParent="true"
-        />
-</com.zhy.autolayout.AutoRelativeLayout>
+        android:background="@color/white"
+        android:orientation="horizontal">
+
+        <RadioButton
+            android:id="@+id/rb_tab_dynamic"
+            style="@style/tab_radio_button_style"
+            android:drawableTop="@drawable/selector_menu_item_photo_dynamic"
+            android:text="@string/tv_photo_dynamic"
+            android:checked="true"/>
+
+        <RadioButton
+            android:id="@+id/rb_tab_friend_circle"
+            style="@style/tab_radio_button_style"
+            android:drawableTop="@drawable/selector_menu_item_friend_circle_ying"
+            android:text="@string/tv_friend_circle"/>
+
+        <RadioButton
+            android:id="@+id/rb_tab_live"
+            style="@style/tab_radio_button_style"
+            android:drawableTop="@drawable/selector_menu_item_my_live"
+            android:text="@string/tv_live"/>
+
+        <RadioButton
+            android:id="@+id/rb_tab_mine"
+            style="@style/tab_radio_button_style"
+            android:drawableTop="@drawable/selector_menu_item_mine"
+            android:text="@string/tv_mine"/>
+    </RadioGroup>
+</com.zhy.autolayout.AutoLinearLayout>

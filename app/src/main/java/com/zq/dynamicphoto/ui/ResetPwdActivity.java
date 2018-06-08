@@ -4,12 +4,11 @@ import com.zq.dynamicphoto.R;
 import com.zq.dynamicphoto.base.BaseActivity;
 import com.zq.dynamicphoto.base.BasePresenter;
 
-
-public class HomeActivity extends BaseActivity {
+public class ResetPwdActivity extends BaseActivity {
 
     @Override
     protected int getLayoutId() {
-        return R.layout.activity_home;
+        return R.layout.activity_reset_pwd;
     }
 
     @Override
