@@ -24,4 +24,15 @@
     <string name="tv_friend_circle">朋友圈</string>
     <string name="tv_live">直播</string>
     <string name="tv_mine">我的</string>
+    <string name="tv_open_vip">开通会员</string>
+    <string name="find_privilege">查看特权</string>
+    <string name="tv_my_two_code">我的二维码</string>
+    <string name="tv_my_small_program">我的小程序码</string>
+    <string name="tv_my_fans">我的粉丝</string>
+    <string name="tv_my_cash">提现与返佣</string>
+    <string name="tv_my_follow">已关注</string>
+    <string name="tv_cash_num">0.00可提现</string>
+    <string name="tv_problem">问题与反馈</string>
+    <string name="tv_about_app">关于微共享相册</string>
+    <string name="tv_setting">设置</string>
 </resources>
