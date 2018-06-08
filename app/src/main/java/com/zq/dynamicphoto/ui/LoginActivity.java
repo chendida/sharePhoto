@@ -33,12 +33,10 @@ public class LoginActivity extends BaseActivity<ILoginView,WxLoginPresenter<ILog
 
     @Override
     protected void initView() {
-
     }
 
     @Override
     protected void initData() {
-
     }
 
     @Override

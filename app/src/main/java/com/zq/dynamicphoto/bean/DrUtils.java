@@ -1,5 +1,7 @@
 package com.zq.dynamicphoto.bean;
 
+import com.zq.dynamicphoto.utils.Installation;
+
 import java.util.UUID;
 
 /**
@@ -17,7 +19,7 @@ public class DrUtils {
                     instance.version = "1.0.2";
                     instance.channelId = "90000002";//渠道ID
                     instance.sdkVersion = "1.0.2";//客户端版本号
-                    instance.imei = UUID.randomUUID().toString();
+                    instance.imei = Installation.id();
                     instance.phoneMode = 2;//1表示ios,2表示安卓
                     instance.setClientType(1);
                 }
