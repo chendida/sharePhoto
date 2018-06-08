@@ -1,14 +1,11 @@
 package com.zq.dynamicphoto.ui;
 
-import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
 import android.widget.Toast;
-
-import com.google.gson.Gson;
 import com.tencent.mm.opensdk.modelmsg.SendAuth;
 import com.zq.dynamicphoto.MyApplication;
 import com.zq.dynamicphoto.R;
@@ -18,18 +15,16 @@ import com.zq.dynamicphoto.bean.DrUtils;
 import com.zq.dynamicphoto.bean.NetRequestBean;
 import com.zq.dynamicphoto.bean.Result;
 import com.zq.dynamicphoto.bean.User;
-import com.zq.dynamicphoto.bean.UserInfo;
+import com.zq.dynamicphoto.common.Constans;
+import com.zq.dynamicphoto.model.data.DataUtils;
 import com.zq.dynamicphoto.presenter.WxLoginPresenter;
+import com.zq.dynamicphoto.utils.MFGT;
 import com.zq.dynamicphoto.utils.SharedPreferencesUtils;
-import com.zq.dynamicphoto.view.IWxLoginView;
-
-import org.json.JSONException;
-import org.json.JSONObject;
-
+import com.zq.dynamicphoto.view.ILoginView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
-public class LoginActivity extends BaseActivity<IWxLoginView,WxLoginPresenter<IWxLoginView>> implements IWxLoginView{
+public class LoginActivity extends BaseActivity<ILoginView,WxLoginPresenter<ILoginView>> implements ILoginView {
     public static String token,openId;
     @Override
     protected int getLayoutId() {
@@ -47,13 +42,19 @@ public class LoginActivity extends BaseActivity<IWxLoginView,WxLoginPresenter<IW
     }
 
     @Override
-    protected WxLoginPresenter<IWxLoginView> createPresenter() {
+    protected WxLoginPresenter<ILoginView> createPresenter() {
         return new WxLoginPresenter<>();
     }
 
     @Override
     protected void onResume() {
         super.onResume();
+        SharedPreferences sp = SharedPreferencesUtils.getInstance();
+        boolean isLogin = sp.getBoolean(Constans.ISLOGIN, false);
+        if (isLogin){
+            MFGT.startActivity(this,HomeActivity.class);
+            finish();
+        }
         if (!TextUtils.isEmpty(token) && !TextUtils.isEmpty(openId)) {
             wxLoginCallback(token, openId);
         }
@@ -98,6 +99,7 @@ public class LoginActivity extends BaseActivity<IWxLoginView,WxLoginPresenter<IW
                 wxLogin();
                 break;
             case R.id.layout_phone_login:
+                MFGT.startActivity(this,PhoneLoginActivity.class);
                 break;
         }
     }
@@ -108,7 +110,7 @@ public class LoginActivity extends BaseActivity<IWxLoginView,WxLoginPresenter<IW
             Toast.makeText(this, "您还没有安装微信", Toast.LENGTH_SHORT).show();
             return;
         }
-        Log.i("wxLogin","微信登录1");
+        Log.i("loadData","微信登录1");
         final SendAuth.Req req = new SendAuth.Req();
         req.scope = "snsapi_userinfo";
         req.state = "diandi_wx_login";
@@ -118,52 +120,15 @@ public class LoginActivity extends BaseActivity<IWxLoginView,WxLoginPresenter<IW
     @Override
     public void showData(Result result) {
         if (result != null) {
-            dealWithResult(result);
+            if (result.getResultCode() == Constans.REQUEST_OK) {
+                DataUtils.getInstance().dealLoginResult(result);
+                MFGT.startActivity(this,HomeActivity.class);
+                finish();
+            }else {
+                showFailed();
+            }
         }else {
             showFailed();
-        }
-    }
-
-
-    private void dealWithResult(Result result) {
-        try {
-            JSONObject jsonObject = new JSONObject(result.getData());
-            UserInfo userInfo = new Gson().fromJson(jsonObject.optString("userInfo"), UserInfo.class);
-            User user = new Gson().fromJson(jsonObject.optString("user"), User.class);
-            SharedPreferences sp = SharedPreferencesUtils.getInstance();
-            SharedPreferences.Editor edit = sp.edit();
-            if (userInfo != null){
-                if (userInfo.getUserId() != 0){
-                    edit.putInt("userId",userInfo.getUserId());
-                }
-                if (!TextUtils.isEmpty(userInfo.getUserLogo())){
-                    //对返回的图片地址中的“\”去掉
-                    String userLogo = userInfo.getUserLogo().replaceAll("\"", "");
-                    edit.putString("userLogo",userLogo);
-                }
-                if (!TextUtils.isEmpty(userInfo.getBgImage())){
-                    edit.putString("bgImage",userInfo.getBgImage());
-                }
-                if (!TextUtils.isEmpty(userInfo.getUrl())){
-                    edit.putString("photoUrl",userInfo.getUrl());
-                }
-                if (!TextUtils.isEmpty(userInfo.getRemarkName())){
-                    edit.putString("remarkName",userInfo.getRemarkName());
-                }
-                if (user != null){
-                    if (!TextUtils.isEmpty(user.getPhone())){
-                        edit.putBoolean("isBind",true);
-                    }
-                    if (!TextUtils.isEmpty(user.getUnionId())){
-                        edit.putString("unionId",user.getUnionId());
-                    }
-                }
-                edit.putBoolean("isLogin",true);
-                edit.commit();
-                startActivity(new Intent(this, HomeActivity.class));
-            }
-        } catch (JSONException e) {
-            e.printStackTrace();
         }
     }
 }

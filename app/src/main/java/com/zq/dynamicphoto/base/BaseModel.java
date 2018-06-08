@@ -8,7 +8,7 @@ import com.zq.dynamicphoto.bean.Result;
  */
 
 public interface BaseModel {
-    void wxLogin(OnLoadListener onLoadListener, NetRequestBean netRequestBean);
+    void loadData(OnLoadListener onLoadListener, NetRequestBean netRequestBean);
 
     //设计一个内部回调接口
     interface OnLoadListener{

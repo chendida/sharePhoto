@@ -1,21 +1,24 @@
 package com.zq.dynamicphoto.model;
+
 import com.zq.dynamicphoto.base.BaseModel;
 import com.zq.dynamicphoto.bean.NetRequestBean;
 import com.zq.dynamicphoto.bean.Result;
 import com.zq.dynamicphoto.net.util.DataManager;
+
 import io.reactivex.Observer;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.Disposable;
 import io.reactivex.schedulers.Schedulers;
 
 /**
- * Created by Administrator on 2018/6/7.
+ * 手机号码登录实现
+ * Created by Administrator on 2018/6/8.
  */
 
-public class WxLoginImp implements BaseModel {
+public class PhoneLoginImp implements BaseModel {
     @Override
     public void loadData(final OnLoadListener onLoadListener, NetRequestBean netRequestBean) {
-        DataManager.getInstance().wxLogin(netRequestBean)
+        DataManager.getInstance().phoneLogin(netRequestBean)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new Observer<Result>() {

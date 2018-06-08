@@ -6,4 +6,13 @@
     <string name="wx_login">微信登录</string>
     <string name="phone_login">手机号登录</string>
     <string name="loading">加载中...</string>
+    <string name="please_input_phone">请输入手机号</string>
+    <string name="please_input_pwd">请输入登录密码</string>
+    <string name="forget_pwd">忘记密码</string>
+    <string name="phone_num">1234567890</string>
+    <string name="filter_code">0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ+-?@.</string>
+    <string name="tv_login">登录</string>
+    <string name="please_input_phone_format">请输入正确格式的手机号码</string>
+    <string name="please_input_code">请输入验证码</string>
+    <string name="pwd_length">密码不能少于6位</string>
 </resources>

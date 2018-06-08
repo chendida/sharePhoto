@@ -43,8 +43,8 @@ public class WXEntryActivity extends Activity implements IWXAPIEventHandler{
 	// app发送消息给微信，处理返回消息的回调
 	@Override
 	public void onResp(BaseResp resp) {
-		Log.i("wxLogin","onResp");
-		Log.i("wxLogin","错误码 : " + resp.errCode + "");
+		Log.i("loadData","onResp");
+		Log.i("loadData","错误码 : " + resp.errCode + "");
 		switch (resp.errCode) {
 			case BaseResp.ErrCode.ERR_AUTH_DENIED:
 			case BaseResp.ErrCode.ERR_USER_CANCEL:

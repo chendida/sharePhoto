@@ -31,4 +31,12 @@ public interface RetrofitApiService {
      */
     @POST("sdkData.shtml?requestId=1&a=0&b=0")
     Observable<Result> wxLogin(@Body NetRequestBean netRequestBean);
+
+    /**
+     * 手机号登录
+     * @param netRequestBean
+     * @return
+     */
+    @POST("sdkData.shtml?requestId=2&a=0&b=0")
+    Observable<Result> login(@Body NetRequestBean netRequestBean);
 }

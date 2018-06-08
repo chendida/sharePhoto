@@ -37,7 +37,21 @@ public class DataManager {
         return mRetrofitService.getPhotoDynamic(netRequestBean);
     }
 
+    /**
+     * 微信登录
+     * @param netRequestBean
+     * @return
+     */
     public Observable<Result> wxLogin(NetRequestBean netRequestBean){
         return mRetrofitService.wxLogin(netRequestBean);
+    }
+
+    /**
+     * 手机号码登录
+     * @param netRequestBean
+     * @return
+     */
+    public Observable<Result> phoneLogin(NetRequestBean netRequestBean){
+        return mRetrofitService.login(netRequestBean);
     }
 }
