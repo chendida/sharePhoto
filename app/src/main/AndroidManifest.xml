@@ -44,7 +44,9 @@
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme" />
         <activity android:name=".ui.PhoneLoginActivity" />
-        <activity android:name=".ui.ResetPwdActivity"></activity>
+        <activity android:name=".ui.ResetPwdActivity" />
+        <activity android:name=".ui.SettingActivity" />
+        <activity android:name=".ui.AddPicActivity"></activity>
     </application>
 
 </manifest>

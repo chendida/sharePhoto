@@ -5,13 +5,13 @@ import com.zq.dynamicphoto.base.BasePresenter;
 import com.zq.dynamicphoto.bean.NetRequestBean;
 import com.zq.dynamicphoto.bean.Result;
 import com.zq.dynamicphoto.model.WxLoginImp;
-import com.zq.dynamicphoto.view.ILoginView;
+import com.zq.dynamicphoto.view.ILoadView;
 
 /**
  * Created by Administrator on 2018/6/7.
  */
 
-public class WxLoginPresenter<T extends ILoginView> extends BasePresenter<T> {
+public class WxLoginPresenter<T extends ILoadView> extends BasePresenter<T> {
     //2.model层的引用
     BaseModel baseModel = new WxLoginImp();
     //3.构造方法

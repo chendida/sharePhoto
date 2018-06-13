@@ -20,6 +20,7 @@ public class Constans {
     public static String UNIONID = "unionId";
 
     public static Integer REQUEST_OK = 0;
+    public static Integer REQUEST_LOIGN_ERROR = -4;//登录时手机号或密码错误
 
     public static final int SDK_APPID = 1400087984;
     //public static String Base_Url = "http://192.168.1.178:8080/photo/interface/";

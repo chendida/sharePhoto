@@ -5,6 +5,8 @@ import android.view.View;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import com.blankj.utilcode.util.ToastUtils;
 import com.zhy.autolayout.AutoRelativeLayout;
 import com.zq.dynamicphoto.R;
 import com.zq.dynamicphoto.base.BaseActivity;
@@ -19,14 +21,14 @@ import com.zq.dynamicphoto.presenter.PhoneLoginPresenter;
 import com.zq.dynamicphoto.utils.MD5;
 import com.zq.dynamicphoto.utils.MFGT;
 import com.zq.dynamicphoto.utils.TitleUtils;
-import com.zq.dynamicphoto.view.ILoginView;
+import com.zq.dynamicphoto.view.ILoadView;
 import butterknife.BindView;
 import butterknife.OnClick;
 
 /**
  * 手机号登录界面
  */
-public class PhoneLoginActivity extends BaseActivity<ILoginView,PhoneLoginPresenter<ILoginView>> implements ILoginView {
+public class PhoneLoginActivity extends BaseActivity<ILoadView,PhoneLoginPresenter<ILoadView>> implements ILoadView {
     @BindView(R.id.layout_back)
     AutoRelativeLayout layoutBack;
     @BindView(R.id.tv_title)
@@ -54,7 +56,7 @@ public class PhoneLoginActivity extends BaseActivity<ILoginView,PhoneLoginPresen
     }
 
     @Override
-    protected PhoneLoginPresenter<ILoginView> createPresenter() {
+    protected PhoneLoginPresenter<ILoadView> createPresenter() {
         return new PhoneLoginPresenter<>();
     }
 
@@ -116,6 +118,8 @@ public class PhoneLoginActivity extends BaseActivity<ILoginView,PhoneLoginPresen
                 DataUtils.getInstance().dealLoginResult(result);
                 MFGT.startActivity(this,HomeActivity.class);
                 finish();
+            }else if(result.getResultCode() == Constans.REQUEST_LOIGN_ERROR){
+                ToastUtils.showShort(getResources().getString(R.string.phone_or_pwd_error));
             }else {
                 showFailed();
             }

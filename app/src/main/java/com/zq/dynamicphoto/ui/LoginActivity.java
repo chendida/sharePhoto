@@ -20,11 +20,11 @@ import com.zq.dynamicphoto.model.data.DataUtils;
 import com.zq.dynamicphoto.presenter.WxLoginPresenter;
 import com.zq.dynamicphoto.utils.MFGT;
 import com.zq.dynamicphoto.utils.SharedPreferencesUtils;
-import com.zq.dynamicphoto.view.ILoginView;
+import com.zq.dynamicphoto.view.ILoadView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
-public class LoginActivity extends BaseActivity<ILoginView,WxLoginPresenter<ILoginView>> implements ILoginView {
+public class LoginActivity extends BaseActivity<ILoadView,WxLoginPresenter<ILoadView>> implements ILoadView {
     public static String token,openId;
     @Override
     protected int getLayoutId() {
@@ -40,7 +40,7 @@ public class LoginActivity extends BaseActivity<ILoginView,WxLoginPresenter<ILog
     }
 
     @Override
-    protected WxLoginPresenter<ILoginView> createPresenter() {
+    protected WxLoginPresenter<ILoadView> createPresenter() {
         return new WxLoginPresenter<>();
     }
 

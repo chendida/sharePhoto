@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="74dp"
+    android:layout_height="74dp">
+
+    <ImageView
+        android:id="@+id/id_item_add_pic"
+        android:layout_width="74dp"
+        android:layout_height="74dp"
+        android:scaleType="centerCrop"
+        android:src="@drawable/add_pic"
+        android:visibility="gone"/>
+    <RelativeLayout
+        android:id="@+id/layout_show_pic"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+        <ImageView
+            android:id="@+id/iv_item_image_view"
+            android:layout_width="74dp"
+            android:layout_height="74dp"
+            />
+        <ImageView
+            android:id="@+id/iv_delete_pic"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:src="@drawable/pic_delete"/>
+        <ImageView
+            android:visibility="gone"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:src="@drawable/icon_play"/>
+    </RelativeLayout>
+</FrameLayout>

@@ -11,7 +11,15 @@ public class NetRequestBean {
 
     private UserRelation userRelation;
 
+    private Dynamic dynamic;
 
+    public Dynamic getDynamic() {
+        return dynamic;
+    }
+
+    public void setDynamic(Dynamic dynamic) {
+        this.dynamic = dynamic;
+    }
 
     public UserRelation getUserRelation() {
         return userRelation;

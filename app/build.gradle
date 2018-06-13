@@ -1,7 +1,7 @@
 apply plugin: 'com.android.application'
 
 android {
-    compileSdkVersion 26
+    compileSdkVersion 27
 
     signingConfigs {
         config {
@@ -15,7 +15,7 @@ android {
     defaultConfig {
         applicationId "com.zq.dynamicphoto"
         minSdkVersion 16
-        targetSdkVersion 26
+        targetSdkVersion 27
         versionCode 1
         versionName "1.0"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
@@ -35,10 +35,11 @@ android {
 
 dependencies {
     implementation fileTree(include: ['*.jar'], dir: 'libs')
-    implementation 'com.android.support:appcompat-v7:26.1.0'
+    implementation 'com.android.support:appcompat-v7:27.1.1'
     implementation 'com.android.support.constraint:constraint-layout:1.1.0'
-    implementation 'com.android.support:support-v4:26.1.0'
+    implementation 'com.android.support:support-v4:27.1.1'
     testImplementation 'junit:junit:4.12'
+    compile "com.android.support:design:27.1.1"
     androidTestImplementation 'com.android.support.test:runner:1.0.2'
     androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.2'
     compile 'com.zhy:autolayout:1.4.5'
@@ -47,7 +48,8 @@ dependencies {
     compile 'com.trello.rxlifecycle2:rxlifecycle:2.2.1'
     compile 'com.trello.rxlifecycle2:rxlifecycle-components:2.2.1'
     compile 'com.jakewharton.rxbinding2:rxbinding:2.1.1'
-    //compile 'com.github.franmontiel:PersistentCookieJar:v1.0.1'
+    compile 'com.scwang.smartrefresh:SmartRefreshLayout:1.0.4'
+    compile 'com.scwang.smartrefresh:SmartRefreshHeader:1.0.4'//没有使用特殊Header，可以不加这行
     compile 'com.squareup.retrofit2:retrofit:2.3.0'
     compile 'com.squareup.retrofit2:adapter-rxjava2:2.3.0'
     compile 'com.squareup.retrofit2:converter-gson:2.3.0'
@@ -65,4 +67,6 @@ dependencies {
     compile 'com.tencent.mm.opensdk:wechat-sdk-android-with-mta:+'
     implementation files('libs/commons-lang-2.4.jar')
     implementation 'com.orhanobut:logger:2.2.0'
+
+    compile 'com.github.bumptech.glide:glide:4.6.1'
 }

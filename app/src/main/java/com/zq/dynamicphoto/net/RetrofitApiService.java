@@ -1,10 +1,7 @@
 package com.zq.dynamicphoto.net;
 
-
-
 import com.zq.dynamicphoto.bean.NetRequestBean;
 import com.zq.dynamicphoto.bean.Result;
-
 import io.reactivex.Observable;
 import retrofit2.http.Body;
 import retrofit2.http.POST;
@@ -39,4 +36,21 @@ public interface RetrofitApiService {
      */
     @POST("sdkData.shtml?requestId=2&a=0&b=0")
     Observable<Result> login(@Body NetRequestBean netRequestBean);
+
+
+    /**
+     * 删除动态
+     * @param netRequestBean
+     * @return
+     */
+    @POST("sdkData.shtml?requestId=22&a=0&b=0")
+    Observable<Result> deleteDynamic(@Body NetRequestBean netRequestBean);
+
+    /**
+     * 置顶动态
+     * @param netRequestBean
+     * @return
+     */
+    @POST("sdkData.shtml?requestId=23&a=0&b=0")
+    Observable<Result> stitckDynamic(@Body NetRequestBean netRequestBean);
 }

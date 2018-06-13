@@ -54,4 +54,12 @@ public class DataManager {
     public Observable<Result> phoneLogin(NetRequestBean netRequestBean){
         return mRetrofitService.login(netRequestBean);
     }
+
+    public Observable<Result> deleteDynamic(NetRequestBean netRequestBean){
+        return mRetrofitService.deleteDynamic(netRequestBean);
+    }
+
+    public Observable<Result> stickDynamic(NetRequestBean netRequestBean){
+        return mRetrofitService.stitckDynamic(netRequestBean);
+    }
 }

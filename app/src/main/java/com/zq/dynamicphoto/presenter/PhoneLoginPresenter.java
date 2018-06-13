@@ -5,13 +5,13 @@ import com.zq.dynamicphoto.base.BasePresenter;
 import com.zq.dynamicphoto.bean.NetRequestBean;
 import com.zq.dynamicphoto.bean.Result;
 import com.zq.dynamicphoto.model.PhoneLoginImp;
-import com.zq.dynamicphoto.view.ILoginView;
+import com.zq.dynamicphoto.view.ILoadView;
 
 /**
  * Created by Administrator on 2018/6/8.
  */
 
-public class PhoneLoginPresenter<T extends ILoginView> extends BasePresenter<T> {
+public class PhoneLoginPresenter<T extends ILoadView> extends BasePresenter<T> {
 
     BaseModel baseModel = new PhoneLoginImp();
 

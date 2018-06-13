@@ -1,5 +1,6 @@
 package com.zq.dynamicphoto.ui;
 
+import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
@@ -7,17 +8,23 @@ import android.support.v4.view.ViewPager;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.TextView;
+
 import com.blankj.utilcode.util.ToastUtils;
 import com.zq.dynamicphoto.R;
 import com.zq.dynamicphoto.base.BaseActivity;
 import com.zq.dynamicphoto.base.BasePresenter;
-import com.zq.dynamicphoto.fragment.DynamicFragment;
 import com.zq.dynamicphoto.fragment.FriendCircleFragment;
+import com.zq.dynamicphoto.fragment.HomePageFragment;
 import com.zq.dynamicphoto.fragment.LiveFragment;
 import com.zq.dynamicphoto.fragment.MineFragment;
 import com.zq.dynamicphoto.ui.widge.ScrollViewPager;
+import com.zq.dynamicphoto.utils.MFGT;
+
 import java.util.ArrayList;
+
 import butterknife.BindView;
+import butterknife.ButterKnife;
+import butterknife.OnClick;
 
 public class HomeActivity extends BaseActivity {
     @BindView(R.id.view_pager)
@@ -39,10 +46,11 @@ public class HomeActivity extends BaseActivity {
     private long exitTime = 0;
     private ArrayList<Fragment> mFragments = new ArrayList<>();
     private ArrayList<String> mTitleStrs = new ArrayList<>();
-    private DynamicFragment dynamicFragment;
+    private HomePageFragment dynamicFragment;
     private FriendCircleFragment friendCircleFragment;
     private LiveFragment liveFragment;
     private MineFragment mineFragment;
+    private int mCurrentTabPos = 0;
 
     @Override
     protected int getLayoutId() {
@@ -55,7 +63,7 @@ public class HomeActivity extends BaseActivity {
     }
 
     private void initFragments() {
-        dynamicFragment = new DynamicFragment();
+        dynamicFragment = new HomePageFragment();
         friendCircleFragment = new FriendCircleFragment();
         liveFragment = new LiveFragment();
         mineFragment = new MineFragment();
@@ -75,7 +83,7 @@ public class HomeActivity extends BaseActivity {
     protected void initData() {
         mViewPagerAdapter = new ViewPagerAdapter(getSupportFragmentManager());
         viewPager.setAdapter(mViewPagerAdapter);
-        viewPager.setCurrentItem(0);
+        viewPager.setCurrentItem(mCurrentTabPos);
         initListener();
     }
 
@@ -143,8 +151,20 @@ public class HomeActivity extends BaseActivity {
         return null;
     }
 
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        // TODO: add setContentView(...) invocation
+        ButterKnife.bind(this);
+    }
+
+    @OnClick(R.id.layout_finish)
+    public void onClicked() {
+        MFGT.gotoAddPicActivity(this);
+    }
+
     public class ViewPagerAdapter extends FragmentPagerAdapter {
-        public ViewPagerAdapter(FragmentManager fm) {
+        private ViewPagerAdapter(FragmentManager fm) {
             super(fm);
         }
 

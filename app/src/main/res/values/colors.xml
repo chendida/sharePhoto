@@ -15,6 +15,8 @@
     <color name="tv_text_color1">#8e8e8e</color>
     <color name="tv_text_color2">#35558c</color>
     <color name="tv_text_color3">#ff8400</color>
+    <color name="tv_text_color4">#bebebe</color>
+    <color name="tv_text_color5">#787878</color>
     <color name="tv_text_select">#1bbf1f</color>
     <color name="tv_text_normal">#7c7c7c</color>
     <color name="black">#333333</color>
