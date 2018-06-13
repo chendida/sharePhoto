@@ -8,7 +8,7 @@ import android.view.View;
 import android.view.WindowManager;
 import android.widget.EditText;
 import android.widget.GridView;
-import android.widget.ImageView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.blankj.utilcode.util.ToastUtils;
@@ -17,13 +17,14 @@ import com.zq.dynamicphoto.R;
 import com.zq.dynamicphoto.adapter.PicAdapter;
 import com.zq.dynamicphoto.base.BaseActivity;
 import com.zq.dynamicphoto.base.BasePresenter;
+import com.zq.dynamicphoto.utils.TitleUtils;
 
 import java.util.ArrayList;
 
 import butterknife.BindView;
-import butterknife.ButterKnife;
 
-public class AddPicActivity extends BaseActivity implements PicAdapter.AddPicListener{
+
+public class AddPicActivity extends BaseActivity implements PicAdapter.AddPicListener {
 
     @BindView(R.id.et_description_content)
     EditText etDescriptionContent;
@@ -31,6 +32,12 @@ public class AddPicActivity extends BaseActivity implements PicAdapter.AddPicLis
     AutoRelativeLayout layoutArticle;
     @BindView(R.id.id_grid_view_commit_answers)
     GridView mGridView;
+    @BindView(R.id.layout_back)
+    AutoRelativeLayout layoutBack;
+    @BindView(R.id.tv_title)
+    TextView tvTitle;
+    @BindView(R.id.layout_finish)
+    AutoRelativeLayout layoutFinish;
     private PicAdapter mAdapter;
 
 
@@ -41,6 +48,7 @@ public class AddPicActivity extends BaseActivity implements PicAdapter.AddPicLis
 
     @Override
     protected void initView() {
+        TitleUtils.setTitleBar(getResources().getString(R.string.publish_image_and_text), tvTitle, layoutBack, layoutFinish);
         getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_HIDDEN);
         ArrayList<String> mSelectedImages = new ArrayList<>();
         mSelectedImages.clear();
@@ -75,21 +83,16 @@ public class AddPicActivity extends BaseActivity implements PicAdapter.AddPicLis
         return null;
     }
 
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        // TODO: add setContentView(...) invocation
-        ButterKnife.bind(this);
-    }
 
     /**
      * 添加图片回调
+     *
      * @param view
      * @param i
      */
     @Override
     public void onAddButtonClick(View view, int i) {
-        switch (view.getId()){
+        switch (view.getId()) {
             case R.id.id_item_add_pic:
                 ToastUtils.showShort("添加");
                 break;
