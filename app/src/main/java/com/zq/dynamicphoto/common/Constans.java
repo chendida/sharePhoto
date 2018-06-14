@@ -9,6 +9,9 @@ public class Constans {
     public static String APP_ID = "wx5d4d593bf265cfd0";
     public static String AppSecret = "2dbf2af3115076315ec09f6d9b4c4337";
 
+    public static final int MAX_PIC_NUM = 9;//最多选择的图片数量
+    public static final int MAX_VIDEO_NUM = 1;//最多选择的视频数量
+
     //本地保存数据字段
     public static String USERID = "userId";
     public static String USERLOGO = "userLogo";

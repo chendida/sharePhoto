@@ -68,4 +68,6 @@
     <string name="read_and_agree">阅读并同意</string>
     <string name="about_clause">《相关条款》</string>
     <string name="publish_image_and_text">发布图文</string>
+    <string name="tv_pic">图片</string>
+    <string name="tv_video">视频</string>
 </resources>

@@ -8,6 +8,7 @@ import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 
+import com.luck.picture.lib.entity.LocalMedia;
 import com.zq.dynamicphoto.R;
 
 import java.util.List;
@@ -22,7 +23,7 @@ import butterknife.ButterKnife;
 public class PicAdapter extends BaseAdapter {
 
     private Context mContext;
-    private List<String> mList;
+    private List<LocalMedia> mList;
     private AddPicListener mListener;
     private static int MAX_IMAGE_SIZE = 9;    //默认显示的图片个数
 
@@ -31,10 +32,14 @@ public class PicAdapter extends BaseAdapter {
         void onAddButtonClick(View view, int i); //添加按钮点击事件
     }
 
-    public PicAdapter(Context mContext, List<String> mList, AddPicListener mListener) {
+    public PicAdapter(Context mContext, List<LocalMedia> mList, AddPicListener mListener) {
         this.mContext = mContext;
         this.mList = mList;
         this.mListener = mListener;
+    }
+
+    public List<LocalMedia> getmList() {
+        return mList;
     }
 
     @Override

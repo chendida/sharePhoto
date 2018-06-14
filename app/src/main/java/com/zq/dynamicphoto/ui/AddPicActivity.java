@@ -1,8 +1,8 @@
 package com.zq.dynamicphoto.ui;
 
+import android.app.Dialog;
 import android.content.ClipboardManager;
 import android.content.Context;
-import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.View;
 import android.view.WindowManager;
@@ -10,16 +10,22 @@ import android.widget.EditText;
 import android.widget.GridView;
 import android.widget.TextView;
 import android.widget.Toast;
-
 import com.blankj.utilcode.util.ToastUtils;
+import com.luck.picture.lib.PictureSelector;
+import com.luck.picture.lib.config.PictureConfig;
+import com.luck.picture.lib.config.PictureMimeType;
+import com.luck.picture.lib.entity.LocalMedia;
 import com.zhy.autolayout.AutoRelativeLayout;
 import com.zq.dynamicphoto.R;
 import com.zq.dynamicphoto.adapter.PicAdapter;
 import com.zq.dynamicphoto.base.BaseActivity;
 import com.zq.dynamicphoto.base.BasePresenter;
+import com.zq.dynamicphoto.common.Constans;
+import com.zq.dynamicphoto.ui.widge.SelectPicDialog;
+import com.zq.dynamicphoto.utils.PicSelectUtils;
 import com.zq.dynamicphoto.utils.TitleUtils;
-
 import java.util.ArrayList;
+import java.util.List;
 
 import butterknife.BindView;
 
@@ -39,8 +45,7 @@ public class AddPicActivity extends BaseActivity implements PicAdapter.AddPicLis
     @BindView(R.id.layout_finish)
     AutoRelativeLayout layoutFinish;
     private PicAdapter mAdapter;
-
-
+    SelectPicDialog selectPicDialog;
     @Override
     protected int getLayoutId() {
         return R.layout.activity_add_pic;
@@ -50,7 +55,7 @@ public class AddPicActivity extends BaseActivity implements PicAdapter.AddPicLis
     protected void initView() {
         TitleUtils.setTitleBar(getResources().getString(R.string.publish_image_and_text), tvTitle, layoutBack, layoutFinish);
         getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_HIDDEN);
-        ArrayList<String> mSelectedImages = new ArrayList<>();
+        ArrayList<LocalMedia> mSelectedImages = new ArrayList<>();
         mSelectedImages.clear();
         mAdapter = new PicAdapter(AddPicActivity.this, mSelectedImages, this);
         mGridView.setAdapter(mAdapter);
@@ -83,7 +88,6 @@ public class AddPicActivity extends BaseActivity implements PicAdapter.AddPicLis
         return null;
     }
 
-
     /**
      * 添加图片回调
      *
@@ -94,11 +98,52 @@ public class AddPicActivity extends BaseActivity implements PicAdapter.AddPicLis
     public void onAddButtonClick(View view, int i) {
         switch (view.getId()) {
             case R.id.id_item_add_pic:
-                ToastUtils.showShort("添加");
+                List<LocalMedia> localMedia = mAdapter.getmList();
+                if (localMedia != null){
+                    if (localMedia.size() != 0){
+                        int pictureType = PictureMimeType.isPictureType(localMedia.get(0).getPictureType());
+                        if (pictureType == PictureConfig.TYPE_VIDEO){//选的视频
+                            PicSelectUtils.getInstance().intoVideoSelect(this);
+                        }else {//选的图片
+                            PicSelectUtils.getInstance().intoPicSelect(this);
+                        }
+                    }else {
+                        showSelectPicDialog();
+                    }
+                }else {
+                    showSelectPicDialog();
+                }
                 break;
             case R.id.iv_item_image_view:
 
                 break;
         }
+    }
+
+
+    private void showSelectPicDialog() {
+        if (selectPicDialog == null){
+            selectPicDialog = new SelectPicDialog(this, R.style.dialog, new SelectPicDialog.OnItemClickListener() {
+                @Override
+                public void onClick(Dialog dialog, int position) {
+                    dialog.dismiss();
+                    switch (position) {
+                        case 1://选择图片
+                            PicSelectUtils.getInstance().intoPicSelect(AddPicActivity.this);
+                            break;
+                        case 2://选择视频
+                            PicSelectUtils.getInstance().intoVideoSelect(AddPicActivity.this);
+                            break;
+                    }
+                }
+            });
+        }
+        selectPicDialog.show();
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        selectPicDialog = null;
     }
 }
