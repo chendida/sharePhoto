@@ -8,8 +8,10 @@ import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
 import android.view.WindowManager;
+import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.GridView;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -21,12 +23,17 @@ import com.zq.dynamicphoto.R;
 import com.zq.dynamicphoto.adapter.PicAdapter;
 import com.zq.dynamicphoto.base.BaseActivity;
 import com.zq.dynamicphoto.base.BasePresenter;
+import com.zq.dynamicphoto.bean.DynamicLabel;
 import com.zq.dynamicphoto.utils.MFGT;
 import com.zq.dynamicphoto.utils.PicSelectUtils;
+import com.zq.dynamicphoto.utils.SaveLabelUtils;
 import com.zq.dynamicphoto.utils.SoftUtils;
 import com.zq.dynamicphoto.utils.TitleUtils;
+
 import java.util.ArrayList;
+
 import butterknife.BindView;
+import butterknife.ButterKnife;
 import butterknife.OnClick;
 
 
@@ -40,12 +47,20 @@ public class AddPicActivity extends BaseActivity implements PicAdapter.AddPicLis
     AutoRelativeLayout layoutBack;
     @BindView(R.id.tv_title)
     TextView tvTitle;
-    @BindView(R.id.layout_finish)
-    AutoRelativeLayout layoutFinish;
+
     @BindView(R.id.et_description_content)
     EditText etDescriptionContent;
+    @BindView(R.id.tv_label)
+    TextView tvLabel;
+    @BindView(R.id.tv_finish)
+    TextView tvFinish;
+    @BindView(R.id.iv_camera)
+    ImageView ivCamera;
+    @BindView(R.id.check_clause)
+    CheckBox checkClause;
     private PicAdapter mAdapter;
-
+    private final int MIN_DELAY_TIME = 1000;  // 两次点击间隔不能少于500ms
+    private long lastClickTime;
     @Override
     protected int getLayoutId() {
         return R.layout.activity_add_pic;
@@ -53,7 +68,7 @@ public class AddPicActivity extends BaseActivity implements PicAdapter.AddPicLis
 
     @Override
     protected void initView() {
-        TitleUtils.setTitleBar(getResources().getString(R.string.publish_image_and_text), tvTitle, layoutBack, layoutFinish);
+        TitleUtils.setTitleBar(getResources().getString(R.string.publish_image_and_text), tvTitle, layoutBack, ivCamera, tvFinish);
         getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_HIDDEN);
         ArrayList<LocalMedia> mSelectedImages = new ArrayList<>();
         mSelectedImages.clear();
@@ -104,6 +119,26 @@ public class AddPicActivity extends BaseActivity implements PicAdapter.AddPicLis
         }
     }
 
+    @Override
+    protected void onResume() {
+        super.onResume();
+        ArrayList<DynamicLabel> dynamicLabels = SaveLabelUtils.getInstance().getDynamicLabels();
+        if (dynamicLabels != null) {
+            Log.i(TAG, " dynamicLabels = " + dynamicLabels.size());
+            if (dynamicLabels.size() != 0) {
+                String str = "";
+                for (DynamicLabel d : dynamicLabels) {
+                    str = str + d.getLabeltext() + ",";
+                }
+                if (!TextUtils.isEmpty(str)) {
+                    tvLabel.setText(str.substring(0, str.length() - 1));
+                }
+            } else {
+                tvLabel.setText(getResources().getString(R.string.by_label_category));
+            }
+        }
+    }
+
     /**
      * 添加图片回调
      *
@@ -127,13 +162,31 @@ public class AddPicActivity extends BaseActivity implements PicAdapter.AddPicLis
     @Override
     protected void onDestroy() {
         super.onDestroy();
+        SaveLabelUtils.getInstance().getDynamicLabels().clear();
     }
 
+    public boolean isFastClick() {
+        boolean flag = true;
+        long currentClickTime = System.currentTimeMillis();
+        if ((currentClickTime - lastClickTime) >= MIN_DELAY_TIME) {
+            flag = false;
+        }
+        lastClickTime = currentClickTime;
+        return flag;
+    }
 
     @OnClick({R.id.layout_back, R.id.layout_article, R.id.layout_label, R.id.layout_who_can_see,
-            R.id.check_clause, R.id.tv_about_clause, R.id.btn_one_key_share})
+            R.id.check_clause, R.id.tv_about_clause, R.id.btn_one_key_share
+            , R.id.layout_finish})
     public void onClicked(View view) {
         switch (view.getId()) {
+            case R.id.layout_finish:
+                if (checkClause.isChecked()) {
+                    toUpload();
+                } else {
+                    Toast.makeText(this, getResources().getString(R.string.please_read_and_agree_clause), Toast.LENGTH_SHORT).show();
+                }
+                break;
             case R.id.layout_back:
                 finish();
                 break;
@@ -152,5 +205,16 @@ public class AddPicActivity extends BaseActivity implements PicAdapter.AddPicLis
             case R.id.btn_one_key_share:
                 break;
         }
+    }
+
+    private void toUpload() {
+
+    }
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        // TODO: add setContentView(...) invocation
+        ButterKnife.bind(this);
     }
 }

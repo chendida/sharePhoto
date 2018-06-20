@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextUtils;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
@@ -33,6 +34,7 @@ import com.zq.dynamicphoto.bean.UserInfo;
 import com.zq.dynamicphoto.common.Constans;
 import com.zq.dynamicphoto.presenter.LabelsPresenter;
 import com.zq.dynamicphoto.utils.MFGT;
+import com.zq.dynamicphoto.utils.SaveLabelUtils;
 import com.zq.dynamicphoto.utils.SharedPreferencesUtils;
 import com.zq.dynamicphoto.utils.TitleUtils;
 import com.zq.dynamicphoto.view.ILabelView;
@@ -437,12 +439,33 @@ public class AddLabelActivity extends BaseActivity<ILabelView,LabelsPresenter<IL
     public void createLabelsResult(Result result) {
         if (result != null) {
             if (result.getResultCode() == Constans.REQUEST_OK) {
-                finish();
+                dealWithCreateLabels(result);
             }else {
                 showFailed();
             }
         }else {
             showFailed();
+        }
+    }
+
+    private void dealWithCreateLabels(Result result) {
+        try {
+            JSONObject jsonObject = new JSONObject(result.getData());
+            dynamicLabels = new Gson().fromJson(jsonObject.optString("dynamicLabels"), new TypeToken<List<DynamicLabel>>() {
+            }.getType());
+            if (dynamicLabels != null){
+                if (dynamicLabels.size() != 0){
+                    SaveLabelUtils.getInstance().getDynamicLabels().clear();
+                    SaveLabelUtils.getInstance().getDynamicLabels().addAll(dynamicLabels);
+                }else {
+                    SaveLabelUtils.getInstance().getDynamicLabels().clear();
+                }
+            }else {
+                SaveLabelUtils.getInstance().getDynamicLabels().clear();
+            }
+            finish();
+        } catch (JSONException e) {
+            e.printStackTrace();
         }
     }
 }
