@@ -73,4 +73,8 @@
     <string name="select_label">选择标签</string>
     <string name="add_label">添加标签</string>
     <string name="label_is_have">该标签已存在</string>
+    <string name="edit_label">编辑标签</string>
+    <string name="cancel">取消</string>
+    <string name="tv_save">保存</string>
+    <string name="tv_edit_success">编辑成功</string>
 </resources>

@@ -32,6 +32,7 @@ import com.zq.dynamicphoto.bean.Result;
 import com.zq.dynamicphoto.bean.UserInfo;
 import com.zq.dynamicphoto.common.Constans;
 import com.zq.dynamicphoto.presenter.LabelsPresenter;
+import com.zq.dynamicphoto.utils.MFGT;
 import com.zq.dynamicphoto.utils.SharedPreferencesUtils;
 import com.zq.dynamicphoto.utils.TitleUtils;
 import com.zq.dynamicphoto.view.ILabelView;
@@ -369,6 +370,7 @@ public class AddLabelActivity extends BaseActivity<ILabelView,LabelsPresenter<IL
                 }
                 break;
             case R.id.layout_label_manager:
+                MFGT.gotoLabelManagerActivity(this);
                 break;
         }
     }

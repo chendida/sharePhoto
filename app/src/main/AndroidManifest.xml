@@ -50,7 +50,8 @@
         <activity android:name=".ui.ResetPwdActivity" />
         <activity android:name=".ui.SettingActivity" />
         <activity android:name=".ui.AddPicActivity" />
-        <activity android:name=".ui.AddLabelActivity"></activity>
+        <activity android:name=".ui.AddLabelActivity" />
+        <activity android:name=".ui.LabelManagerActivity"></activity>
     </application>
 
 </manifest>

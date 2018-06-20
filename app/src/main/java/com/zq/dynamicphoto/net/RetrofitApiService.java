@@ -59,7 +59,7 @@ public interface RetrofitApiService {
      * @param netRequestBean
      * @return
      */
-    @POST("sdkData.shtml?requestId=13&a=0&b=0")
+    @POST("sdkData.shtml?requestId=33&a=0&b=0")
     Observable<Result> findLabel(@Body NetRequestBean netRequestBean);
 
 
@@ -70,4 +70,20 @@ public interface RetrofitApiService {
      */
     @POST("sdkData.shtml?requestId=11&a=0&b=0")
     Observable<Result> createLabel(@Body NetRequestBean netRequestBean);
+
+    /**
+     * 删除标签
+     * @param netRequestBean
+     * @return
+     */
+    @POST("sdkData.shtml?requestId=14&a=0&b=0")
+    Observable<Result> deleteLabel(@Body NetRequestBean netRequestBean);
+
+    /**
+     * 修改标签
+     * @param netRequestBean
+     * @return
+     */
+    @POST("sdkData.shtml?requestId=12&a=0&b=0")
+    Observable<Result> updateLabel(@Body NetRequestBean netRequestBean);
 }

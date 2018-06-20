@@ -70,4 +70,12 @@ public class DataManager {
     public Observable<Result> createLabels(NetRequestBean netRequestBean){
         return mRetrofitService.createLabel(netRequestBean);
     }
+
+    public Observable<Result> deleteLabel(NetRequestBean netRequestBean){
+        return mRetrofitService.deleteLabel(netRequestBean);
+    }
+
+    public Observable<Result> editLabel(NetRequestBean netRequestBean){
+        return mRetrofitService.updateLabel(netRequestBean);
+    }
 }
