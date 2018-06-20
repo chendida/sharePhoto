@@ -5,6 +5,11 @@ import android.app.Application;
 import android.content.Context;
 import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
+import android.util.Log;
+
+import com.birbit.android.jobqueue.JobManager;
+import com.birbit.android.jobqueue.config.Configuration;
+import com.birbit.android.jobqueue.log.CustomLogger;
 import com.blankj.utilcode.util.Utils;
 import com.orhanobut.logger.AndroidLogAdapter;
 import com.orhanobut.logger.Logger;
@@ -34,9 +39,13 @@ import dagger.android.support.HasSupportFragmentInjector;
  */
 
 public class MyApplication extends Application implements HasSupportFragmentInjector, HasActivityInjector {
+    private static final String TAG = "MyApplication";
     private static MyApplication mInstance;
 
     public static IWXAPI mWxApi;
+
+    private JobManager jobManager;
+
     @Inject
     DispatchingAndroidInjector<Activity> dispatchingAndroidInjectorActivity;
     @Inject
@@ -77,6 +86,44 @@ public class MyApplication extends Application implements HasSupportFragmentInje
         Utils.init(mInstance);
         ButterKnife.setDebug(true);
         registerToWX();
+        configureJobManager();//2. 配置JobMananger
+    }
+
+    private void configureJobManager() {
+        //3. JobManager的配置器，利用Builder模式
+        Configuration configuration = new Configuration.Builder(this)
+                .customLogger(new CustomLogger() {
+                    @Override
+                    public boolean isDebugEnabled() {
+                        return true;
+                    }
+
+                    @Override
+                    public void d(String text, Object... args) {
+                        Log.d(TAG, String.format(text, args));
+                    }
+
+                    @Override
+                    public void e(Throwable t, String text, Object... args) {
+
+                    }
+
+                    @Override
+                    public void e(String text, Object... args) {
+
+                    }
+
+                    @Override
+                    public void v(String text, Object... args) {
+
+                    }
+                })
+                .minConsumerCount(1)//always keep at least one consumer alive
+                .maxConsumerCount(3)//up to 3 consumers at a time
+                .loadFactor(3)//3 jobs per consumer
+                .consumerKeepAlive(120)//wait 2 minute
+                .build();
+        jobManager = new JobManager(configuration);
     }
 
     private void registerToWX() {
