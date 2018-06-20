@@ -13,6 +13,26 @@ public class NetRequestBean {
 
     private Dynamic dynamic;
 
+    private UserInfo userInfo;
+
+    private DynamicLabel dynamicLabel;
+
+    public DynamicLabel getDynamicLabel() {
+        return dynamicLabel;
+    }
+
+    public void setDynamicLabel(DynamicLabel dynamicLabel) {
+        this.dynamicLabel = dynamicLabel;
+    }
+
+    public UserInfo getUserInfo() {
+        return userInfo;
+    }
+
+    public void setUserInfo(UserInfo userInfo) {
+        this.userInfo = userInfo;
+    }
+
     public Dynamic getDynamic() {
         return dynamic;
     }

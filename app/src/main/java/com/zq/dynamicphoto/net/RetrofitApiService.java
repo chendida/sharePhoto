@@ -53,4 +53,21 @@ public interface RetrofitApiService {
      */
     @POST("sdkData.shtml?requestId=23&a=0&b=0")
     Observable<Result> stitckDynamic(@Body NetRequestBean netRequestBean);
+
+    /**
+     * 查询标签
+     * @param netRequestBean
+     * @return
+     */
+    @POST("sdkData.shtml?requestId=13&a=0&b=0")
+    Observable<Result> findLabel(@Body NetRequestBean netRequestBean);
+
+
+    /**
+     * 新增标签
+     * @param netRequestBean
+     * @return
+     */
+    @POST("sdkData.shtml?requestId=11&a=0&b=0")
+    Observable<Result> createLabel(@Body NetRequestBean netRequestBean);
 }

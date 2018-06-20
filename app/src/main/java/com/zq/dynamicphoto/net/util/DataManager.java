@@ -62,4 +62,12 @@ public class DataManager {
     public Observable<Result> stickDynamic(NetRequestBean netRequestBean){
         return mRetrofitService.stitckDynamic(netRequestBean);
     }
+
+    public Observable<Result> getLabelsList(NetRequestBean netRequestBean){
+        return mRetrofitService.findLabel(netRequestBean);
+    }
+
+    public Observable<Result> createLabels(NetRequestBean netRequestBean){
+        return mRetrofitService.createLabel(netRequestBean);
+    }
 }

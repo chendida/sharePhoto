@@ -2,6 +2,7 @@ package com.zq.dynamicphoto.utils;
 
 
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.zhy.autolayout.AutoRelativeLayout;
@@ -19,8 +20,13 @@ public class TitleUtils {
     }
 
 
-    public static void setTitleBar(AutoRelativeLayout layoutBack,AutoRelativeLayout layoutCamera){
-        layoutBack.setVisibility(View.GONE);
-        layoutCamera.setVisibility(View.VISIBLE);
+    public static void setTitleBar(String title, TextView tvTitle,
+                                   AutoRelativeLayout layoutBack,
+                                   ImageView ivCamera, TextView tvFinish){
+        tvTitle.setText(title);
+        layoutBack.setVisibility(View.VISIBLE);
+        ivCamera.setVisibility(View.GONE);
+        tvFinish.setVisibility(View.VISIBLE);
+        tvFinish.setText("完成");
     }
 }
