@@ -32,7 +32,6 @@
                 android:textCursorDrawable="@null"
                 android:textColor="@color/black"
                 android:lineSpacingExtra="5px"
-                android:focusable="false"
                 />
         </com.zhy.autolayout.AutoRelativeLayout>
 

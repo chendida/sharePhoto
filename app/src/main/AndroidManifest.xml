@@ -8,6 +8,7 @@
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.CAMERA" />
+
     <application
         android:name=".MyApplication"
         android:allowBackup="true"
@@ -48,7 +49,8 @@
         <activity android:name=".ui.PhoneLoginActivity" />
         <activity android:name=".ui.ResetPwdActivity" />
         <activity android:name=".ui.SettingActivity" />
-        <activity android:name=".ui.AddPicActivity"></activity>
+        <activity android:name=".ui.AddPicActivity" />
+        <activity android:name=".ui.AddLabelActivity"></activity>
     </application>
 
 </manifest>

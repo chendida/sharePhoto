@@ -1,39 +1,37 @@
 package com.zq.dynamicphoto.ui;
 
-import android.app.Dialog;
 import android.content.ClipboardManager;
 import android.content.Context;
+import android.content.Intent;
+import android.os.Bundle;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.EditText;
 import android.widget.GridView;
 import android.widget.TextView;
 import android.widget.Toast;
-import com.blankj.utilcode.util.ToastUtils;
+
 import com.luck.picture.lib.PictureSelector;
 import com.luck.picture.lib.config.PictureConfig;
-import com.luck.picture.lib.config.PictureMimeType;
 import com.luck.picture.lib.entity.LocalMedia;
 import com.zhy.autolayout.AutoRelativeLayout;
 import com.zq.dynamicphoto.R;
 import com.zq.dynamicphoto.adapter.PicAdapter;
 import com.zq.dynamicphoto.base.BaseActivity;
 import com.zq.dynamicphoto.base.BasePresenter;
-import com.zq.dynamicphoto.common.Constans;
-import com.zq.dynamicphoto.ui.widge.SelectPicDialog;
+import com.zq.dynamicphoto.utils.MFGT;
 import com.zq.dynamicphoto.utils.PicSelectUtils;
+import com.zq.dynamicphoto.utils.SoftUtils;
 import com.zq.dynamicphoto.utils.TitleUtils;
 import java.util.ArrayList;
-import java.util.List;
-
 import butterknife.BindView;
+import butterknife.OnClick;
 
 
 public class AddPicActivity extends BaseActivity implements PicAdapter.AddPicListener {
-
-    @BindView(R.id.et_description_content)
-    EditText etDescriptionContent;
+    private static final String TAG = "AddPicActivity";
     @BindView(R.id.layout_article)
     AutoRelativeLayout layoutArticle;
     @BindView(R.id.id_grid_view_commit_answers)
@@ -44,8 +42,10 @@ public class AddPicActivity extends BaseActivity implements PicAdapter.AddPicLis
     TextView tvTitle;
     @BindView(R.id.layout_finish)
     AutoRelativeLayout layoutFinish;
+    @BindView(R.id.et_description_content)
+    EditText etDescriptionContent;
     private PicAdapter mAdapter;
-    SelectPicDialog selectPicDialog;
+
     @Override
     protected int getLayoutId() {
         return R.layout.activity_add_pic;
@@ -88,6 +88,22 @@ public class AddPicActivity extends BaseActivity implements PicAdapter.AddPicLis
         return null;
     }
 
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        // 接收图片选择器返回结果，更新所选图片集合
+        if (resultCode == RESULT_OK) {
+            switch (requestCode) {
+                case PictureConfig.CHOOSE_REQUEST:
+                    PicSelectUtils.getInstance().clear();
+                    // 图片选择结果回调
+                    ArrayList<LocalMedia> newFiles = (ArrayList<LocalMedia>) PictureSelector.obtainMultipleResult(data);
+                    mAdapter.initDynamicList(newFiles);
+                    break;
+            }
+        }
+    }
+
     /**
      * 添加图片回调
      *
@@ -96,54 +112,45 @@ public class AddPicActivity extends BaseActivity implements PicAdapter.AddPicLis
      */
     @Override
     public void onAddButtonClick(View view, int i) {
+        ArrayList<LocalMedia> localMedia = mAdapter.getmList();
         switch (view.getId()) {
             case R.id.id_item_add_pic:
-                List<LocalMedia> localMedia = mAdapter.getmList();
-                if (localMedia != null){
-                    if (localMedia.size() != 0){
-                        int pictureType = PictureMimeType.isPictureType(localMedia.get(0).getPictureType());
-                        if (pictureType == PictureConfig.TYPE_VIDEO){//选的视频
-                            PicSelectUtils.getInstance().intoVideoSelect(this);
-                        }else {//选的图片
-                            PicSelectUtils.getInstance().intoPicSelect(this);
-                        }
-                    }else {
-                        showSelectPicDialog();
-                    }
-                }else {
-                    showSelectPicDialog();
-                }
+                PicSelectUtils.getInstance().gotoSelectPicOrVideo(localMedia, this);
                 break;
-            case R.id.iv_item_image_view:
-
+            case R.id.iv_item_image_view://预览
+                Log.i(TAG, "position = " + i);
+                PicSelectUtils.getInstance().preview(i, localMedia, this);
                 break;
         }
-    }
-
-
-    private void showSelectPicDialog() {
-        if (selectPicDialog == null){
-            selectPicDialog = new SelectPicDialog(this, R.style.dialog, new SelectPicDialog.OnItemClickListener() {
-                @Override
-                public void onClick(Dialog dialog, int position) {
-                    dialog.dismiss();
-                    switch (position) {
-                        case 1://选择图片
-                            PicSelectUtils.getInstance().intoPicSelect(AddPicActivity.this);
-                            break;
-                        case 2://选择视频
-                            PicSelectUtils.getInstance().intoVideoSelect(AddPicActivity.this);
-                            break;
-                    }
-                }
-            });
-        }
-        selectPicDialog.show();
     }
 
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        selectPicDialog = null;
+    }
+
+
+    @OnClick({R.id.layout_back, R.id.layout_article, R.id.layout_label, R.id.layout_who_can_see,
+            R.id.check_clause, R.id.tv_about_clause, R.id.btn_one_key_share})
+    public void onClicked(View view) {
+        switch (view.getId()) {
+            case R.id.layout_back:
+                finish();
+                break;
+            case R.id.layout_article:
+                SoftUtils.softShow(this);
+                break;
+            case R.id.layout_label:
+                MFGT.gotoAddLabelActivity(this);
+                break;
+            case R.id.layout_who_can_see:
+                break;
+            case R.id.check_clause:
+                break;
+            case R.id.tv_about_clause:
+                break;
+            case R.id.btn_one_key_share:
+                break;
+        }
     }
 }

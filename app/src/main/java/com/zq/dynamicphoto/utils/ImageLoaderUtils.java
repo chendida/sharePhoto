@@ -12,26 +12,9 @@ import com.zq.dynamicphoto.R;
  */
 
 public class ImageLoaderUtils {
-    //private static ImageLoaderUtils instance;
-
     static RequestOptions options = new RequestOptions()
             .centerCrop()
             .placeholder(R.color.colorBackground);
-
-    /**
-     * 单例
-     * @return
-     */
-    /*public static ImageLoaderUtils getInstance(){
-        if (null == instance) {
-            synchronized (ImageLoaderUtils.class) {
-                if (null == instance) {
-                    instance = new ImageLoaderUtils();
-                }
-            }
-        }
-        return instance;
-    }*/
 
     public static void displayImg(ImageView imageView, String url){
         Glide.with(imageView.getContext())

@@ -11,6 +11,7 @@ public class Constans {
 
     public static final int MAX_PIC_NUM = 9;//最多选择的图片数量
     public static final int MAX_VIDEO_NUM = 1;//最多选择的视频数量
+    public static final int MAX_VIDEO_TIME = 11;//选择视频的时长不能超过10秒
 
     //本地保存数据字段
     public static String USERID = "userId";

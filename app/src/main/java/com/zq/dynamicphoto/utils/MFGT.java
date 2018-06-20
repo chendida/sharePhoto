@@ -3,6 +3,7 @@ package com.zq.dynamicphoto.utils;
 import android.app.Activity;
 import android.content.Intent;
 
+import com.zq.dynamicphoto.ui.AddLabelActivity;
 import com.zq.dynamicphoto.ui.AddPicActivity;
 
 /**
@@ -17,5 +18,9 @@ public class MFGT {
 
     public static void gotoAddPicActivity(Activity activity){
         activity.startActivity(new Intent(activity, AddPicActivity.class));
+    }
+
+    public static void gotoAddLabelActivity(Activity activity){
+        activity.startActivity(new Intent(activity, AddLabelActivity.class));
     }
 }

@@ -70,4 +70,5 @@ dependencies {
 
     compile 'com.github.bumptech.glide:glide:4.6.1'
     implementation 'com.github.LuckSiege.PictureSelector:picture_library:v2.2.3'
+    compile 'com.hyman:flowlayout-lib:1.1.2'
 }
