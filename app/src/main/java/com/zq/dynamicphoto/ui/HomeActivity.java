@@ -1,37 +1,59 @@
 package com.zq.dynamicphoto.ui;
 
+import android.content.SharedPreferences;
+import android.graphics.Bitmap;
+import android.os.Environment;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
+import android.util.Log;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.TextView;
 import com.blankj.utilcode.util.ToastUtils;
+import com.luck.picture.lib.config.PictureConfig;
+import com.zq.dynamicphoto.MyApplication;
 import com.zq.dynamicphoto.R;
 import com.zq.dynamicphoto.base.BaseActivity;
-import com.zq.dynamicphoto.base.BasePresenter;
+import com.zq.dynamicphoto.bean.DeviceProperties;
+import com.zq.dynamicphoto.bean.DrUtils;
+import com.zq.dynamicphoto.bean.Dynamic;
+import com.zq.dynamicphoto.bean.DynamicBean;
+import com.zq.dynamicphoto.bean.DynamicPhoto;
+import com.zq.dynamicphoto.bean.DynamicVideo;
 import com.zq.dynamicphoto.bean.MessageEvent;
+import com.zq.dynamicphoto.bean.NetRequestBean;
 import com.zq.dynamicphoto.bean.Result;
+import com.zq.dynamicphoto.common.Constans;
 import com.zq.dynamicphoto.fragment.FriendCircleFragment;
 import com.zq.dynamicphoto.fragment.HomePageFragment;
 import com.zq.dynamicphoto.fragment.LiveFragment;
 import com.zq.dynamicphoto.fragment.MineFragment;
 import com.zq.dynamicphoto.presenter.DynamicUploadPresenter;
 import com.zq.dynamicphoto.ui.widge.ScrollViewPager;
+import com.zq.dynamicphoto.utils.CosUtils;
 import com.zq.dynamicphoto.utils.MFGT;
+import com.zq.dynamicphoto.utils.SaveLabelUtils;
+import com.zq.dynamicphoto.utils.SaveTasks;
+import com.zq.dynamicphoto.utils.SharedPreferencesUtils;
+import com.zq.dynamicphoto.utils.VideoUtils;
 import com.zq.dynamicphoto.view.IUploadDynamicView;
-
+import com.zq.dynamicphoto.view.UploadView;
+import com.zxy.tiny.Tiny;
+import com.zxy.tiny.callback.FileBatchCallback;
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
-
+import java.io.File;
 import java.util.ArrayList;
+import java.util.List;
 import butterknife.BindView;
 import butterknife.OnClick;
 
 public class HomeActivity extends BaseActivity<IUploadDynamicView,
-        DynamicUploadPresenter<IUploadDynamicView>> implements IUploadDynamicView{
+        DynamicUploadPresenter<IUploadDynamicView>> implements IUploadDynamicView,UploadView{
+    private static final String TAG = "HomeActivity";
     @BindView(R.id.view_pager)
     ScrollViewPager viewPager;
     @BindView(R.id.rb_tab_dynamic)
@@ -57,6 +79,16 @@ public class HomeActivity extends BaseActivity<IUploadDynamicView,
     private MineFragment mineFragment;
     private int mCurrentTabPos = 0;
 
+    private Boolean isContinue = false;
+
+    private Boolean getContinue() {
+        return isContinue;
+    }
+
+    private void setContinue(Boolean aContinue) {
+        isContinue = aContinue;
+    }
+
     @Override
     protected int getLayoutId() {
         return R.layout.activity_home;
@@ -70,7 +102,224 @@ public class HomeActivity extends BaseActivity<IUploadDynamicView,
 
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void Event(MessageEvent messageEvent) {
+        if (messageEvent != null){
+            DynamicBean dynamic = messageEvent.getDynamicBean();
+            if (dynamic != null){
+                SaveTasks.getInstance().getList().add(dynamic);
+                startUpload();
+                //jobManager.addJobInBackground(new UploadDynamicJob(dynamicBean,mPresenter));
+                /*if (dynamicBean.getRequestType() == Constans.ADD_DYNAMIC){
+                    addDynamic(dynamicBean);
+                }else if (dynamicBean.getRequestType() == Constans.EDIT_DYNAMIC){
+                    editDynamic(dynamicBean);
+                }else if (dynamicBean.getRequestType() == Constans.REPEAT_DYNAMIC){
+                    repeatDynamic(dynamicBean);
+                }*/
+            }else {
+                startUpload();
+            }
+        }
     }
+
+    private void startUpload() {
+        ArrayList<DynamicBean> list = SaveTasks.getInstance().getList();
+        if (list.size() > 0) {
+            if (list.size() == 1 || getContinue()) {
+                setContinue(false);
+                DynamicBean dynamicBean = list.get(0);
+                if (dynamicBean.getRequestType() == Constans.ADD_DYNAMIC) {
+                    Log.i(TAG,"addDynamic");
+                    addDynamic(dynamicBean);
+                } else if (dynamicBean.getRequestType() == Constans.EDIT_DYNAMIC) {
+                    editDynamic(dynamicBean);
+                } else if (dynamicBean.getRequestType() == Constans.REPEAT_DYNAMIC) {
+                    repeatDynamic(dynamicBean);
+                }
+            }
+        }
+    }
+
+    /**
+     * 转发动态
+     * @param dynamicBean
+     */
+    private void repeatDynamic(DynamicBean dynamicBean) {
+
+    }
+
+    /**
+     * 编辑动态
+     * @param dynamicBean
+     */
+    private void editDynamic(DynamicBean dynamicBean) {
+
+    }
+
+    /**
+     * 新增动态
+     * @param dynamicBean
+     */
+    private void addDynamic(DynamicBean dynamicBean) {
+        if (dynamicBean.getmSelectedImages().size() != 0) {
+            int pictureType = dynamicBean.getPicType();
+            if (pictureType == PictureConfig.TYPE_VIDEO){//视频
+                addDynamicVideo(dynamicBean);
+            }else {//图片
+                addDynamicImages(dynamicBean);
+            }
+        }
+    }
+
+
+    private void uploadPhotoDynamic(int flag,ArrayList<String>selectUrl) {
+        DeviceProperties dr = DrUtils.getInstance();
+        SharedPreferences sp =
+                SharedPreferencesUtils.getInstance();
+        int userId = sp.getInt(Constans.USERID, 0);
+        Dynamic dynamic = new Dynamic();
+        dynamic.setContent(SaveTasks.getInstance().getList().get(0).getContent());
+        dynamic.setUserId(userId);
+        dynamic.setDynamicLabels(SaveTasks.getInstance().getList().get(0).getDynamicLabels());
+        List<DynamicPhoto> dynamicPhotos = new ArrayList<>();
+        List<DynamicVideo> dynamicVideos = new ArrayList<>();
+        dynamic.setDynamicType(flag);
+        if (flag == PictureConfig.TYPE_IMAGE){
+            for (String url : selectUrl) {
+                DynamicPhoto dynamicPhoto = new DynamicPhoto();
+                dynamicPhoto.setThumbnailURL(url);
+                dynamicPhotos.add(dynamicPhoto);
+            }
+            selectUrl.clear();
+        }else if (flag == PictureConfig.TYPE_VIDEO){
+            DynamicVideo dynamicVideo = new DynamicVideo();
+            for (String url : selectUrl) {
+                if (url.endsWith(".mp4")) {
+                    dynamicVideo.setVideoURL(url);
+                } else {
+                    dynamicVideo.setVideoCover(url);
+                }
+            }
+            dynamicVideos.add(dynamicVideo);
+            selectUrl.clear();
+        }
+        if (MyApplication.getAppContext().getResources().getString(R.string.one_can_see).equals(SaveTasks.getInstance().getList().get(0).getPermission())) {
+            Log.i(TAG, "私密");
+            dynamic.setIsOpen(2);
+        } else {
+            Log.i(TAG, "公开");
+            dynamic.setIsOpen(1);
+        }
+        dynamic.setHeight(SaveTasks.getInstance().getList().get(0).getHeight());
+        dynamic.setWidth(SaveTasks.getInstance().getList().get(0).getWidth());
+        dynamic.setDynamicPhotos(dynamicPhotos);
+        dynamic.setDynamicVideos(dynamicVideos);
+        NetRequestBean netRequestBean = new NetRequestBean();
+        netRequestBean.setDeviceProperties(dr);
+        netRequestBean.setDynamic(dynamic);
+        if (mPresenter != null){
+            mPresenter.dynamicUpload(netRequestBean);
+        }
+    }
+
+    /**
+     * 压缩并上传图片
+     *
+     * @param
+     */
+    private void compressImage(final ArrayList<String> imageUrl, final int flag) {
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                Tiny.FileCompressOptions tiny = new Tiny.FileCompressOptions();
+                Tiny.getInstance().source(imageUrl.toArray(new String[imageUrl.size()]))
+                        .batchAsFile().withOptions(tiny).batchCompress(new FileBatchCallback() {
+                    @Override
+                    public void callback(boolean isSuccess, String[] outfile, Throwable t) {
+                        for (String s : outfile) {
+                            CosUtils.getInstance(HomeActivity.this).uploadToCos(s, flag);
+                        }
+                    }
+                });
+            }
+        }).start();
+    }
+
+    private void addDynamicVideo(DynamicBean dynamicBean) {
+        Bitmap videoThumbnail = VideoUtils.getInstance().getVideoThumbnail(dynamicBean.getmSelectedImages().get(0));
+        if (videoThumbnail != null) {
+            String thumbPath = VideoUtils.getInstance().saveImage(videoThumbnail);
+            VideoUtils.getInstance().insertImageToSystemGallery(thumbPath,videoThumbnail);
+            File file = new File(Environment.getExternalStorageDirectory(), thumbPath);
+            VideoUtils.getInstance().getPicHightAndWidth(file.getPath());
+            ArrayList<String> thumb = new ArrayList<>();
+            thumb.add(file.getPath());
+            compressImage(thumb, PictureConfig.TYPE_IMAGE);
+            CosUtils.getInstance(this).uploadToCos(dynamicBean.getmSelectedImages().get(0), 2);
+        }
+    }
+
+    private void addDynamicImages(DynamicBean dynamicBean) {
+        compressImage(dynamicBean.getmSelectedImages(), PictureConfig.TYPE_IMAGE);
+    }
+
+    @Override
+    public void onUploadProcess(int percent) {
+
+    }
+
+    @Override
+    public void onUploadResult(int code, String url) {
+        Log.i(TAG, "url = " + url);
+        if (code == Constans.REQUEST_OK){
+            ArrayList<DynamicBean> list = SaveTasks.getInstance().getList();
+            ArrayList<String> selectUrl = SaveTasks.getInstance().getList().get(0).getSelectUrl();
+            selectUrl.add(url);
+            if (list.get(0).getPicType() == PictureConfig.TYPE_VIDEO){
+                //当前任务传的是视频
+                if (selectUrl.size() == 2) {
+                    if (list.get(0).getRequestType() == 1) {
+                        uploadPhotoDynamic(PictureConfig.TYPE_VIDEO,selectUrl);
+                    } else if (list.get(0).getRequestType() == 2) {
+                        /*if (dynamic.getUserId().equals(userId)) {//本人修改动态
+                            editDynamicPhoto(dynamic);
+                        } else {
+                            repeatDynamic(dynamic);
+                        }*/
+                    }
+                }
+            }else {//当前任务传的是图片
+                if (selectUrl.size() == list.get(0).getmSelectedImages().size()){
+                    uploadPhotoDynamic(PictureConfig.TYPE_IMAGE,selectUrl);
+                }
+            }
+        }
+        /*if (list.size() > 0) {
+            Log.i(TAG, list.get(0).getPicType() + "");
+            Log.i(TAG, list.get(0).getmSelectedImages().size() + "");
+            if (list.get(0).getmSelectedImages().size() == 2) {
+                try {
+                    list.remove(0);
+                    setContinue(true);
+                    onRun();
+                } catch (Throwable throwable) {
+                    throwable.printStackTrace();
+                }
+            }
+        }*/
+    }
+
+    private void clearUtils() {
+        if (SaveTasks.getInstance().getList().size() != 0) {
+            SaveTasks.getInstance().getList().remove(0);
+            if (SaveTasks.getInstance().getList().size() > 0) {
+                MessageEvent messageEvent = new MessageEvent();
+                setContinue(true);
+                EventBus.getDefault().post(messageEvent);
+            }
+        }
+    }
+
+
 
 
     @Override
@@ -175,7 +424,7 @@ public class HomeActivity extends BaseActivity<IUploadDynamicView,
 
     @Override
     public void showUploadDynamicResult(Result result) {
-
+        clearUtils();
     }
 
     @Override

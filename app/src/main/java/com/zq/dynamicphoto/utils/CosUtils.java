@@ -22,6 +22,7 @@ import com.tencent.cos.xml.model.CosXmlResult;
 import com.tencent.cos.xml.model.object.GetObjectRequest;
 import com.tencent.cos.xml.model.object.PutObjectRequest;
 import com.tencent.cos.xml.model.object.PutObjectResult;
+import com.zq.dynamicphoto.MyApplication;
 import com.zq.dynamicphoto.base.Presenter;
 import com.zq.dynamicphoto.bean.DeviceProperties;
 import com.zq.dynamicphoto.bean.DrUtils;
@@ -98,12 +99,12 @@ public class CosUtils extends Presenter {
         });
     }
 
-    public static CosUtils getInstance(Context context, UploadView view) {
+    public static CosUtils getInstance(UploadView view) {
         mView = view;
         if (null == instance) {
             synchronized (CosUtils.class) {
                 if (null == instance) {
-                    instance = new CosUtils(context.getApplicationContext(),view);
+                    instance = new CosUtils(MyApplication.getAppContext(),view);
                 }
             }
         }

@@ -78,4 +78,5 @@
     <string name="tv_save">保存</string>
     <string name="tv_edit_success">编辑成功</string>
     <string name="please_read_and_agree_clause">请点击同意相关条款后继续操作</string>
+    <string name="one_can_see">私密：仅自己可见</string>
 </resources>

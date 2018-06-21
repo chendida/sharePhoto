@@ -17,6 +17,7 @@ import android.widget.Toast;
 
 import com.luck.picture.lib.PictureSelector;
 import com.luck.picture.lib.config.PictureConfig;
+import com.luck.picture.lib.config.PictureMimeType;
 import com.luck.picture.lib.entity.LocalMedia;
 import com.zhy.autolayout.AutoRelativeLayout;
 import com.zq.dynamicphoto.R;
@@ -232,9 +233,14 @@ public class AddPicActivity extends BaseActivity implements PicAdapter.AddPicLis
             Toast.makeText(this, "图片和文本不能都为空", Toast.LENGTH_SHORT).show();
             return;
         }
+        ArrayList<String>images = new ArrayList<>();
+        for (LocalMedia localMedia:mSelectedImages) {
+            images.add(localMedia.getPath());
+        }
         DynamicBean dynamicBean = new DynamicBean();
         dynamicBean.setRequestType(1);
-        dynamicBean.setmSelectedImages(mSelectedImages);
+        dynamicBean.setPicType(PictureMimeType.isPictureType(mSelectedImages.get(0).getPictureType()));
+        dynamicBean.setmSelectedImages(images);
         dynamicBean.setContent(content);
         dynamicBean.setDynamicLabels(SaveLabelUtils.getInstance().getDynamicLabels());
         dynamicBean.setPermission(tvWhoCanSee.getText().toString());

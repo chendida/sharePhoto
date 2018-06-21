@@ -5,6 +5,8 @@ import com.zq.dynamicphoto.bean.NetRequestBean;
 import com.zq.dynamicphoto.bean.Result;
 import com.zq.dynamicphoto.net.util.DataManager;
 
+import java.io.Serializable;
+
 import io.reactivex.Observer;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.Disposable;
@@ -15,7 +17,7 @@ import io.reactivex.schedulers.Schedulers;
  * 上传动态model
  */
 
-public class DynamicUploadImp implements BaseModel {
+public class DynamicUploadImp implements BaseModel,Serializable{
     @Override
     public void loadData(final OnLoadListener onLoadListener, NetRequestBean netRequestBean) {
         DataManager.getInstance().createDynamic(netRequestBean)

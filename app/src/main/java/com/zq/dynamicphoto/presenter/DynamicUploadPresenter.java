@@ -7,12 +7,14 @@ import com.zq.dynamicphoto.bean.Result;
 import com.zq.dynamicphoto.model.DynamicUploadImp;
 import com.zq.dynamicphoto.view.IUploadDynamicView;
 
+import java.io.Serializable;
+
 /**
  * 上传，编辑，转发动态表示层
  * Created by Administrator on 2018/6/21.
  */
 
-public class DynamicUploadPresenter<T extends IUploadDynamicView> extends BasePresenter<T> {
+public class DynamicUploadPresenter<T extends IUploadDynamicView> extends BasePresenter<T> implements Serializable{
     //2.model层的引用
     BaseModel dynamicUploadImp = new DynamicUploadImp();//上传动态的model
 

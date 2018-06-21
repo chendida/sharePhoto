@@ -3,18 +3,10 @@ package com.zq.dynamicphoto;
 import android.app.Activity;
 import android.app.Application;
 import android.content.Context;
-import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
-import android.util.Log;
-
-import com.birbit.android.jobqueue.JobManager;
-import com.birbit.android.jobqueue.config.Configuration;
-import com.birbit.android.jobqueue.log.CustomLogger;
 import com.blankj.utilcode.util.Utils;
 import com.orhanobut.logger.AndroidLogAdapter;
 import com.orhanobut.logger.Logger;
-import com.scwang.smartrefresh.header.MaterialHeader;
-import com.scwang.smartrefresh.header.waveswipe.DropBounceInterpolator;
 import com.scwang.smartrefresh.layout.SmartRefreshLayout;
 import com.scwang.smartrefresh.layout.api.DefaultRefreshFooterCreater;
 import com.scwang.smartrefresh.layout.api.DefaultRefreshHeaderCreater;
@@ -44,7 +36,7 @@ public class MyApplication extends Application implements HasSupportFragmentInje
 
     public static IWXAPI mWxApi;
 
-    private JobManager jobManager;
+    //private JobManager jobManager;
 
     @Inject
     DispatchingAndroidInjector<Activity> dispatchingAndroidInjectorActivity;
@@ -86,10 +78,10 @@ public class MyApplication extends Application implements HasSupportFragmentInje
         Utils.init(mInstance);
         ButterKnife.setDebug(true);
         registerToWX();
-        configureJobManager();//2. 配置JobMananger
+        //configureJobManager();//2. 配置JobMananger
     }
 
-    private void configureJobManager() {
+    /*private void configureJobManager() {
         //3. JobManager的配置器，利用Builder模式
         Configuration configuration = new Configuration.Builder(this)
                 .customLogger(new CustomLogger() {
@@ -125,6 +117,10 @@ public class MyApplication extends Application implements HasSupportFragmentInje
                 .build();
         jobManager = new JobManager(configuration);
     }
+
+    public JobManager getJobManager() {
+        return jobManager;
+    }*/
 
     private void registerToWX() {
         //第二个参数是指你应用在微信开放平台上的AppID

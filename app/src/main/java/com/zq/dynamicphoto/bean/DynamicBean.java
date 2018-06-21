@@ -2,15 +2,16 @@ package com.zq.dynamicphoto.bean;
 
 import com.luck.picture.lib.entity.LocalMedia;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 
 /**
  * Created by Administrator on 2018/4/18.
  */
 
-public class DynamicBean {
+public class DynamicBean implements Serializable{
 
-    private ArrayList<LocalMedia> mSelectedImages = new ArrayList<>();//保存当前所选择的图片地址
+    private ArrayList<String> mSelectedImages = new ArrayList<>();//保存当前所选择的图片地址
 
     private String content;//动态内容
 
@@ -23,15 +24,19 @@ public class DynamicBean {
 
     private ArrayList<String> selectUrl = new ArrayList<>();//保存传到Cos上的图片地址
 
-    private Boolean isImage = false;//是否是图片
-
-    private Boolean isVideo = false;//是否是视频
-
-    private Boolean isShare = false;//是否是分享视频
+    private Integer picType;//上传动态的类型
 
     private Integer width;
 
     private Integer height;
+
+    public Integer getPicType() {
+        return picType;
+    }
+
+    public void setPicType(Integer picType) {
+        this.picType = picType;
+    }
 
     public ArrayList<DynamicLabel> getDynamicLabels() {
         return dynamicLabels;
@@ -41,11 +46,11 @@ public class DynamicBean {
         this.dynamicLabels = dynamicLabels;
     }
 
-    public ArrayList<LocalMedia> getmSelectedImages() {
+    public ArrayList<String> getmSelectedImages() {
         return mSelectedImages;
     }
 
-    public void setmSelectedImages(ArrayList<LocalMedia> mSelectedImages) {
+    public void setmSelectedImages(ArrayList<String> mSelectedImages) {
         this.mSelectedImages = mSelectedImages;
     }
 
@@ -79,30 +84,6 @@ public class DynamicBean {
 
     public void setSelectUrl(ArrayList<String> selectUrl) {
         this.selectUrl = selectUrl;
-    }
-
-    public Boolean getImage() {
-        return isImage;
-    }
-
-    public void setImage(Boolean image) {
-        isImage = image;
-    }
-
-    public Boolean getVideo() {
-        return isVideo;
-    }
-
-    public void setVideo(Boolean video) {
-        isVideo = video;
-    }
-
-    public Boolean getShare() {
-        return isShare;
-    }
-
-    public void setShare(Boolean share) {
-        isShare = share;
     }
 
     public Integer getWidth() {

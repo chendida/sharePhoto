@@ -7,6 +7,9 @@ package com.zq.dynamicphoto.bean;
 public class MessageEvent {
     private DynamicBean dynamicBean;
 
+    public MessageEvent() {
+    }
+
     public MessageEvent(DynamicBean dynamicBean) {
         this.dynamicBean = dynamicBean;
     }
