@@ -78,4 +78,8 @@ public class DataManager {
     public Observable<Result> editLabel(NetRequestBean netRequestBean){
         return mRetrofitService.updateLabel(netRequestBean);
     }
+
+    public Observable<Result> createDynamic(NetRequestBean netRequestBean){
+        return mRetrofitService.createDynamic(netRequestBean);
+    }
 }

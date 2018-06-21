@@ -1,6 +1,5 @@
 package com.zq.dynamicphoto.ui;
 
-import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
@@ -8,25 +7,31 @@ import android.support.v4.view.ViewPager;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.TextView;
-
 import com.blankj.utilcode.util.ToastUtils;
 import com.zq.dynamicphoto.R;
 import com.zq.dynamicphoto.base.BaseActivity;
 import com.zq.dynamicphoto.base.BasePresenter;
+import com.zq.dynamicphoto.bean.MessageEvent;
+import com.zq.dynamicphoto.bean.Result;
 import com.zq.dynamicphoto.fragment.FriendCircleFragment;
 import com.zq.dynamicphoto.fragment.HomePageFragment;
 import com.zq.dynamicphoto.fragment.LiveFragment;
 import com.zq.dynamicphoto.fragment.MineFragment;
+import com.zq.dynamicphoto.presenter.DynamicUploadPresenter;
 import com.zq.dynamicphoto.ui.widge.ScrollViewPager;
 import com.zq.dynamicphoto.utils.MFGT;
+import com.zq.dynamicphoto.view.IUploadDynamicView;
+
+import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
 
 import java.util.ArrayList;
-
 import butterknife.BindView;
-import butterknife.ButterKnife;
 import butterknife.OnClick;
 
-public class HomeActivity extends BaseActivity {
+public class HomeActivity extends BaseActivity<IUploadDynamicView,
+        DynamicUploadPresenter<IUploadDynamicView>> implements IUploadDynamicView{
     @BindView(R.id.view_pager)
     ScrollViewPager viewPager;
     @BindView(R.id.rb_tab_dynamic)
@@ -60,6 +65,18 @@ public class HomeActivity extends BaseActivity {
     @Override
     protected void initView() {
         initFragments();
+        EventBus.getDefault().register(this);
+    }
+
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void Event(MessageEvent messageEvent) {
+    }
+
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        EventBus.getDefault().unregister(this);
     }
 
     private void initFragments() {
@@ -147,20 +164,28 @@ public class HomeActivity extends BaseActivity {
     }
 
     @Override
-    protected BasePresenter createPresenter() {
-        return null;
-    }
-
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        // TODO: add setContentView(...) invocation
-        ButterKnife.bind(this);
+    protected DynamicUploadPresenter<IUploadDynamicView> createPresenter() {
+        return new DynamicUploadPresenter<>();
     }
 
     @OnClick(R.id.layout_finish)
     public void onClicked() {
         MFGT.gotoAddPicActivity(this);
+    }
+
+    @Override
+    public void showUploadDynamicResult(Result result) {
+
+    }
+
+    @Override
+    public void showEditDynamicResult(Result result) {
+
+    }
+
+    @Override
+    public void showRepeatDynamicResult(Result result) {
+
     }
 
     public class ViewPagerAdapter extends FragmentPagerAdapter {

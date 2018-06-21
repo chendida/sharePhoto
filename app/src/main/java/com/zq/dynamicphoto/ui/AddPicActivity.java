@@ -23,12 +23,18 @@ import com.zq.dynamicphoto.R;
 import com.zq.dynamicphoto.adapter.PicAdapter;
 import com.zq.dynamicphoto.base.BaseActivity;
 import com.zq.dynamicphoto.base.BasePresenter;
+import com.zq.dynamicphoto.bean.DynamicBean;
 import com.zq.dynamicphoto.bean.DynamicLabel;
+import com.zq.dynamicphoto.bean.MessageEvent;
 import com.zq.dynamicphoto.utils.MFGT;
 import com.zq.dynamicphoto.utils.PicSelectUtils;
 import com.zq.dynamicphoto.utils.SaveLabelUtils;
 import com.zq.dynamicphoto.utils.SoftUtils;
 import com.zq.dynamicphoto.utils.TitleUtils;
+
+import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
 
 import java.util.ArrayList;
 
@@ -58,9 +64,12 @@ public class AddPicActivity extends BaseActivity implements PicAdapter.AddPicLis
     ImageView ivCamera;
     @BindView(R.id.check_clause)
     CheckBox checkClause;
+    @BindView(R.id.tv_who_can_see)
+    TextView tvWhoCanSee;
     private PicAdapter mAdapter;
     private final int MIN_DELAY_TIME = 1000;  // 两次点击间隔不能少于500ms
     private long lastClickTime;
+
     @Override
     protected int getLayoutId() {
         return R.layout.activity_add_pic;
@@ -95,7 +104,11 @@ public class AddPicActivity extends BaseActivity implements PicAdapter.AddPicLis
 
     @Override
     protected void initData() {
+        EventBus.getDefault().register(this);
+    }
 
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void Event(MessageEvent messageEvent) {
     }
 
     @Override
@@ -163,6 +176,7 @@ public class AddPicActivity extends BaseActivity implements PicAdapter.AddPicLis
     protected void onDestroy() {
         super.onDestroy();
         SaveLabelUtils.getInstance().getDynamicLabels().clear();
+        EventBus.getDefault().unregister(this);
     }
 
     public boolean isFastClick() {
@@ -208,13 +222,24 @@ public class AddPicActivity extends BaseActivity implements PicAdapter.AddPicLis
     }
 
     private void toUpload() {
-
-    }
-
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        // TODO: add setContentView(...) invocation
-        ButterKnife.bind(this);
+        if (isFastClick()) {
+            return;
+        }
+        lastClickTime = System.currentTimeMillis();
+        String content = etDescriptionContent.getText().toString();
+        ArrayList<LocalMedia> mSelectedImages = mAdapter.getmList();
+        if (TextUtils.isEmpty(content) && mSelectedImages.size() == 0) {
+            Toast.makeText(this, "图片和文本不能都为空", Toast.LENGTH_SHORT).show();
+            return;
+        }
+        DynamicBean dynamicBean = new DynamicBean();
+        dynamicBean.setRequestType(1);
+        dynamicBean.setmSelectedImages(mSelectedImages);
+        dynamicBean.setContent(content);
+        dynamicBean.setDynamicLabels(SaveLabelUtils.getInstance().getDynamicLabels());
+        dynamicBean.setPermission(tvWhoCanSee.getText().toString());
+        MessageEvent messageEvent = new MessageEvent(dynamicBean);
+        EventBus.getDefault().post(messageEvent);
+        finish();
     }
 }

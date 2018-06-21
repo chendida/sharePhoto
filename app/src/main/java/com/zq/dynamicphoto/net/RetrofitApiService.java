@@ -3,6 +3,7 @@ package com.zq.dynamicphoto.net;
 import com.zq.dynamicphoto.bean.NetRequestBean;
 import com.zq.dynamicphoto.bean.Result;
 import io.reactivex.Observable;
+import retrofit2.Call;
 import retrofit2.http.Body;
 import retrofit2.http.POST;
 
@@ -86,4 +87,21 @@ public interface RetrofitApiService {
      */
     @POST("sdkData.shtml?requestId=12&a=0&b=0")
     Observable<Result> updateLabel(@Body NetRequestBean netRequestBean);
+
+    /**
+     * 新增动态
+     * @param netRequestBean
+     * @return
+     */
+    @POST("sdkData.shtml?requestId=3&a=0&b=0")
+    Observable<Result> createDynamic(@Body NetRequestBean netRequestBean);
+
+
+    /**
+     * 获取Cos上传的临时秘钥
+     * @param netRequestBean
+     * @return
+     */
+    @POST("sdkData.shtml?requestId=21&a=0&b=0")
+    Call<Result> getTemporarySecretKey(@Body NetRequestBean netRequestBean);
 }
