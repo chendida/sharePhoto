@@ -90,4 +90,12 @@ public class DataManager {
     public Observable<Result> repeatDynamic(NetRequestBean netRequestBean){
         return mRetrofitService.repeatDynamic(netRequestBean);
     }
+
+    public Observable<Result> getFirendCircleList(NetRequestBean netRequestBean){
+        return mRetrofitService.getFriendCircleList(netRequestBean);
+    }
+
+    public Observable<Result> deleteFriendCircleItem(NetRequestBean netRequestBean){
+        return mRetrofitService.deleteFriendCircle(netRequestBean);
+    }
 }

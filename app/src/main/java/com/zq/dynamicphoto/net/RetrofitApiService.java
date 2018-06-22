@@ -129,4 +129,22 @@ public interface RetrofitApiService {
      */
     @POST("sdkData.shtml?requestId=21&a=0&b=0")
     Call<Result> getTemporarySecretKey(@Body NetRequestBean netRequestBean);
+
+
+    /**
+     * 获取朋友圈列表
+     * @param netRequestBean
+     * @return
+     */
+    @POST("sdkData.shtml?requestId=19&a=0&b=0")
+    Observable<Result> getFriendCircleList(@Body NetRequestBean netRequestBean);
+
+
+    /**
+     * 删除朋友圈
+     * @param netRequestBean
+     * @return
+     */
+    @POST("sdkData.shtml?requestId=8&a=0&b=0")
+    Observable<Result> deleteFriendCircle(@Body NetRequestBean netRequestBean);
 }

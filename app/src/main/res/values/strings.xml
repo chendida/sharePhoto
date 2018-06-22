@@ -81,4 +81,8 @@
     <string name="one_can_see">私密：仅自己可见</string>
     <string name="edit_image_and_text">编辑图文</string>
     <string name="tv_pic_source">图片来源</string>
+    <string name="on_new_num">0</string>
+    <string name="add_new">新增</string>
+    <string name="all_num">总数</string>
+    <string name="tv_today">今天</string>
 </resources>
