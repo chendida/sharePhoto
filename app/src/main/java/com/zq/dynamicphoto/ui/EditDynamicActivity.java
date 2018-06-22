@@ -269,6 +269,9 @@ public class EditDynamicActivity extends BaseActivity implements PicAdapter.AddP
                 PermissionUtils.showSeePermissionSelectDialog(this,tvWhoCanSee);
                 break;
             case R.id.tv_about_clause:
+                SharedPreferences sp = SharedPreferencesUtils.getInstance();
+                String agreement = sp.getString(Constans.AGREEMENT, "");
+                MFGT.gotoHtmlManagerActivity(this,agreement,getResources().getString(R.string.about_clause));
                 break;
             case R.id.btn_one_key_share:
                 break;

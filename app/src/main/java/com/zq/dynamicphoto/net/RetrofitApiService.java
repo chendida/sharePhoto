@@ -14,6 +14,15 @@ import retrofit2.http.POST;
 
 public interface RetrofitApiService {
     /**
+     * 初始化
+     * @param netRequestBean
+     * @return
+     */
+    @POST("sdkData.shtml?requestId=0&a=0&b=0")
+    Call<Result> initApp(@Body NetRequestBean netRequestBean);
+
+
+    /**
      * 获取相册动态
      * @param netRequestBean
      * @return

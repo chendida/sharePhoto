@@ -3,6 +3,7 @@ package com.zq.dynamicphoto.ui;
 import android.content.ClipboardManager;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.util.Log;
@@ -27,10 +28,12 @@ import com.zq.dynamicphoto.base.BasePresenter;
 import com.zq.dynamicphoto.bean.DynamicBean;
 import com.zq.dynamicphoto.bean.DynamicLabel;
 import com.zq.dynamicphoto.bean.MessageEvent;
+import com.zq.dynamicphoto.common.Constans;
 import com.zq.dynamicphoto.utils.MFGT;
 import com.zq.dynamicphoto.utils.PermissionUtils;
 import com.zq.dynamicphoto.utils.PicSelectUtils;
 import com.zq.dynamicphoto.utils.SaveLabelUtils;
+import com.zq.dynamicphoto.utils.SharedPreferencesUtils;
 import com.zq.dynamicphoto.utils.SoftUtils;
 import com.zq.dynamicphoto.utils.TitleUtils;
 
@@ -213,6 +216,9 @@ public class AddPicActivity extends BaseActivity implements PicAdapter.AddPicLis
                 PermissionUtils.showSeePermissionSelectDialog(this,tvWhoCanSee);
                 break;
             case R.id.tv_about_clause:
+                SharedPreferences sp = SharedPreferencesUtils.getInstance();
+                String agreement = sp.getString(Constans.AGREEMENT, "");
+                MFGT.gotoHtmlManagerActivity(this,agreement,getResources().getString(R.string.about_clause));
                 break;
             case R.id.btn_one_key_share:
                 break;

@@ -9,6 +9,7 @@ import com.zq.dynamicphoto.common.Constans;
 import com.zq.dynamicphoto.ui.AddLabelActivity;
 import com.zq.dynamicphoto.ui.AddPicActivity;
 import com.zq.dynamicphoto.ui.EditDynamicActivity;
+import com.zq.dynamicphoto.ui.HtmlManagerActivity;
 import com.zq.dynamicphoto.ui.LabelManagerActivity;
 
 /**
@@ -36,5 +37,11 @@ public class MFGT {
     public static void gotoEditDynamicActivity(Context context,Dynamic dynamic) {
         context.startActivity(new Intent(context, EditDynamicActivity.class)
         .putExtra(Constans.DYNAMIC,dynamic));
+    }
+
+    public static void gotoHtmlManagerActivity(Activity activity, String agreement,String title) {
+        activity.startActivity(new Intent(activity, HtmlManagerActivity.class)
+        .putExtra(Constans.HTML,agreement)
+        .putExtra(Constans.HTML_TITLE,title));
     }
 }

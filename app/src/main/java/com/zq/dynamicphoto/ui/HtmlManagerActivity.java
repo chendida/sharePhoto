@@ -1,20 +1,17 @@
 package com.zq.dynamicphoto.ui;
 
-import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.webkit.WebResourceError;
 import android.webkit.WebResourceRequest;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 import android.widget.TextView;
-
 import com.tencent.mm.opensdk.utils.Log;
 import com.zhy.autolayout.AutoRelativeLayout;
 import com.zq.dynamicphoto.R;
 import com.zq.dynamicphoto.base.BaseActivity;
 import com.zq.dynamicphoto.base.BasePresenter;
 import com.zq.dynamicphoto.common.Constans;
-import com.zq.dynamicphoto.utils.SharedPreferencesUtils;
 import com.zq.dynamicphoto.utils.TitleUtils;
 import butterknife.BindView;
 import butterknife.OnClick;
@@ -37,7 +34,8 @@ public class HtmlManagerActivity extends BaseActivity {
 
     @Override
     protected void initView() {
-        TitleUtils.setTitleBar(getResources().getString(R.string.about_clause), tvTitle, layoutBack, layoutFinish);
+        String title = (String) getIntent().getSerializableExtra(Constans.HTML_TITLE);
+        TitleUtils.setTitleBar(title, tvTitle, layoutBack, layoutFinish);
     }
 
     @Override
@@ -51,9 +49,8 @@ public class HtmlManagerActivity extends BaseActivity {
     }
 
     private void loadHtml() {
-        SharedPreferences sp = SharedPreferencesUtils.getInstance();
-        String agreement = sp.getString("agreement", "");
-        String url = Constans.HTML_Url + agreement;
+        String html = (String) getIntent().getSerializableExtra(Constans.HTML);
+        String url = Constans.HTML_Url + html;
         htmlWebView.getSettings().setJavaScriptEnabled(true);
         htmlWebView.loadUrl(url);
         Log.i(TAG, url);

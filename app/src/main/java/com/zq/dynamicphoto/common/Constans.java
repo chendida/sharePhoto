@@ -26,6 +26,10 @@ public class Constans {
     public static String ISLOGIN = "isLogin";
     public static String UNIONID = "unionId";
     public static String DYNAMIC = "dynamic";
+    public static String FORWORDURL = "forwordUrl";
+    public static String AGREEMENT = "agreement";
+    public static String HTML = "htmlUrl";
+    public static String HTML_TITLE = "title";
 
     public static Integer REQUEST_OK = 0;
     public static Integer REQUEST_LOIGN_ERROR = -4;//登录时手机号或密码错误

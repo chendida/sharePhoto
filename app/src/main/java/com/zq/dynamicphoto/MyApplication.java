@@ -18,7 +18,12 @@ import com.scwang.smartrefresh.layout.footer.ClassicsFooter;
 import com.scwang.smartrefresh.layout.header.ClassicsHeader;
 import com.tencent.mm.opensdk.openapi.IWXAPI;
 import com.tencent.mm.opensdk.openapi.WXAPIFactory;
+import com.zq.dynamicphoto.bean.Bounced;
 import com.zq.dynamicphoto.common.Constans;
+import com.zq.dynamicphoto.utils.AppInit;
+
+import java.util.ArrayList;
+
 import javax.inject.Inject;
 import butterknife.ButterKnife;
 import dagger.android.AndroidInjector;
@@ -36,7 +41,15 @@ public class MyApplication extends Application implements HasSupportFragmentInje
 
     public static IWXAPI mWxApi;
 
-    //private JobManager jobManager;
+    private static ArrayList<Bounced> bouncedList;
+
+    public static ArrayList<Bounced> getBouncedList() {
+        return bouncedList;
+    }
+
+    public static void setBouncedList(ArrayList<Bounced> bouncedList) {
+        MyApplication.bouncedList = bouncedList;
+    }
 
     @Inject
     DispatchingAndroidInjector<Activity> dispatchingAndroidInjectorActivity;
@@ -78,49 +91,8 @@ public class MyApplication extends Application implements HasSupportFragmentInje
         Utils.init(mInstance);
         ButterKnife.setDebug(true);
         registerToWX();
-        //configureJobManager();//2. 配置JobMananger
+        AppInit.getAppInit();
     }
-
-    /*private void configureJobManager() {
-        //3. JobManager的配置器，利用Builder模式
-        Configuration configuration = new Configuration.Builder(this)
-                .customLogger(new CustomLogger() {
-                    @Override
-                    public boolean isDebugEnabled() {
-                        return true;
-                    }
-
-                    @Override
-                    public void d(String text, Object... args) {
-                        Log.d(TAG, String.format(text, args));
-                    }
-
-                    @Override
-                    public void e(Throwable t, String text, Object... args) {
-
-                    }
-
-                    @Override
-                    public void e(String text, Object... args) {
-
-                    }
-
-                    @Override
-                    public void v(String text, Object... args) {
-
-                    }
-                })
-                .minConsumerCount(1)//always keep at least one consumer alive
-                .maxConsumerCount(3)//up to 3 consumers at a time
-                .loadFactor(3)//3 jobs per consumer
-                .consumerKeepAlive(120)//wait 2 minute
-                .build();
-        jobManager = new JobManager(configuration);
-    }
-
-    public JobManager getJobManager() {
-        return jobManager;
-    }*/
 
     private void registerToWX() {
         //第二个参数是指你应用在微信开放平台上的AppID
