@@ -21,6 +21,25 @@ public class DynamicBean implements Serializable{
 
     private ArrayList<DynamicLabel> dynamicLabels;
 
+    private Integer dynamicId;
+
+    private DynamicForward dynamicForward;
+
+    public DynamicForward getDynamicForward() {
+        return dynamicForward;
+    }
+
+    public void setDynamicForward(DynamicForward dynamicForward) {
+        this.dynamicForward = dynamicForward;
+    }
+
+    public Integer getDynamicId() {
+        return dynamicId;
+    }
+
+    public void setDynamicId(Integer dynamicId) {
+        this.dynamicId = dynamicId;
+    }
 
     private ArrayList<String> selectUrl = new ArrayList<>();//保存传到Cos上的图片地址
 

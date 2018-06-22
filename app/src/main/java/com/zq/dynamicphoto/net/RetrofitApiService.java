@@ -96,6 +96,22 @@ public interface RetrofitApiService {
     @POST("sdkData.shtml?requestId=3&a=0&b=0")
     Observable<Result> createDynamic(@Body NetRequestBean netRequestBean);
 
+    /**
+     * 转发别人动态
+     * @param netRequestBean
+     * @return
+     */
+    @POST("sdkData.shtml?requestId=10&a=0&b=0")
+    Observable<Result> repeatDynamic(@Body NetRequestBean netRequestBean);
+
+    /**
+     * 编辑相册动态
+     * @param netRequestBean
+     * @return
+     */
+    @POST("sdkData.shtml?requestId=4&a=0&b=0")
+    Observable<Result> editPhotoDynamic(@Body NetRequestBean netRequestBean);
+
 
     /**
      * 获取Cos上传的临时秘钥

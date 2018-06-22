@@ -82,4 +82,12 @@ public class DataManager {
     public Observable<Result> createDynamic(NetRequestBean netRequestBean){
         return mRetrofitService.createDynamic(netRequestBean);
     }
+
+    public Observable<Result> editDynamic(NetRequestBean netRequestBean){
+        return mRetrofitService.editPhotoDynamic(netRequestBean);
+    }
+
+    public Observable<Result> repeatDynamic(NetRequestBean netRequestBean){
+        return mRetrofitService.repeatDynamic(netRequestBean);
+    }
 }

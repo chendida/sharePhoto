@@ -209,7 +209,7 @@ public class DynamicListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
                     ivLocked.setVisibility(View.GONE);
                     tvPicSource.setVisibility(View.GONE);
                 } else if (dynamic.getIsForward() == 1) {//已经转发（显示图片来源）
-
+                    tvPicSource.setVisibility(View.VISIBLE);
                 } else if (dynamic.getIsForward() == 2) {//已分享（显示已分享）
                     tvPicSource.setText(mContext.getResources().getString(R.string.repeat));
                 }

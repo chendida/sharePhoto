@@ -17,6 +17,16 @@ public class NetRequestBean {
 
     private DynamicLabel dynamicLabel;
 
+    private DynamicForward dynamicForward;
+
+    public DynamicForward getDynamicForward() {
+        return dynamicForward;
+    }
+
+    public void setDynamicForward(DynamicForward dynamicForward) {
+        this.dynamicForward = dynamicForward;
+    }
+
     public DynamicLabel getDynamicLabel() {
         return dynamicLabel;
     }

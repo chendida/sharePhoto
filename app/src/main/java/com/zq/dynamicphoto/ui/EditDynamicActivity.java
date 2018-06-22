@@ -27,6 +27,7 @@ import com.zq.dynamicphoto.base.BaseActivity;
 import com.zq.dynamicphoto.base.BasePresenter;
 import com.zq.dynamicphoto.bean.Dynamic;
 import com.zq.dynamicphoto.bean.DynamicBean;
+import com.zq.dynamicphoto.bean.DynamicForward;
 import com.zq.dynamicphoto.bean.DynamicLabel;
 import com.zq.dynamicphoto.bean.DynamicPhoto;
 import com.zq.dynamicphoto.bean.DynamicVideo;
@@ -293,9 +294,17 @@ public class EditDynamicActivity extends BaseActivity implements PicAdapter.AddP
         if (dynamic.getUserId().equals(userId)){
             dynamicBean.setRequestType(Constans.EDIT_DYNAMIC);
         }else {
+            DynamicForward dynamicForward = new DynamicForward();
+            dynamicForward.setUdynamicId(dynamic.getId());
+            dynamicForward.setIuserId(userId);
+            dynamicForward.setUuserId(dynamic.getUserId());
+            dynamicBean.setDynamicForward(dynamicForward);
             dynamicBean.setRequestType(Constans.REPEAT_DYNAMIC);
         }
         if (mSelectedImages.size() > 0) {
+            if (mSelectedImages.get(0).getPath().startsWith("http") && mSelectedImages.get(0).getPath().endsWith(".mp4")){
+                images.add(dynamic.getDynamicVideos().get(0).getVideoCover());
+            }
             if (mSelectedImages.get(0).getPath().endsWith(".mp4")){
                 dynamicBean.setPicType(PictureConfig.TYPE_VIDEO);
             }else {
@@ -304,6 +313,7 @@ public class EditDynamicActivity extends BaseActivity implements PicAdapter.AddP
         }else {
             dynamicBean.setPicType(PictureConfig.TYPE_IMAGE);
         }
+        dynamicBean.setDynamicId(dynamic.getId());
         dynamicBean.setmSelectedImages(images);
         dynamicBean.setContent(content);
         dynamicBean.setDynamicLabels(SaveLabelUtils.getInstance().getDynamicLabels());

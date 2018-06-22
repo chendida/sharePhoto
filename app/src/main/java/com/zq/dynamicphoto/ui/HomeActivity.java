@@ -34,7 +34,6 @@ import com.zq.dynamicphoto.presenter.DynamicUploadPresenter;
 import com.zq.dynamicphoto.ui.widge.ScrollViewPager;
 import com.zq.dynamicphoto.utils.CosUtils;
 import com.zq.dynamicphoto.utils.MFGT;
-import com.zq.dynamicphoto.utils.SaveLabelUtils;
 import com.zq.dynamicphoto.utils.SaveTasks;
 import com.zq.dynamicphoto.utils.SharedPreferencesUtils;
 import com.zq.dynamicphoto.utils.VideoUtils;
@@ -135,7 +134,44 @@ public class HomeActivity extends BaseActivity<IUploadDynamicView,
      * @param dynamicBean
      */
     private void repeatDynamic(DynamicBean dynamicBean) {
+        if (dynamicBean.getmSelectedImages().size() != 0) {
+            int pictureType = dynamicBean.getPicType();
+            if (pictureType == PictureConfig.TYPE_VIDEO){//视频
+                repeatDynamicVideo(dynamicBean);
+            }else {//图片
+                repeatDynamicImages(dynamicBean);
+            }
+        }else {
+            uploadPhotoDynamic(Constans.REPEAT_DYNAMIC,PictureConfig.TYPE_IMAGE,null);
+        }
+    }
 
+    private void repeatDynamicVideo(DynamicBean dynamicBean) {
+        if (dynamicBean.getmSelectedImages().get(0).startsWith("http")){//网络视频
+            uploadPhotoDynamic(Constans.REPEAT_DYNAMIC,PictureConfig.TYPE_VIDEO,dynamicBean.getSelectUrl());
+        }else {//本地视频
+            dynamicVideo(dynamicBean);
+        }
+    }
+
+    private void repeatDynamicImages(DynamicBean dynamicBean) {
+        if (dynamicBean.getmSelectedImages().size() != 0){
+            ArrayList<String> images = new ArrayList<>();
+            for (String url:dynamicBean.getmSelectedImages()) {
+                if (url.startsWith("http")){
+                    SaveTasks.getInstance().getList().get(0).getSelectUrl().add(url);
+                }else {
+                    images.add(url);
+                }
+            }
+            if (images.size() > 0){
+                compressImage(images,PictureConfig.TYPE_IMAGE);
+            }else {
+                uploadPhotoDynamic(Constans.REPEAT_DYNAMIC,PictureConfig.TYPE_IMAGE,SaveTasks.getInstance().getList().get(0).getSelectUrl());
+            }
+        }else {
+            uploadPhotoDynamic(Constans.REPEAT_DYNAMIC,PictureConfig.TYPE_IMAGE,null);
+        }
     }
 
     /**
@@ -143,7 +179,44 @@ public class HomeActivity extends BaseActivity<IUploadDynamicView,
      * @param dynamicBean
      */
     private void editDynamic(DynamicBean dynamicBean) {
+        if (dynamicBean.getmSelectedImages().size() != 0) {
+            int pictureType = dynamicBean.getPicType();
+            if (pictureType == PictureConfig.TYPE_VIDEO){//视频
+                editDynamicVideo(dynamicBean);
+            }else {//图片
+                editDynamicImages(dynamicBean);
+            }
+        }else {
+            uploadPhotoDynamic(Constans.EDIT_DYNAMIC,PictureConfig.TYPE_IMAGE,null);
+        }
+    }
 
+    private void editDynamicImages(DynamicBean dynamicBean) {
+        if (dynamicBean.getmSelectedImages().size() != 0){
+            ArrayList<String> images = new ArrayList<>();
+            for (String url:dynamicBean.getmSelectedImages()) {
+                if (url.startsWith("http")){
+                    SaveTasks.getInstance().getList().get(0).getSelectUrl().add(url);
+                }else {
+                    images.add(url);
+                }
+            }
+            if (images.size() > 0){
+                compressImage(images,PictureConfig.TYPE_IMAGE);
+            }else {
+                uploadPhotoDynamic(Constans.EDIT_DYNAMIC,PictureConfig.TYPE_IMAGE,SaveTasks.getInstance().getList().get(0).getSelectUrl());
+            }
+        }else {
+            uploadPhotoDynamic(Constans.EDIT_DYNAMIC,PictureConfig.TYPE_IMAGE,null);
+        }
+    }
+
+    private void editDynamicVideo(DynamicBean dynamicBean) {
+        if (dynamicBean.getmSelectedImages().get(0).startsWith("http")){//网络视频
+            uploadPhotoDynamic(Constans.EDIT_DYNAMIC,PictureConfig.TYPE_VIDEO,dynamicBean.getSelectUrl());
+        }else {//本地视频
+            dynamicVideo(dynamicBean);
+        }
     }
 
     /**
@@ -154,17 +227,17 @@ public class HomeActivity extends BaseActivity<IUploadDynamicView,
         if (dynamicBean.getmSelectedImages().size() != 0) {
             int pictureType = dynamicBean.getPicType();
             if (pictureType == PictureConfig.TYPE_VIDEO){//视频
-                addDynamicVideo(dynamicBean);
+                dynamicVideo(dynamicBean);
             }else {//图片
                 addDynamicImages(dynamicBean);
             }
         }else {
-            uploadPhotoDynamic(PictureConfig.TYPE_IMAGE,null);
+            uploadPhotoDynamic(Constans.ADD_DYNAMIC,PictureConfig.TYPE_IMAGE,null);
         }
     }
 
 
-    private void uploadPhotoDynamic(int flag,ArrayList<String>selectUrl) {
+    private void uploadPhotoDynamic(int type,int flag,ArrayList<String>selectUrl) {
         DeviceProperties dr = DrUtils.getInstance();
         SharedPreferences sp =
                 SharedPreferencesUtils.getInstance();
@@ -208,11 +281,23 @@ public class HomeActivity extends BaseActivity<IUploadDynamicView,
         dynamic.setWidth(SaveTasks.getInstance().getList().get(0).getWidth());
         dynamic.setDynamicPhotos(dynamicPhotos);
         dynamic.setDynamicVideos(dynamicVideos);
+        if (SaveTasks.getInstance().getList().get(0).getDynamicId() != null){
+            dynamic.setId(SaveTasks.getInstance().getList().get(0).getDynamicId());
+        }
         NetRequestBean netRequestBean = new NetRequestBean();
         netRequestBean.setDeviceProperties(dr);
         netRequestBean.setDynamic(dynamic);
-        if (mPresenter != null){
-            mPresenter.dynamicUpload(netRequestBean);
+        if (mPresenter != null) {
+            if (type == Constans.ADD_DYNAMIC) {
+                mPresenter.dynamicUpload(netRequestBean);
+            } else if (type == Constans.EDIT_DYNAMIC) {
+                mPresenter.dynamicEdit(netRequestBean);
+            } else {
+                if (SaveTasks.getInstance().getList().get(0).getDynamicForward() != null){
+                    netRequestBean.setDynamicForward(SaveTasks.getInstance().getList().get(0).getDynamicForward());
+                }
+                mPresenter.dynamicRepeat(netRequestBean);
+            }
         }
     }
 
@@ -239,7 +324,7 @@ public class HomeActivity extends BaseActivity<IUploadDynamicView,
         }).start();
     }
 
-    private void addDynamicVideo(DynamicBean dynamicBean) {
+    private void dynamicVideo(DynamicBean dynamicBean) {
         Bitmap videoThumbnail = VideoUtils.getInstance().getVideoThumbnail(dynamicBean.getmSelectedImages().get(0));
         if (videoThumbnail != null) {
             String thumbPath = VideoUtils.getInstance().saveImage(videoThumbnail);
@@ -273,22 +358,26 @@ public class HomeActivity extends BaseActivity<IUploadDynamicView,
                 //当前任务传的是视频
                 if (selectUrl.size() == 2) {
                     if (list.get(0).getRequestType() == 1) {//新增
-                        uploadPhotoDynamic(PictureConfig.TYPE_VIDEO,selectUrl);
+                        uploadPhotoDynamic(Constans.ADD_DYNAMIC,PictureConfig.TYPE_VIDEO,selectUrl);
                     }else if (list.get(0).getRequestType() == 2) {//编辑
-
+                        uploadPhotoDynamic(Constans.EDIT_DYNAMIC,PictureConfig.TYPE_VIDEO,selectUrl);
                     }else if (list.get(0).getRequestType() == 3){//转发
-
+                        uploadPhotoDynamic(Constans.REPEAT_DYNAMIC,PictureConfig.TYPE_VIDEO,selectUrl);
                     }
                 }
             }else {//当前任务传的是图片
                 if (list.get(0).getRequestType() == 1) {//新增
                     if (selectUrl.size() == list.get(0).getmSelectedImages().size()){
-                        uploadPhotoDynamic(PictureConfig.TYPE_IMAGE,selectUrl);
+                        uploadPhotoDynamic(Constans.ADD_DYNAMIC,PictureConfig.TYPE_IMAGE,selectUrl);
                     }
                 }else if (list.get(0).getRequestType() == 2) {//编辑
-
+                    if (selectUrl.size() == list.get(0).getmSelectedImages().size()){
+                        uploadPhotoDynamic(Constans.EDIT_DYNAMIC,PictureConfig.TYPE_IMAGE,selectUrl);
+                    }
                 }else if (list.get(0).getRequestType() == 3){//转发
-
+                    if (selectUrl.size() == list.get(0).getmSelectedImages().size()){
+                        uploadPhotoDynamic(Constans.REPEAT_DYNAMIC,PictureConfig.TYPE_IMAGE,selectUrl);
+                    }
                 }
             }
         }
@@ -415,12 +504,12 @@ public class HomeActivity extends BaseActivity<IUploadDynamicView,
 
     @Override
     public void showEditDynamicResult(Result result) {
-
+        clearUtils();
     }
 
     @Override
     public void showRepeatDynamicResult(Result result) {
-
+        clearUtils();
     }
 
     public class ViewPagerAdapter extends FragmentPagerAdapter {
