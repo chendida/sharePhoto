@@ -1,7 +1,6 @@
 package com.zq.dynamicphoto.adapter;
 
 import android.app.Activity;
-import android.app.Dialog;
 import android.content.SharedPreferences;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
@@ -33,8 +32,7 @@ import butterknife.ButterKnife;
 /**
  * Created by Administrator on 2018/3/5.
  */
-public class FriendCircleAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
-        implements View.OnClickListener{
+public class FriendCircleAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>{
     private static final String TAG = "FriendCircleAdapter";
     private Activity mContext;
     private ArrayList<Moments> mList;
@@ -50,7 +48,6 @@ public class FriendCircleAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
     private int pagerCount = 1;
 
     private String etSearchContent;
-    Dialog dialogUtils;
 
     public int getPagerCount() {
         return pagerCount;
@@ -155,7 +152,7 @@ public class FriendCircleAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
 
     //自定义接口，用于回调按钮点击事件到Activity
     public interface MyClickListener {
-        public void clickListener(View v, int position);
+        public void clickListener(View v, Moments moments);
     }
 
     @Override
@@ -175,8 +172,8 @@ public class FriendCircleAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
         if (parent instanceof HeadViewHolder){
             final HeadViewHolder holder = (HeadViewHolder) parent;
             holder.bind();
-            holder.ivAddFriendCircle.setOnClickListener(this);
-            holder.layoutBg.setOnClickListener(this);
+            //holder.ivAddFriendCircle.setOnClickListener(this);
+            //holder.layoutBg.setOnClickListener(this);
             holder.layoutSearch.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
@@ -217,7 +214,9 @@ public class FriendCircleAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
                 @Override
                 public void onClick(View view) {
                     //删除朋友圈动态
-                    deleteFriendCircle(moments,position-1);
+                    mListener.clickListener(view,moments);
+                    mList.remove(position-1);
+                    notifyDataSetChanged();
                 }
             });
             holder.layoutArticle.setOnClickListener(new View.OnClickListener() {
@@ -298,10 +297,6 @@ public class FriendCircleAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
         return headCount + getBodySize();
     }
 
-    @Override
-    public void onClick(View view) {
-        mListener.clickListener(view, position);
-    }
 
     class FriendCircleViewHolder extends RecyclerView.ViewHolder {
         @BindView(R.id.tv_date)

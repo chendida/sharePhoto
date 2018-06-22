@@ -46,7 +46,8 @@ import butterknife.Unbinder;
  * 朋友圈
  */
 public class FriendCircleFragment extends BaseFragment<IFriendCircleView,
-        MomentOperatePresenter<IFriendCircleView>> implements IFriendCircleView,FriendCircleAdapter.MyClickListener{
+        MomentOperatePresenter<IFriendCircleView>> implements IFriendCircleView,
+        FriendCircleAdapter.MyClickListener{
     @BindView(R.id.rcl_friend_circle_list)
     RecyclerView rclFriendCircleList;
     @BindView(R.id.refreshLayout)
@@ -182,7 +183,26 @@ public class FriendCircleFragment extends BaseFragment<IFriendCircleView,
     }
 
     @Override
-    public void clickListener(View v, int position) {
+    public void clickListener(View v, Moments moments) {
+        switch (v.getId()){
+            case R.id.tv_delete:
+                deleteMoment(moments);
+                break;
+            case R.id.tv_edit:
 
+                break;
+        }
+    }
+
+    private void deleteMoment(Moments moments) {
+        DeviceProperties dr = DrUtils.getInstance();
+        Moments moment = new Moments();
+        moment.setId(moments.getId());
+        NetRequestBean netRequestBean = new NetRequestBean();
+        netRequestBean.setDeviceProperties(dr);
+        netRequestBean.setMoments(moment);
+        if (mPresenter != null){
+            mPresenter.deleteMoment(netRequestBean);
+        }
     }
 }

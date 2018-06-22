@@ -1,18 +1,12 @@
 package com.zq.dynamicphoto.fragment;
 
-import android.os.Bundle;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
-
 import com.zq.dynamicphoto.R;
 import com.zq.dynamicphoto.base.BaseFragment;
 import com.zq.dynamicphoto.base.BasePresenter;
 import com.zq.dynamicphoto.ui.SettingActivity;
 import com.zq.dynamicphoto.utils.MFGT;
-
 import butterknife.OnClick;
-
 /**
  * 我的
  */
