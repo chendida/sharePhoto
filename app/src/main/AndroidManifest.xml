@@ -53,7 +53,8 @@
         <activity android:name=".ui.AddPicActivity" />
         <activity android:name=".ui.AddLabelActivity" />
         <activity android:name=".ui.LabelManagerActivity" />
-        <activity android:name=".ui.EditDynamicActivity"></activity>
+        <activity android:name=".ui.EditDynamicActivity" />
+        <activity android:name=".ui.HtmlManagerActivity"></activity>
     </application>
 
 </manifest>

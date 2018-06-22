@@ -34,6 +34,7 @@ import com.zq.dynamicphoto.bean.DynamicVideo;
 import com.zq.dynamicphoto.bean.MessageEvent;
 import com.zq.dynamicphoto.common.Constans;
 import com.zq.dynamicphoto.utils.MFGT;
+import com.zq.dynamicphoto.utils.PermissionUtils;
 import com.zq.dynamicphoto.utils.PicSelectUtils;
 import com.zq.dynamicphoto.utils.SaveLabelUtils;
 import com.zq.dynamicphoto.utils.SharedPreferencesUtils;
@@ -244,7 +245,7 @@ public class EditDynamicActivity extends BaseActivity implements PicAdapter.AddP
     }
 
     @OnClick({R.id.layout_back, R.id.layout_article, R.id.layout_label, R.id.layout_who_can_see,
-            R.id.check_clause, R.id.tv_about_clause, R.id.btn_one_key_share
+             R.id.tv_about_clause, R.id.btn_one_key_share
             , R.id.layout_finish})
     public void onClicked(View view) {
         switch (view.getId()) {
@@ -265,8 +266,7 @@ public class EditDynamicActivity extends BaseActivity implements PicAdapter.AddP
                 MFGT.gotoAddLabelActivity(this);
                 break;
             case R.id.layout_who_can_see:
-                break;
-            case R.id.check_clause:
+                PermissionUtils.showSeePermissionSelectDialog(this,tvWhoCanSee);
                 break;
             case R.id.tv_about_clause:
                 break;
