@@ -237,7 +237,11 @@ public class AddPicActivity extends BaseActivity implements PicAdapter.AddPicLis
         }
         DynamicBean dynamicBean = new DynamicBean();
         dynamicBean.setRequestType(1);
-        dynamicBean.setPicType(PictureMimeType.isPictureType(mSelectedImages.get(0).getPictureType()));
+        if (mSelectedImages.size() > 0) {
+            dynamicBean.setPicType(PictureMimeType.isPictureType(mSelectedImages.get(0).getPictureType()));
+        }else {
+            dynamicBean.setPicType(PictureConfig.TYPE_IMAGE);
+        }
         dynamicBean.setmSelectedImages(images);
         dynamicBean.setContent(content);
         dynamicBean.setDynamicLabels(SaveLabelUtils.getInstance().getDynamicLabels());

@@ -158,6 +158,8 @@ public class HomeActivity extends BaseActivity<IUploadDynamicView,
             }else {//图片
                 addDynamicImages(dynamicBean);
             }
+        }else {
+            uploadPhotoDynamic(PictureConfig.TYPE_IMAGE,null);
         }
     }
 
@@ -175,12 +177,14 @@ public class HomeActivity extends BaseActivity<IUploadDynamicView,
         List<DynamicVideo> dynamicVideos = new ArrayList<>();
         dynamic.setDynamicType(flag);
         if (flag == PictureConfig.TYPE_IMAGE){
-            for (String url : selectUrl) {
-                DynamicPhoto dynamicPhoto = new DynamicPhoto();
-                dynamicPhoto.setThumbnailURL(url);
-                dynamicPhotos.add(dynamicPhoto);
+            if (selectUrl != null) {
+                for (String url : selectUrl) {
+                    DynamicPhoto dynamicPhoto = new DynamicPhoto();
+                    dynamicPhoto.setThumbnailURL(url);
+                    dynamicPhotos.add(dynamicPhoto);
+                }
+                selectUrl.clear();
             }
-            selectUrl.clear();
         }else if (flag == PictureConfig.TYPE_VIDEO){
             DynamicVideo dynamicVideo = new DynamicVideo();
             for (String url : selectUrl) {
@@ -268,19 +272,23 @@ public class HomeActivity extends BaseActivity<IUploadDynamicView,
             if (list.get(0).getPicType() == PictureConfig.TYPE_VIDEO){
                 //当前任务传的是视频
                 if (selectUrl.size() == 2) {
-                    if (list.get(0).getRequestType() == 1) {
+                    if (list.get(0).getRequestType() == 1) {//新增
                         uploadPhotoDynamic(PictureConfig.TYPE_VIDEO,selectUrl);
-                    } else if (list.get(0).getRequestType() == 2) {
-                        /*if (dynamic.getUserId().equals(userId)) {//本人修改动态
-                            editDynamicPhoto(dynamic);
-                        } else {
-                            repeatDynamic(dynamic);
-                        }*/
+                    }else if (list.get(0).getRequestType() == 2) {//编辑
+
+                    }else if (list.get(0).getRequestType() == 3){//转发
+
                     }
                 }
             }else {//当前任务传的是图片
-                if (selectUrl.size() == list.get(0).getmSelectedImages().size()){
-                    uploadPhotoDynamic(PictureConfig.TYPE_IMAGE,selectUrl);
+                if (list.get(0).getRequestType() == 1) {//新增
+                    if (selectUrl.size() == list.get(0).getmSelectedImages().size()){
+                        uploadPhotoDynamic(PictureConfig.TYPE_IMAGE,selectUrl);
+                    }
+                }else if (list.get(0).getRequestType() == 2) {//编辑
+
+                }else if (list.get(0).getRequestType() == 3){//转发
+
                 }
             }
         }

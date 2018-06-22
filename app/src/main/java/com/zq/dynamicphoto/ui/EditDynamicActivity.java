@@ -75,6 +75,7 @@ public class EditDynamicActivity extends BaseActivity implements PicAdapter.AddP
     private final int MIN_DELAY_TIME = 1000;  // 两次点击间隔不能少于500ms
     private long lastClickTime;
     private Integer userId;
+    private Dynamic dynamic;
 
     @Override
     protected int getLayoutId() {
@@ -85,7 +86,7 @@ public class EditDynamicActivity extends BaseActivity implements PicAdapter.AddP
     protected void initView() {
         SharedPreferences sp = SharedPreferencesUtils.getInstance();
         userId = sp.getInt(Constans.USERID, 0);
-        Dynamic dynamic = (Dynamic) getIntent().getSerializableExtra(Constans.DYNAMIC);
+        dynamic = (Dynamic) getIntent().getSerializableExtra(Constans.DYNAMIC);
         TitleUtils.setTitleBar(getResources().getString(R.string.edit_image_and_text), tvTitle, layoutBack, ivCamera, tvFinish);
         getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_HIDDEN);
         updateView(dynamic);
@@ -289,8 +290,20 @@ public class EditDynamicActivity extends BaseActivity implements PicAdapter.AddP
             images.add(localMedia.getPath());
         }
         DynamicBean dynamicBean = new DynamicBean();
-        dynamicBean.setRequestType(1);
-        dynamicBean.setPicType(PictureMimeType.isPictureType(mSelectedImages.get(0).getPictureType()));
+        if (dynamic.getUserId().equals(userId)){
+            dynamicBean.setRequestType(Constans.EDIT_DYNAMIC);
+        }else {
+            dynamicBean.setRequestType(Constans.REPEAT_DYNAMIC);
+        }
+        if (mSelectedImages.size() > 0) {
+            if (mSelectedImages.get(0).getPath().endsWith(".mp4")){
+                dynamicBean.setPicType(PictureConfig.TYPE_VIDEO);
+            }else {
+                dynamicBean.setPicType(PictureConfig.TYPE_IMAGE);
+            }
+        }else {
+            dynamicBean.setPicType(PictureConfig.TYPE_IMAGE);
+        }
         dynamicBean.setmSelectedImages(images);
         dynamicBean.setContent(content);
         dynamicBean.setDynamicLabels(SaveLabelUtils.getInstance().getDynamicLabels());
