@@ -107,14 +107,6 @@ public class HomeActivity extends BaseActivity<IUploadDynamicView,
             if (dynamic != null){
                 SaveTasks.getInstance().getList().add(dynamic);
                 startUpload();
-                //jobManager.addJobInBackground(new UploadDynamicJob(dynamicBean,mPresenter));
-                /*if (dynamicBean.getRequestType() == Constans.ADD_DYNAMIC){
-                    addDynamic(dynamicBean);
-                }else if (dynamicBean.getRequestType() == Constans.EDIT_DYNAMIC){
-                    editDynamic(dynamicBean);
-                }else if (dynamicBean.getRequestType() == Constans.REPEAT_DYNAMIC){
-                    repeatDynamic(dynamicBean);
-                }*/
             }else {
                 startUpload();
             }
@@ -128,7 +120,6 @@ public class HomeActivity extends BaseActivity<IUploadDynamicView,
                 setContinue(false);
                 DynamicBean dynamicBean = list.get(0);
                 if (dynamicBean.getRequestType() == Constans.ADD_DYNAMIC) {
-                    Log.i(TAG,"addDynamic");
                     addDynamic(dynamicBean);
                 } else if (dynamicBean.getRequestType() == Constans.EDIT_DYNAMIC) {
                     editDynamic(dynamicBean);
@@ -293,19 +284,6 @@ public class HomeActivity extends BaseActivity<IUploadDynamicView,
                 }
             }
         }
-        /*if (list.size() > 0) {
-            Log.i(TAG, list.get(0).getPicType() + "");
-            Log.i(TAG, list.get(0).getmSelectedImages().size() + "");
-            if (list.get(0).getmSelectedImages().size() == 2) {
-                try {
-                    list.remove(0);
-                    setContinue(true);
-                    onRun();
-                } catch (Throwable throwable) {
-                    throwable.printStackTrace();
-                }
-            }
-        }*/
     }
 
     private void clearUtils() {

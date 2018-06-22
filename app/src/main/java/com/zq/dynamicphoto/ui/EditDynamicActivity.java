@@ -3,6 +3,7 @@ package com.zq.dynamicphoto.ui;
 import android.content.ClipboardManager;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.util.Log;
@@ -24,12 +25,17 @@ import com.zq.dynamicphoto.R;
 import com.zq.dynamicphoto.adapter.PicAdapter;
 import com.zq.dynamicphoto.base.BaseActivity;
 import com.zq.dynamicphoto.base.BasePresenter;
+import com.zq.dynamicphoto.bean.Dynamic;
 import com.zq.dynamicphoto.bean.DynamicBean;
 import com.zq.dynamicphoto.bean.DynamicLabel;
+import com.zq.dynamicphoto.bean.DynamicPhoto;
+import com.zq.dynamicphoto.bean.DynamicVideo;
 import com.zq.dynamicphoto.bean.MessageEvent;
+import com.zq.dynamicphoto.common.Constans;
 import com.zq.dynamicphoto.utils.MFGT;
 import com.zq.dynamicphoto.utils.PicSelectUtils;
 import com.zq.dynamicphoto.utils.SaveLabelUtils;
+import com.zq.dynamicphoto.utils.SharedPreferencesUtils;
 import com.zq.dynamicphoto.utils.SoftUtils;
 import com.zq.dynamicphoto.utils.TitleUtils;
 
@@ -43,26 +49,24 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
+public class EditDynamicActivity extends BaseActivity implements PicAdapter.AddPicListener {
 
-public class AddPicActivity extends BaseActivity implements PicAdapter.AddPicListener {
-    private static final String TAG = "AddPicActivity";
-    @BindView(R.id.layout_article)
-    AutoRelativeLayout layoutArticle;
-    @BindView(R.id.id_grid_view_commit_answers)
-    GridView mGridView;
     @BindView(R.id.layout_back)
     AutoRelativeLayout layoutBack;
     @BindView(R.id.tv_title)
     TextView tvTitle;
-
-    @BindView(R.id.et_description_content)
-    EditText etDescriptionContent;
     @BindView(R.id.tv_label)
     TextView tvLabel;
+    @BindView(R.id.layout_article)
+    AutoRelativeLayout layoutArticle;
     @BindView(R.id.tv_finish)
     TextView tvFinish;
     @BindView(R.id.iv_camera)
     ImageView ivCamera;
+    @BindView(R.id.et_description_content)
+    EditText etDescriptionContent;
+    @BindView(R.id.id_grid_view_commit_answers)
+    GridView mGridView;
     @BindView(R.id.check_clause)
     CheckBox checkClause;
     @BindView(R.id.tv_who_can_see)
@@ -70,6 +74,7 @@ public class AddPicActivity extends BaseActivity implements PicAdapter.AddPicLis
     private PicAdapter mAdapter;
     private final int MIN_DELAY_TIME = 1000;  // 两次点击间隔不能少于500ms
     private long lastClickTime;
+    private Integer userId;
 
     @Override
     protected int getLayoutId() {
@@ -78,14 +83,61 @@ public class AddPicActivity extends BaseActivity implements PicAdapter.AddPicLis
 
     @Override
     protected void initView() {
-        TitleUtils.setTitleBar(getResources().getString(R.string.publish_image_and_text), tvTitle, layoutBack, ivCamera, tvFinish);
+        SharedPreferences sp = SharedPreferencesUtils.getInstance();
+        userId = sp.getInt(Constans.USERID, 0);
+        Dynamic dynamic = (Dynamic) getIntent().getSerializableExtra(Constans.DYNAMIC);
+        TitleUtils.setTitleBar(getResources().getString(R.string.edit_image_and_text), tvTitle, layoutBack, ivCamera, tvFinish);
         getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_HIDDEN);
-        ArrayList<LocalMedia> mSelectedImages = new ArrayList<>();
-        mSelectedImages.clear();
-        mAdapter = new PicAdapter(AddPicActivity.this, mSelectedImages, this);
-        mGridView.setAdapter(mAdapter);
-
+        updateView(dynamic);
         initListener();
+    }
+
+    private void updateView(Dynamic dynamic) {
+        ArrayList<LocalMedia> mSelectedImages = new ArrayList<>();
+        mAdapter = new PicAdapter(this, mSelectedImages, this);
+        if (dynamic != null){
+            etDescriptionContent.setText(dynamic.getContent());
+            if (dynamic.getIsOpen() != null) {
+                if (dynamic.getUserId().equals(userId)) {
+                    if (dynamic.getIsOpen() == 1) {
+                        tvWhoCanSee.setText(getResources().getString(R.string.everyone_can_see));
+                    } else {
+                        tvWhoCanSee.setText(getResources().getString(R.string.one_can_see));
+                    }
+                }
+            }
+            if (dynamic.getDynamicLabels() != null) {
+                SaveLabelUtils.getInstance().getDynamicLabels().clear();
+                if (dynamic.getUserId().equals(userId)) {
+                    if (dynamic.getDynamicLabels().size() != 0) {
+                        SaveLabelUtils.getInstance().getDynamicLabels().addAll(dynamic.getDynamicLabels());
+                    }
+                }
+            }
+            if (dynamic.getDynamicType() == PictureConfig.TYPE_VIDEO){//视频
+                if (dynamic.getDynamicVideos() != null) {
+                    if (dynamic.getDynamicVideos().size() != 0) {
+                        for (DynamicVideo dynamicVideo : dynamic.getDynamicVideos()) {
+                            LocalMedia localMedia = new LocalMedia();
+                            localMedia.setPath(dynamicVideo.getVideoURL());
+                            mSelectedImages.add(localMedia);
+                        }
+                    }
+                }
+            }else{//图文
+                if (dynamic.getDynamicPhotos() != null) {
+                    if (dynamic.getDynamicPhotos().size() != 0) {
+                        for (DynamicPhoto dynamicPhoto : dynamic.getDynamicPhotos()) {
+                            LocalMedia localMedia = new LocalMedia();
+                            localMedia.setPath(dynamicPhoto.getThumbnailURL());
+                            mSelectedImages.add(localMedia);
+                        }
+                    }
+                }
+            }
+        }
+        mGridView.setAdapter(mAdapter);
+        mAdapter.notifyDataSetChanged();
     }
 
     private void initListener() {
@@ -96,17 +148,17 @@ public class AddPicActivity extends BaseActivity implements PicAdapter.AddPicLis
                     ClipboardManager cm = (ClipboardManager) getSystemService(Context.CLIPBOARD_SERVICE);
                     // 将文本内容放到系统剪贴板里。
                     cm.setText(etDescriptionContent.getText());
-                    Toast.makeText(AddPicActivity.this, "文本已复制到粘贴板", Toast.LENGTH_LONG).show();
+                    Toast.makeText(EditDynamicActivity.this, "文本已复制到粘贴板", Toast.LENGTH_LONG).show();
                 }
                 return false;
             }
         });
     }
 
+
     @Override
     protected void initData() {
         EventBus.getDefault().register(this);
-        SaveLabelUtils.getInstance().getDynamicLabels().clear();
     }
 
     @Subscribe(threadMode = ThreadMode.MAIN)
@@ -175,6 +227,7 @@ public class AddPicActivity extends BaseActivity implements PicAdapter.AddPicLis
     @Override
     protected void onDestroy() {
         super.onDestroy();
+        SaveLabelUtils.getInstance().getDynamicLabels().clear();
         EventBus.getDefault().unregister(this);
     }
 

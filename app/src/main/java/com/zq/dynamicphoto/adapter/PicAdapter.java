@@ -1,6 +1,7 @@
 package com.zq.dynamicphoto.adapter;
 
 import android.content.Context;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -117,6 +118,9 @@ public class PicAdapter extends BaseAdapter {
 
     private void showPic(int position,PicViewHolder holder) {
         int pictureType = PictureMimeType.isPictureType(mList.get(position).getPictureType());
+        if (mList.get(position).getPath().endsWith(".mp4")){
+            pictureType = PictureConfig.TYPE_VIDEO;
+        }
         holder.ivVideoFlag.setVisibility(pictureType == PictureConfig.TYPE_VIDEO
                 ? View.VISIBLE : View.GONE);
         ImageLoaderUtils.displayImg(holder.ivItemImageView,mList.get(position).getPath());

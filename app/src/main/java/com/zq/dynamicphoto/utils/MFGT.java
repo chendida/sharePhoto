@@ -1,10 +1,14 @@
 package com.zq.dynamicphoto.utils;
 
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
 
+import com.zq.dynamicphoto.bean.Dynamic;
+import com.zq.dynamicphoto.common.Constans;
 import com.zq.dynamicphoto.ui.AddLabelActivity;
 import com.zq.dynamicphoto.ui.AddPicActivity;
+import com.zq.dynamicphoto.ui.EditDynamicActivity;
 import com.zq.dynamicphoto.ui.LabelManagerActivity;
 
 /**
@@ -27,5 +31,10 @@ public class MFGT {
 
     public static void gotoLabelManagerActivity(Activity activity) {
         activity.startActivity(new Intent(activity, LabelManagerActivity.class));
+    }
+
+    public static void gotoEditDynamicActivity(Context context,Dynamic dynamic) {
+        context.startActivity(new Intent(context, EditDynamicActivity.class)
+        .putExtra(Constans.DYNAMIC,dynamic));
     }
 }

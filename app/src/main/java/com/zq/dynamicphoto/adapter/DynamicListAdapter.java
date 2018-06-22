@@ -23,6 +23,7 @@ import com.zq.dynamicphoto.bean.DynamicVideo;
 import com.zq.dynamicphoto.bean.NetRequestBean;
 import com.zq.dynamicphoto.ui.widge.NineGridImageLayout;
 import com.zq.dynamicphoto.utils.ImageLoaderUtils;
+import com.zq.dynamicphoto.utils.MFGT;
 import com.zq.dynamicphoto.utils.SharedPreferencesUtils;
 
 import java.util.ArrayList;
@@ -108,16 +109,6 @@ public class DynamicListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
         if (parent instanceof HeadViewHolder){
             HeadViewHolder holder = (HeadViewHolder) parent;
             holder.bind(position);
-            /*holder.layoutSearch.setOnClickListener(this);
-            holder.layoutBg.setOnClickListener(this);
-            holder.layoutShareMyPhoto.setOnClickListener(this);
-            holder.ivMyAvatar.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    mActivity.startActivity(new Intent(mActivity, MyPhotoActivity.class)
-                            .putExtra("userId",userId));
-                }
-            });*/
         }else if (parent instanceof DynamicViewHolder){
             DynamicViewHolder holder = (DynamicViewHolder) parent;
             final Dynamic dynamic = mList.get(position - 1);
@@ -140,6 +131,12 @@ public class DynamicListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
                     netRequestBean.setDeviceProperties(dr);
                     netRequestBean.setDynamic(dynamic);
                     mListener.clickListener(v,position - 1,netRequestBean);
+                }
+            });
+            holder.tvEdit.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    MFGT.gotoEditDynamicActivity(mContext,dynamic);
                 }
             });
         }

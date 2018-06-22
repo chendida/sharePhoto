@@ -25,6 +25,7 @@ public class Constans {
     public static String ISBIND = "isBind";
     public static String ISLOGIN = "isLogin";
     public static String UNIONID = "unionId";
+    public static String DYNAMIC = "dynamic";
 
     public static Integer REQUEST_OK = 0;
     public static Integer REQUEST_LOIGN_ERROR = -4;//登录时手机号或密码错误
