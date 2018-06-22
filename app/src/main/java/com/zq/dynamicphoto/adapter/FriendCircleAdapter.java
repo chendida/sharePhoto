@@ -105,6 +105,12 @@ public class FriendCircleAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
         if (parent instanceof HeadViewHolder){
             final HeadViewHolder holder = (HeadViewHolder) parent;
             holder.bind();
+            holder.ivAddFriendCircle.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    mListener.clickListener(v,null);
+                }
+            });
             holder.layoutSearch.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {

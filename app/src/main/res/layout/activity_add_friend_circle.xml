@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.zhy.autolayout.AutoRelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/colorBackground"
+    android:orientation="vertical"
+    >
+    <com.zhy.autolayout.AutoRelativeLayout
+        android:id="@+id/layout_head"
+        android:layout_width="match_parent"
+        android:layout_height="96px"
+        android:background="@color/layout_head_bg"
+        >
+        <com.zhy.autolayout.AutoRelativeLayout
+            android:id="@+id/layout_cancel"
+            android:layout_width="150px"
+            android:layout_height="match_parent">
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="32px"
+                android:textColor="@color/tv_text_color1"
+                android:text="@string/cancel"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="30px"/>
+        </com.zhy.autolayout.AutoRelativeLayout>
+
+        <com.zhy.autolayout.AutoRelativeLayout
+            android:layout_alignParentRight="true"
+            android:id="@+id/layout_finish"
+            android:layout_width="150px"
+            android:layout_height="match_parent">
+            <TextView
+                android:layout_alignParentRight="true"
+                android:layout_marginRight="30px"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="32px"
+                android:textColor="@color/btn_login_bg_color"
+                android:text="@string/finish"
+                android:layout_centerVertical="true"
+                />
+        </com.zhy.autolayout.AutoRelativeLayout>
+    </com.zhy.autolayout.AutoRelativeLayout>
+
+    <android.support.v4.widget.NestedScrollView
+        android:layout_below="@+id/layout_head"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+        <com.zhy.autolayout.AutoRelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            >
+            <include
+                android:id="@+id/layout_head_circle"
+                layout="@layout/layout_add_friend_circle_head"/>
+            <android.support.v7.widget.RecyclerView
+                android:layout_below="@+id/layout_head_circle"
+                android:id="@+id/rcl_dynamic_list"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"/>
+        </com.zhy.autolayout.AutoRelativeLayout>
+    </android.support.v4.widget.NestedScrollView>
+</com.zhy.autolayout.AutoRelativeLayout>

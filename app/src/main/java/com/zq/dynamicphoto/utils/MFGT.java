@@ -3,9 +3,11 @@ package com.zq.dynamicphoto.utils;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.support.v4.app.FragmentActivity;
 
 import com.zq.dynamicphoto.bean.Dynamic;
 import com.zq.dynamicphoto.common.Constans;
+import com.zq.dynamicphoto.ui.AddFriendCircleActivity;
 import com.zq.dynamicphoto.ui.AddLabelActivity;
 import com.zq.dynamicphoto.ui.AddPicActivity;
 import com.zq.dynamicphoto.ui.EditDynamicActivity;
@@ -43,5 +45,9 @@ public class MFGT {
         activity.startActivity(new Intent(activity, HtmlManagerActivity.class)
         .putExtra(Constans.HTML,agreement)
         .putExtra(Constans.HTML_TITLE,title));
+    }
+
+    public static void gotoAddFriendCircleActivity(Activity activity) {
+        activity.startActivity(new Intent(activity, AddFriendCircleActivity.class));
     }
 }

@@ -201,6 +201,9 @@ public class FriendCircleFragment extends BaseFragment<IFriendCircleView,
                 pager = 1;
                 getFriendCircleList(pager);
                 break;
+            case R.id.iv_add_friend_circle:
+                MFGT.gotoAddFriendCircleActivity(getActivity());
+                break;
         }
     }
 

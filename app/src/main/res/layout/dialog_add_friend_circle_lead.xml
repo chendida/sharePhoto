@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.zhy.autolayout.AutoRelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@android:color/transparent"
+    >
+    <ImageView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:src="@drawable/add_friend_circle_lead1"
+        android:layout_marginTop="80px"
+        android:id="@+id/iv_lead1"/>
+    <ImageView
+        android:layout_below="@+id/iv_lead1"
+        android:layout_marginTop="385px"
+        android:id="@+id/iv_lead2"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:src="@drawable/add_friend_cirlce_lead2"
+        />
+    <com.zhy.autolayout.AutoRelativeLayout
+        android:id="@+id/btn_i_know"
+        android:layout_below="@+id/iv_lead2"
+        android:layout_width="600px"
+        android:layout_height="80px"
+        android:layout_marginTop="95px"
+        android:layout_centerHorizontal="true"
+        android:background="@drawable/i_know"
+        >
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="28px"
+            android:textColor="@color/white"
+            android:layout_centerInParent="true"
+            android:text="@string/i_know"/>
+    </com.zhy.autolayout.AutoRelativeLayout>
+</com.zhy.autolayout.AutoRelativeLayout>

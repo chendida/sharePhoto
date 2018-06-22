@@ -86,4 +86,10 @@
     <string name="all_num">总数</string>
     <string name="tv_today">今天</string>
     <string name="tv_friend_circle_details">朋友圈详情</string>
+    <string name="finish">完成</string>
+    <string name="i_know">我知道啦</string>
+    <string name="please_input_content">请输入朋友圈内容</string>
+    <string name="onclick_update_pic_bg">点击更换封面</string>
+    <string name="our_label">个性签名</string>
+    <string name="please_input_title">请输入朋友圈标题</string>
 </resources>
