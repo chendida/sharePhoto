@@ -68,6 +68,11 @@ public class HomePageFragment extends BaseFragment {
     }
 
     @Override
+    protected void loadData() {
+
+    }
+
+    @Override
     public void onDestroyView() {
         super.onDestroyView();
         mFragments.clear();

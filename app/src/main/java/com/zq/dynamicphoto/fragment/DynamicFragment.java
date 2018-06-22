@@ -45,6 +45,7 @@ public class DynamicFragment extends BaseFragment<IDynamicView,DynamicLoadPresen
     int pagerCount = 1;//总页码数
     ArrayList<Dynamic> dynamicsList;
     DynamicListAdapter mAdapter;
+
     @Override
     protected int getLayoutId() {
         return R.layout.fragment_dynamic;
@@ -96,12 +97,16 @@ public class DynamicFragment extends BaseFragment<IDynamicView,DynamicLoadPresen
 
     @Override
     protected void initData() {
-        getDynamicList(pager);
     }
 
     @Override
     protected DynamicLoadPresenter<IDynamicView> createPresenter() {
         return new DynamicLoadPresenter<>();
+    }
+
+    @Override
+    protected void loadData() {
+        getDynamicList(pager);
     }
 
     @Override

@@ -29,4 +29,9 @@ public class LiveFragment extends BaseFragment {
         return null;
     }
 
+    @Override
+    protected void loadData() {
+
+    }
+
 }

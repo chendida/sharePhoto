@@ -19,6 +19,16 @@ public class NetRequestBean {
 
     private DynamicForward dynamicForward;
 
+    private Moments moments;
+
+    public Moments getMoments() {
+        return moments;
+    }
+
+    public void setMoments(Moments moments) {
+        this.moments = moments;
+    }
+
     public DynamicForward getDynamicForward() {
         return dynamicForward;
     }

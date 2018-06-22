@@ -35,4 +35,9 @@ public class LiveListFragment extends BaseFragment {
     protected BasePresenter createPresenter() {
         return null;
     }
+
+    @Override
+    protected void loadData() {
+
+    }
 }
