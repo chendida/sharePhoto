@@ -11,21 +11,15 @@ import android.view.inputmethod.EditorInfo;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
-import com.google.gson.Gson;
-import com.google.gson.reflect.TypeToken;
 import com.zhy.autolayout.AutoRelativeLayout;
 import com.zq.dynamicphoto.R;
 import com.zq.dynamicphoto.bean.Moments;
-import com.zq.dynamicphoto.bean.Result;
 import com.zq.dynamicphoto.bean.UserInfo;
 import com.zq.dynamicphoto.common.Constans;
 import com.zq.dynamicphoto.utils.ImageLoaderUtils;
 import com.zq.dynamicphoto.utils.SharedPreferencesUtils;
 import com.zq.dynamicphoto.utils.SoftUtils;
-import org.json.JSONException;
-import org.json.JSONObject;
 import java.util.ArrayList;
-import java.util.List;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
@@ -39,31 +33,12 @@ public class FriendCircleAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
     private MyClickListener mListener;
     private UserInfo userInfo;
     private String userLogo, realName,bgUrl;
-    int position = 0;
 
     private static final int HEAD_TYPE = 00001;
     private static final int BODY_TYPE = 00002;
     private int headCount = 1;//头部个数，后续可以自己拓展
     private Activity mActivity;
-    private int pagerCount = 1;
-
     private String etSearchContent;
-
-    public int getPagerCount() {
-        return pagerCount;
-    }
-
-    public void setPagerCount(int pagerCount) {
-        this.pagerCount = pagerCount;
-    }
-
-    public String getEtSearchContent() {
-        return etSearchContent;
-    }
-
-    public void setEtSearchContent(String etSearchContent) {
-        this.etSearchContent = etSearchContent;
-    }
 
     public FriendCircleAdapter(Activity mContext, ArrayList<Moments> mList,
                                MyClickListener listener, Activity activity) {
@@ -99,56 +74,14 @@ public class FriendCircleAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
         return mList;
     }
 
-    public void getSearchList(String title) {
-        /*setEtSearchContent(title);
-        dialogUtils = LoadDialogUtils.createLoadingDialog();
-        //dialogUtils.buildProgressDialog(mActivity);
-        final DeviceProperties dr = DrUtils.getInstance(mActivity);
-        SharedPreferences sp =
-                SharedPreferencesUtils.getInstace(mActivity);
-        int userId = sp.getInt("userId", 0);
-        Moments moments = new Moments();
-        moments.setUserId(userId);
-        moments.setPage(1);
-        moments.setTitle(title);
-        NetRequestBean netRequestBean = new NetRequestBean();
-        netRequestBean.setDeviceProperties(dr);
-        netRequestBean.setMoments(moments);
-        ApiInterface apiInterface = RetrofitUtirls.getInstance().getApiInterface();
-        Call<Result> call = apiInterface.getFriendCircleList(netRequestBean);
-        call.enqueue(new Callback<Result>() {
-            @Override
-            public void onResponse(Call<Result> call, Response<Result> response) {
-                hideDialog();
-                Result result = response.body();
-                if (result != null) {
-                    if (result.getResultCode() == 0) {
-                        dealResult(result);
-                    } else {
-                        Toast.makeText(mActivity, result.getResultInfo(), Toast.LENGTH_SHORT).show();
-                    }
-                }
-            }
-
-            @Override
-            public void onFailure(Call<Result> call, Throwable t) {
-                hideDialog();
-            }
-        });*/
+    public void setEtSearchContent(String etSearchContent) {
+        this.etSearchContent = etSearchContent;
     }
 
-    private void dealResult(Result result) {
-        try {
-            JSONObject jsonObject = new JSONObject(result.getData());
-            pagerCount = jsonObject.optInt("pageCount", 1);
-            setPagerCount(pagerCount);
-            mList = new Gson().fromJson(jsonObject.optString("momentsList"), new TypeToken<List<Moments>>() {
-            }.getType());
-            notifyDataSetChanged();
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
+    public String getEtSearchContent() {
+        return etSearchContent;
     }
+
 
     //自定义接口，用于回调按钮点击事件到Activity
     public interface MyClickListener {
@@ -172,8 +105,6 @@ public class FriendCircleAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
         if (parent instanceof HeadViewHolder){
             final HeadViewHolder holder = (HeadViewHolder) parent;
             holder.bind();
-            //holder.ivAddFriendCircle.setOnClickListener(this);
-            //holder.layoutBg.setOnClickListener(this);
             holder.layoutSearch.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
@@ -187,7 +118,6 @@ public class FriendCircleAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
                 @Override
                 public void onClick(View view) {
                     holder.etSearch.setText(null);
-                    setEtSearchContent("");
                 }
             });
 
@@ -199,7 +129,8 @@ public class FriendCircleAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
                 public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
                     if (actionId == EditorInfo.IME_ACTION_SEARCH) {
                         SoftUtils.softShow(mActivity);
-                        getSearchList(holder.etSearch.getText().toString());
+                        setEtSearchContent(holder.etSearch.getText().toString());
+                        mListener.clickListener(holder.etSearch,null);
                         return true;
                     }
                     return false;
@@ -222,15 +153,13 @@ public class FriendCircleAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
             holder.layoutArticle.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    /*mContext.startActivity(new Intent(mContext, FriendCircleDetailsActivity.class)
-                            .putExtra("moments", moments));*/
+                    mListener.clickListener(view,moments);
                 }
             });
             holder.tvEdit.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    /*mContext.startActivity(new Intent(mContext, EditFriendCircleActivity.class)
-                            .putExtra("moments", moments));*/
+                    mListener.clickListener(view,moments);
                 }
             });
             holder.layoutOneKeyShare.setOnClickListener(new View.OnClickListener() {
@@ -257,39 +186,6 @@ public class FriendCircleAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
                 }
             }
         }).show();*/
-    }
-
-    private void deleteFriendCircle(Moments moment, final int position) {
-        /*dialogUtils = LoadDialogUtils.createLoadingDialog();
-        final DeviceProperties dr = DrUtils.getInstance(mContext);
-        Moments moments = new Moments();
-        moments.setId(moment.getId());
-        NetRequestBean netRequestBean = new NetRequestBean();
-        netRequestBean.setDeviceProperties(dr);
-        netRequestBean.setMoments(moments);
-        ApiInterface apiInterface = RetrofitUtirls.getInstance().getApiInterface();
-        Call<Result> call = apiInterface.deleteFriendCircle(netRequestBean);
-        call.enqueue(new Callback<Result>() {
-            @Override
-            public void onResponse(Call<Result> call, Response<Result> response) {
-                hideDialog();
-                Result result = response.body();
-                if (result != null) {
-                    if (result.getResultCode() == 0) {
-                        Toast.makeText(mContext, "删除成功", Toast.LENGTH_SHORT).show();
-                        mList.remove(position);
-                        notifyDataSetChanged();
-                    } else {
-                        Toast.makeText(mContext, result.getResultInfo(), Toast.LENGTH_SHORT).show();
-                    }
-                }
-            }
-
-            @Override
-            public void onFailure(Call<Result> call, Throwable t) {
-                hideDialog();
-            }
-        });*/
     }
 
     @Override
@@ -321,7 +217,7 @@ public class FriendCircleAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
             ButterKnife.bind(this, view);
         }
 
-        public void bind(int position) {
+        private void bind(int position) {
             Moments moments = mList.get(position);
             if (moments != null) {
                 if (!TextUtils.isEmpty(moments.getCreateTime())) {
@@ -346,10 +242,6 @@ public class FriendCircleAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
     public void initMomentsList(ArrayList<Moments> dynamicList) {
         this.mList.clear();
         addMomentsList(dynamicList);
-    }
-
-    public UserInfo getUserInfo() {
-        return userInfo;
     }
 
     public void setUserInfo(UserInfo userInfo) {

@@ -9,6 +9,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.EditText;
 import android.widget.Toast;
 
 import com.blankj.utilcode.util.ToastUtils;
@@ -29,6 +30,7 @@ import com.zq.dynamicphoto.bean.Result;
 import com.zq.dynamicphoto.bean.UserInfo;
 import com.zq.dynamicphoto.common.Constans;
 import com.zq.dynamicphoto.presenter.MomentOperatePresenter;
+import com.zq.dynamicphoto.utils.MFGT;
 import com.zq.dynamicphoto.utils.SharedPreferencesUtils;
 import com.zq.dynamicphoto.view.IFriendCircleView;
 
@@ -190,6 +192,14 @@ public class FriendCircleFragment extends BaseFragment<IFriendCircleView,
                 break;
             case R.id.tv_edit:
 
+                break;
+            case R.id.layout_article:
+                MFGT.gotoHtmlManagerActivity(getActivity(),"moments.html?id="+moments.getId(),
+                        getResources().getString(R.string.tv_friend_circle_details));
+                break;
+            case R.id.et_search:
+                pager = 1;
+                getFriendCircleList(pager);
                 break;
         }
     }
