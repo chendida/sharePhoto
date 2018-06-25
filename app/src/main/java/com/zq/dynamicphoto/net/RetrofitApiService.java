@@ -147,4 +147,12 @@ public interface RetrofitApiService {
      */
     @POST("sdkData.shtml?requestId=8&a=0&b=0")
     Observable<Result> deleteFriendCircle(@Body NetRequestBean netRequestBean);
+
+    /**
+     * 获取动态列表
+     * @param netRequestBean
+     * @return
+     */
+    @POST("sdkData.shtml?requestId=25&a=0&b=0")
+    Observable<Result> getDynamicList(@Body NetRequestBean netRequestBean);
 }

@@ -94,4 +94,5 @@
     <string name="please_input_title">请输入朋友圈标题</string>
     <string name="filter">筛选</string>
     <string name="tv_select_dynamic">选择动态</string>
+    <string name="tv_no_more_data">没有更多数据</string>
 </resources>

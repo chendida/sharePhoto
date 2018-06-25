@@ -1,5 +1,6 @@
 package com.zq.dynamicphoto.ui.widge;
 
+import android.app.Activity;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -16,10 +17,14 @@ import com.bumptech.glide.request.RequestOptions;
 import com.bumptech.glide.request.target.SimpleTarget;
 import com.bumptech.glide.request.target.ViewTarget;
 import com.bumptech.glide.request.transition.Transition;
+import com.luck.picture.lib.PictureSelector;
+import com.luck.picture.lib.entity.LocalMedia;
 import com.zq.dynamicphoto.R;
 import com.zq.dynamicphoto.utils.ImageLoaderUtils;
 import com.zq.dynamicphoto.utils.ImageUtil;
+import com.zq.dynamicphoto.utils.PicSelectUtils;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -112,7 +117,14 @@ public class NineGridImageLayout extends NineGridLayout {
 
     @Override
     protected void onClickImage(int i, String url, List<String> urlList) {
+        ArrayList<LocalMedia> list = new ArrayList<>();
+        for (String pic:urlList) {
+            LocalMedia media = new LocalMedia();
+            media.setPath(pic);
+            list.add(media);
+        }
+        PicSelectUtils.getInstance().preview(i,list,mContext);
         Log.i("url","url = "+url);
-        Toast.makeText(mContext, "点击了图片" + url, Toast.LENGTH_SHORT).show();
+        //Toast.makeText(mContext, "点击了图片" + url, Toast.LENGTH_SHORT).show();
     }
 }

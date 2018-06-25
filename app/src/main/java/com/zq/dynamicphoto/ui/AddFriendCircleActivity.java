@@ -17,6 +17,7 @@ import com.zq.dynamicphoto.base.BaseActivity;
 import com.zq.dynamicphoto.base.BasePresenter;
 import com.zq.dynamicphoto.common.Constans;
 import com.zq.dynamicphoto.utils.ImageLoaderUtils;
+import com.zq.dynamicphoto.utils.MFGT;
 import com.zq.dynamicphoto.utils.PicSelectUtils;
 import com.zq.dynamicphoto.utils.SharedPreferencesUtils;
 
@@ -93,7 +94,7 @@ public class AddFriendCircleActivity extends BaseActivity {
                 PicSelectUtils.getInstance().gotoSelectPic(this, 1);
                 break;
             case R.id.iv_add_dynamic:
-
+                MFGT.gotoDynamicSelectActivity(this);
                 break;
         }
     }

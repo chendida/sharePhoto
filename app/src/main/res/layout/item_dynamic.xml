@@ -24,6 +24,7 @@
             android:layout_toRightOf="@+id/layout_select"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
             android:layout_marginRight="48px">
             <TextView
                 android:id="@+id/tv_article"
@@ -39,9 +40,8 @@
                 android:id="@+id/rcl_dynamic_pic_list"
                 android:layout_below="@+id/tv_article"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_marginTop="10px"
-                android:orientation="horizontal"/>
+                android:layout_height="wrap_content"
+                />
         </com.zhy.autolayout.AutoRelativeLayout>
         <TextView
             android:layout_alignParentBottom="true"

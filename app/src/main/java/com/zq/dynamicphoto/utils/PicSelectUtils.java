@@ -2,6 +2,8 @@ package com.zq.dynamicphoto.utils;
 
 import android.app.Activity;
 import android.app.Dialog;
+import android.content.Context;
+
 import com.luck.picture.lib.PictureSelector;
 import com.luck.picture.lib.config.PictureConfig;
 import com.luck.picture.lib.config.PictureMimeType;
@@ -61,15 +63,12 @@ public class PicSelectUtils {
     /**
      * 预览
      */
-    public void preview(int position, ArrayList<LocalMedia>mSelectedImages, Activity activity) {
+    public void preview(int position, ArrayList<LocalMedia>mSelectedImages, Context activity) {
         LocalMedia media = mSelectedImages.get(position);
-        String pictureType = media.getPictureType();
-        int mediaType = PictureMimeType.pictureToVideo(pictureType);
-        // 跳转到预览界面
-        if (mediaType == PictureConfig.TYPE_IMAGE) {
-            PictureSelector.create(activity).externalPicturePreview(position, mSelectedImages);
-        } else if (mediaType == PictureConfig.TYPE_VIDEO) {
-            PictureSelector.create(activity).externalPictureVideo(mSelectedImages.get(position).getPath());
+        if (media.getPath().endsWith(".mp4")){
+            PictureSelector.create((Activity) activity).externalPictureVideo(mSelectedImages.get(position).getPath());
+        }else {
+            PictureSelector.create((Activity) activity).externalPicturePreview(position, mSelectedImages);
         }
     }
 

@@ -10,6 +10,7 @@ import com.zq.dynamicphoto.common.Constans;
 import com.zq.dynamicphoto.ui.AddFriendCircleActivity;
 import com.zq.dynamicphoto.ui.AddLabelActivity;
 import com.zq.dynamicphoto.ui.AddPicActivity;
+import com.zq.dynamicphoto.ui.DynamicSelectActivity;
 import com.zq.dynamicphoto.ui.EditDynamicActivity;
 import com.zq.dynamicphoto.ui.HtmlManagerActivity;
 import com.zq.dynamicphoto.ui.LabelManagerActivity;
@@ -49,5 +50,9 @@ public class MFGT {
 
     public static void gotoAddFriendCircleActivity(Activity activity) {
         activity.startActivity(new Intent(activity, AddFriendCircleActivity.class));
+    }
+
+    public static void gotoDynamicSelectActivity(Activity activity) {
+        activity.startActivity(new Intent(activity, DynamicSelectActivity.class));
     }
 }

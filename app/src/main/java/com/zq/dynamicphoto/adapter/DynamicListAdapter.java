@@ -239,7 +239,7 @@ public class DynamicListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
                             layoutNineImage.setVisibility(View.VISIBLE);
                             ArrayList<String> imageUrls = new ArrayList<>();
                             for (DynamicVideo video : dynamic.getDynamicVideos()) {
-                                imageUrls.add(video.getVideoCover());
+                                imageUrls.add(video.getVideoURL());
                             }
                             layoutNineGrid.setUrlList(imageUrls, true);
                             ivIconPlay.setVisibility(View.VISIBLE);

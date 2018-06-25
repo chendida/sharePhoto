@@ -98,4 +98,8 @@ public class DataManager {
     public Observable<Result> deleteFriendCircleItem(NetRequestBean netRequestBean){
         return mRetrofitService.deleteFriendCircle(netRequestBean);
     }
+
+    public Observable<Result> getDynamicSelectList(NetRequestBean netRequestBean){
+        return mRetrofitService.getDynamicList(netRequestBean);
+    }
 }

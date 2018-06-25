@@ -1,5 +1,6 @@
 package com.zq.dynamicphoto.adapter;
 
+import android.app.Activity;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
@@ -7,9 +8,13 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+
+import com.luck.picture.lib.config.PictureConfig;
+import com.luck.picture.lib.entity.LocalMedia;
 import com.zq.dynamicphoto.R;
-import com.zq.dynamicphoto.bean.Dynamic;
 import com.zq.dynamicphoto.utils.ImageLoaderUtils;
+import com.zq.dynamicphoto.utils.PicSelectUtils;
+
 import java.util.ArrayList;
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -20,26 +25,44 @@ import butterknife.ButterKnife;
 
 public class DynamicPicAdapter extends RecyclerView.Adapter<DynamicPicAdapter.DynamicPicViewHolder> {
     ArrayList<String>mList;
+    Activity activity;
 
-    public DynamicPicAdapter(ArrayList<String> mList) {
+    public DynamicPicAdapter(ArrayList<String> mList,Activity activity) {
+        this.activity = activity;
         this.mList = mList;
     }
 
     @NonNull
     @Override
     public DynamicPicViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_dynamic_pic, null);
+        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_dynamic_pic, null,false);
         return new DynamicPicViewHolder(view);
     }
 
     @Override
-    public void onBindViewHolder(@NonNull DynamicPicViewHolder holder, int position) {
+    public void onBindViewHolder(@NonNull final DynamicPicViewHolder holder, final int position) {
+        holder.ivPicture.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                ArrayList<LocalMedia>localMedias = new ArrayList<>();
+                for (String url:mList) {
+                    LocalMedia localMedia = new LocalMedia();
+                    localMedia.setPath(url);
+                    localMedias.add(localMedia);
+                }
+                if (mList.get(position).endsWith(".mp4")){
+
+                }else {
+                    PicSelectUtils.getInstance().preview(position,localMedias,activity);
+                }
+            }
+        });
         holder.bind(position);
     }
 
     @Override
     public int getItemCount() {
-        return 0;
+        return mList == null ? 0 : mList.size();
     }
 
     class DynamicPicViewHolder extends RecyclerView.ViewHolder{
@@ -64,15 +87,5 @@ public class DynamicPicAdapter extends RecyclerView.Adapter<DynamicPicAdapter.Dy
                 ImageLoaderUtils.displayImg(ivPicture,url);
             }
         }
-    }
-
-    public void addDynamicPicList(ArrayList<String> urlList) {
-        this.mList.addAll(urlList);
-        notifyDataSetChanged();
-    }
-
-    public void initDynamicPicList(ArrayList<String> urlList) {
-        this.mList.clear();
-        addDynamicPicList(urlList);
     }
 }
