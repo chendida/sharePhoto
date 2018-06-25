@@ -168,7 +168,7 @@ public class AddPicActivity extends BaseActivity implements PicAdapter.AddPicLis
         ArrayList<LocalMedia> localMedia = mAdapter.getmList();
         switch (view.getId()) {
             case R.id.id_item_add_pic:
-                PicSelectUtils.getInstance().gotoSelectPicOrVideo(localMedia, this);
+                PicSelectUtils.getInstance().gotoSelectPicOrVideo(localMedia, this,Constans.MAX_PIC_NUM);
                 break;
             case R.id.iv_item_image_view://预览
                 PicSelectUtils.getInstance().preview(i, localMedia, this);

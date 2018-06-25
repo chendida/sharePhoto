@@ -34,15 +34,16 @@ public class PicSelectUtils {
      * 选择图片
      * @param activity
      */
-    private void intoPicSelect(Activity activity,ArrayList<LocalMedia>mSelectedImages) {
+    private void intoPicSelect(Activity activity,ArrayList<LocalMedia>mSelectedImages,int num) {
         PictureSelector.create(activity)
                 .openGallery(PictureMimeType.ofImage())
                 .previewImage(true)
                 .previewVideo(true)
-                .maxSelectNum(Constans.MAX_PIC_NUM)
+                .maxSelectNum(num)
                 .selectionMedia(mSelectedImages)
                 .forResult(PictureConfig.CHOOSE_REQUEST);
     }
+
     /**
      * 选择视频
      */
@@ -72,29 +73,33 @@ public class PicSelectUtils {
         }
     }
 
-    public void gotoSelectPicOrVideo(ArrayList<LocalMedia>localMedias,Activity activity){
+    public void gotoSelectPicOrVideo(ArrayList<LocalMedia>localMedias,Activity activity,int num){
         if (localMedias != null){
             if (localMedias.size() != 0){
                 int pictureType = PictureMimeType.isPictureType(localMedias.get(0).getPictureType());
                 if (pictureType == PictureConfig.TYPE_VIDEO){//选的视频
                     intoVideoSelect(activity,localMedias);
                 }else {//选的图片
-                    intoPicSelect(activity,localMedias);
+                    intoPicSelect(activity,localMedias,num);
                 }
             }else {
                 this.activity = activity;
                 this.localMedias = localMedias;
-                showSelectPicDialog();
+                showSelectPicDialog(num);
             }
         }else {
             this.activity = activity;
             this.localMedias = localMedias;
-            showSelectPicDialog();
+            showSelectPicDialog(num);
         }
     }
 
+    public void gotoSelectPic(Activity activity,int num){
+        intoPicSelect(activity,null,num);
+    }
 
-    private void showSelectPicDialog() {
+
+    private void showSelectPicDialog(final int num) {
         if (selectPicDialog == null){
             selectPicDialog = new SelectPicDialog(activity, R.style.dialog, new SelectPicDialog.OnItemClickListener() {
                 @Override
@@ -102,7 +107,7 @@ public class PicSelectUtils {
                     dialog.dismiss();
                     switch (position) {
                         case 1://选择图片
-                            intoPicSelect(activity,localMedias);
+                            intoPicSelect(activity,localMedias,num);
                             break;
                         case 2://选择视频
                             intoVideoSelect(activity,localMedias);

@@ -92,4 +92,6 @@
     <string name="onclick_update_pic_bg">点击更换封面</string>
     <string name="our_label">个性签名</string>
     <string name="please_input_title">请输入朋友圈标题</string>
+    <string name="filter">筛选</string>
+    <string name="tv_select_dynamic">选择动态</string>
 </resources>
