@@ -118,4 +118,9 @@
     <string name="open_no_allow_see">打开后，他（她）无法看到你的相册</string>
     <string name="set_permission">设置权限</string>
     <string name="set_permission_success">设置成功</string>
+    <string name="tv_no_see">看不见上家的相册</string>
+    <string name="tv_new_user_must_read">新手必读</string>
+    <string name="tv_private_protected">专属私密保护</string>
+    <string name="how_have_fans">如何拥有更多粉丝？</string>
+    <string name="tv_how_to_have_more_fans">如何拥有更多粉丝</string>
 </resources>

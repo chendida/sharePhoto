@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.zhy.autolayout.AutoLinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@color/white"
+    android:orientation="vertical"
+    >
+    <com.zhy.autolayout.AutoRelativeLayout
+        android:id="@+id/layout_how_add_fans"
+        android:layout_marginTop="80px"
+        android:layout_width="match_parent"
+        android:layout_height="80px">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="20px"
+            android:layout_centerVertical="true"
+            android:textColor="@color/tv_text_color1"
+            android:textSize="28px"
+            android:text="@string/how_have_fans"/>
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/right_go"
+            android:layout_marginRight="20px"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"/>
+    </com.zhy.autolayout.AutoRelativeLayout>
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="1px"
+        android:background="@color/line_bg_color"
+        />
+</com.zhy.autolayout.AutoLinearLayout>

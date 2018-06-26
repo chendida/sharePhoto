@@ -19,6 +19,7 @@ import com.zq.dynamicphoto.ui.EditDynamicActivity;
 import com.zq.dynamicphoto.ui.HtmlManagerActivity;
 import com.zq.dynamicphoto.ui.HtmlPhotoDetailsActivity;
 import com.zq.dynamicphoto.ui.LabelManagerActivity;
+import com.zq.dynamicphoto.ui.MyFansActivity;
 import com.zq.dynamicphoto.ui.MyFollowsActivity;
 
 /**
@@ -94,5 +95,9 @@ public class MFGT {
                 .putExtra(Constans.HTML,url)
                 .putExtra(Constans.HTML_TITLE,title)
                 .putExtra(Constans.USERID,userId));
+    }
+
+    public static void gotoMyFansActivity(Activity activity) {
+        activity.startActivity(new Intent(activity, MyFansActivity.class));
     }
 }

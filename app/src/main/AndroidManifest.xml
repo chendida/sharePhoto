@@ -60,7 +60,8 @@
         <activity android:name=".ui.MyFollowsActivity" />
         <activity android:name=".ui.HtmlPhotoDetailsActivity" />
         <activity android:name=".ui.DynamicDetailsActivity" />
-        <activity android:name=".ui.SettingPermissionActivity"></activity>
+        <activity android:name=".ui.SettingPermissionActivity" />
+        <activity android:name=".ui.MyFansActivity"></activity>
     </application>
 
 </manifest>

@@ -108,6 +108,7 @@ public class MineFragment extends BaseFragment {
                 MFGT.gotoMyFollowActivity(getActivity());
                 break;
             case R.id.layout_my_fans:
+                MFGT.gotoMyFansActivity(getActivity());
                 break;
             case R.id.layout_problem:
                 break;
