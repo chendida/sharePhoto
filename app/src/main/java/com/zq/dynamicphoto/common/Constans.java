@@ -30,6 +30,7 @@ public class Constans {
     public static String AGREEMENT = "agreement";
     public static String HTML = "htmlUrl";
     public static String HTML_TITLE = "title";
+    public static String FLAG = "flag";
     public static String MOMENTS = "moments";
     public static String MOMENTS_ID = "momentsId";
 

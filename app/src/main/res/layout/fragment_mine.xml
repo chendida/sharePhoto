@@ -42,6 +42,7 @@
             android:textColor="@color/tv_text_color1"
             android:textSize="24px"
             android:maxLines="1"
+            android:text="@string/photo_url"
             />
         <TextView
             android:id="@+id/tv_photo_url"

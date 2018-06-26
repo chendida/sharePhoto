@@ -24,6 +24,7 @@
     <string name="tv_friend_circle">朋友圈</string>
     <string name="tv_live">直播</string>
     <string name="tv_mine">我的</string>
+    <string name="photo_url">相册地址:</string>
     <string name="tv_open_vip">开通会员</string>
     <string name="find_privilege">查看特权</string>
     <string name="tv_my_two_code">我的二维码</string>
@@ -102,4 +103,5 @@
     <string name="dynamic_is_null">动态不能为空</string>
     <string name="upload_moments_success">上传朋友圈成功</string>
     <string name="edit_moments_success">编辑朋友圈成功</string>
+    <string name="photo_two_code">相册二维码</string>
 </resources>

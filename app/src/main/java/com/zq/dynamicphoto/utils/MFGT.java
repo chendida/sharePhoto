@@ -50,6 +50,13 @@ public class MFGT {
         .putExtra(Constans.HTML_TITLE,title));
     }
 
+    public static void gotoHtmlManagerActivity(Activity activity, String agreement,String title,int flag) {
+        activity.startActivity(new Intent(activity, HtmlManagerActivity.class)
+                .putExtra(Constans.HTML,agreement)
+                .putExtra(Constans.HTML_TITLE,title)
+                .putExtra(Constans.FLAG,flag));
+    }
+
     public static void gotoAddFriendCircleActivity(Activity activity) {
         activity.startActivity(new Intent(activity, AddFriendCircleActivity.class));
     }

@@ -1,10 +1,12 @@
 package com.zq.dynamicphoto.ui;
 
 import android.graphics.Bitmap;
+import android.view.View;
 import android.webkit.WebResourceError;
 import android.webkit.WebResourceRequest;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
+import android.widget.ImageView;
 import android.widget.TextView;
 import com.tencent.mm.opensdk.utils.Log;
 import com.zhy.autolayout.AutoRelativeLayout;
@@ -12,6 +14,7 @@ import com.zq.dynamicphoto.R;
 import com.zq.dynamicphoto.base.BaseActivity;
 import com.zq.dynamicphoto.base.BasePresenter;
 import com.zq.dynamicphoto.common.Constans;
+import com.zq.dynamicphoto.utils.ShareCodeUtils;
 import com.zq.dynamicphoto.utils.TitleUtils;
 import butterknife.BindView;
 import butterknife.OnClick;
@@ -26,6 +29,9 @@ public class HtmlManagerActivity extends BaseActivity {
     AutoRelativeLayout layoutFinish;
     @BindView(R.id.html_webView)
     WebView htmlWebView;
+    @BindView(R.id.iv_camera)
+    ImageView ivCamera;
+    int flag = 0;
 
     @Override
     protected int getLayoutId() {
@@ -34,8 +40,15 @@ public class HtmlManagerActivity extends BaseActivity {
 
     @Override
     protected void initView() {
+        flag = getIntent().getIntExtra(Constans.FLAG,0);
         String title = (String) getIntent().getSerializableExtra(Constans.HTML_TITLE);
-        TitleUtils.setTitleBar(title, tvTitle, layoutBack, layoutFinish);
+        if (flag == 1) {
+            layoutBack.setVisibility(View.VISIBLE);
+            tvTitle.setText(title);
+            ivCamera.setImageDrawable(getResources().getDrawable(R.drawable.icon_up));
+        } else {
+            TitleUtils.setTitleBar(title, tvTitle, layoutBack, layoutFinish);
+        }
     }
 
     @Override
@@ -75,8 +88,17 @@ public class HtmlManagerActivity extends BaseActivity {
         });
     }
 
-    @OnClick(R.id.layout_back)
-    public void onViewClicked() {
-        finish();
+    @OnClick({R.id.layout_back, R.id.layout_finish})
+    public void onViewClicked(View view) {
+        switch (view.getId()) {
+            case R.id.layout_back:
+                finish();
+                break;
+            case R.id.layout_finish:
+                if (flag == 1){//表示二维码界面
+                    ShareCodeUtils.shareToWx(this,htmlWebView);
+                }
+                break;
+        }
     }
 }
