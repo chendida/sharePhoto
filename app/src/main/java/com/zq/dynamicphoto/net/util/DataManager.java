@@ -114,4 +114,8 @@ public class DataManager {
     public Observable<Result> getFriendCircleDetails(NetRequestBean netRequestBean){
         return mRetrofitService.getFriendCircle(netRequestBean);
     }
+
+    public Observable<Result> getFollowList(NetRequestBean netRequestBean){
+        return mRetrofitService.getFollowList(netRequestBean);
+    }
 }

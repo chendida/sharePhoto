@@ -180,4 +180,12 @@ public interface RetrofitApiService {
      */
     @POST("sdkData.shtml?requestId=18&a=0&b=0")
     Observable<Result> getFriendCircle(@Body NetRequestBean netRequestBean);
+
+    /**
+     * 获取已关注列表
+     * @param netRequestBean
+     * @return
+     */
+    @POST("sdkData.shtml?requestId=16&a=0&b=0")
+    Observable<Result> getFollowList(@Body NetRequestBean netRequestBean);
 }

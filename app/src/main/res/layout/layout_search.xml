@@ -31,7 +31,7 @@
         android:imeOptions="actionSearch"
         android:inputType="text"
         android:textCursorDrawable="@null"
-        android:focusable="false"/>
+        />
     <ImageView
         android:id="@+id/iv_clear_input"
         android:layout_width="wrap_content"
