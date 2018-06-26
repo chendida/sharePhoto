@@ -11,6 +11,7 @@ import com.zhy.autolayout.AutoRelativeLayout;
 import com.zq.dynamicphoto.R;
 import com.zq.dynamicphoto.bean.UserInfo;
 import com.zq.dynamicphoto.utils.ImageLoaderUtils;
+import com.zq.dynamicphoto.utils.MFGT;
 import java.util.ArrayList;
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -69,8 +70,10 @@ public class FollowListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
             holder.layoutAvatar.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                /*mContext.startActivity(new Intent(mContext, MyPhotoActivity.class)
-                        .putExtra("userId",mList.get(position).getUserId()));*/
+                    MFGT.gotoHtmlPhotoDetailsActivity(mContext,"friends.html?userId="+
+                            mList.get(position).getUserId(),
+                            mContext.getResources().getString(R.string.tv_photo_details),
+                            mList.get(position).getUserId());
                 }
             });
         }else if (parent instanceof FooterViewHolder){
@@ -108,8 +111,8 @@ public class FollowListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
                 if (!TextUtils.isEmpty(userInfo.getUserLogo())){
                     ImageLoaderUtils.displayImg(ivAvatar,userInfo.getUserLogo());
                 }
-                if (!TextUtils.isEmpty(userInfo.getRealName())){
-                    tvNick.setText(userInfo.getRealName());
+                if (!TextUtils.isEmpty(userInfo.getRemarkName())){
+                    tvNick.setText(userInfo.getRemarkName());
                 }
                 if (position == mList.size()){
                     tvLine.setVisibility(View.GONE);

@@ -110,4 +110,6 @@
     <string name="new_person_read">微共享相册新手必读</string>
     <string name="how_follow_photo">如何关注上家的相册？</string>
     <string name="what_is_protected">什么是专属私密保护</string>
+    <string name="tv_photo_details">相册详情</string>
+    <string name="tv_dynamic_details">动态详情</string>
 </resources>

@@ -13,9 +13,11 @@ import com.zq.dynamicphoto.fragment.MineFragment;
 import com.zq.dynamicphoto.ui.AddFriendCircleActivity;
 import com.zq.dynamicphoto.ui.AddLabelActivity;
 import com.zq.dynamicphoto.ui.AddPicActivity;
+import com.zq.dynamicphoto.ui.DynamicDetailsActivity;
 import com.zq.dynamicphoto.ui.DynamicSelectActivity;
 import com.zq.dynamicphoto.ui.EditDynamicActivity;
 import com.zq.dynamicphoto.ui.HtmlManagerActivity;
+import com.zq.dynamicphoto.ui.HtmlPhotoDetailsActivity;
 import com.zq.dynamicphoto.ui.LabelManagerActivity;
 import com.zq.dynamicphoto.ui.MyFollowsActivity;
 
@@ -52,6 +54,12 @@ public class MFGT {
         .putExtra(Constans.HTML_TITLE,title));
     }
 
+    public static void gotoDynamicDetailsActivity(Activity activity, String agreement,String title) {
+        activity.startActivity(new Intent(activity, DynamicDetailsActivity.class)
+                .putExtra(Constans.HTML,agreement)
+                .putExtra(Constans.HTML_TITLE,title));
+    }
+
     public static void gotoHtmlManagerActivity(Activity activity, String agreement,String title,int flag) {
         activity.startActivity(new Intent(activity, HtmlManagerActivity.class)
                 .putExtra(Constans.HTML,agreement)
@@ -79,5 +87,12 @@ public class MFGT {
 
     public static void gotoMyFollowActivity(Activity activity) {
         activity.startActivity(new Intent(activity, MyFollowsActivity.class));
+    }
+
+    public static void gotoHtmlPhotoDetailsActivity(Context mContext,String url,String title,Integer userId) {
+        mContext.startActivity(new Intent(mContext, HtmlPhotoDetailsActivity.class)
+                .putExtra(Constans.HTML,url)
+                .putExtra(Constans.HTML_TITLE,title)
+                .putExtra(Constans.USERID,userId));
     }
 }
