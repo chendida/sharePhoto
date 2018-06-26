@@ -6,6 +6,8 @@ import android.graphics.Canvas;
 import android.graphics.Matrix;
 import android.graphics.Paint;
 import android.graphics.Rect;
+import android.graphics.RectF;
+import android.util.Log;
 
 /**
  * Created by Administrator on 2018/6/11.
@@ -40,8 +42,18 @@ public class ImageUtil {
         Canvas canvas = new Canvas(newb);
         //在画布 0，0坐标上开始绘制原始图片
         canvas.drawBitmap(src, 0, 0, null);
+
+        //新建矩阵
+        Matrix matrix = new Matrix();
+        //对矩阵作缩放处理
+        matrix.postScale(1.0f, 1.0f);
+        //对矩阵作位置偏移，移动到底部中间的位置
+        matrix.postTranslate(paddingLeft, paddingTop);
+        //将logo绘制到画布上并做矩阵变换
+        canvas.drawBitmap(watermark, matrix, null);
+
         //在画布上绘制水印图片
-        canvas.drawBitmap(watermark, paddingLeft+50, paddingTop+50, null);
+        //canvas.drawBitmap(watermark, paddingLeft, paddingTop, null);
         // 保存
         canvas.save(Canvas.ALL_SAVE_FLAG);
         // 存储

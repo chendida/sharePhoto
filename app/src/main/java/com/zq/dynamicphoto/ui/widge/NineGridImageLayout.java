@@ -5,6 +5,7 @@ import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
+import android.graphics.Matrix;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.util.AttributeSet;
@@ -70,7 +71,7 @@ public class NineGridImageLayout extends NineGridLayout {
                              }
                              setOneImageLayoutParams(imageView, newW, newH);
                              Bitmap bmp= BitmapFactory.decodeResource(mContext.getResources(), R.drawable.icon_play);
-                             displayImage(imageView, ImageUtil.createWaterMaskCenter(bitmap,bmp));
+                             displayImage(imageView, ImageUtil.createWaterMaskCenter(zoomImg(bitmap,newW,newH),bmp));
                          }
                      });
         }else {
@@ -103,6 +104,21 @@ public class NineGridImageLayout extends NineGridLayout {
         return false;
     }
 
+    private Bitmap zoomImg(Bitmap bm, int newWidth ,int newHeight){
+        // 获得图片的宽高
+        int width = bm.getWidth();
+        int height = bm.getHeight();
+        // 计算缩放比例
+        float scaleWidth = ((float) newWidth) / width;
+        float scaleHeight = ((float) newHeight) / height;
+        // 取得想要缩放的matrix参数
+        Matrix matrix = new Matrix();
+        matrix.postScale(scaleWidth, scaleHeight);
+        // 得到新的图片   www.2cto.com
+        Bitmap newbm = Bitmap.createBitmap(bm, 0, 0, width, height, matrix, true);
+        return newbm;
+    }
+
     @Override
     protected void displayImage(RatioImageView imageView, String url) {
         Log.i("loadurl","url = "+url);
@@ -124,7 +140,5 @@ public class NineGridImageLayout extends NineGridLayout {
             list.add(media);
         }
         PicSelectUtils.getInstance().preview(i,list,mContext);
-        Log.i("url","url = "+url);
-        //Toast.makeText(mContext, "点击了图片" + url, Toast.LENGTH_SHORT).show();
     }
 }

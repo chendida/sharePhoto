@@ -56,7 +56,8 @@
         <activity android:name=".ui.EditDynamicActivity" />
         <activity android:name=".ui.HtmlManagerActivity" />
         <activity android:name=".ui.AddFriendCircleActivity" />
-        <activity android:name=".ui.DynamicSelectActivity"></activity>
+        <activity android:name=".ui.DynamicSelectActivity" />
+        <activity android:name=".ui.TestActivity"></activity>
     </application>
 
 </manifest>

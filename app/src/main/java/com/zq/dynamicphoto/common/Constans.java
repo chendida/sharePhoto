@@ -30,6 +30,8 @@ public class Constans {
     public static String AGREEMENT = "agreement";
     public static String HTML = "htmlUrl";
     public static String HTML_TITLE = "title";
+    public static String MOMENTS = "moments";
+    public static String MOMENTS_ID = "momentsId";
 
     public static Integer REQUEST_OK = 0;
     public static Integer REQUEST_LOIGN_ERROR = -4;//登录时手机号或密码错误

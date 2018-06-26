@@ -6,7 +6,9 @@ import android.content.Intent;
 import android.support.v4.app.FragmentActivity;
 
 import com.zq.dynamicphoto.bean.Dynamic;
+import com.zq.dynamicphoto.bean.Moments;
 import com.zq.dynamicphoto.common.Constans;
+import com.zq.dynamicphoto.fragment.FriendCircleFragment;
 import com.zq.dynamicphoto.ui.AddFriendCircleActivity;
 import com.zq.dynamicphoto.ui.AddLabelActivity;
 import com.zq.dynamicphoto.ui.AddPicActivity;
@@ -52,7 +54,17 @@ public class MFGT {
         activity.startActivity(new Intent(activity, AddFriendCircleActivity.class));
     }
 
-    public static void gotoDynamicSelectActivity(Activity activity) {
-        activity.startActivity(new Intent(activity, DynamicSelectActivity.class));
+    public static void gotoDynamicSelectActivity(Activity activity,int requestCode) {
+        activity.startActivityForResult(new Intent(activity,DynamicSelectActivity.class),requestCode);
+    }
+
+    public static void gotoDynamicSelectActivity(Activity activity,int requestCode,Integer momentsId) {
+        activity.startActivityForResult(new Intent(activity,DynamicSelectActivity.class)
+                .putExtra(Constans.MOMENTS_ID,momentsId),requestCode);
+    }
+
+    public static void gotoAddFriendCircleActivity(Activity activity, Moments moments) {
+        activity.startActivity(new Intent(activity, AddFriendCircleActivity.class)
+            .putExtra(Constans.MOMENTS,moments));
     }
 }

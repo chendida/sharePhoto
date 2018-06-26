@@ -1,5 +1,6 @@
 package com.zq.dynamicphoto.ui;
 
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
@@ -25,6 +26,7 @@ import com.zq.dynamicphoto.base.BasePresenter;
 import com.zq.dynamicphoto.bean.DeviceProperties;
 import com.zq.dynamicphoto.bean.DrUtils;
 import com.zq.dynamicphoto.bean.Dynamic;
+import com.zq.dynamicphoto.bean.Moments;
 import com.zq.dynamicphoto.bean.NetRequestBean;
 import com.zq.dynamicphoto.bean.Result;
 import com.zq.dynamicphoto.common.Constans;
@@ -80,7 +82,7 @@ public class DynamicSelectActivity extends BaseActivity<IDynamicSelectView,
         LinearLayoutManager manager = new LinearLayoutManager(this,
                 LinearLayoutManager.VERTICAL, false);
         rclSelectPhotoList.setLayoutManager(manager);
-        mAdapter = new DynamicSelectAdapter(dynamics,10,this);
+        mAdapter = new DynamicSelectAdapter(dynamics,10);
         rclSelectPhotoList.setAdapter(mAdapter);
         setListener();
     }
@@ -129,6 +131,7 @@ public class DynamicSelectActivity extends BaseActivity<IDynamicSelectView,
 
     @Override
     protected void initData() {
+        momentId = (Integer) getIntent().getSerializableExtra(Constans.MOMENTS_ID);
         pager = 1;
         getDynamicList(pager);
     }
@@ -145,12 +148,22 @@ public class DynamicSelectActivity extends BaseActivity<IDynamicSelectView,
                 finish();
                 break;
             case R.id.layout_finish:
+                ArrayList<Dynamic> selectList = mAdapter.getSelectList();
+                if (selectList.size() == 0){
+                    ToastUtils.showShort(getResources().getString(R.string.please_least_select_one));
+                }else {
+                    Intent intent = new Intent();
+                    intent.putExtra(Constans.DYNAMIC,selectList);
+                    setResult(RESULT_OK,intent);
+                    finish();
+                }
                 break;
             case R.id.layout_clear_input:
                 etSearch.setText(null);
                 break;
             case R.id.layout_filter:
-
+                pager = 1;
+                getDynamicList(pager);
                 break;
         }
     }

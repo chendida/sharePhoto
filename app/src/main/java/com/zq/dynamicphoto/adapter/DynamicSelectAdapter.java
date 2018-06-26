@@ -32,13 +32,11 @@ import butterknife.ButterKnife;
 
 public class DynamicSelectAdapter extends RecyclerView.Adapter<DynamicSelectAdapter.DynamicItemViewHolder> {
     ArrayList<Dynamic>mList;
-    private Activity activity;
     private ArrayList<Dynamic> selectList = new ArrayList<>();
     private Integer mostSelectDynamic;
     private SparseBooleanArray mCheckStates = new SparseBooleanArray();
 
-    public DynamicSelectAdapter(ArrayList<Dynamic> mList,Integer mostSelectDynamic,Activity activity) {
-        this.activity = activity;
+    public DynamicSelectAdapter(ArrayList<Dynamic> mList,Integer mostSelectDynamic) {
         this.mList = mList;
         this.mostSelectDynamic = mostSelectDynamic;
     }
@@ -73,7 +71,7 @@ public class DynamicSelectAdapter extends RecyclerView.Adapter<DynamicSelectAdap
                                 break;
                             }
                         }
-                        if (!flag){
+                        if (!flag && selectList.size() <= mostSelectDynamic){
                             selectList.add(mList.get(position));
                         }
                     }
@@ -154,7 +152,7 @@ public class DynamicSelectAdapter extends RecyclerView.Adapter<DynamicSelectAdap
                             for (DynamicVideo video:dynamic.getDynamicVideos()) {
                                 urlList.add(video.getVideoURL());
                             }
-                            mAdapter = new DynamicPicAdapter(urlList,activity);
+                            mAdapter = new DynamicPicAdapter(urlList);
                             rclDynamicPicList.setAdapter(mAdapter);
                         }
                     }
@@ -165,7 +163,7 @@ public class DynamicSelectAdapter extends RecyclerView.Adapter<DynamicSelectAdap
                             for (DynamicPhoto photo:dynamic.getDynamicPhotos()) {
                                 urlList.add(photo.getThumbnailURL());
                             }
-                            mAdapter = new DynamicPicAdapter(urlList,activity);
+                            mAdapter = new DynamicPicAdapter(urlList);
                             rclDynamicPicList.setAdapter(mAdapter);
                         }
                     }

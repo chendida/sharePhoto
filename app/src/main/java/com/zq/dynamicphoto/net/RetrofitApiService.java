@@ -155,4 +155,29 @@ public interface RetrofitApiService {
      */
     @POST("sdkData.shtml?requestId=25&a=0&b=0")
     Observable<Result> getDynamicList(@Body NetRequestBean netRequestBean);
+
+    /**
+     * 编辑朋友圈
+     * @param netRequestBean
+     * @return
+     */
+    @POST("sdkData.shtml?requestId=9&a=0&b=0")
+    Observable<Result> editFriendCircle(@Body NetRequestBean netRequestBean);
+
+
+    /**
+     * 新增朋友圈
+     * @param netRequestBean
+     * @return
+     */
+    @POST("sdkData.shtml?requestId=7&a=0&b=0")
+    Observable<Result> addFriendCircleDynamic(@Body NetRequestBean netRequestBean);
+
+    /**
+     * 编辑朋友圈界面进入时获取的原数据
+     * @param netRequestBean
+     * @return
+     */
+    @POST("sdkData.shtml?requestId=18&a=0&b=0")
+    Observable<Result> getFriendCircle(@Body NetRequestBean netRequestBean);
 }

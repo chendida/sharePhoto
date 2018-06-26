@@ -191,7 +191,7 @@ public class FriendCircleFragment extends BaseFragment<IFriendCircleView,
                 deleteMoment(moments);
                 break;
             case R.id.tv_edit:
-
+                MFGT.gotoAddFriendCircleActivity(getActivity(),moments);
                 break;
             case R.id.layout_article:
                 MFGT.gotoHtmlManagerActivity(getActivity(),"moments.html?id="+moments.getId(),

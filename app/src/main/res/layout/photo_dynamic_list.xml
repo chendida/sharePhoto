@@ -99,14 +99,6 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="8px"
                 app:sapcing="4dp"/>
-            <ImageView
-                android:id="@+id/iv_icon_play"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_centerVertical="true"
-                android:layout_centerHorizontal="true"
-                android:src="@drawable/icon_play"
-                android:visibility="gone"/>
         </com.zhy.autolayout.AutoRelativeLayout>
 
         <com.zhy.autolayout.AutoRelativeLayout

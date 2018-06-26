@@ -275,6 +275,13 @@ public abstract class NineGridLayout extends ViewGroup {
 
     }
 
+    private int getListSize(List<String> list) {
+        if (list == null || list.size() == 0) {
+            return 0;
+        }
+        return list.size();
+    }
+
     protected void setOneImageLayoutParams(RatioImageView imageView, int width, int height) {
         imageView.setLayoutParams(new LayoutParams(width, height));
         imageView.layout(0, 0, width, height);
@@ -283,13 +290,6 @@ public abstract class NineGridLayout extends ViewGroup {
 //        params.width = width;
         params.height = height;
         setLayoutParams(params);
-    }
-
-    private int getListSize(List<String> list) {
-        if (list == null || list.size() == 0) {
-            return 0;
-        }
-        return list.size();
     }
 
     private int getFontHeight(float fontSize) {

@@ -102,4 +102,16 @@ public class DataManager {
     public Observable<Result> getDynamicSelectList(NetRequestBean netRequestBean){
         return mRetrofitService.getDynamicList(netRequestBean);
     }
+
+    public Observable<Result> addFriendCircle(NetRequestBean netRequestBean){
+        return mRetrofitService.addFriendCircleDynamic(netRequestBean);
+    }
+
+    public Observable<Result> editFriendCircle(NetRequestBean netRequestBean){
+        return mRetrofitService.editFriendCircle(netRequestBean);
+    }
+
+    public Observable<Result> getFriendCircleDetails(NetRequestBean netRequestBean){
+        return mRetrofitService.getFriendCircle(netRequestBean);
+    }
 }

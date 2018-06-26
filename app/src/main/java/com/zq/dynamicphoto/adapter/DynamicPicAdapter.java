@@ -25,10 +25,8 @@ import butterknife.ButterKnife;
 
 public class DynamicPicAdapter extends RecyclerView.Adapter<DynamicPicAdapter.DynamicPicViewHolder> {
     ArrayList<String>mList;
-    Activity activity;
 
-    public DynamicPicAdapter(ArrayList<String> mList,Activity activity) {
-        this.activity = activity;
+    public DynamicPicAdapter(ArrayList<String> mList) {
         this.mList = mList;
     }
 
@@ -53,7 +51,7 @@ public class DynamicPicAdapter extends RecyclerView.Adapter<DynamicPicAdapter.Dy
                 if (mList.get(position).endsWith(".mp4")){
 
                 }else {
-                    PicSelectUtils.getInstance().preview(position,localMedias,activity);
+                    PicSelectUtils.getInstance().preview(position,localMedias,v.getContext());
                 }
             }
         });

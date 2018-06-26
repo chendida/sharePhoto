@@ -4,20 +4,20 @@ import com.zq.dynamicphoto.base.BaseModel;
 import com.zq.dynamicphoto.bean.NetRequestBean;
 import com.zq.dynamicphoto.bean.Result;
 import com.zq.dynamicphoto.net.util.DataManager;
+
 import io.reactivex.Observer;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.Disposable;
 import io.reactivex.schedulers.Schedulers;
 
 /**
- * 加载动态列表
- * Created by Administrator on 2018/6/11.
+ * Created by Administrator on 2018/6/26.
  */
 
-public class DynamicLoadImp implements BaseModel {
+public class MomentsDatailsGetImp implements BaseModel {
     @Override
     public void loadData(final OnLoadListener onLoadListener, NetRequestBean netRequestBean) {
-        DataManager.getInstance().getPhotoDynamic(netRequestBean)
+        DataManager.getInstance().getFriendCircleDetails(netRequestBean)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new Observer<Result>() {

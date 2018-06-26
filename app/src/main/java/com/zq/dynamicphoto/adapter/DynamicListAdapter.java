@@ -1,6 +1,7 @@
 package com.zq.dynamicphoto.adapter;
 
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
@@ -21,6 +22,7 @@ import com.zq.dynamicphoto.bean.Dynamic;
 import com.zq.dynamicphoto.bean.DynamicPhoto;
 import com.zq.dynamicphoto.bean.DynamicVideo;
 import com.zq.dynamicphoto.bean.NetRequestBean;
+import com.zq.dynamicphoto.ui.TestActivity;
 import com.zq.dynamicphoto.ui.widge.NineGridImageLayout;
 import com.zq.dynamicphoto.utils.ImageLoaderUtils;
 import com.zq.dynamicphoto.utils.MFGT;
@@ -139,6 +141,12 @@ public class DynamicListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
                     MFGT.gotoEditDynamicActivity(mContext,dynamic);
                 }
             });
+            holder.layoutOneKeyShare.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    mContext.startActivity(new Intent(mContext, TestActivity.class));
+                }
+            });
         }
     }
 
@@ -159,8 +167,6 @@ public class DynamicListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
         TextView tvPicSource;
         @BindView(R.id.iv_locked)
         ImageView ivLocked;
-        @BindView(R.id.iv_icon_play)
-        ImageView ivIconPlay;
         @BindView(R.id.tv_article)
         TextView tvArticle;
         @BindView(R.id.layout_nine_grid)
@@ -242,7 +248,7 @@ public class DynamicListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
                                 imageUrls.add(video.getVideoURL());
                             }
                             layoutNineGrid.setUrlList(imageUrls, true);
-                            ivIconPlay.setVisibility(View.VISIBLE);
+                            //ivIconPlay.setVisibility(View.VISIBLE);
                         }
                     }
                 }
