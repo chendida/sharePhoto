@@ -38,10 +38,10 @@ public class Constans {
     public static Integer REQUEST_LOIGN_ERROR = -4;//登录时手机号或密码错误
 
     public static final int SDK_APPID = 1400087984;
-    //public static String Base_Url = "http://192.168.1.118:8080/photo/interface/";
+    //public static String Base_Url = "http://192.168.1.184:8080/photo/interface/";
 
     public static String HTML_Url = "http://redshoping.cn/";
-    //public static String HTML_Url = "http://192.168.1.178:8080/photo/";
+    //public static String HTML_Url = "http://192.168.1.184:8080/photo/";
     public static String Base_Url = "http://redshoping.cn/interface/";
     //public static String Base_Url = "http://www.gongxiangxiangce.cn/interface/";
 

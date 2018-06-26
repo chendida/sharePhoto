@@ -21,6 +21,16 @@ public class NetRequestBean {
 
     private Moments moments;
 
+    private UserPermissions userPermissions;
+
+    public UserPermissions getUserPermissions() {
+        return userPermissions;
+    }
+
+    public void setUserPermissions(UserPermissions userPermissions) {
+        this.userPermissions = userPermissions;
+    }
+
     public Moments getMoments() {
         return moments;
     }

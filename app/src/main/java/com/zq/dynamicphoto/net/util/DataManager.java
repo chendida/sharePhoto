@@ -118,4 +118,16 @@ public class DataManager {
     public Observable<Result> getFollowList(NetRequestBean netRequestBean){
         return mRetrofitService.getFollowList(netRequestBean);
     }
+
+    public Observable<Result> getPermissionStatus(NetRequestBean netRequestBean){
+        return mRetrofitService.checkPermissionStatus(netRequestBean);
+    }
+
+    public Observable<Result> setPermission(NetRequestBean netRequestBean){
+        return mRetrofitService.setPerssion(netRequestBean);
+    }
+
+    public Observable<Result> cancelSetPermission(NetRequestBean netRequestBean){
+        return mRetrofitService.cancelSetPerssion(netRequestBean);
+    }
 }

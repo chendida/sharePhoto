@@ -154,7 +154,7 @@ public class HtmlPhotoDetailsActivity extends BaseActivity {
                     switch (position) {
                         case 1://设置权限
                             startActivity(new Intent(HtmlPhotoDetailsActivity.this,
-                                    SettingPermissionActivity.class).putExtra("uUserId",uUserId));
+                                    SettingPermissionActivity.class).putExtra(Constans.USERID,uUserId));
                             break;
                     }
                 }

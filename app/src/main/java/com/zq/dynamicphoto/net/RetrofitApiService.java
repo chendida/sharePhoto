@@ -188,4 +188,28 @@ public interface RetrofitApiService {
      */
     @POST("sdkData.shtml?requestId=16&a=0&b=0")
     Observable<Result> getFollowList(@Body NetRequestBean netRequestBean);
+
+    /**
+     * 查看权限状态
+     * @param netRequestBean
+     * @return
+     */
+    @POST("sdkData.shtml?requestId=29&a=0&b=0")
+    Observable<Result> checkPermissionStatus(@Body NetRequestBean netRequestBean);
+
+    /**
+     * 设置打开查看动态权限
+     * @param netRequestBean
+     * @return
+     */
+    @POST("sdkData.shtml?requestId=17&a=0&b=0")
+    Observable<Result> setPerssion(@Body NetRequestBean netRequestBean);
+
+    /**
+     * 取消权限设置
+     * @param netRequestBean
+     * @return
+     */
+    @POST("sdkData.shtml?requestId=28&a=0&b=0")
+    Observable<Result> cancelSetPerssion(@Body NetRequestBean netRequestBean);
 }
