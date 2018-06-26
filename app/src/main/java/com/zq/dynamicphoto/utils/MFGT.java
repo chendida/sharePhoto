@@ -21,6 +21,7 @@ import com.zq.dynamicphoto.ui.HtmlPhotoDetailsActivity;
 import com.zq.dynamicphoto.ui.LabelManagerActivity;
 import com.zq.dynamicphoto.ui.MyFansActivity;
 import com.zq.dynamicphoto.ui.MyFollowsActivity;
+import com.zq.dynamicphoto.ui.ProblemAndFeedbackActivity;
 
 /**
  * 界面跳转工具类
@@ -99,5 +100,9 @@ public class MFGT {
 
     public static void gotoMyFansActivity(Activity activity) {
         activity.startActivity(new Intent(activity, MyFansActivity.class));
+    }
+
+    public static void gotoProblemAndFeedbackActivity(Activity activity) {
+        activity.startActivity(new Intent(activity, ProblemAndFeedbackActivity.class));
     }
 }

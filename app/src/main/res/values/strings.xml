@@ -123,4 +123,17 @@
     <string name="tv_private_protected">专属私密保护</string>
     <string name="how_have_fans">如何拥有更多粉丝？</string>
     <string name="tv_how_to_have_more_fans">如何拥有更多粉丝</string>
+
+    <string name="tv_FAQ">常见问题</string>
+    <string name="content_custom">联系客服</string>
+    <string name="tv_feedback">建议反馈</string>
+    <string name="tv_hot_FAQ">热门常见问题</string>
+    <string name="update_money_fail">改价没成功?</string>
+    <string name="share_fail">分享朋友圈失败?</string>
+    <string name="how_to_share_pic">如何高清转图?</string>
+    <string name="why_to_app">为什么使用微共享相册安全又私密？</string>
+    <string name="how_to_sy_friend">微共享相册如何同步朋友圈的内容？</string>
+    <string name="tv_share_friend_circle_fail">分享朋友圈失败</string>
+    <string name="tv_private_safe">私密又安全</string>
+    <string name="tv_synchro_friend_circle">同步朋友圈内容</string>
 </resources>
