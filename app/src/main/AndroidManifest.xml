@@ -57,7 +57,7 @@
         <activity android:name=".ui.HtmlManagerActivity" />
         <activity android:name=".ui.AddFriendCircleActivity" />
         <activity android:name=".ui.DynamicSelectActivity" />
-        <activity android:name=".ui.TestActivity"></activity>
+        <activity android:name=".ui.MyFollowsActivity"/>
     </application>
 
 </manifest>

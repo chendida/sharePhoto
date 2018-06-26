@@ -9,6 +9,7 @@ import com.zq.dynamicphoto.bean.Dynamic;
 import com.zq.dynamicphoto.bean.Moments;
 import com.zq.dynamicphoto.common.Constans;
 import com.zq.dynamicphoto.fragment.FriendCircleFragment;
+import com.zq.dynamicphoto.fragment.MineFragment;
 import com.zq.dynamicphoto.ui.AddFriendCircleActivity;
 import com.zq.dynamicphoto.ui.AddLabelActivity;
 import com.zq.dynamicphoto.ui.AddPicActivity;
@@ -16,6 +17,7 @@ import com.zq.dynamicphoto.ui.DynamicSelectActivity;
 import com.zq.dynamicphoto.ui.EditDynamicActivity;
 import com.zq.dynamicphoto.ui.HtmlManagerActivity;
 import com.zq.dynamicphoto.ui.LabelManagerActivity;
+import com.zq.dynamicphoto.ui.MyFollowsActivity;
 
 /**
  * 界面跳转工具类
@@ -73,5 +75,9 @@ public class MFGT {
     public static void gotoAddFriendCircleActivity(Activity activity, Moments moments) {
         activity.startActivity(new Intent(activity, AddFriendCircleActivity.class)
             .putExtra(Constans.MOMENTS,moments));
+    }
+
+    public static void gotoMyFollowActivity(Activity activity) {
+        activity.startActivity(new Intent(activity, MyFollowsActivity.class));
     }
 }

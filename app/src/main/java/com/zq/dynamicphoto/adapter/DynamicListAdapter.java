@@ -22,7 +22,7 @@ import com.zq.dynamicphoto.bean.Dynamic;
 import com.zq.dynamicphoto.bean.DynamicPhoto;
 import com.zq.dynamicphoto.bean.DynamicVideo;
 import com.zq.dynamicphoto.bean.NetRequestBean;
-import com.zq.dynamicphoto.ui.TestActivity;
+import com.zq.dynamicphoto.ui.MyFollowsActivity;
 import com.zq.dynamicphoto.ui.widge.NineGridImageLayout;
 import com.zq.dynamicphoto.utils.ImageLoaderUtils;
 import com.zq.dynamicphoto.utils.MFGT;
@@ -144,7 +144,7 @@ public class DynamicListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
             holder.layoutOneKeyShare.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    mContext.startActivity(new Intent(mContext, TestActivity.class));
+                    //mContext.startActivity(new Intent(mContext, MyFollowsActivity.class));
                 }
             });
         }

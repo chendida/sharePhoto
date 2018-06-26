@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.zhy.autolayout.AutoRelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="70px"
+    android:id="@+id/layout_search"
+    android:layout_marginTop="20px"
+    android:layout_marginLeft="20px"
+    android:layout_marginRight="20px"
+    android:background="@drawable/photo_view_search">
+    <ImageView
+        android:id="@+id/iv_search"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/icon_search"
+        android:layout_centerVertical="true"
+        android:layout_marginLeft="14px"/>
+    <EditText
+        android:id="@+id/et_search"
+        android:layout_toRightOf="@+id/iv_search"
+        android:layout_toLeftOf="@+id/iv_clear_input"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:textSize="27px"
+        android:textColorHint="@color/tv_text_color1"
+        android:layout_centerVertical="true"
+        android:layout_marginLeft="20px"
+        android:background="@null"
+        android:hint="@string/tv_search"
+        android:maxLines="1"
+        android:imeOptions="actionSearch"
+        android:inputType="text"
+        android:textCursorDrawable="@null"
+        android:focusable="false"/>
+    <ImageView
+        android:id="@+id/iv_clear_input"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:layout_marginRight="20px"
+        android:layout_centerVertical="true"
+        android:src="@drawable/search_close"/>
+</com.zhy.autolayout.AutoRelativeLayout>

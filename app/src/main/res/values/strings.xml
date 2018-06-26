@@ -104,4 +104,10 @@
     <string name="upload_moments_success">上传朋友圈成功</string>
     <string name="edit_moments_success">编辑朋友圈成功</string>
     <string name="photo_two_code">相册二维码</string>
+    <string name="on_new">上新</string>
+    <string name="on_all">共</string>
+    <string name="no_see_photo">扫码后看不见上家的微共享相册？</string>
+    <string name="new_person_read">微共享相册新手必读</string>
+    <string name="how_follow_photo">如何关注上家的相册？</string>
+    <string name="what_is_protected">什么是专属私密保护</string>
 </resources>

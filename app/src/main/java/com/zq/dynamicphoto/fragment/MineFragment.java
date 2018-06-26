@@ -105,6 +105,7 @@ public class MineFragment extends BaseFragment {
                         getResources().getString(R.string.photo_two_code),1);
                 break;
             case R.id.layout_my_follow:
+                MFGT.gotoMyFollowActivity(getActivity());
                 break;
             case R.id.layout_my_fans:
                 break;
