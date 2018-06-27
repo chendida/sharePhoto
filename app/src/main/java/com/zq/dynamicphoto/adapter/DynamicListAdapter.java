@@ -25,6 +25,7 @@ import com.zq.dynamicphoto.bean.NetRequestBean;
 import com.zq.dynamicphoto.ui.MyFollowsActivity;
 import com.zq.dynamicphoto.ui.widge.NineGridImageLayout;
 import com.zq.dynamicphoto.utils.ImageLoaderUtils;
+import com.zq.dynamicphoto.utils.ImageSaveUtils;
 import com.zq.dynamicphoto.utils.MFGT;
 import com.zq.dynamicphoto.utils.SharedPreferencesUtils;
 
@@ -112,7 +113,7 @@ public class DynamicListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
             HeadViewHolder holder = (HeadViewHolder) parent;
             holder.bind(position);
         }else if (parent instanceof DynamicViewHolder){
-            DynamicViewHolder holder = (DynamicViewHolder) parent;
+            final DynamicViewHolder holder = (DynamicViewHolder) parent;
             final Dynamic dynamic = mList.get(position - 1);
             holder.bind(position-1);
             holder.tvDelete.setOnClickListener(new View.OnClickListener() {
@@ -145,6 +146,45 @@ public class DynamicListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
                 @Override
                 public void onClick(View v) {
                     //mContext.startActivity(new Intent(mContext, MyFollowsActivity.class));
+                }
+            });
+            holder.tvArticle.setOnClickListener(new View.OnClickListener() {
+                Boolean flag = true;
+                @Override
+                public void onClick(View view) {
+                    if(flag){
+                        flag = false;
+                        holder.tvArticle.setMaxLines(100);
+                        holder.tvArticle.setEllipsize(null); // 展开
+                    }else {
+                        flag = true;
+                        holder.tvArticle.setMaxLines(8);
+                        holder.tvArticle.setEllipsize(TextUtils.TruncateAt.END); // 收缩
+                    }
+                }
+            });
+            holder.tvAllSave.setOnClickListener(new View.OnClickListener() {//批量保存功能
+                @Override
+                public void onClick(View view) {
+                    NetRequestBean netRequestBean = new NetRequestBean();
+                    netRequestBean.setDynamic(mList.get(position-1));
+                    mListener.clickListener(view,position - 1,netRequestBean);
+                }
+            });
+            holder.ivAvatar.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    Integer iuserId = mList.get(position - 1).getUserId();
+                    if (userId.equals(iuserId)){//本人
+                        MFGT.gotoHtmlPhotoDetailsActivity(mContext,"friends.html?userId="+
+                                        userId,
+                                mContext.getResources().getString(R.string.tv_photo_details),
+                                userId);
+                    }else {
+                        NetRequestBean netRequestBean = new NetRequestBean();
+                        netRequestBean.setDynamic(mList.get(position-1));
+                        mListener.clickListener(view,position-1,netRequestBean);
+                    }
                 }
             });
         }

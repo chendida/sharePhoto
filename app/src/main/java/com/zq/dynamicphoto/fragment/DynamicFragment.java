@@ -1,5 +1,7 @@
 package com.zq.dynamicphoto.fragment;
 
+import android.app.Dialog;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -13,6 +15,7 @@ import com.scwang.smartrefresh.layout.SmartRefreshLayout;
 import com.scwang.smartrefresh.layout.api.RefreshLayout;
 import com.scwang.smartrefresh.layout.listener.OnLoadmoreListener;
 import com.scwang.smartrefresh.layout.listener.OnRefreshListener;
+import com.zq.dynamicphoto.MyApplication;
 import com.zq.dynamicphoto.R;
 import com.zq.dynamicphoto.adapter.DynamicListAdapter;
 import com.zq.dynamicphoto.base.BaseFragment;
@@ -24,6 +27,11 @@ import com.zq.dynamicphoto.bean.Result;
 import com.zq.dynamicphoto.bean.UserRelation;
 import com.zq.dynamicphoto.common.Constans;
 import com.zq.dynamicphoto.presenter.DynamicLoadPresenter;
+import com.zq.dynamicphoto.ui.HtmlPhotoDetailsActivity;
+import com.zq.dynamicphoto.ui.SettingPermissionActivity;
+import com.zq.dynamicphoto.ui.widge.DynamicDialog;
+import com.zq.dynamicphoto.utils.ImageSaveUtils;
+import com.zq.dynamicphoto.utils.MFGT;
 import com.zq.dynamicphoto.utils.SharedPreferencesUtils;
 import com.zq.dynamicphoto.view.IDynamicView;
 import org.json.JSONException;
@@ -35,7 +43,7 @@ import butterknife.BindView;
  * 动态列表界面
  */
 public class DynamicFragment extends BaseFragment<IDynamicView,DynamicLoadPresenter<IDynamicView>>
-        implements IDynamicView,DynamicListAdapter.MyClickListener{
+        implements IDynamicView,DynamicListAdapter.MyClickListener,ImageSaveUtils.DownLoadListener{
 
     @BindView(R.id.rcl)
     RecyclerView rcl;
@@ -45,7 +53,7 @@ public class DynamicFragment extends BaseFragment<IDynamicView,DynamicLoadPresen
     int pagerCount = 1;//总页码数
     ArrayList<Dynamic> dynamicsList;
     DynamicListAdapter mAdapter;
-
+    DynamicDialog dynamicDialog;
     @Override
     protected int getLayoutId() {
         return R.layout.fragment_dynamic;
@@ -177,7 +185,46 @@ public class DynamicFragment extends BaseFragment<IDynamicView,DynamicLoadPresen
             case R.id.tv_stick:
                 stickDynamic(netRequestBean);
                 break;
+            case R.id.tv_all_save:
+                Dynamic dynamic = netRequestBean.getDynamic();
+                if (dynamic != null){
+                    showLoading();
+                    ImageSaveUtils.getInstance(this).saveAll(dynamic);
+                }
+                break;
+            case R.id.iv_avatar:
+                showSelectDialog(netRequestBean.getDynamic());
+                break;
         }
+    }
+
+    private void showSelectDialog(final Dynamic dynamic) {
+        if (dynamicDialog == null){
+            dynamicDialog = new DynamicDialog(getActivity(), R.style.dialog, new DynamicDialog.OnItemClickListener() {
+                @Override
+                public void onClick(Dialog dialog, int position) {
+                    dialog.dismiss();
+                    switch (position) {
+                        case 1://进入相册
+                            MFGT.gotoHtmlPhotoDetailsActivity(getActivity(),"friends.html?userId="+
+                                            dynamic.getUserId(),
+                                    getResources().getString(R.string.tv_photo_details),
+                                    dynamic.getUserId());
+                            break;
+                        case 2://设置权限
+                            startActivity(new Intent(getActivity(),
+                                    SettingPermissionActivity.class)
+                                    .putExtra(Constans.USERID,dynamic.getUserId()));
+                            break;
+                        case 3://投诉
+                            MFGT.gotoHtmlManagerActivity(getActivity(),"feedback.html?userId="+dynamic.getUserId(),
+                                    getResources().getString(R.string.tv_feedback));
+                            break;
+                    }
+                }
+            });
+        }
+        dynamicDialog.show();
     }
 
     /**
@@ -230,5 +277,11 @@ public class DynamicFragment extends BaseFragment<IDynamicView,DynamicLoadPresen
         }else {
             showFailed();
         }
+    }
+
+    @Override
+    public void callBack(int code,String msg) {
+        hideLoading();
+        ToastUtils.showShort(msg);
     }
 }
