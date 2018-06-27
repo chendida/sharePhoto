@@ -236,4 +236,21 @@ public interface RetrofitApiService {
      */
     @POST("sdkData.shtml?requestId=15&a=0&b=0")
     Observable<Result> bindPhone(@Body NetRequestBean netRequestBean);
+
+    /**
+     * 获取相册信息
+     * @param netRequestBean
+     * @return
+     */
+    @POST("sdkData.shtml?requestId=26&a=0&b=0")
+    Observable<Result> getPhotoInfo(@Body NetRequestBean netRequestBean);
+
+
+    /**
+     * 编辑相册信息
+     * @param netRequestBean
+     * @return
+     */
+    @POST("sdkData.shtml?requestId=27&a=0&b=0")
+    Observable<Result> editPhotoInfo(@Body NetRequestBean netRequestBean);
 }

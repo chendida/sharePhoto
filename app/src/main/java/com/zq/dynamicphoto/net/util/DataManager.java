@@ -142,4 +142,12 @@ public class DataManager {
     public Observable<Result> getAuthCode(NetRequestBean netRequestBean){
         return mRetrofitService.getAuthCode(netRequestBean);
     }
+
+    public Observable<Result> getPhotoInfo(NetRequestBean netRequestBean){
+        return mRetrofitService.getPhotoInfo(netRequestBean);
+    }
+
+    public Observable<Result> editPhotoInfo(NetRequestBean netRequestBean){
+        return mRetrofitService.editPhotoInfo(netRequestBean);
+    }
 }

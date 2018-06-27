@@ -146,6 +146,8 @@ public class CosUtils extends Presenter {
             srcPath = srcPath + "user/" + userId + "/bg/"+ System.currentTimeMillis() + ".jpg";
         }else if (flag == 8){
             srcPath = srcPath + "user/" + userId + "/live/cover/"+ System.currentTimeMillis() + ".jpg";
+        }else if (flag == 9){
+            srcPath = srcPath + "user/" + userId + "/code/"+ System.currentTimeMillis() + ".jpg";
         }
         return srcPath;
     }

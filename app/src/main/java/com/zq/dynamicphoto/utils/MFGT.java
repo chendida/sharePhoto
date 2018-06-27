@@ -22,6 +22,7 @@ import com.zq.dynamicphoto.ui.HtmlPhotoDetailsActivity;
 import com.zq.dynamicphoto.ui.LabelManagerActivity;
 import com.zq.dynamicphoto.ui.MyFansActivity;
 import com.zq.dynamicphoto.ui.MyFollowsActivity;
+import com.zq.dynamicphoto.ui.PhotoInfoActivity;
 import com.zq.dynamicphoto.ui.ProblemAndFeedbackActivity;
 import com.zq.dynamicphoto.ui.ResetPwdActivity;
 import com.zq.dynamicphoto.ui.SettingActivity;
@@ -116,5 +117,9 @@ public class MFGT {
     public static void gotoResetPwdActivity(Activity activity, boolean isBind) {
         activity.startActivity(new Intent(activity, ResetPwdActivity.class)
         .putExtra(Constans.ISBIND,isBind));
+    }
+
+    public static void gotoPhotoInfoActivity(Activity activity) {
+        activity.startActivity(new Intent(activity, PhotoInfoActivity.class));
     }
 }

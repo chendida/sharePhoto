@@ -48,6 +48,23 @@ public class MineFragment extends BaseFragment {
 
     @Override
     protected void initView(View view) {
+        layoutMineInfo.setOnLongClickListener(new View.OnLongClickListener() {
+            @Override
+            public boolean onLongClick(View view) {
+                if (!TextUtils.isEmpty(tvPhotoUrl.getText().toString())) {
+                    ClipboardManager cm = (ClipboardManager) getActivity().getSystemService(Context.CLIPBOARD_SERVICE);
+                    // 将文本内容放到系统剪贴板里。
+                    cm.setText(tvPhotoUrl.getText());
+                    ToastUtils.showShort("相册地址已复制到粘贴板");
+                }
+                return false;
+            }
+        });
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
         SharedPreferences sp = SharedPreferencesUtils.getInstance();
         String userLogo = sp.getString(Constans.USERLOGO, "");
         String remarkName = sp.getString(Constans.REMARKNAME, "");
@@ -61,18 +78,6 @@ public class MineFragment extends BaseFragment {
         if (!TextUtils.isEmpty(photoUrl)) {
             tvPhotoUrl.setText(photoUrl);
         }
-        layoutMineInfo.setOnLongClickListener(new View.OnLongClickListener() {
-            @Override
-            public boolean onLongClick(View view) {
-                if (!TextUtils.isEmpty(tvPhotoUrl.getText().toString())) {
-                    ClipboardManager cm = (ClipboardManager) getActivity().getSystemService(Context.CLIPBOARD_SERVICE);
-                    // 将文本内容放到系统剪贴板里。
-                    cm.setText(tvPhotoUrl.getText());
-                    ToastUtils.showShort("相册地址已复制到粘贴板");
-                }
-                return false;
-            }
-        });
     }
 
     @Override
@@ -95,6 +100,7 @@ public class MineFragment extends BaseFragment {
     public void onClicked(View view) {
         switch (view.getId()) {
             case R.id.layout_mine_info:
+                MFGT.gotoPhotoInfoActivity(getActivity());
                 break;
             case R.id.layout_open_vip:
                 break;

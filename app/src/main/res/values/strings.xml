@@ -140,4 +140,14 @@
     <string name="system_notify">系统通知</string>
     <string name="about_mime">关于我们</string>
     <string name="reset_pwd">重置密码</string>
+    <string name="photo_name">相册名称</string>
+    <string name="please_input_photo_name">请输入相册名称</string>
+    <string name="contact_phone">联系电话</string>
+    <string name="wx_num">微信号</string>
+    <string name="please_input_wx">请输入微信号</string>
+    <string name="wx_two_code">微信二维码</string>
+    <string name="tv_upload_wx_two_code">上传个人微信二维码</string>
+    <string name="tv_photo_info">相册介绍</string>
+    <string name="photo_hint">相册详细介绍、主营、资质、特色</string>
+    <string name="title_photo_info">相册信息</string>
 </resources>
