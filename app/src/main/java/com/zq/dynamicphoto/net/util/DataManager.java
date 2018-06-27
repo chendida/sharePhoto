@@ -130,4 +130,16 @@ public class DataManager {
     public Observable<Result> cancelSetPermission(NetRequestBean netRequestBean){
         return mRetrofitService.cancelSetPerssion(netRequestBean);
     }
+
+    public Observable<Result> resetPwd(NetRequestBean netRequestBean){
+        return mRetrofitService.updatePwd(netRequestBean);
+    }
+
+    public Observable<Result> bindPhone(NetRequestBean netRequestBean){
+        return mRetrofitService.bindPhone(netRequestBean);
+    }
+
+    public Observable<Result> getAuthCode(NetRequestBean netRequestBean){
+        return mRetrofitService.getAuthCode(netRequestBean);
+    }
 }

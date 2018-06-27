@@ -212,4 +212,28 @@ public interface RetrofitApiService {
      */
     @POST("sdkData.shtml?requestId=28&a=0&b=0")
     Observable<Result> cancelSetPerssion(@Body NetRequestBean netRequestBean);
+
+    /**
+     * 修改密码
+     * @param netRequestBean
+     * @return
+     */
+    @POST("sdkData.shtml?requestId=20&a=0&b=0")
+    Observable<Result> updatePwd(@Body NetRequestBean netRequestBean);
+
+    /**
+     * 获取验证码
+     * @param netRequestBean
+     * @return
+     */
+    @POST("sdkData.shtml?requestId=30&a=0&b=0")
+    Observable<Result> getAuthCode(@Body NetRequestBean netRequestBean);
+
+    /**
+     * 绑定手机号
+     * @param netRequestBean
+     * @return
+     */
+    @POST("sdkData.shtml?requestId=15&a=0&b=0")
+    Observable<Result> bindPhone(@Body NetRequestBean netRequestBean);
 }

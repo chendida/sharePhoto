@@ -139,4 +139,5 @@
     <string name="tv_grade">去评分</string>
     <string name="system_notify">系统通知</string>
     <string name="about_mime">关于我们</string>
+    <string name="reset_pwd">重置密码</string>
 </resources>

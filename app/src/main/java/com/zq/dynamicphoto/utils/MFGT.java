@@ -23,6 +23,8 @@ import com.zq.dynamicphoto.ui.LabelManagerActivity;
 import com.zq.dynamicphoto.ui.MyFansActivity;
 import com.zq.dynamicphoto.ui.MyFollowsActivity;
 import com.zq.dynamicphoto.ui.ProblemAndFeedbackActivity;
+import com.zq.dynamicphoto.ui.ResetPwdActivity;
+import com.zq.dynamicphoto.ui.SettingActivity;
 
 /**
  * 界面跳转工具类
@@ -109,5 +111,10 @@ public class MFGT {
 
     public static void gotoAboutAppActivity(Activity activity) {
         activity.startActivity(new Intent(activity, AboutAppActivity.class));
+    }
+
+    public static void gotoResetPwdActivity(Activity activity, boolean isBind) {
+        activity.startActivity(new Intent(activity, ResetPwdActivity.class)
+        .putExtra(Constans.ISBIND,isBind));
     }
 }

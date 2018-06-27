@@ -23,6 +23,12 @@ public class NetRequestBean {
 
     private UserPermissions userPermissions;
 
+    private AuthCode authCode;
+
+    public void setAuthCode(AuthCode authCode) {
+        this.authCode = authCode;
+    }
+
     public UserPermissions getUserPermissions() {
         return userPermissions;
     }
