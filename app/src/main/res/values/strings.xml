@@ -136,4 +136,7 @@
     <string name="tv_share_friend_circle_fail">分享朋友圈失败</string>
     <string name="tv_private_safe">私密又安全</string>
     <string name="tv_synchro_friend_circle">同步朋友圈内容</string>
+    <string name="tv_grade">去评分</string>
+    <string name="system_notify">系统通知</string>
+    <string name="about_mime">关于我们</string>
 </resources>

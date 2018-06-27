@@ -10,6 +10,7 @@ import com.zq.dynamicphoto.bean.Moments;
 import com.zq.dynamicphoto.common.Constans;
 import com.zq.dynamicphoto.fragment.FriendCircleFragment;
 import com.zq.dynamicphoto.fragment.MineFragment;
+import com.zq.dynamicphoto.ui.AboutAppActivity;
 import com.zq.dynamicphoto.ui.AddFriendCircleActivity;
 import com.zq.dynamicphoto.ui.AddLabelActivity;
 import com.zq.dynamicphoto.ui.AddPicActivity;
@@ -104,5 +105,9 @@ public class MFGT {
 
     public static void gotoProblemAndFeedbackActivity(Activity activity) {
         activity.startActivity(new Intent(activity, ProblemAndFeedbackActivity.class));
+    }
+
+    public static void gotoAboutAppActivity(Activity activity) {
+        activity.startActivity(new Intent(activity, AboutAppActivity.class));
     }
 }

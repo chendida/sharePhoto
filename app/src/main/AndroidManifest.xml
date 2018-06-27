@@ -62,7 +62,8 @@
         <activity android:name=".ui.DynamicDetailsActivity" />
         <activity android:name=".ui.SettingPermissionActivity" />
         <activity android:name=".ui.MyFansActivity" />
-        <activity android:name=".ui.ProblemAndFeedbackActivity"/>
+        <activity android:name=".ui.ProblemAndFeedbackActivity" />
+        <activity android:name=".ui.AboutAppActivity"></activity>
     </application>
 
 </manifest>

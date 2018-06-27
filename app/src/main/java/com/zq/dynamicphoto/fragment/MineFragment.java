@@ -114,6 +114,7 @@ public class MineFragment extends BaseFragment {
                 MFGT.gotoProblemAndFeedbackActivity(getActivity());
                 break;
             case R.id.layout_about_app:
+                MFGT.gotoAboutAppActivity(getActivity());
                 break;
             case R.id.layout_setting:
                 MFGT.startActivity(getActivity(), SettingActivity.class);
