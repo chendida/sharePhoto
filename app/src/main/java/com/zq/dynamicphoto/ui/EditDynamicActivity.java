@@ -16,6 +16,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.blankj.utilcode.util.ToastUtils;
 import com.luck.picture.lib.PictureSelector;
 import com.luck.picture.lib.config.PictureConfig;
 import com.luck.picture.lib.config.PictureMimeType;
@@ -286,7 +287,7 @@ public class EditDynamicActivity extends BaseActivity implements PicAdapter.AddP
         String content = etDescriptionContent.getText().toString();
         ArrayList<LocalMedia> mSelectedImages = mAdapter.getmList();
         if (TextUtils.isEmpty(content) && mSelectedImages.size() == 0) {
-            Toast.makeText(this, "图片和文本不能都为空", Toast.LENGTH_SHORT).show();
+            ToastUtils.showShort("图片和文本不能都为空");
             return;
         }
         ArrayList<String>images = new ArrayList<>();

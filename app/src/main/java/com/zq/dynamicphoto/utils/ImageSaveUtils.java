@@ -78,6 +78,11 @@ public class ImageSaveUtils {
         void callBack(int code,String msg);
     }
 
+    public void clearListener(){
+        mListener = null;
+        instance = null;
+    }
+
     private ImageSaveUtils(DownLoadListener listener) {
         mListener = listener;
     }

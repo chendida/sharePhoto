@@ -1,10 +1,12 @@
 package com.zq.dynamicphoto.fragment;
 
 
+import android.app.Dialog;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -19,6 +21,7 @@ import com.scwang.smartrefresh.layout.SmartRefreshLayout;
 import com.scwang.smartrefresh.layout.api.RefreshLayout;
 import com.scwang.smartrefresh.layout.listener.OnLoadmoreListener;
 import com.scwang.smartrefresh.layout.listener.OnRefreshListener;
+import com.zq.dynamicphoto.MyApplication;
 import com.zq.dynamicphoto.R;
 import com.zq.dynamicphoto.adapter.FriendCircleAdapter;
 import com.zq.dynamicphoto.base.BaseFragment;
@@ -30,7 +33,10 @@ import com.zq.dynamicphoto.bean.Result;
 import com.zq.dynamicphoto.bean.UserInfo;
 import com.zq.dynamicphoto.common.Constans;
 import com.zq.dynamicphoto.presenter.MomentOperatePresenter;
+import com.zq.dynamicphoto.ui.widge.ShareWxDialog;
+import com.zq.dynamicphoto.utils.ImageSaveUtils;
 import com.zq.dynamicphoto.utils.MFGT;
+import com.zq.dynamicphoto.utils.ShareUtils;
 import com.zq.dynamicphoto.utils.SharedPreferencesUtils;
 import com.zq.dynamicphoto.view.IFriendCircleView;
 
@@ -58,7 +64,7 @@ public class FriendCircleFragment extends BaseFragment<IFriendCircleView,
     int pagerCount = 1;//总页码数
     FriendCircleAdapter mAdapter;
     ArrayList<Moments> friendCircleList = new ArrayList<>();
-
+    private ShareWxDialog shareWxDialog;
     @Override
     protected int getLayoutId() {
         return R.layout.fragment_friend_circle;
@@ -185,6 +191,20 @@ public class FriendCircleFragment extends BaseFragment<IFriendCircleView,
     }
 
     @Override
+    public void onDestroy() {
+        super.onDestroy();
+        if (shareWxDialog != null){
+            if (shareWxDialog.isShowing()){
+                shareWxDialog.dismiss();
+                shareWxDialog = null;
+            }else {
+                shareWxDialog = null;
+            }
+        }
+        ShareUtils.getInstance(getActivity()).clear();
+    }
+
+    @Override
     public void clickListener(View v, Moments moments) {
         switch (v.getId()){
             case R.id.tv_delete:
@@ -204,6 +224,39 @@ public class FriendCircleFragment extends BaseFragment<IFriendCircleView,
             case R.id.iv_add_friend_circle:
                 MFGT.gotoAddFriendCircleActivity(getActivity());
                 break;
+            case R.id.layout_one_key_share:
+                showShareWxDialog(moments);
+                break;
+        }
+    }
+
+    private void showShareWxDialog(final Moments moments) {
+        shareWxDialog = new ShareWxDialog(getActivity(), R.style.dialog, new ShareWxDialog.OnItemClickListener() {
+            @Override
+            public void onClick(Dialog dialog, int position) {
+                dialog.dismiss();
+                SharedPreferences sp = SharedPreferencesUtils.getInstance();
+                String forwordUrl = sp.getString(Constans.FORWORDURL, "");
+                if (TextUtils.isEmpty(forwordUrl)){
+                    forwordUrl = "http://www.redshoping.cn";
+                }
+                String url = forwordUrl + "/moments.html?id=" + moments.getId();
+                switch (position){
+                    case 1:
+                        ShareUtils.getInstance(getActivity()).shareLink(url,moments.getTitle(),
+                                moments.getSignature(),moments.getForwardLogo(),position);
+                        break;
+                    case 2:
+                        ShareUtils.getInstance(getActivity()).shareLink(url,moments.getTitle(),
+                                moments.getSignature(),moments.getForwardLogo(),position);
+                        break;
+                }
+            }
+        });
+        if (!MyApplication.mWxApi.isWXAppInstalled()) {
+            ToastUtils.showShort(getResources().getString(R.string.have_no_wx));
+        }else {
+            shareWxDialog.show();
         }
     }
 

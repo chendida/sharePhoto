@@ -150,7 +150,7 @@ public class HomeActivity extends BaseActivity<IUploadDynamicView,
 
     private void repeatDynamicVideo(DynamicBean dynamicBean) {
         if (dynamicBean.getmSelectedImages().get(0).startsWith("http")){//网络视频
-            uploadPhotoDynamic(Constans.REPEAT_DYNAMIC,PictureConfig.TYPE_VIDEO,dynamicBean.getSelectUrl());
+            uploadPhotoDynamic(Constans.REPEAT_DYNAMIC,PictureConfig.TYPE_VIDEO,dynamicBean.getmSelectedImages());
         }else {//本地视频
             dynamicVideo(dynamicBean);
         }
@@ -215,7 +215,7 @@ public class HomeActivity extends BaseActivity<IUploadDynamicView,
 
     private void editDynamicVideo(DynamicBean dynamicBean) {
         if (dynamicBean.getmSelectedImages().get(0).startsWith("http")){//网络视频
-            uploadPhotoDynamic(Constans.EDIT_DYNAMIC,PictureConfig.TYPE_VIDEO,dynamicBean.getSelectUrl());
+            uploadPhotoDynamic(Constans.EDIT_DYNAMIC,PictureConfig.TYPE_VIDEO,dynamicBean.getmSelectedImages());
         }else {//本地视频
             dynamicVideo(dynamicBean);
         }

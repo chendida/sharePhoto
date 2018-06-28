@@ -27,11 +27,12 @@ import com.zq.dynamicphoto.bean.Result;
 import com.zq.dynamicphoto.bean.UserRelation;
 import com.zq.dynamicphoto.common.Constans;
 import com.zq.dynamicphoto.presenter.DynamicLoadPresenter;
-import com.zq.dynamicphoto.ui.HtmlPhotoDetailsActivity;
 import com.zq.dynamicphoto.ui.SettingPermissionActivity;
 import com.zq.dynamicphoto.ui.widge.DynamicDialog;
+import com.zq.dynamicphoto.ui.widge.ShareDialog;
 import com.zq.dynamicphoto.utils.ImageSaveUtils;
 import com.zq.dynamicphoto.utils.MFGT;
+import com.zq.dynamicphoto.utils.ShareUtils;
 import com.zq.dynamicphoto.utils.SharedPreferencesUtils;
 import com.zq.dynamicphoto.view.IDynamicView;
 import org.json.JSONException;
@@ -39,6 +40,7 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 import java.util.List;
 import butterknife.BindView;
+
 /**
  * 动态列表界面
  */
@@ -53,7 +55,8 @@ public class DynamicFragment extends BaseFragment<IDynamicView,DynamicLoadPresen
     int pagerCount = 1;//总页码数
     ArrayList<Dynamic> dynamicsList;
     DynamicListAdapter mAdapter;
-    DynamicDialog dynamicDialog;
+    private DynamicDialog dynamicDialog;
+    private ShareDialog shareDialog;
     @Override
     protected int getLayoutId() {
         return R.layout.fragment_dynamic;
@@ -120,6 +123,29 @@ public class DynamicFragment extends BaseFragment<IDynamicView,DynamicLoadPresen
     @Override
     public void onDestroyView() {
         super.onDestroyView();
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        if (dynamicDialog != null){
+            if (dynamicDialog.isShowing()){
+                dynamicDialog.dismiss();
+                dynamicDialog = null;
+            }else {
+                dynamicDialog = null;
+            }
+        }
+        if (shareDialog != null){
+            if (shareDialog.isShowing()){
+                shareDialog.dismiss();
+                shareDialog = null;
+            }else {
+                shareDialog = null;
+            }
+        }
+        ImageSaveUtils.getInstance(this).clearListener();
+        ShareUtils.getInstance(getActivity()).clear();
     }
 
     @Override
@@ -195,35 +221,64 @@ public class DynamicFragment extends BaseFragment<IDynamicView,DynamicLoadPresen
             case R.id.iv_avatar:
                 showSelectDialog(netRequestBean.getDynamic());
                 break;
+            case R.id.layout_one_key_share:
+                showShareDialog(netRequestBean.getDynamic());
+                break;
+        }
+    }
+
+    private void showShareDialog(final Dynamic dynamic) {
+        shareDialog = new ShareDialog(getActivity(), R.style.dialog, new ShareDialog.OnItemClickListener() {
+            @Override
+            public void onClick(Dialog dialog, int position) {
+                dialog.dismiss();
+                switch (position) {
+                    case 1://分享给好友
+                        ShareUtils.getInstance(getActivity()).shareFriend(dynamic,1);
+                        break;
+                    case 2://分享给微信朋友圈
+                        ShareUtils.getInstance(getActivity()).shareFriend(dynamic,2);
+                        break;
+                    case 3://批量保存
+                        if (dynamic != null){
+                            showLoading();
+                            ImageSaveUtils.getInstance(DynamicFragment.this).saveAll(dynamic);
+                        }
+                        break;
+                }
+            }
+        });
+        if (!MyApplication.mWxApi.isWXAppInstalled()) {
+            ToastUtils.showShort(getResources().getString(R.string.have_no_wx));
+        }else {
+            shareDialog.show();
         }
     }
 
     private void showSelectDialog(final Dynamic dynamic) {
-        if (dynamicDialog == null){
-            dynamicDialog = new DynamicDialog(getActivity(), R.style.dialog, new DynamicDialog.OnItemClickListener() {
-                @Override
-                public void onClick(Dialog dialog, int position) {
-                    dialog.dismiss();
-                    switch (position) {
-                        case 1://进入相册
-                            MFGT.gotoHtmlPhotoDetailsActivity(getActivity(),"friends.html?userId="+
-                                            dynamic.getUserId(),
-                                    getResources().getString(R.string.tv_photo_details),
-                                    dynamic.getUserId());
-                            break;
-                        case 2://设置权限
-                            startActivity(new Intent(getActivity(),
-                                    SettingPermissionActivity.class)
-                                    .putExtra(Constans.USERID,dynamic.getUserId()));
-                            break;
-                        case 3://投诉
-                            MFGT.gotoHtmlManagerActivity(getActivity(),"feedback.html?userId="+dynamic.getUserId(),
-                                    getResources().getString(R.string.tv_feedback));
-                            break;
-                    }
+        dynamicDialog = new DynamicDialog(getActivity(), R.style.dialog, new DynamicDialog.OnItemClickListener() {
+            @Override
+            public void onClick(Dialog dialog, int position) {
+                dialog.dismiss();
+                switch (position) {
+                    case 1://进入相册
+                        MFGT.gotoHtmlPhotoDetailsActivity(getActivity(),"friends.html?userId="+
+                                        dynamic.getUserId(),
+                                getResources().getString(R.string.tv_photo_details),
+                                dynamic.getUserId());
+                        break;
+                    case 2://设置权限
+                        startActivity(new Intent(getActivity(),
+                                SettingPermissionActivity.class)
+                                .putExtra(Constans.USERID,dynamic.getUserId()));
+                        break;
+                    case 3://投诉
+                        MFGT.gotoHtmlManagerActivity(getActivity(),"feedback.html?userId="+dynamic.getUserId(),
+                                getResources().getString(R.string.tv_feedback));
+                        break;
                 }
-            });
-        }
+            }
+        });
         dynamicDialog.show();
     }
 
@@ -284,4 +339,5 @@ public class DynamicFragment extends BaseFragment<IDynamicView,DynamicLoadPresen
         hideLoading();
         ToastUtils.showShort(msg);
     }
+
 }

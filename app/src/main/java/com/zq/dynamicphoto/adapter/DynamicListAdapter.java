@@ -1,5 +1,6 @@
 package com.zq.dynamicphoto.adapter;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -22,6 +23,7 @@ import com.zq.dynamicphoto.bean.Dynamic;
 import com.zq.dynamicphoto.bean.DynamicPhoto;
 import com.zq.dynamicphoto.bean.DynamicVideo;
 import com.zq.dynamicphoto.bean.NetRequestBean;
+import com.zq.dynamicphoto.ui.HtmlPhotoDetailsActivity;
 import com.zq.dynamicphoto.ui.MyFollowsActivity;
 import com.zq.dynamicphoto.ui.widge.NineGridImageLayout;
 import com.zq.dynamicphoto.utils.ImageLoaderUtils;
@@ -145,7 +147,15 @@ public class DynamicListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
             holder.layoutOneKeyShare.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    //mContext.startActivity(new Intent(mContext, MyFollowsActivity.class));
+                    int iuserId = mList.get(position-1).getUserId();
+                    if (userId.equals(iuserId)){//本人的直接调分享显示
+                        NetRequestBean netRequestBean = new NetRequestBean();
+                        netRequestBean.setDeviceProperties(dr);
+                        netRequestBean.setDynamic(dynamic);
+                        mListener.clickListener(v,position - 1,netRequestBean);
+                    }else {
+                        MFGT.gotoEditDynamicActivity(mContext,dynamic);
+                    }
                 }
             });
             holder.tvArticle.setOnClickListener(new View.OnClickListener() {
@@ -184,6 +194,18 @@ public class DynamicListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
                         NetRequestBean netRequestBean = new NetRequestBean();
                         netRequestBean.setDynamic(mList.get(position-1));
                         mListener.clickListener(view,position-1,netRequestBean);
+                    }
+                }
+            });
+
+            holder.tvPicSource.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    Integer isForward = mList.get(position-1).getIsForward();
+                    if (isForward == 1) {
+                        MFGT.gotoDynamicDetailsActivity((Activity) mContext,
+                                "detail.html?id=" + mList.get(position-1).getUserId()
+                                , mContext.getResources().getString(R.string.tv_dynamic_details));
                     }
                 }
             });
@@ -263,6 +285,10 @@ public class DynamicListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
                     tvStick.setVisibility(View.GONE);
                     tvDelete.setVisibility(View.GONE);
                     tvAllSave.setVisibility(View.VISIBLE);
+                }else {
+                    tvStick.setVisibility(View.VISIBLE);
+                    tvDelete.setVisibility(View.VISIBLE);
+                    tvAllSave.setVisibility(View.GONE);
                 }
                 if (dynamic.getDynamicType() == 1) {//图片展示
                     if (dynamic.getDynamicPhotos() != null) {

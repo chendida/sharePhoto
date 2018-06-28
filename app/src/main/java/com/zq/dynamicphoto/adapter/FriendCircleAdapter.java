@@ -171,27 +171,10 @@ public class FriendCircleAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
             holder.layoutOneKeyShare.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    showShareWx(moments);
+                    mListener.clickListener(view,moments);
                 }
             });
         }
-    }
-
-    private void showShareWx(final Moments moments) {
-        /*new ShareWxDialog(mActivity, R.style.dialog, new ShareWxDialog.OnItemClickListener() {
-            @Override
-            public void onClick(Dialog dialog, int position) {
-                dialog.dismiss();
-                switch (position) {
-                    case 1:
-                        ShareUtils.getInstance(mActivity).shareLink(moments,1);
-                        break;
-                    case 2://分享到微信朋友圈
-                        ShareUtils.getInstance(mActivity).shareLink(moments,2);
-                        break;
-                }
-            }
-        }).show();*/
     }
 
     @Override

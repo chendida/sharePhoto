@@ -2,6 +2,7 @@ package com.zq.dynamicphoto.ui;
 
 import android.app.Dialog;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.net.Uri;
 import android.text.TextUtils;
@@ -12,20 +13,30 @@ import android.webkit.WebView;
 import android.webkit.WebViewClient;
 import android.widget.ImageView;
 import android.widget.TextView;
+
+import com.blankj.utilcode.util.ToastUtils;
 import com.google.gson.Gson;
 import com.tencent.mm.opensdk.utils.Log;
 import com.zhy.autolayout.AutoRelativeLayout;
+import com.zq.dynamicphoto.MyApplication;
 import com.zq.dynamicphoto.R;
 import com.zq.dynamicphoto.base.BaseActivity;
 import com.zq.dynamicphoto.base.BasePresenter;
 import com.zq.dynamicphoto.bean.Dynamic;
 import com.zq.dynamicphoto.common.Constans;
+import com.zq.dynamicphoto.fragment.DynamicFragment;
 import com.zq.dynamicphoto.ui.widge.SetPermissionDialog;
+import com.zq.dynamicphoto.ui.widge.ShareDialog;
+import com.zq.dynamicphoto.ui.widge.ShareWxDialog;
+import com.zq.dynamicphoto.utils.ImageSaveUtils;
 import com.zq.dynamicphoto.utils.MFGT;
+import com.zq.dynamicphoto.utils.ShareUtils;
+import com.zq.dynamicphoto.utils.SharedPreferencesUtils;
+
 import butterknife.BindView;
 import butterknife.OnClick;
 
-public class HtmlPhotoDetailsActivity extends BaseActivity {
+public class HtmlPhotoDetailsActivity extends BaseActivity implements ImageSaveUtils.DownLoadListener{
     private static final String TAG = "HtmlPhotoDetailsActivity";
     @BindView(R.id.layout_back)
     AutoRelativeLayout layoutBack;
@@ -38,7 +49,10 @@ public class HtmlPhotoDetailsActivity extends BaseActivity {
     @BindView(R.id.iv_camera)
     ImageView ivCamera;
     private SetPermissionDialog dialog;
-    private Integer uUserId;
+    private Integer uUserId,userId;
+    private ShareWxDialog shareWxDialog;
+    private ShareDialog shareDialog;
+    String url;
     @Override
     protected int getLayoutId() {
         return R.layout.activity_html_manager;
@@ -48,6 +62,7 @@ public class HtmlPhotoDetailsActivity extends BaseActivity {
     protected void initView() {
         String title = (String) getIntent().getSerializableExtra(Constans.HTML_TITLE);
         uUserId = getIntent().getIntExtra(Constans.USERID,0);
+        userId = SharedPreferencesUtils.getInstance().getInt(Constans.USERID,0);
         tvTitle.setText(title);
         layoutBack.setVisibility(View.VISIBLE);
         ivCamera.setImageDrawable(getResources().getDrawable(R.drawable.menu_icon));
@@ -60,7 +75,7 @@ public class HtmlPhotoDetailsActivity extends BaseActivity {
 
     private void loadHtml() {
         String html = (String) getIntent().getSerializableExtra(Constans.HTML);
-        String url = Constans.HTML_Url + html;
+        url = Constans.HTML_Url + html;
         htmlWebView.getSettings().setJavaScriptEnabled(true);
         htmlWebView.loadUrl(url);
         Log.i(TAG, url);
@@ -108,7 +123,7 @@ public class HtmlPhotoDetailsActivity extends BaseActivity {
                         if (!TextUtils.isEmpty(list)) {
                             Dynamic dynamic = new Gson().fromJson(list, Dynamic.class);
                             if (dynamic != null) {
-                                //showShareWxDialog(dynamic);
+                                showShareDialog(dynamic);
                             }
                         } else if (!TextUtils.isEmpty(id)) {
                             MFGT.gotoDynamicDetailsActivity(HtmlPhotoDetailsActivity.this,
@@ -128,6 +143,34 @@ public class HtmlPhotoDetailsActivity extends BaseActivity {
         });
     }
 
+    private void showShareDialog(final Dynamic dynamic) {
+        shareDialog = new ShareDialog(this, R.style.dialog, new ShareDialog.OnItemClickListener() {
+            @Override
+            public void onClick(Dialog dialog, int position) {
+                dialog.dismiss();
+                switch (position) {
+                    case 1://分享给好友
+                        ShareUtils.getInstance(HtmlPhotoDetailsActivity.this).shareFriend(dynamic,1);
+                        break;
+                    case 2://分享给微信朋友圈
+                        ShareUtils.getInstance(HtmlPhotoDetailsActivity.this).shareFriend(dynamic,2);
+                        break;
+                    case 3://批量保存
+                        if (dynamic != null){
+                            showLoading();
+                            ImageSaveUtils.getInstance(HtmlPhotoDetailsActivity.this).saveAll(dynamic);
+                        }
+                        break;
+                }
+            }
+        });
+        if (!MyApplication.mWxApi.isWXAppInstalled()) {
+            ToastUtils.showShort(getResources().getString(R.string.have_no_wx));
+        }else {
+            shareDialog.show();
+        }
+    }
+
     @Override
     protected BasePresenter createPresenter() {
         return null;
@@ -140,9 +183,38 @@ public class HtmlPhotoDetailsActivity extends BaseActivity {
                 finish();
                 break;
             case R.id.layout_finish:
-                showSetPermissionDialog();
+                if (uUserId.equals(userId)){
+                    showShareWxDialog();
+                }else {
+                    showSetPermissionDialog();
+                }
                 break;
         }
+    }
+
+    private void showShareWxDialog() {
+        shareWxDialog = new ShareWxDialog(this, R.style.dialog, new ShareWxDialog.OnItemClickListener() {
+            @Override
+            public void onClick(Dialog dialog, int position) {
+                dialog.dismiss();
+                SharedPreferences sp = SharedPreferencesUtils.getInstance();
+                String userLogo = sp.getString(Constans.USERLOGO, "");
+                String remarkName = sp.getString(Constans.REMARKNAME, "") + "的相册";
+                switch (position){
+                    case 1:
+                        ShareUtils.getInstance(HtmlPhotoDetailsActivity.this)
+                                .shareLink(url,remarkName,
+                                        getResources().getString(R.string.tv_photo_details),userLogo,position);
+                        break;
+                    case 2:
+                        ShareUtils.getInstance(HtmlPhotoDetailsActivity.this)
+                                .shareLink(url,remarkName,
+                                        getResources().getString(R.string.tv_photo_details),userLogo,position);
+                        break;
+                }
+            }
+        });
+        shareWxDialog.show();
     }
 
     private void showSetPermissionDialog() {
@@ -174,5 +246,30 @@ public class HtmlPhotoDetailsActivity extends BaseActivity {
                 dialog = null;
             }
         }
+        if (shareDialog != null){
+            if (shareDialog.isShowing()){
+                shareDialog.dismiss();
+                shareDialog = null;
+            }else {
+                shareDialog = null;
+            }
+        }
+
+        if (shareWxDialog != null){
+            if (shareWxDialog.isShowing()){
+                shareWxDialog.dismiss();
+                shareWxDialog = null;
+            }else {
+                shareWxDialog = null;
+            }
+        }
+        ImageSaveUtils.getInstance(this).clearListener();
+        ShareUtils.getInstance(this).clear();
+    }
+
+    @Override
+    public void callBack(int code, String msg) {
+        hideLoading();
+        ToastUtils.showShort(msg);
     }
 }

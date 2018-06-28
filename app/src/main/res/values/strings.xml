@@ -150,4 +150,6 @@
     <string name="tv_photo_info">相册介绍</string>
     <string name="photo_hint">相册详细介绍、主营、资质、特色</string>
     <string name="title_photo_info">相册信息</string>
+    <string name="share_wx">好友/群</string>
+    <string name="have_no_wx">您还没有安装微信</string>
 </resources>
