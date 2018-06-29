@@ -119,6 +119,7 @@ public class PicAdapter extends BaseAdapter {
     private void showPic(int position,PicViewHolder holder) {
         int pictureType = PictureMimeType.isPictureType(mList.get(position).getPictureType());
         if (mList.get(position).getPath().endsWith(".mp4")){
+            Log.i("videoUrl","url = " + mList.get(position).getPath());
             pictureType = PictureConfig.TYPE_VIDEO;
         }
         holder.ivVideoFlag.setVisibility(pictureType == PictureConfig.TYPE_VIDEO

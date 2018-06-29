@@ -33,11 +33,13 @@ import com.zq.dynamicphoto.fragment.LiveFragment;
 import com.zq.dynamicphoto.fragment.MineFragment;
 import com.zq.dynamicphoto.presenter.DynamicUploadPresenter;
 import com.zq.dynamicphoto.ui.widge.ScrollViewPager;
+import com.zq.dynamicphoto.utils.CompressVideoUtils;
 import com.zq.dynamicphoto.utils.CosUtils;
 import com.zq.dynamicphoto.utils.MFGT;
 import com.zq.dynamicphoto.utils.SaveTasks;
 import com.zq.dynamicphoto.utils.SharedPreferencesUtils;
 import com.zq.dynamicphoto.utils.VideoUtils;
+import com.zq.dynamicphoto.view.CompressView;
 import com.zq.dynamicphoto.view.IUploadDynamicView;
 import com.zq.dynamicphoto.view.UploadView;
 import com.zxy.tiny.Tiny;
@@ -52,7 +54,8 @@ import butterknife.BindView;
 import butterknife.OnClick;
 
 public class HomeActivity extends BaseActivity<IUploadDynamicView,
-        DynamicUploadPresenter<IUploadDynamicView>> implements IUploadDynamicView,UploadView{
+        DynamicUploadPresenter<IUploadDynamicView>> implements IUploadDynamicView,
+        UploadView,CompressView {
     private static final String TAG = "HomeActivity";
     @BindView(R.id.view_pager)
     ScrollViewPager viewPager;
@@ -336,7 +339,7 @@ public class HomeActivity extends BaseActivity<IUploadDynamicView,
             ArrayList<String> thumb = new ArrayList<>();
             thumb.add(file.getPath());
             compressImage(thumb, PictureConfig.TYPE_IMAGE);
-            CosUtils.getInstance(this).uploadToCos(dynamicBean.getmSelectedImages().get(0), 2);
+            CompressVideoUtils.getInstance().compressVideoResouce(this,dynamicBean.getmSelectedImages().get(0),this);
         }
     }
 
@@ -512,6 +515,16 @@ public class HomeActivity extends BaseActivity<IUploadDynamicView,
     @Override
     public void showRepeatDynamicResult(Result result) {
         clearUtils();
+    }
+
+    @Override
+    public void onCompressResult(int code, String url) {
+        Log.i(TAG,"videoUrl = "+url);
+        if (code == Constans.REQUEST_OK) {
+            CosUtils.getInstance(this).uploadToCos(url, 2);
+        }else {
+            ToastUtils.showShort(url);
+        }
     }
 
     public class ViewPagerAdapter extends FragmentPagerAdapter {

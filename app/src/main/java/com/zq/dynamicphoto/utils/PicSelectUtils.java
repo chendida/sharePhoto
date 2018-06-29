@@ -66,7 +66,8 @@ public class PicSelectUtils {
     public void preview(int position, ArrayList<LocalMedia>mSelectedImages, Context activity) {
         LocalMedia media = mSelectedImages.get(position);
         if (media.getPath().endsWith(".mp4")){
-            PictureSelector.create((Activity) activity).externalPictureVideo(mSelectedImages.get(position).getPath());
+            MFGT.gotoVideoPlayActivity(activity,mSelectedImages.get(position).getPath());
+            //PictureSelector.create((Activity) activity).externalPictureVideo(mSelectedImages.get(position).getPath());
         }else {
             PictureSelector.create((Activity) activity).externalPicturePreview(position, mSelectedImages);
         }

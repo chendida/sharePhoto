@@ -26,6 +26,7 @@ import com.zq.dynamicphoto.ui.PhotoInfoActivity;
 import com.zq.dynamicphoto.ui.ProblemAndFeedbackActivity;
 import com.zq.dynamicphoto.ui.ResetPwdActivity;
 import com.zq.dynamicphoto.ui.SettingActivity;
+import com.zq.dynamicphoto.ui.VideoPlayActivity;
 
 /**
  * 界面跳转工具类
@@ -121,5 +122,10 @@ public class MFGT {
 
     public static void gotoPhotoInfoActivity(Activity activity) {
         activity.startActivity(new Intent(activity, PhotoInfoActivity.class));
+    }
+
+    public static void gotoVideoPlayActivity(Context activity, String path) {
+        activity.startActivity(new Intent(activity, VideoPlayActivity.class)
+        .putExtra(Constans.VIDEO_URL,path));
     }
 }

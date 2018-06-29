@@ -1,6 +1,7 @@
 package com.zq.dynamicphoto.fragment;
 
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
@@ -21,6 +22,8 @@ import com.zhy.autolayout.AutoRelativeLayout;
 import com.zq.dynamicphoto.R;
 import com.zq.dynamicphoto.base.BaseFragment;
 import com.zq.dynamicphoto.base.BasePresenter;
+import com.zq.dynamicphoto.ui.VideoPlayActivity;
+import com.zq.dynamicphoto.utils.CompressVideoUtils;
 import com.zq.dynamicphoto.utils.ImageLoaderUtils;
 
 import butterknife.BindView;
@@ -100,11 +103,13 @@ public class LiveFragment extends BaseFragment {
         int width = dm.widthPixels;
         switch (view.getId()) {
             case R.id.btn_1:
-                tvText.setText("haha");
+                //CompressVideoUtils.getInstance().compressVideoResouce(getActivity(),"");
+                //startActivity(new Intent(getActivity(), VideoPlayActivity.class));
+                /*tvText.setText("haha");
                 bitmap1 = convertViewToBitmap(layoutWaterOne);
                 repeater = createRepeater(width, bitmap1);
                 layoutWaterOne.setVisibility(View.GONE);
-                ImageLoaderUtils.displayImg(ivWater,repeater);
+                ImageLoaderUtils.displayImg(ivWater,repeater);*/
                 break;
             case R.id.btn_2:
                 bitmap1 = convertViewToBitmap(layoutWaterOne);

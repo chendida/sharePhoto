@@ -11,6 +11,7 @@ import com.trello.rxlifecycle2.LifecycleTransformer;
 import com.trello.rxlifecycle2.components.support.RxAppCompatActivity;
 import com.zq.dynamicphoto.MyApplication;
 import com.zq.dynamicphoto.R;
+import com.zq.dynamicphoto.utils.LoadingUtils;
 
 import java.util.logging.Logger;
 
@@ -26,7 +27,7 @@ public abstract class BaseActivity<V,T extends BasePresenter<V>> extends RxAppCo
     @Inject
     protected T mPresenter;
 
-    KProgressHUD mKProgressHUD;
+    //KProgressHUD mKProgressHUD;
 
     private Unbinder unbinder;
 
@@ -87,22 +88,15 @@ public abstract class BaseActivity<V,T extends BasePresenter<V>> extends RxAppCo
 
     @Override
     public void showLoading() {
-        Log.i("mKProgressHUD","mKProgressHUD1");
-        mKProgressHUD = KProgressHUD.create(this);
-        Log.i("mKProgressHUD","mKProgressHUD2");
-        mKProgressHUD.setStyle(KProgressHUD.Style.SPIN_INDETERMINATE)
-                .setCancellable(true)
-                .setAnimationSpeed(2)
-                .setDimAmount(0.5f)
-                .setLabel(getResources().getString(R.string.loading))
-                .show();
+        LoadingUtils.showLoading(this);
     }
 
     @Override
     public void hideLoading() {
-        if (mKProgressHUD != null) {
+        /*if (mKProgressHUD != null) {
             mKProgressHUD.dismiss();
-        }
+        }*/
+        LoadingUtils.hideLoading();
     }
 
     @Override

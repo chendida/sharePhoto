@@ -27,11 +27,15 @@ import com.tencent.mm.opensdk.modelmsg.WXVideoObject;
 import com.tencent.mm.opensdk.modelmsg.WXWebpageObject;
 import com.zq.dynamicphoto.MyApplication;
 import com.zq.dynamicphoto.R;
+import com.zq.dynamicphoto.base.BaseActivity;
 import com.zq.dynamicphoto.bean.Dynamic;
 import com.zq.dynamicphoto.bean.DynamicPhoto;
 import com.zq.dynamicphoto.bean.DynamicVideo;
 import com.zq.dynamicphoto.bean.Moments;
+import com.zq.dynamicphoto.common.Constans;
 import com.zq.dynamicphoto.ui.widge.ShareDialog;
+import com.zq.dynamicphoto.view.CompressView;
+import com.zq.dynamicphoto.view.UploadView;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -47,10 +51,12 @@ import static android.content.Context.CLIPBOARD_SERVICE;
  * Created by Administrator on 2018/6/27.
  */
 
-public class ShareUtils {
+public class ShareUtils implements CompressView,UploadView{
     private static ShareUtils instance;
 
     private static Activity mContext;
+
+    private String content;
 
     /**
      * 单例
@@ -115,34 +121,9 @@ public class ShareUtils {
     }
 
     private void shareVideoToFriendCircle(final DynamicVideo dynamicVideo, final String content) {
-        new Thread(new Runnable() {
-            @Override
-            public void run() {
-                WXVideoObject videoObject = new WXVideoObject();
-                videoObject.videoUrl = dynamicVideo.getVideoURL();
-
-                WXMediaMessage msg = new WXMediaMessage();
-                msg.title = "小视频";
-                msg.description = content;
-                //这里替换一张自己工程里的图片资源
-                Bitmap bitmap = GetImageInputStream(dynamicVideo.getVideoURL());
-
-                bitmap = ThumbnailUtils.extractThumbnail(bitmap, 210, 210);
-
-                int bytes = bitmap.getByteCount();
-
-                ByteBuffer buf = ByteBuffer.allocate(bytes);
-                bitmap.copyPixelsToBuffer(buf);
-
-                byte[] byteArray = buf.array();
-                msg.thumbData = byteArray;
-                SendMessageToWX.Req req = new SendMessageToWX.Req();
-                req.transaction = String.valueOf("video");
-                req.message = msg;
-                req.scene = SendMessageToWX.Req.WXSceneTimeline;
-                MyApplication.mWxApi.sendReq(req);
-            }
-        }).start();
+        LoadingUtils.showLoading(mContext);
+        this.content = content;
+        CompressVideoUtils.getInstance().compressVideoResouce(mContext,dynamicVideo.getVideoURL(),this);
     }
 
     private void copyText(String content,int flag){
@@ -385,6 +366,30 @@ public class ShareUtils {
             return true;
         }else {
             return false;
+        }
+    }
+
+    @Override
+    public void onCompressResult(int code, String url) {
+        if (code == 0){
+            CosUtils.getInstance(this).uploadToCos(url, 2);
+        }else {
+            LoadingUtils.hideLoading();
+            ToastUtils.showShort("分享失败");
+        }
+    }
+
+    @Override
+    public void onUploadProcess(int percent) {
+    }
+
+    @Override
+    public void onUploadResult(int code, String url) {
+        LoadingUtils.hideLoading();
+        if (code == Constans.REQUEST_OK){
+            shareUrlVideo(CDNUrl.toCNDURL(url),content,2);
+        }else {
+            ToastUtils.showShort("分享失败");
         }
     }
 }

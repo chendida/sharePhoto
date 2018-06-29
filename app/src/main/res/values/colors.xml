@@ -7,6 +7,7 @@
     <!--背景颜色-->
     <color name="layout_head_bg">#2f2e33</color>
     <color name="white">#FFFFFF</color>
+    <color name="biz_audio_progress_bg">#00b2ff</color>
     <color name="btn_login_bg_color">#04be01</color>
     <color name="colorBackground">#f0f0f0</color>
 
