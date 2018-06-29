@@ -1,5 +1,6 @@
 package com.zq.dynamicphoto.ui;
 
+import android.app.Dialog;
 import android.content.ClipboardManager;
 import android.content.Context;
 import android.content.Intent;
@@ -22,6 +23,7 @@ import com.luck.picture.lib.config.PictureConfig;
 import com.luck.picture.lib.config.PictureMimeType;
 import com.luck.picture.lib.entity.LocalMedia;
 import com.zhy.autolayout.AutoRelativeLayout;
+import com.zq.dynamicphoto.MyApplication;
 import com.zq.dynamicphoto.R;
 import com.zq.dynamicphoto.adapter.PicAdapter;
 import com.zq.dynamicphoto.base.BaseActivity;
@@ -34,10 +36,13 @@ import com.zq.dynamicphoto.bean.DynamicPhoto;
 import com.zq.dynamicphoto.bean.DynamicVideo;
 import com.zq.dynamicphoto.bean.MessageEvent;
 import com.zq.dynamicphoto.common.Constans;
+import com.zq.dynamicphoto.ui.widge.ShareDialog;
+import com.zq.dynamicphoto.utils.ImageSaveUtils;
 import com.zq.dynamicphoto.utils.MFGT;
 import com.zq.dynamicphoto.utils.PermissionUtils;
 import com.zq.dynamicphoto.utils.PicSelectUtils;
 import com.zq.dynamicphoto.utils.SaveLabelUtils;
+import com.zq.dynamicphoto.utils.ShareUtils;
 import com.zq.dynamicphoto.utils.SharedPreferencesUtils;
 import com.zq.dynamicphoto.utils.SoftUtils;
 import com.zq.dynamicphoto.utils.TitleUtils;
@@ -52,7 +57,8 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
-public class EditDynamicActivity extends BaseActivity implements PicAdapter.AddPicListener {
+public class EditDynamicActivity extends BaseActivity implements
+        PicAdapter.AddPicListener,ImageSaveUtils.DownLoadListener {
 
     @BindView(R.id.layout_back)
     AutoRelativeLayout layoutBack;
@@ -79,7 +85,7 @@ public class EditDynamicActivity extends BaseActivity implements PicAdapter.AddP
     private long lastClickTime;
     private Integer userId;
     private Dynamic dynamic;
-
+    private ShareDialog shareDialog;
     @Override
     protected int getLayoutId() {
         return R.layout.activity_add_pic;
@@ -233,6 +239,16 @@ public class EditDynamicActivity extends BaseActivity implements PicAdapter.AddP
         super.onDestroy();
         SaveLabelUtils.getInstance().getDynamicLabels().clear();
         EventBus.getDefault().unregister(this);
+        if (shareDialog != null){
+            if (shareDialog.isShowing()){
+                shareDialog.dismiss();
+                shareDialog = null;
+            }else {
+                shareDialog = null;
+            }
+        }
+        ImageSaveUtils.getInstance(this).clearListener();
+        ShareUtils.getInstance(this).clear();
     }
 
     public boolean isFastClick() {
@@ -275,7 +291,61 @@ public class EditDynamicActivity extends BaseActivity implements PicAdapter.AddP
                 MFGT.gotoHtmlManagerActivity(this,agreement,getResources().getString(R.string.about_clause));
                 break;
             case R.id.btn_one_key_share:
+                if (mAdapter.getmList().size() != 0){
+                    Dynamic dynamic = new Dynamic();
+                    if (mAdapter.getmList().get(0).getPath().endsWith(".mp4")){
+                        dynamic.setDynamicType(PictureConfig.TYPE_VIDEO);
+                        ArrayList<DynamicVideo>videos = new ArrayList<>();
+                        for (LocalMedia media:mAdapter.getmList()) {
+                            DynamicVideo video = new DynamicVideo();
+                            video.setVideoURL(media.getPath());
+                            videos.add(video);
+                        }
+                        dynamic.setDynamicVideos(videos);
+                    }else {
+                        dynamic.setDynamicType(PictureConfig.TYPE_IMAGE);
+                        ArrayList<DynamicPhoto>photos = new ArrayList<>();
+                        for (LocalMedia media:mAdapter.getmList()) {
+                            DynamicPhoto photo = new DynamicPhoto();
+                            photo.setThumbnailURL(media.getPath());
+                            photos.add(photo);
+                        }
+                        dynamic.setDynamicPhotos(photos);
+                    }
+                    dynamic.setContent(etDescriptionContent.getText().toString());
+                    showShareDialog(dynamic);
+                }else {
+                    ToastUtils.showShort("至少选择一张图片或视频");
+                }
                 break;
+        }
+    }
+
+    private void showShareDialog(final Dynamic dynamic) {
+        shareDialog = new ShareDialog(this, R.style.dialog, new ShareDialog.OnItemClickListener() {
+            @Override
+            public void onClick(Dialog dialog, int position) {
+                dialog.dismiss();
+                switch (position) {
+                    case 1://分享给好友
+                        ShareUtils.getInstance(EditDynamicActivity.this).shareFriend(dynamic,1);
+                        break;
+                    case 2://分享给微信朋友圈
+                        ShareUtils.getInstance(EditDynamicActivity.this).shareFriend(dynamic,2);
+                        break;
+                    case 3://批量保存
+                        if (dynamic != null){
+                            showLoading();
+                            ImageSaveUtils.getInstance(EditDynamicActivity.this).saveAll(dynamic);
+                        }
+                        break;
+                }
+            }
+        });
+        if (!MyApplication.mWxApi.isWXAppInstalled()) {
+            ToastUtils.showShort(getResources().getString(R.string.have_no_wx));
+        }else {
+            shareDialog.show();
         }
     }
 
@@ -325,5 +395,11 @@ public class EditDynamicActivity extends BaseActivity implements PicAdapter.AddP
         MessageEvent messageEvent = new MessageEvent(dynamicBean);
         EventBus.getDefault().post(messageEvent);
         finish();
+    }
+
+    @Override
+    public void callBack(int code, String msg) {
+        hideLoading();
+        ToastUtils.showShort(msg);
     }
 }

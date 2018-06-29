@@ -1,8 +1,54 @@
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
+<com.zhy.autolayout.AutoLinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.zq.dynamicphoto.fragment.LiveFragment">
-
-
-</FrameLayout>
+    android:orientation="vertical"
+    android:background="@color/tv_text_color6"
+    >
+    <Button
+        android:id="@+id/btn_1"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="原图"/>
+    <Button
+        android:id="@+id/btn_2"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="平铺图"/>
+    <com.zhy.autolayout.AutoRelativeLayout
+        android:id="@+id/layout_water_one"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/water_one"
+            />
+        <com.zhy.autolayout.AutoRelativeLayout
+            android:layout_marginTop="90px"
+            android:layout_width="180px"
+            android:layout_height="34px">
+            <TextView
+                android:id="@+id/tv_text1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerHorizontal="true"
+                android:textSize="13px"
+                android:textColor="@color/tv_text_select"
+                android:text="@string/tv_mine"/>
+            <TextView
+                android:layout_below="@+id/tv_text1"
+                android:id="@+id/tv_text2"
+                android:textSize="10px"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerHorizontal="true"
+                android:textColor="@color/tv_text_select"
+                android:text="@string/tv_upload_wx_two_code"/>
+        </com.zhy.autolayout.AutoRelativeLayout>
+    </com.zhy.autolayout.AutoRelativeLayout>
+    <ImageView
+        android:id="@+id/iv_water"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"/>
+</com.zhy.autolayout.AutoLinearLayout>

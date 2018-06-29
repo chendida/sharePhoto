@@ -37,6 +37,7 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.nio.ByteBuffer;
 import java.util.ArrayList;
 import java.util.concurrent.ExecutionException;
 
@@ -98,11 +99,50 @@ public class ShareUtils {
                 if (dynamic.getDynamicVideos() != null){
                     if (dynamic.getDynamicVideos().size() != 0){
                         DynamicVideo dynamicVideo = dynamic.getDynamicVideos().get(0);
-                        shareUrlVideo(dynamicVideo.getVideoURL(),dynamic.getContent(),flag);
+                        if (dynamicVideo.getVideoURL().startsWith("http")) {
+                            shareUrlVideo(dynamicVideo.getVideoURL(), dynamic.getContent(), flag);
+                        }else {
+                            if (flag == 1){
+                                shareVideo(new File(dynamicVideo.getVideoURL()));
+                            }else {
+                                shareVideoToFriendCircle(dynamicVideo,dynamic.getContent());
+                            }
+                        }
                     }
                 }
             }
         }
+    }
+
+    private void shareVideoToFriendCircle(final DynamicVideo dynamicVideo, final String content) {
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                WXVideoObject videoObject = new WXVideoObject();
+                videoObject.videoUrl = dynamicVideo.getVideoURL();
+
+                WXMediaMessage msg = new WXMediaMessage();
+                msg.title = "小视频";
+                msg.description = content;
+                //这里替换一张自己工程里的图片资源
+                Bitmap bitmap = GetImageInputStream(dynamicVideo.getVideoURL());
+
+                bitmap = ThumbnailUtils.extractThumbnail(bitmap, 210, 210);
+
+                int bytes = bitmap.getByteCount();
+
+                ByteBuffer buf = ByteBuffer.allocate(bytes);
+                bitmap.copyPixelsToBuffer(buf);
+
+                byte[] byteArray = buf.array();
+                msg.thumbData = byteArray;
+                SendMessageToWX.Req req = new SendMessageToWX.Req();
+                req.transaction = String.valueOf("video");
+                req.message = msg;
+                req.scene = SendMessageToWX.Req.WXSceneTimeline;
+                MyApplication.mWxApi.sendReq(req);
+            }
+        }).start();
     }
 
     private void copyText(String content,int flag){
@@ -122,14 +162,6 @@ public class ShareUtils {
         new Thread(new Runnable() {
             @Override
             public void run() {
-                /*SharedPreferences sp = SharedPreferencesUtils.getInstance();
-                String forwordUrl = sp.getString("forwordUrl", "");
-                Log.i("6666666",forwordUrl);
-                if (TextUtils.isEmpty(forwordUrl)){
-                    forwordUrl = "http://www.redshoping.cn";
-                }
-                String url = forwordUrl + "/moments.html?id=" + moments.getId();
-                Log.i("6666666",url);*/
                 WXWebpageObject webpage = new WXWebpageObject();
                 webpage.webpageUrl = url;
                 WXMediaMessage msg = new WXMediaMessage(webpage);
@@ -317,5 +349,42 @@ public class ShareUtils {
             e.printStackTrace();
         }
         return bitmap;
+    }
+
+    /**
+     * 分享本地视频到微信好友
+     */
+    private void shareVideo(final File file){
+        Log.i("ShareUtils","分享视频到微信好友");
+        setIntent("video", "com.tencent.mm",
+                "com.tencent.mm.ui.tools.ShareImgUI", file);
+    }
+
+
+    private void setIntent(String type,String packageName,String className,File file){
+        if(file.exists()){
+            Uri uri = Uri.fromFile(file);
+            Intent intent = new Intent();
+            intent.setAction(Intent.ACTION_SEND);
+            intent.setType(type);
+            if(stringCheck(packageName) && stringCheck(className)){
+                intent.setComponent(new ComponentName(packageName, className));
+            }else if (stringCheck(packageName)) {
+                intent.setPackage(packageName);
+            }
+            intent.putExtra(Intent.EXTRA_STREAM, uri);
+            Intent chooserIntent = Intent.createChooser(intent, "分享到:");
+            mContext.startActivityForResult(chooserIntent,666);
+        }else {
+            ToastUtils.showShort("文件不存在");
+        }
+    }
+
+    private static boolean stringCheck(String str){
+        if(null != str && !TextUtils.isEmpty(str)){
+            return true;
+        }else {
+            return false;
+        }
     }
 }
