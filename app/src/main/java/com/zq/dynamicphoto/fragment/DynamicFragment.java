@@ -145,7 +145,6 @@ public class DynamicFragment extends BaseFragment<IDynamicView,DynamicLoadPresen
             }
         }
         ImageSaveUtils.getInstance(this).clearListener();
-        ShareUtils.getInstance(getActivity()).clear();
     }
 
     @Override
@@ -234,10 +233,10 @@ public class DynamicFragment extends BaseFragment<IDynamicView,DynamicLoadPresen
                 dialog.dismiss();
                 switch (position) {
                     case 1://分享给好友
-                        ShareUtils.getInstance(getActivity()).shareFriend(dynamic,1);
+                        ShareUtils.getInstance().shareFriend(dynamic,1,getActivity());
                         break;
                     case 2://分享给微信朋友圈
-                        ShareUtils.getInstance(getActivity()).shareFriend(dynamic,2);
+                        ShareUtils.getInstance().shareFriend(dynamic,2,getActivity());
                         break;
                     case 3://批量保存
                         if (dynamic != null){

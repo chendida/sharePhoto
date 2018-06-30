@@ -25,6 +25,16 @@ public class DynamicBean implements Serializable{
 
     private DynamicForward dynamicForward;
 
+    private Integer isShare;//1分享到微信，2分享到朋友圈
+
+    public Integer getIsShare() {
+        return isShare;
+    }
+
+    public void setIsShare(Integer isShare) {
+        this.isShare = isShare;
+    }
+
     public DynamicForward getDynamicForward() {
         return dynamicForward;
     }

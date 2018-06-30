@@ -7,6 +7,7 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.WindowManager;
 import android.widget.RadioButton;
@@ -33,10 +34,12 @@ import com.zq.dynamicphoto.fragment.LiveFragment;
 import com.zq.dynamicphoto.fragment.MineFragment;
 import com.zq.dynamicphoto.presenter.DynamicUploadPresenter;
 import com.zq.dynamicphoto.ui.widge.ScrollViewPager;
+import com.zq.dynamicphoto.utils.CDNUrl;
 import com.zq.dynamicphoto.utils.CompressVideoUtils;
 import com.zq.dynamicphoto.utils.CosUtils;
 import com.zq.dynamicphoto.utils.MFGT;
 import com.zq.dynamicphoto.utils.SaveTasks;
+import com.zq.dynamicphoto.utils.ShareUtils;
 import com.zq.dynamicphoto.utils.SharedPreferencesUtils;
 import com.zq.dynamicphoto.utils.VideoUtils;
 import com.zq.dynamicphoto.view.CompressView;
@@ -109,11 +112,45 @@ public class HomeActivity extends BaseActivity<IUploadDynamicView,
         if (messageEvent != null){
             DynamicBean dynamic = messageEvent.getDynamicBean();
             if (dynamic != null){
+                if (dynamic.getIsShare() == 1){
+                    share(dynamic,1);
+                }else if (dynamic.getIsShare() == 2){
+                    share(dynamic,2);
+                }
                 SaveTasks.getInstance().getList().add(dynamic);
                 startUpload();
             }else {
                 startUpload();
             }
+        }
+    }
+
+    private void share(DynamicBean dynamicBean, int flag) {
+        Dynamic dynamic = new Dynamic();
+        dynamic.setContent(dynamicBean.getContent());
+        dynamic.setDynamicType(dynamicBean.getPicType());
+        if (dynamicBean.getPicType() == PictureConfig.TYPE_VIDEO){
+            ArrayList<DynamicVideo>videos = new ArrayList<>();
+            for (String url:dynamicBean.getmSelectedImages()) {
+                DynamicVideo video = new DynamicVideo();
+                video.setVideoURL(url);
+                videos.add(video);
+            }
+            dynamic.setDynamicVideos(videos);
+            if (videos.get(0).getVideoURL().startsWith("http")){
+                ShareUtils.getInstance().shareFriend(dynamic,flag,this);
+            }else {
+                showLoading();
+            }
+        }else {
+            ArrayList<DynamicPhoto>photos = new ArrayList<>();
+            for (String url:dynamicBean.getmSelectedImages()) {
+                DynamicPhoto photo = new DynamicPhoto();
+                photo.setThumbnailURL(url);
+                photos.add(photo);
+            }
+            dynamic.setDynamicPhotos(photos);
+            ShareUtils.getInstance().shareFriend(dynamic,flag,this);
         }
     }
 
@@ -362,6 +399,27 @@ public class HomeActivity extends BaseActivity<IUploadDynamicView,
             if (list.get(0).getPicType() == PictureConfig.TYPE_VIDEO){
                 //当前任务传的是视频
                 if (selectUrl.size() == 2) {
+                    if (SaveTasks.getInstance().getList().get(0).getIsShare() == 2){
+                        String videoUrl = "";
+                        for (String video:selectUrl) {
+                            if (video.endsWith(".mp4")){
+                                videoUrl = video;
+                                break;
+                            }
+                        }
+                        hideLoading();
+                        if (!TextUtils.isEmpty(videoUrl)){
+                            Dynamic dynamic = new Dynamic();
+                            dynamic.setDynamicType(PictureConfig.TYPE_VIDEO);
+                            dynamic.setContent(SaveTasks.getInstance().getList().get(0).getContent());
+                            ArrayList<DynamicVideo>videos = new ArrayList<>();
+                            DynamicVideo video = new DynamicVideo();
+                            video.setVideoURL(CDNUrl.toCNDURL(videoUrl));
+                            videos.add(video);
+                            dynamic.setDynamicVideos(videos);
+                            ShareUtils.getInstance().shareFriend(dynamic,2,this);
+                        }
+                    }
                     if (list.get(0).getRequestType() == 1) {//新增
                         uploadPhotoDynamic(Constans.ADD_DYNAMIC,PictureConfig.TYPE_VIDEO,selectUrl);
                     }else if (list.get(0).getRequestType() == 2) {//编辑

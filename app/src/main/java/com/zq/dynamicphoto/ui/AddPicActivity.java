@@ -200,7 +200,6 @@ public class AddPicActivity extends BaseActivity implements PicAdapter.AddPicLis
             }
         }
         ImageSaveUtils.getInstance(this).clearListener();
-        ShareUtils.getInstance(this).clear();
     }
 
     public boolean isFastClick() {
@@ -219,7 +218,7 @@ public class AddPicActivity extends BaseActivity implements PicAdapter.AddPicLis
         switch (view.getId()) {
             case R.id.layout_finish:
                 if (checkClause.isChecked()) {
-                    toUpload();
+                    toUpload(0);
                 } else {
                     Toast.makeText(this, getResources().getString(R.string.please_read_and_agree_clause), Toast.LENGTH_SHORT).show();
                 }
@@ -279,10 +278,10 @@ public class AddPicActivity extends BaseActivity implements PicAdapter.AddPicLis
                 dialog.dismiss();
                 switch (position) {
                     case 1://分享给好友
-                        ShareUtils.getInstance(AddPicActivity.this).shareFriend(dynamic,1);
+                        toUpload(1);
                         break;
                     case 2://分享给微信朋友圈
-                        ShareUtils.getInstance(AddPicActivity.this).shareFriend(dynamic,2);
+                        toUpload(2);
                         break;
                     case 3://批量保存
                         if (dynamic != null){
@@ -300,7 +299,7 @@ public class AddPicActivity extends BaseActivity implements PicAdapter.AddPicLis
         }
     }
 
-    private void toUpload() {
+    private void toUpload(Integer isShare) {
         if (isFastClick()) {
             return;
         }
@@ -316,6 +315,7 @@ public class AddPicActivity extends BaseActivity implements PicAdapter.AddPicLis
             images.add(localMedia.getPath());
         }
         DynamicBean dynamicBean = new DynamicBean();
+        dynamicBean.setIsShare(isShare);
         dynamicBean.setRequestType(1);
         if (mSelectedImages.size() > 0) {
             dynamicBean.setPicType(PictureMimeType.isPictureType(mSelectedImages.get(0).getPictureType()));

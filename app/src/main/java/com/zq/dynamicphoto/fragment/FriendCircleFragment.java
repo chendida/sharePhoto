@@ -201,7 +201,6 @@ public class FriendCircleFragment extends BaseFragment<IFriendCircleView,
                 shareWxDialog = null;
             }
         }
-        ShareUtils.getInstance(getActivity()).clear();
     }
 
     @Override
@@ -243,11 +242,11 @@ public class FriendCircleFragment extends BaseFragment<IFriendCircleView,
                 String url = forwordUrl + "/moments.html?id=" + moments.getId();
                 switch (position){
                     case 1:
-                        ShareUtils.getInstance(getActivity()).shareLink(url,moments.getTitle(),
+                        ShareUtils.getInstance().shareLink(url,moments.getTitle(),
                                 moments.getSignature(),moments.getForwardLogo(),position);
                         break;
                     case 2:
-                        ShareUtils.getInstance(getActivity()).shareLink(url,moments.getTitle(),
+                        ShareUtils.getInstance().shareLink(url,moments.getTitle(),
                                 moments.getSignature(),moments.getForwardLogo(),position);
                         break;
                 }

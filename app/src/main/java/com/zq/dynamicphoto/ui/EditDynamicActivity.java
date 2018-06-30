@@ -248,7 +248,6 @@ public class EditDynamicActivity extends BaseActivity implements
             }
         }
         ImageSaveUtils.getInstance(this).clearListener();
-        ShareUtils.getInstance(this).clear();
     }
 
     public boolean isFastClick() {
@@ -268,7 +267,7 @@ public class EditDynamicActivity extends BaseActivity implements
         switch (view.getId()) {
             case R.id.layout_finish:
                 if (checkClause.isChecked()) {
-                    toUpload();
+                    toUpload(0);
                 } else {
                     Toast.makeText(this, getResources().getString(R.string.please_read_and_agree_clause), Toast.LENGTH_SHORT).show();
                 }
@@ -328,10 +327,12 @@ public class EditDynamicActivity extends BaseActivity implements
                 dialog.dismiss();
                 switch (position) {
                     case 1://分享给好友
-                        ShareUtils.getInstance(EditDynamicActivity.this).shareFriend(dynamic,1);
+                        //ShareUtils.getInstance().shareFriend(dynamic,1,EditDynamicActivity.this);
+                        toUpload(1);
                         break;
                     case 2://分享给微信朋友圈
-                        ShareUtils.getInstance(EditDynamicActivity.this).shareFriend(dynamic,2);
+                        //ShareUtils.getInstance().shareFriend(dynamic,2,EditDynamicActivity.this);
+                        toUpload(2);
                         break;
                     case 3://批量保存
                         if (dynamic != null){
@@ -349,7 +350,7 @@ public class EditDynamicActivity extends BaseActivity implements
         }
     }
 
-    private void toUpload() {
+    private void toUpload(int isShare) {
         if (isFastClick()) {
             return;
         }
@@ -365,6 +366,7 @@ public class EditDynamicActivity extends BaseActivity implements
             images.add(localMedia.getPath());
         }
         DynamicBean dynamicBean = new DynamicBean();
+        dynamicBean.setIsShare(isShare);
         if (dynamic.getUserId().equals(userId)){
             dynamicBean.setRequestType(Constans.EDIT_DYNAMIC);
         }else {

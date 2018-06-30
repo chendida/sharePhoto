@@ -41,7 +41,6 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
-import java.nio.ByteBuffer;
 import java.util.ArrayList;
 import java.util.concurrent.ExecutionException;
 
@@ -51,10 +50,8 @@ import static android.content.Context.CLIPBOARD_SERVICE;
  * Created by Administrator on 2018/6/27.
  */
 
-public class ShareUtils implements CompressView,UploadView{
+public class ShareUtils /*implements CompressView,UploadView*/{
     private static ShareUtils instance;
-
-    private static Activity mContext;
 
     private String content;
 
@@ -62,28 +59,22 @@ public class ShareUtils implements CompressView,UploadView{
      * 单例
      * @return
      */
-    public static ShareUtils getInstance(Activity activity){
+    public static ShareUtils getInstance(){
         if (null == instance) {
             synchronized (ShareUtils.class) {
                 if (null == instance) {
                     instance = new ShareUtils();
-                    mContext = activity;
                 }
             }
         }
         return instance;
     }
 
-    public void clear(){
-        mContext = null;
-        instance = null;
-    }
-
     /**
      * 分享给微信好友
      * @param dynamic
      */
-    public void shareFriend(Dynamic dynamic,int flag){
+    public void shareFriend(Dynamic dynamic,int flag,Activity mContext){
         if (dynamic != null){
             if (dynamic.getDynamicType() == 1) {//图文
                 if (dynamic.getDynamicPhotos() != null) {
@@ -94,7 +85,7 @@ public class ShareUtils implements CompressView,UploadView{
                             localMedia.setPath(dynamicPhoto.getThumbnailURL());
                             list.add(localMedia);
                         }
-                        shareToWxFriend(list,flag,dynamic.getContent());
+                        shareToWxFriend(list,flag,dynamic.getContent(),mContext);
                     } else {
                         shareTextToWxFriend(dynamic.getContent(),flag);
                     }
@@ -109,9 +100,9 @@ public class ShareUtils implements CompressView,UploadView{
                             shareUrlVideo(dynamicVideo.getVideoURL(), dynamic.getContent(), flag);
                         }else {
                             if (flag == 1){
-                                shareVideo(new File(dynamicVideo.getVideoURL()));
+                                shareVideo(new File(dynamicVideo.getVideoURL()),mContext);
                             }else {
-                                shareVideoToFriendCircle(dynamicVideo,dynamic.getContent());
+                                //shareVideoToFriendCircle(dynamicVideo,dynamic.getContent(),mContext);
                             }
                         }
                     }
@@ -120,11 +111,12 @@ public class ShareUtils implements CompressView,UploadView{
         }
     }
 
-    private void shareVideoToFriendCircle(final DynamicVideo dynamicVideo, final String content) {
+    /*private void shareVideoToFriendCircle(final DynamicVideo dynamicVideo,
+                                          final String content,Activity mContext) {
         LoadingUtils.showLoading(mContext);
         this.content = content;
         CompressVideoUtils.getInstance().compressVideoResouce(mContext,dynamicVideo.getVideoURL(),this);
-    }
+    }*/
 
     private void copyText(String content,int flag){
         if (!TextUtils.isEmpty(content) && flag == 2) {
@@ -214,7 +206,7 @@ public class ShareUtils implements CompressView,UploadView{
     /**
      * 分享多张图片给好友
      */
-    private void shareToFriend(File[] file,int flag) {
+    private void shareToFriend(File[] file,int flag,Activity mContext) {
         String  ail = "";
         if (flag == 1){
             ail = "com.tencent.mm.ui.tools.ShareImgUI";
@@ -246,7 +238,7 @@ public class ShareUtils implements CompressView,UploadView{
      * @param mSelectedImages
      */
     private void shareToWxFriend(final ArrayList<LocalMedia> mSelectedImages,
-                                 final int flag,final String content) {
+                                 final int flag, final String content, final Activity mContext) {
         new Thread(new Runnable() {
             @Override
             public void run() {
@@ -259,7 +251,7 @@ public class ShareUtils implements CompressView,UploadView{
                         files[i] = new File(Environment.getExternalStorageDirectory(), filePath);
                     }
                 }
-                shareToFriend(files,flag);
+                shareToFriend(files,flag,mContext);
             }
         }).start();
         copyText(content,flag);
@@ -335,14 +327,14 @@ public class ShareUtils implements CompressView,UploadView{
     /**
      * 分享本地视频到微信好友
      */
-    private void shareVideo(final File file){
+    private void shareVideo(final File file,Activity mContext){
         Log.i("ShareUtils","分享视频到微信好友");
         setIntent("video", "com.tencent.mm",
-                "com.tencent.mm.ui.tools.ShareImgUI", file);
+                "com.tencent.mm.ui.tools.ShareImgUI", file,mContext);
     }
 
 
-    private void setIntent(String type,String packageName,String className,File file){
+    private void setIntent(String type,String packageName,String className,File file,Activity mContext){
         if(file.exists()){
             Uri uri = Uri.fromFile(file);
             Intent intent = new Intent();
@@ -369,7 +361,7 @@ public class ShareUtils implements CompressView,UploadView{
         }
     }
 
-    @Override
+   /* @Override
     public void onCompressResult(int code, String url) {
         if (code == 0){
             CosUtils.getInstance(this).uploadToCos(url, 2);
@@ -391,5 +383,5 @@ public class ShareUtils implements CompressView,UploadView{
         }else {
             ToastUtils.showShort("分享失败");
         }
-    }
+    }*/
 }

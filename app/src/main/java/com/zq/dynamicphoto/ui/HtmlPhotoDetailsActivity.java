@@ -150,10 +150,10 @@ public class HtmlPhotoDetailsActivity extends BaseActivity implements ImageSaveU
                 dialog.dismiss();
                 switch (position) {
                     case 1://分享给好友
-                        ShareUtils.getInstance(HtmlPhotoDetailsActivity.this).shareFriend(dynamic,1);
+                        ShareUtils.getInstance().shareFriend(dynamic,1,HtmlPhotoDetailsActivity.this);
                         break;
                     case 2://分享给微信朋友圈
-                        ShareUtils.getInstance(HtmlPhotoDetailsActivity.this).shareFriend(dynamic,2);
+                        ShareUtils.getInstance().shareFriend(dynamic,2,HtmlPhotoDetailsActivity.this);
                         break;
                     case 3://批量保存
                         if (dynamic != null){
@@ -202,12 +202,12 @@ public class HtmlPhotoDetailsActivity extends BaseActivity implements ImageSaveU
                 String remarkName = sp.getString(Constans.REMARKNAME, "") + "的相册";
                 switch (position){
                     case 1:
-                        ShareUtils.getInstance(HtmlPhotoDetailsActivity.this)
+                        ShareUtils.getInstance()
                                 .shareLink(url,remarkName,
                                         getResources().getString(R.string.tv_photo_details),userLogo,position);
                         break;
                     case 2:
-                        ShareUtils.getInstance(HtmlPhotoDetailsActivity.this)
+                        ShareUtils.getInstance()
                                 .shareLink(url,remarkName,
                                         getResources().getString(R.string.tv_photo_details),userLogo,position);
                         break;
@@ -264,7 +264,6 @@ public class HtmlPhotoDetailsActivity extends BaseActivity implements ImageSaveU
             }
         }
         ImageSaveUtils.getInstance(this).clearListener();
-        ShareUtils.getInstance(this).clear();
     }
 
     @Override
