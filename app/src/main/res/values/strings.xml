@@ -152,4 +152,5 @@
     <string name="title_photo_info">相册信息</string>
     <string name="share_wx">好友/群</string>
     <string name="have_no_wx">您还没有安装微信</string>
+    <string name="tv_water">水印</string>
 </resources>

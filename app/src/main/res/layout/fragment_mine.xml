@@ -388,4 +388,37 @@
             android:layout_centerVertical="true"
             android:src="@drawable/right_go"/>
     </com.zhy.autolayout.AutoRelativeLayout>
+
+    <!--设置-->
+    <com.zhy.autolayout.AutoRelativeLayout
+        android:id="@+id/layout_water"
+        android:layout_marginTop="20px"
+        android:layout_width="match_parent"
+        android:layout_height="80px"
+        android:background="@color/white">
+        <ImageView
+            android:id="@+id/iv_water"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="20px"
+            android:layout_centerVertical="true"
+            android:src="@drawable/icon_setting"/>
+        <TextView
+            android:id="@+id/tv_water"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="20px"
+            android:layout_toRightOf="@+id/iv_water"
+            android:layout_centerVertical="true"
+            android:textColor="@color/black"
+            android:textSize="30px"
+            android:text="@string/tv_water"/>
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_marginRight="20px"
+            android:layout_centerVertical="true"
+            android:src="@drawable/right_go"/>
+    </com.zhy.autolayout.AutoRelativeLayout>
 </com.zhy.autolayout.AutoLinearLayout>

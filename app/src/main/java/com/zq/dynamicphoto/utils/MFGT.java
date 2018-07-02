@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.support.v4.app.FragmentActivity;
 
 import com.zq.dynamicphoto.bean.Dynamic;
+import com.zq.dynamicphoto.bean.ImageBucket;
 import com.zq.dynamicphoto.bean.Moments;
 import com.zq.dynamicphoto.common.Constans;
 import com.zq.dynamicphoto.fragment.FriendCircleFragment;
@@ -23,6 +24,8 @@ import com.zq.dynamicphoto.ui.LabelManagerActivity;
 import com.zq.dynamicphoto.ui.MyFansActivity;
 import com.zq.dynamicphoto.ui.MyFollowsActivity;
 import com.zq.dynamicphoto.ui.PhotoInfoActivity;
+import com.zq.dynamicphoto.ui.PhotoListActivity;
+import com.zq.dynamicphoto.ui.PhotoSelectActivity;
 import com.zq.dynamicphoto.ui.ProblemAndFeedbackActivity;
 import com.zq.dynamicphoto.ui.ResetPwdActivity;
 import com.zq.dynamicphoto.ui.SettingActivity;
@@ -127,5 +130,14 @@ public class MFGT {
     public static void gotoVideoPlayActivity(Context activity, String path) {
         activity.startActivity(new Intent(activity, VideoPlayActivity.class)
         .putExtra(Constans.VIDEO_URL,path));
+    }
+
+    public static void gotoPhotoListActivity(Activity activity) {
+        activity.startActivity(new Intent(activity, PhotoListActivity.class));
+    }
+
+    public static void gotoWaterPhotoListAdapter(Context context, ImageBucket imageBucket) {
+        context.startActivity(new Intent(context, PhotoSelectActivity.class)
+                .putExtra(Constans.IMAGEBUCKET,imageBucket));
     }
 }

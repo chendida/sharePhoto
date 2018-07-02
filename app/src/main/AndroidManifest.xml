@@ -67,7 +67,9 @@
         <activity android:name=".ui.ProblemAndFeedbackActivity" />
         <activity android:name=".ui.AboutAppActivity" />
         <activity android:name=".ui.PhotoInfoActivity" />
-        <activity android:name=".ui.VideoPlayActivity"></activity>
+        <activity android:name=".ui.VideoPlayActivity" />
+        <activity android:name=".ui.PhotoListActivity" />
+        <activity android:name=".ui.PhotoSelectActivity"></activity>
     </application>
 
 </manifest>

@@ -4,6 +4,8 @@ import android.app.Activity;
 import android.app.Application;
 import android.content.Context;
 import android.support.v4.app.Fragment;
+import android.util.Log;
+
 import com.blankj.utilcode.util.Utils;
 import com.orhanobut.logger.AndroidLogAdapter;
 import com.orhanobut.logger.Logger;
@@ -19,10 +21,13 @@ import com.scwang.smartrefresh.layout.header.ClassicsHeader;
 import com.tencent.mm.opensdk.openapi.IWXAPI;
 import com.tencent.mm.opensdk.openapi.WXAPIFactory;
 import com.zq.dynamicphoto.bean.Bounced;
+import com.zq.dynamicphoto.bean.ImageBucket;
+import com.zq.dynamicphoto.bean.ImageProvider;
 import com.zq.dynamicphoto.common.Constans;
 import com.zq.dynamicphoto.utils.AppInit;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import javax.inject.Inject;
 import butterknife.ButterKnife;
@@ -92,6 +97,17 @@ public class MyApplication extends Application implements HasSupportFragmentInje
         ButterKnife.setDebug(true);
         registerToWX();
         AppInit.getAppInit();
+        loadImage();
+    }
+
+    private void loadImage() {
+        ImageProvider imageProvider = ImageProvider.getInstance();
+        imageProvider.loadImageBucketList(this, new ImageProvider.OnLoadedBucketListListener() {
+            @Override
+            public void onLoaded(List<ImageBucket> list) {
+                Log.i("ImageBucket","list.size = "+list.size());
+            }
+        });
     }
 
     private void registerToWX() {

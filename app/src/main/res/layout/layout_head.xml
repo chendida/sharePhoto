@@ -28,7 +28,7 @@
         android:layout_centerVertical="true"/>
     <com.zhy.autolayout.AutoRelativeLayout
         android:id="@+id/layout_finish"
-        android:layout_width="150px"
+        android:layout_width="100px"
         android:layout_height="match_parent"
         android:layout_alignParentRight="true"
         android:layout_marginRight="30px"
@@ -40,7 +40,7 @@
             android:textColor="@color/tv_text_color1"
             android:textSize="30px"
             android:layout_centerVertical="true"
-            android:layout_marginLeft="90px"
+            android:layout_centerHorizontal="true"
             />
         <ImageView
             android:id="@+id/iv_camera"
