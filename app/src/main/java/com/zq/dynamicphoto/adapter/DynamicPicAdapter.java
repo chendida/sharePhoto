@@ -1,6 +1,5 @@
 package com.zq.dynamicphoto.adapter;
 
-import android.app.Activity;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
@@ -8,13 +7,10 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
-
-import com.luck.picture.lib.config.PictureConfig;
 import com.luck.picture.lib.entity.LocalMedia;
 import com.zq.dynamicphoto.R;
 import com.zq.dynamicphoto.utils.ImageLoaderUtils;
 import com.zq.dynamicphoto.utils.PicSelectUtils;
-
 import java.util.ArrayList;
 import butterknife.BindView;
 import butterknife.ButterKnife;

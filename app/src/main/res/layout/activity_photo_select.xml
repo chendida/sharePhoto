@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<com.zhy.autolayout.AutoRelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<com.zhy.autolayout.AutoRelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     >
@@ -46,6 +47,7 @@
                 />
         </com.zhy.autolayout.AutoRelativeLayout>
     </com.zhy.autolayout.AutoRelativeLayout>
+
     <com.zhy.autolayout.AutoRelativeLayout
         android:id="@+id/layout_select"
         android:layout_alignParentBottom="true"
@@ -55,8 +57,9 @@
         <com.zhy.autolayout.AutoRelativeLayout
             android:id="@+id/layout_hint"
             android:layout_width="match_parent"
-            android:layout_height="100px">
+            android:layout_height="82px">
             <ImageView
+                android:id="@+id/iv_start_water_mark"
                 android:layout_alignParentRight="true"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -95,10 +98,9 @@
                 />
         </com.zhy.autolayout.AutoRelativeLayout>
         <android.support.v7.widget.RecyclerView
-            android:layout_marginLeft="22px"
+            android:layout_marginLeft="6px"
             android:id="@+id/rcl_select_photo_list"
             android:layout_below="@+id/layout_hint"
-            android:layout_marginBottom="20px"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             />
@@ -142,4 +144,34 @@
                 android:layout_height="match_parent"/>
         </com.zhy.autolayout.AutoLinearLayout>
     </android.support.v4.widget.NestedScrollView>
+
+    <com.zhy.autolayout.AutoLinearLayout
+        android:visibility="gone"
+        android:id="@+id/layout_dialog"
+        android:layout_below="@+id/layout_head"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        >
+        <com.zhy.autolayout.AutoRelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="696px"
+            android:background="@color/white">
+            <TextView
+                android:id="@+id/tv_line"
+                android:layout_width="match_parent"
+                android:layout_height="2px"/>
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/rcl_photo_file"
+                android:layout_below="@+id/tv_line"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginBottom="10px"/>
+        </com.zhy.autolayout.AutoRelativeLayout>
+        <TextView
+            android:id="@+id/layout_outside"
+            android:background="@color/image_overlay_true"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"/>
+    </com.zhy.autolayout.AutoLinearLayout>
 </com.zhy.autolayout.AutoRelativeLayout>

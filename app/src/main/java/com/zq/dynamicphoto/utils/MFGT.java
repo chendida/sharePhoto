@@ -3,14 +3,11 @@ package com.zq.dynamicphoto.utils;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
-import android.support.v4.app.FragmentActivity;
 
 import com.zq.dynamicphoto.bean.Dynamic;
-import com.zq.dynamicphoto.bean.ImageBucket;
+import com.zq.dynamicphoto.bean.Folder;
 import com.zq.dynamicphoto.bean.Moments;
 import com.zq.dynamicphoto.common.Constans;
-import com.zq.dynamicphoto.fragment.FriendCircleFragment;
-import com.zq.dynamicphoto.fragment.MineFragment;
 import com.zq.dynamicphoto.ui.AboutAppActivity;
 import com.zq.dynamicphoto.ui.AddFriendCircleActivity;
 import com.zq.dynamicphoto.ui.AddLabelActivity;
@@ -28,8 +25,8 @@ import com.zq.dynamicphoto.ui.PhotoListActivity;
 import com.zq.dynamicphoto.ui.PhotoSelectActivity;
 import com.zq.dynamicphoto.ui.ProblemAndFeedbackActivity;
 import com.zq.dynamicphoto.ui.ResetPwdActivity;
-import com.zq.dynamicphoto.ui.SettingActivity;
 import com.zq.dynamicphoto.ui.VideoPlayActivity;
+import com.zq.dynamicphoto.ui.WatermarkActivity;
 
 /**
  * 界面跳转工具类
@@ -136,8 +133,12 @@ public class MFGT {
         activity.startActivity(new Intent(activity, PhotoListActivity.class));
     }
 
-    public static void gotoWaterPhotoListAdapter(Context context, ImageBucket imageBucket) {
+    public static void gotoWaterPhotoListActivity(Context context, Folder imageBucket) {
         context.startActivity(new Intent(context, PhotoSelectActivity.class)
                 .putExtra(Constans.IMAGEBUCKET,imageBucket));
+    }
+
+    public static void gotoWatermarkActivity(Context context) {
+        context.startActivity(new Intent(context, WatermarkActivity.class));
     }
 }

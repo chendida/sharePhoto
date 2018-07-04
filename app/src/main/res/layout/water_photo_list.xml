@@ -4,10 +4,27 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     >
-    <ImageView
-        android:id="@+id/iv_photo"
+    <com.zhy.autolayout.AutoRelativeLayout
+        android:background="@color/colorBackground"
+        android:id="@+id/layout_photo"
         android:layout_width="234px"
-        android:layout_height="234px"
-        android:scaleType="centerCrop"
-        />
+        android:layout_height="234px">
+        <ImageView
+            android:id="@+id/iv_photo"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:scaleType="centerCrop"
+            />
+        <CheckBox
+            android:id="@+id/check_photo"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentBottom="true"
+            android:layout_marginRight="10px"
+            android:layout_marginBottom="10px"
+            android:button="@drawable/icon_photo_select"
+            android:visibility="gone"
+            />
+    </com.zhy.autolayout.AutoRelativeLayout>
 </com.zhy.autolayout.AutoRelativeLayout>

@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.zhy.autolayout.AutoRelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="168px"
+    >
+    <TextView
+        android:id="@+id/tv"
+        android:layout_width="match_parent"
+        android:layout_height="18px"/>
+
+    <com.zhy.autolayout.AutoRelativeLayout
+        android:id="@+id/layout_pic"
+        android:layout_marginLeft="18px"
+        android:layout_below="@+id/tv"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
+        <ImageView
+            android:id="@+id/iv_select_photo"
+            android:layout_width="150px"
+            android:layout_height="150px"
+            android:scaleType="centerCrop"
+            />
+    </com.zhy.autolayout.AutoRelativeLayout>
+    <ImageView
+        android:id="@+id/iv_delete_pic"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/icon_delete_photo"/>
+    <TextView
+        android:layout_toRightOf="@+id/layout_pic"
+        android:layout_width="10px"
+        android:layout_height="match_parent"/>
+</com.zhy.autolayout.AutoRelativeLayout>

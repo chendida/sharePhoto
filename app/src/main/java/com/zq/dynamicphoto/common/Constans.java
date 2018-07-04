@@ -35,6 +35,7 @@ public class Constans {
     public static String MOMENTS_ID = "momentsId";
     public static String VIDEO_URL = "videoUrl";
     public static String IMAGEBUCKET = "imageBucket";
+    public static String BUCKET_LIST = "bucketList";
 
     public static Integer REQUEST_OK = 0;
     public static Integer REQUEST_LOIGN_ERROR = -4;//登录时手机号或密码错误

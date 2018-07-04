@@ -9,7 +9,7 @@ import android.widget.TextView;
 
 import com.zhy.autolayout.AutoLinearLayout;
 import com.zq.dynamicphoto.R;
-import com.zq.dynamicphoto.bean.ImageBucket;
+import com.zq.dynamicphoto.bean.Folder;
 import com.zq.dynamicphoto.utils.ImageLoaderUtils;
 import com.zq.dynamicphoto.utils.MFGT;
 
@@ -22,10 +22,27 @@ import butterknife.ButterKnife;
  */
 
 public class PhotoListAdapter extends RecyclerView.Adapter<PhotoListAdapter.PhotoListViewHolder> {
-    ArrayList<ImageBucket> mList;
+    ArrayList<Folder> mList;
+    private Boolean isPhotoSelectView;//是否是图片选择界面
+    private SelectListener mListener;
 
-    public PhotoListAdapter(ArrayList<ImageBucket> mList) {
+    public void initFolders(ArrayList<Folder> folders) {
+        if (mList != null){
+            mList.clear();
+            mList.addAll(folders);
+            notifyDataSetChanged();
+        }
+    }
+
+    //自定义接口，用于回调按钮点击事件到Activity
+    public interface SelectListener {
+        void selectListener(Folder folder);
+    }
+
+    public PhotoListAdapter(ArrayList<Folder> mList,Boolean flag,SelectListener listener) {
         this.mList = mList;
+        this.isPhotoSelectView = flag;
+        this.mListener = listener;
     }
 
     @NonNull
@@ -40,7 +57,11 @@ public class PhotoListAdapter extends RecyclerView.Adapter<PhotoListAdapter.Phot
         holder.layoutAvatar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                MFGT.gotoWaterPhotoListAdapter(v.getContext(),mList.get(position));
+                if (isPhotoSelectView){
+                    mListener.selectListener(mList.get(position));
+                }else {
+                    MFGT.gotoWaterPhotoListActivity(v.getContext(), mList.get(position));
+                }
             }
         });
     }
@@ -65,15 +86,16 @@ public class PhotoListAdapter extends RecyclerView.Adapter<PhotoListAdapter.Phot
             ButterKnife.bind(this, view);
         }
 
-        public void bind(ImageBucket imageBucket) {
+        public void bind(Folder imageBucket) {
             if (imageBucket != null){
-                if (imageBucket.getImageList() != null){
-                    if (imageBucket.getImageList().size() != 0){
-                        ImageLoaderUtils.displayImg(ivAvatar,imageBucket.getImageList().get(0).getImagePath());
+                if (imageBucket.getImages() != null){
+                    if (imageBucket.getImages().size() != 0){
+                        ImageLoaderUtils.displayImg(ivAvatar,imageBucket.getImages().get(0).getPath());
                     }
                 }
-                tvPhotoName.setText(imageBucket.getBucketName());
-                tvImageNum.setText("("+imageBucket.getImageList().size()+")");
+                tvPhotoName.setText(imageBucket.getName());
+                String num = imageBucket.getImages().size()+"";
+                tvImageNum.setText(num);
             }
         }
     }

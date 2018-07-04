@@ -31,6 +31,16 @@
             </intent-filter>
         </activity>
 
+        <provider
+            android:name="android.support.v4.content.FileProvider"
+            android:authorities="${applicationId}.provider"
+            android:exported="false"
+            android:grantUriPermissions="true">
+            <meta-data
+                android:name="android.support.FILE_PROVIDER_PATHS"
+                android:resource="@xml/provider_paths" />
+        </provider>
+
         <!-- 屏幕框架适配 -->
         <meta-data
             android:name="design_width"
@@ -69,7 +79,8 @@
         <activity android:name=".ui.PhotoInfoActivity" />
         <activity android:name=".ui.VideoPlayActivity" />
         <activity android:name=".ui.PhotoListActivity" />
-        <activity android:name=".ui.PhotoSelectActivity"></activity>
+        <activity android:name=".ui.PhotoSelectActivity" />
+        <activity android:name=".ui.WatermarkActivity"></activity>
     </application>
 
 </manifest>
