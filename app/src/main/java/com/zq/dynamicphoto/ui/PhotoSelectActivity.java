@@ -121,7 +121,13 @@ public class PhotoSelectActivity extends BaseActivity implements
     public void onClicked(View view) {
         switch (view.getId()) {
             case R.id.iv_start_water_mark:
-                MFGT.gotoWatermarkActivity(this);
+                if (selectAdapter.getmList() != null){
+                    if (selectAdapter.getmList().size() > 0){
+                        MFGT.gotoWatermarkActivity(this,selectAdapter.getmList());
+                    }else {
+                        ToastUtils.showShort(getResources().getString(R.string.please_least_select_one_pic));
+                    }
+                }
                 break;
             case R.id.layout_back:
                 finish();

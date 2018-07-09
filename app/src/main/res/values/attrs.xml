@@ -8,4 +8,12 @@
     <declare-styleable name="NineGridLayout">
         <attr name="sapcing" format="dimension"/>
     </declare-styleable>
+
+    <declare-styleable name="SwitchButton">
+        <attr name="textOn" format="string"/>
+        <attr name="textOff" format="string"/>
+        <attr name="textSize_ab" format="dimension"/>
+        <attr name="bg_bitmap" format="reference"/>
+        <attr name="btn_bitmap" format="reference"/>
+    </declare-styleable>
 </resources>

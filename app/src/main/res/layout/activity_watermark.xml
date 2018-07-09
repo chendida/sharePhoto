@@ -1,17 +1,153 @@
 <?xml version="1.0" encoding="utf-8"?>
 <com.zhy.autolayout.AutoRelativeLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:myc="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/colorBackground"
     >
-    <Button
+
+    <com.zhy.autolayout.AutoRelativeLayout
+        android:id="@+id/layout_head"
         android:layout_width="match_parent"
+        android:layout_height="96px"
+        android:background="@color/white">
+        <com.zhy.autolayout.AutoRelativeLayout
+            android:id="@+id/layout_back"
+            android:layout_width="100px"
+            android:layout_height="match_parent"
+            >
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/icon_water_back"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="30px"/>
+        </com.zhy.autolayout.AutoRelativeLayout>
+
+        <com.zhy.autolayout.AutoRelativeLayout
+            android:id="@+id/layout_select_category"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:layout_centerVertical="true">
+            <com.zq.dynamicphoto.ui.widge.SwitchButton
+                android:id="@+id/btn_switchbutton"
+                android:layout_width="240px"
+                android:layout_height="50px"
+                myc:bg_bitmap="@drawable/bg"
+                myc:btn_bitmap="@drawable/btn"
+                myc:textSize_ab="15sp"
+                myc:textOn="批量"
+                myc:textOff="单张"
+                android:padding="10dp"
+                android:layout_centerHorizontal="true"/>
+        </com.zhy.autolayout.AutoRelativeLayout>
+
+        <com.zhy.autolayout.AutoRelativeLayout
+            android:layout_width="100px"
+            android:layout_height="match_parent"
+            android:layout_alignParentRight="true">
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="28px"
+                android:text="@string/tv_save"
+                android:layout_centerInParent="true"
+                android:textColor="@color/tv_text_color7"/>
+        </com.zhy.autolayout.AutoRelativeLayout>
+    </com.zhy.autolayout.AutoRelativeLayout>
+
+    <RadioGroup
+        android:layout_alignParentBottom="true"
+        android:id="@+id/rg_tab"
+        android:layout_width="match_parent"
+        android:layout_height="100px"
+        android:gravity="center_vertical"
+        android:background="@color/white"
+        android:orientation="horizontal">
+
+        <RadioButton
+            android:id="@+id/rb_tab_dynamic"
+            style="@style/tab_radio_button_style"
+            android:drawableTop="@drawable/select_watermark"
+            android:checked="true"
+            />
+
+        <RadioButton
+            android:id="@+id/rb_tab_friend_circle"
+            style="@style/tab_radio_button_style"
+            android:drawableTop="@drawable/select_water_text"
+            />
+    </RadioGroup>
+    <com.zhy.autolayout.AutoRelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="100px"
+        android:layout_alignParentBottom="true">
+        <TextView
+            android:layout_width="2px"
+            android:layout_height="80px"
+            android:layout_centerInParent="true"
+            android:background="@color/line_bg_color"/>
+    </com.zhy.autolayout.AutoRelativeLayout>
+    <com.zhy.autolayout.AutoRelativeLayout
+        android:layout_below="@+id/layout_head"
+        android:layout_above="@+id/rg_tab"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/layout_head_bg"
+        >
+        <android.support.v4.view.ViewPager
+            android:id="@+id/imgs_viewpager"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_gravity="center" />
+        <ImageView
+            android:id="@+id/iv_top_pic"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/pic_top"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="28px"/>
+
+        <ImageView
+            android:id="@+id/iv_next_pic"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/pic_next"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="28px"/>
+        <TextView
+            android:id="@+id/tv_num"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:layout_marginLeft="10dp"
+            android:textColor="@color/white"
+            android:textSize="30px"/>
+    </com.zhy.autolayout.AutoRelativeLayout>
+    
+    <com.zhy.autolayout.AutoRelativeLayout
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:id="@+id/btn_camera"/>
-    <ImageView
-        android:id="@+id/iv_picture"
-        android:layout_width="234px"
-        android:layout_height="234px"
-        android:layout_below="@+id/btn_camera"
-        android:scaleType="centerCrop"/>
+        android:layout_centerInParent="true"
+        android:background="@drawable/bg_dash_storke"
+        >
+        <com.zq.dynamicphoto.ui.widge.ImageTouchView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/water_add"/>
+
+        <!--<ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/close_water"/>
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/rotate_water"
+            android:layout_alignParentRight="true"
+            />-->
+    </com.zhy.autolayout.AutoRelativeLayout>
 </com.zhy.autolayout.AutoRelativeLayout>

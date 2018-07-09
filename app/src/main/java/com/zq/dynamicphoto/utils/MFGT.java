@@ -6,6 +6,7 @@ import android.content.Intent;
 
 import com.zq.dynamicphoto.bean.Dynamic;
 import com.zq.dynamicphoto.bean.Folder;
+import com.zq.dynamicphoto.bean.Image;
 import com.zq.dynamicphoto.bean.Moments;
 import com.zq.dynamicphoto.common.Constans;
 import com.zq.dynamicphoto.ui.AboutAppActivity;
@@ -27,6 +28,8 @@ import com.zq.dynamicphoto.ui.ProblemAndFeedbackActivity;
 import com.zq.dynamicphoto.ui.ResetPwdActivity;
 import com.zq.dynamicphoto.ui.VideoPlayActivity;
 import com.zq.dynamicphoto.ui.WatermarkActivity;
+
+import java.util.ArrayList;
 
 /**
  * 界面跳转工具类
@@ -138,7 +141,8 @@ public class MFGT {
                 .putExtra(Constans.IMAGEBUCKET,imageBucket));
     }
 
-    public static void gotoWatermarkActivity(Context context) {
-        context.startActivity(new Intent(context, WatermarkActivity.class));
+    public static void gotoWatermarkActivity(Context context, ArrayList<Image>list) {
+        context.startActivity(new Intent(context, WatermarkActivity.class)
+                .putExtra(Constans.SELECT_LIST,list));
     }
 }

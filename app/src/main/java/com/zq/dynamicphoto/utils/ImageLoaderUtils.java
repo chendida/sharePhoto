@@ -17,10 +17,12 @@ public class ImageLoaderUtils {
             .placeholder(R.color.colorBackground);
 
     public static void displayImg(ImageView imageView, String url){
-        Glide.with(imageView.getContext())
-                .load(url)
-                .apply(options)
-                .into(imageView);
+        if (imageView.getContext() != null) {
+            Glide.with(imageView.getContext())
+                    .load(url)
+                    .apply(options)
+                    .into(imageView);
+        }
     }
 
     public static void displayImg(ImageView imageView, Bitmap bitmap){
