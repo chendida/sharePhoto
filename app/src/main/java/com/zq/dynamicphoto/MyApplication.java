@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.app.Application;
 import android.content.Context;
 import android.support.v4.app.Fragment;
+import android.util.DisplayMetrics;
 import android.util.Log;
 
 import com.blankj.utilcode.util.Utils;
@@ -34,6 +35,8 @@ import dagger.android.DispatchingAndroidInjector;
 import dagger.android.HasActivityInjector;
 import dagger.android.support.HasSupportFragmentInjector;
 
+import static com.blankj.utilcode.util.ScreenUtils.getScreenDensity;
+
 /**
  * Created by Administrator on 2018/6/7.
  */
@@ -45,6 +48,8 @@ public class MyApplication extends Application implements HasSupportFragmentInje
     public static IWXAPI mWxApi;
 
     private static ArrayList<Bounced> bouncedList;
+
+    private DisplayMetrics displayMetrics = null;
 
     public static ArrayList<Bounced> getBouncedList() {
         return bouncedList;
@@ -112,5 +117,21 @@ public class MyApplication extends Application implements HasSupportFragmentInje
     @Override
     public AndroidInjector<Fragment> supportFragmentInjector() {
         return dispatchingAndroidInjectorSupportFragment;
+    }
+
+    public int dp2px(float f)
+    {
+        return (int)(0.5F + f * getScreenDensity());
+    }
+
+    public int getScreenWidth() {
+        if (this.displayMetrics == null) {
+            setDisplayMetrics(getResources().getDisplayMetrics());
+        }
+        return this.displayMetrics.widthPixels;
+    }
+
+    public void setDisplayMetrics(DisplayMetrics DisplayMetrics) {
+        this.displayMetrics = DisplayMetrics;
     }
 }

@@ -5,6 +5,7 @@ package com.zq.dynamicphoto.common;
  */
 
 public class Constans {
+    public static final float  DEFAULT_PIXEL              = 1280;
     //微信登录参数
     public static String APP_ID = "wx5d4d593bf265cfd0";
     public static String AppSecret = "2dbf2af3115076315ec09f6d9b4c4337";

@@ -45,6 +45,7 @@
         </com.zhy.autolayout.AutoRelativeLayout>
 
         <com.zhy.autolayout.AutoRelativeLayout
+            android:id="@+id/layout_save"
             android:layout_width="100px"
             android:layout_height="match_parent"
             android:layout_alignParentRight="true">
@@ -90,6 +91,8 @@
             android:layout_centerInParent="true"
             android:background="@color/line_bg_color"/>
     </com.zhy.autolayout.AutoRelativeLayout>
+
+
     <com.zhy.autolayout.AutoRelativeLayout
         android:layout_below="@+id/layout_head"
         android:layout_above="@+id/rg_tab"
@@ -97,11 +100,12 @@
         android:layout_height="match_parent"
         android:background="@color/layout_head_bg"
         >
-        <android.support.v4.view.ViewPager
+        <com.zq.dynamicphoto.ui.widge.NoPreloadViewPager
             android:id="@+id/imgs_viewpager"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_gravity="center" />
+
         <ImageView
             android:id="@+id/iv_top_pic"
             android:layout_width="wrap_content"
@@ -128,7 +132,7 @@
             android:textSize="30px"/>
     </com.zhy.autolayout.AutoRelativeLayout>
     
-    <com.zhy.autolayout.AutoRelativeLayout
+    <!--<com.zhy.autolayout.AutoRelativeLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerInParent="true"
@@ -139,7 +143,7 @@
             android:layout_height="wrap_content"
             android:src="@drawable/water_add"/>
 
-        <!--<ImageView
+        &lt;!&ndash;<ImageView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:src="@drawable/close_water"/>
@@ -148,6 +152,6 @@
             android:layout_height="wrap_content"
             android:src="@drawable/rotate_water"
             android:layout_alignParentRight="true"
-            />-->
-    </com.zhy.autolayout.AutoRelativeLayout>
+            />&ndash;&gt;
+    </com.zhy.autolayout.AutoRelativeLayout>-->
 </com.zhy.autolayout.AutoRelativeLayout>

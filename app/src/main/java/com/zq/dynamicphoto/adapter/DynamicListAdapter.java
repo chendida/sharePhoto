@@ -50,6 +50,8 @@ public class DynamicListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
 
     private HeadViewHolder headViewHolder;
 
+    private DynamicViewHolder dynamicViewHolder;
+
     private DeviceProperties dr = DrUtils.getInstance();
 
     private MyClickListener mListener;
@@ -103,7 +105,8 @@ public class DynamicListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
                 headViewHolder = new HeadViewHolder(View.inflate(mContext, R.layout.layout_dynamic_head, null));
                 return headViewHolder;
             case BODY_TYPE:
-                return new DynamicViewHolder(View.inflate(mContext, R.layout.photo_dynamic_list, null));
+                dynamicViewHolder = new DynamicViewHolder(View.inflate(mContext, R.layout.photo_dynamic_list, null));
+                return dynamicViewHolder;
             default:
                 return null;
         }
@@ -371,6 +374,14 @@ public class DynamicListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
             if (!TextUtils.isEmpty(realName)){
                 tvMyNick.setText(realName);
             }
+        }
+    }
+
+    public void clear(){
+        if (dynamicViewHolder != null){
+            dynamicViewHolder.layoutNineGrid = null;
+            dynamicViewHolder = null;
+            headViewHolder = null;
         }
     }
 }

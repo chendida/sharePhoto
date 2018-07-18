@@ -24,6 +24,10 @@ public class Image implements Serializable{
         isSelected = selected;
     }
 
+    public Image(String path) {
+        this.path = path;
+    }
+
     public Image(String path, long time, String name) {
         this.path = path;
         this.time = time;

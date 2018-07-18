@@ -145,6 +145,8 @@ public class DynamicFragment extends BaseFragment<IDynamicView,DynamicLoadPresen
             }
         }
         ImageSaveUtils.getInstance(this).clearListener();
+        mAdapter.clear();
+        mAdapter = null;
     }
 
     @Override
@@ -338,5 +340,6 @@ public class DynamicFragment extends BaseFragment<IDynamicView,DynamicLoadPresen
         hideLoading();
         ToastUtils.showShort(msg);
     }
+
 
 }

@@ -213,7 +213,7 @@ public class ImageSaveUtils {
     /**
      * 批量保存图片
      */
-    private void saveAllImage(ArrayList<LocalMedia> mSelectedImages) {
+    public void saveAllImage(ArrayList<LocalMedia> mSelectedImages) {
         if (mSelectedImages != null){
             if (mSelectedImages.size() == 0){
                 mListener.callBack(-1,"至少要有一张图片");
