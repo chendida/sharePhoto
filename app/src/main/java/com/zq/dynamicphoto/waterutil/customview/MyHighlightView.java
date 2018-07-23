@@ -621,6 +621,7 @@ public class MyHighlightView implements EditableDrawable.OnSizeChange {
 
     public void setMode(final int mode) {
         Log.i(LOG_TAG, "setMode: " + mode);
+        Log.i(LOG_TAG, "mMode = : " + mMode);
         if (mode != mMode) {
             mMode = mode;
             updateDrawableState();
@@ -633,12 +634,14 @@ public class MyHighlightView implements EditableDrawable.OnSizeChange {
 
     protected void updateDrawableState() {
 
-        if (null == mBackgroundDrawable)
+        if (null == mBackgroundDrawable) {
+            Log.i(LOG_TAG, "null == mBackgroundDrawable");
             return;
-
+        }
+        Log.i(LOG_TAG,"null != mBackgroundDrawable");
         boolean is_selected = isSelected();
         boolean is_focused = isFocused();
-
+        Log.i(LOG_TAG,"is_selected" + is_selected);
         if (is_selected) {
             if (mMode == NONE) {
                 if (is_focused) {

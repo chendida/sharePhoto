@@ -58,7 +58,6 @@
                 android:textColor="@color/tv_text_color7"/>
         </com.zhy.autolayout.AutoRelativeLayout>
     </com.zhy.autolayout.AutoRelativeLayout>
-
     <RadioGroup
         android:layout_alignParentBottom="true"
         android:id="@+id/rg_tab"
@@ -69,14 +68,13 @@
         android:orientation="horizontal">
 
         <RadioButton
-            android:id="@+id/rb_tab_dynamic"
+            android:id="@+id/rb_tab_water"
             style="@style/tab_radio_button_style"
             android:drawableTop="@drawable/select_watermark"
-            android:checked="true"
             />
 
         <RadioButton
-            android:id="@+id/rb_tab_friend_circle"
+            android:id="@+id/rb_tab_text"
             style="@style/tab_radio_button_style"
             android:drawableTop="@drawable/select_water_text"
             />
@@ -94,6 +92,7 @@
 
 
     <com.zhy.autolayout.AutoRelativeLayout
+        android:id="@+id/layout_pic_parent"
         android:layout_below="@+id/layout_head"
         android:layout_above="@+id/rg_tab"
         android:layout_width="match_parent"
@@ -131,27 +130,18 @@
             android:textColor="@color/white"
             android:textSize="30px"/>
     </com.zhy.autolayout.AutoRelativeLayout>
-    
-    <!--<com.zhy.autolayout.AutoRelativeLayout
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_centerInParent="true"
-        android:background="@drawable/bg_dash_storke"
-        >
-        <com.zq.dynamicphoto.ui.widge.ImageTouchView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:src="@drawable/water_add"/>
 
-        &lt;!&ndash;<ImageView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:src="@drawable/close_water"/>
-        <ImageView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:src="@drawable/rotate_water"
-            android:layout_alignParentRight="true"
-            />&ndash;&gt;
-    </com.zhy.autolayout.AutoRelativeLayout>-->
+    <SeekBar
+        android:id="@+id/seek_bar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@null"
+        android:maxHeight="10px"
+        android:layout_below="@+id/layout_head"
+        android:layout_marginLeft="46px"
+        android:layout_marginRight="46px"
+        android:layout_marginTop="30px"
+        android:progressDrawable="@drawable/alpha_seekbar"
+        android:thumb="@drawable/alpha_num"
+        />
 </com.zhy.autolayout.AutoRelativeLayout>

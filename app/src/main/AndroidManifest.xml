@@ -17,9 +17,9 @@
         android:allowBackup="true"
         android:icon="@mipmap/app_icon"
         android:label="@string/app_name"
+        android:largeHeap="true"
         android:roundIcon="@mipmap/app_icon"
         android:supportsRtl="true"
-        android:largeHeap="true"
         android:theme="@style/AppTheme"
         tools:ignore="HardcodedDebugMode">
         <activity
@@ -81,7 +81,8 @@
         <activity android:name=".ui.VideoPlayActivity" />
         <activity android:name=".ui.PhotoListActivity" />
         <activity android:name=".ui.PhotoSelectActivity" />
-        <activity android:name=".ui.WatermarkActivity"></activity>
+        <activity android:name=".ui.WatermarkActivity" />
+        <activity android:name=".ui.WaterStyleActivity"></activity>
     </application>
 
 </manifest>

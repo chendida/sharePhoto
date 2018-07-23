@@ -340,6 +340,4 @@ public class DynamicFragment extends BaseFragment<IDynamicView,DynamicLoadPresen
         hideLoading();
         ToastUtils.showShort(msg);
     }
-
-
 }

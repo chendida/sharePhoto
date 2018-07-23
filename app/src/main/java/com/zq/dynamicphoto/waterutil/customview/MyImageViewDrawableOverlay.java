@@ -21,6 +21,10 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.concurrent.CopyOnWriteArrayList;
 
+import butterknife.internal.ListenerClass;
+
+import static com.zq.dynamicphoto.waterutil.customview.MyHighlightView.NONE;
+
 
 public class MyImageViewDrawableOverlay extends ImageViewTouch {
 
@@ -93,24 +97,18 @@ public class MyImageViewDrawableOverlay extends ImageViewTouch {
             currentLabel.updateLocation((int) (event.getX() - labelX),
                 (int) (event.getY() - labelY));
             currentLabel.invalidate();
-        }
-        if (currentLabel != null) {
+        }*/
+        /*if (mOverlayView != null) {
             switch (event.getAction()) {
                 case MotionEvent.ACTION_UP:// 手指离开时 
                 case MotionEvent.ACTION_CANCEL:
 
                     float upX = event.getRawX();
                     float upY = event.getRawY();
-                    double distance = Math.sqrt(Math.abs(upX - downLabelX)
-                                                * Math.abs(upX - downLabelX)
-                                                + Math.abs(upY - downLabelY)
-                                                * Math.abs(upY - downLabelY));//两点之间的距离
-                    if (distance < 15) { // 距离较小，当作click事件来处理
-                        if(mDrawableListener!=null){
-                            mDrawableListener.onClick(currentLabel);
-                        }
+                    boolean contains = mOverlayView.getCropRectF().contains(upX, upY);
+                    if (!contains) { // 距离较小，当作click事件来处理
+                        mOverlayView.setSelected(false);
                     }
-                    currentLabel = null;
                     break;
                 default:
                     break;
@@ -363,7 +361,8 @@ public class MyImageViewDrawableOverlay extends ImageViewTouch {
         if (mOverlayView != null) {
             //通过触摸区域得到Mode
             int edge = mOverlayView.getHit(e.getX(), e.getY());
-            if (edge != MyHighlightView.NONE) {
+            Log.i(LOG_TAG,"edge = "+edge);
+            if (edge != NONE) {
                 mOverlayView.setMode((edge == MyHighlightView.MOVE) ? MyHighlightView.MOVE
                     : (edge == MyHighlightView.ROTATE ? MyHighlightView.ROTATE
                         : MyHighlightView.GROW));
@@ -373,7 +372,6 @@ public class MyImageViewDrawableOverlay extends ImageViewTouch {
                 }
             }
         }
-
         return super.onDown(e);
     }
 
@@ -390,7 +388,8 @@ public class MyImageViewDrawableOverlay extends ImageViewTouch {
         Log.i(LOG_TAG, "onUp");
 
         if (mOverlayView != null) {
-            mOverlayView.setMode(MyHighlightView.NONE);
+            Log.i(LOG_TAG, "mOverlayView != null");
+            mOverlayView.setMode(NONE);
             postInvalidate();
         }
         return super.onUp(e);
@@ -401,8 +400,8 @@ public class MyImageViewDrawableOverlay extends ImageViewTouch {
         Log.i(LOG_TAG, "onSingleTapUp");
 
         if (mOverlayView != null) {
-
             int edge = mOverlayView.getHit(e.getX(), e.getY());
+            Log.i(LOG_TAG, "onSingleTapUp  mOverlayView != null"+"edge = " + edge);
             if ((edge & MyHighlightView.MOVE) == MyHighlightView.MOVE) {
                 if (mDrawableListener != null) {
                     mDrawableListener.onClick(mOverlayView);
@@ -410,7 +409,7 @@ public class MyImageViewDrawableOverlay extends ImageViewTouch {
                 return true;
             }
 
-            mOverlayView.setMode(MyHighlightView.NONE);
+            mOverlayView.setMode(NONE);
             postInvalidate();
 
             Log.d(LOG_TAG, "selected items: " + mOverlayViews.size());
@@ -447,7 +446,7 @@ public class MyImageViewDrawableOverlay extends ImageViewTouch {
         mLastMotionScrollX = x;
         mLastMotionScrollY = y;
 
-        if (mOverlayView != null && mOverlayView.getMode() != MyHighlightView.NONE) {
+        if (mOverlayView != null && mOverlayView.getMode() != NONE) {
             mOverlayView.onMouseMove(mOverlayView.getMode(), e2, -dx, -dy);
             postInvalidate();
 
@@ -470,7 +469,7 @@ public class MyImageViewDrawableOverlay extends ImageViewTouch {
     public boolean onFling(MotionEvent e1, MotionEvent e2, float velocityX, float velocityY) {
         Log.i(LOG_TAG, "onFling");
 
-        if (mOverlayView != null && mOverlayView.getMode() != MyHighlightView.NONE)
+        if (mOverlayView != null && mOverlayView.getMode() != NONE)
             return false;
         return super.onFling(e1, e2, velocityX, velocityY);
     }
@@ -548,6 +547,7 @@ public class MyImageViewDrawableOverlay extends ImageViewTouch {
             Log.i("PictureSlideFragment", "top = " + top);
             Log.i("PictureSlideFragment", "right = " + right);
             Log.i("PictureSlideFragment", "bottom = " + bottom);
+            Log.i("PictureSlideFragment", "mode = " + hv.getMode());
             hv.setCropRectF(cropRect);
             Rect rect = new Rect(0, 0, w, h);
             hv.setmImageRect(rect);
@@ -631,7 +631,7 @@ public class MyImageViewDrawableOverlay extends ImageViewTouch {
         while (iterator.hasNext()) {
             MyHighlightView view = iterator.next();
             int edge = view.getHit(e.getX(), e.getY());
-            if (edge != MyHighlightView.NONE) {
+            if (edge != NONE) {
                 selection = view;
             }
         }

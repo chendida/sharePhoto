@@ -29,6 +29,7 @@ import com.zq.dynamicphoto.R;
 import com.zq.dynamicphoto.base.BaseFragment;
 import com.zq.dynamicphoto.base.BasePresenter;
 import com.zq.dynamicphoto.bean.Image;
+import com.zq.dynamicphoto.bean.WaterEvent;
 import com.zq.dynamicphoto.utils.ImageSaveUtils;
 import com.zq.dynamicphoto.utils.SaveTasks;
 import com.zq.dynamicphoto.waterutil.EffectUtil;
@@ -141,12 +142,19 @@ public class PictureSlideFragment extends BaseFragment implements ImageSaveUtils
     }
 
     @Subscribe(threadMode = ThreadMode.MAIN)
-    public void Event(Image image) {
+    public void Event(WaterEvent event) {
         Log.i(TAG,"start save");
-        if (!TextUtils.isEmpty(image.getPath())) {
-            initStickerToolBar(image);
-        }else {
+        if (event.getType() == 1){
+            if (event.getImage() != null){
+                if (!TextUtils.isEmpty(event.getImage().getPath())){
+                    initStickerToolBar(event.getImage());
+                }
+            }
+        }else if (event.getType() == 2){
             savePicture();
+        }else if (event.getType() == 3){
+            mImageView.getSelectedHighlightView().getContent().setAlpha(event.getAlpha());
+            mImageView.invalidate();
         }
     }
 

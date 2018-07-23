@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.zhy.autolayout.AutoRelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@color/add_water_pic"
+    >
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/rcl_water_select"
+        android:layout_width="match_parent"
+        android:layout_height="146px"/>
+    <RadioGroup
+        android:layout_below="@+id/rcl_water_select"
+        android:id="@+id/rg_tab"
+        android:layout_width="match_parent"
+        android:layout_height="100px"
+        android:gravity="center_vertical"
+        android:background="@color/white"
+        android:orientation="horizontal">
+
+        <RadioButton
+            android:id="@+id/rb_tab_water"
+            style="@style/tab_radio_button_style"
+            android:drawableTop="@drawable/select_watermark"
+            />
+
+        <RadioButton
+            android:id="@+id/rb_tab_text"
+            style="@style/tab_radio_button_style"
+            android:drawableTop="@drawable/select_water_text"
+            />
+    </RadioGroup>
+
+    <com.zhy.autolayout.AutoRelativeLayout
+        android:layout_below="@+id/rcl_water_select"
+        android:layout_width="match_parent"
+        android:layout_height="100px"
+        >
+        <TextView
+            android:layout_width="2px"
+            android:layout_height="80px"
+            android:layout_centerInParent="true"
+            android:background="@color/line_bg_color"/>
+    </com.zhy.autolayout.AutoRelativeLayout>
+</com.zhy.autolayout.AutoRelativeLayout>

@@ -27,6 +27,7 @@ import com.zq.dynamicphoto.ui.PhotoSelectActivity;
 import com.zq.dynamicphoto.ui.ProblemAndFeedbackActivity;
 import com.zq.dynamicphoto.ui.ResetPwdActivity;
 import com.zq.dynamicphoto.ui.VideoPlayActivity;
+import com.zq.dynamicphoto.ui.WaterStyleActivity;
 import com.zq.dynamicphoto.ui.WatermarkActivity;
 
 import java.util.ArrayList;
@@ -144,5 +145,9 @@ public class MFGT {
     public static void gotoWatermarkActivity(Context context, ArrayList<Image>list) {
         context.startActivity(new Intent(context, WatermarkActivity.class)
                 .putExtra(Constans.SELECT_LIST,list));
+    }
+
+    public static void gotoWaterStyleActivity(Context context) {
+        context.startActivity(new Intent(context, WaterStyleActivity.class));
     }
 }

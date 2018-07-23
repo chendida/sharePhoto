@@ -25,6 +25,16 @@ public class NetRequestBean {
 
     private AuthCode authCode;
 
+    private Watermark watermark;
+
+    public Watermark getWatermark() {
+        return watermark;
+    }
+
+    public void setWatermark(Watermark watermark) {
+        this.watermark = watermark;
+    }
+
     public void setAuthCode(AuthCode authCode) {
         this.authCode = authCode;
     }

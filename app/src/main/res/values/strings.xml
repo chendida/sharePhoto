@@ -154,4 +154,16 @@
     <string name="have_no_wx">您还没有安装微信</string>
     <string name="tv_water">水印</string>
     <string name="please_least_select_one_pic">请至少选择一张图片</string>
+    <string name="tv_water_mould">水印模板</string>
+    <string name="tv_water_design_money">付费水印设计</string>
+    <string name="tv_photo_upload">相册上传</string>
+    <string name="tv_water_style">选择样式</string>
+    <string name="tv_all">全部</string>
+    <string name="tv_label_sticker">标签贴纸</string>
+    <string name="tv_two_code">二维码</string>
+    <string name="tv_kinds_shape">各种形状</string>
+    <string name="tv_more_mould">更多个性模板</string>
+    <string name="tv_lower_water">花边水印</string>
+    <string name="tv_money_mould">价签模板</string>
+    <string name="tv_good_request">精品推荐</string>
 </resources>

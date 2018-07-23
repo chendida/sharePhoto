@@ -253,4 +253,20 @@ public interface RetrofitApiService {
      */
     @POST("sdkData.shtml?requestId=27&a=0&b=0")
     Observable<Result> editPhotoInfo(@Body NetRequestBean netRequestBean);
+
+    /**
+     * 获取全部水印模板
+     * @param netRequestBean
+     * @return
+     */
+    @POST("sdkData.shtml?requestId=81&a=0&b=0")
+    Observable<Result> getWaterMouldList(@Body NetRequestBean netRequestBean);
+
+    /**
+     * 获取单个类型的水印模板
+     * @param netRequestBean
+     * @return
+     */
+    @POST("sdkData.shtml?requestId=85&a=0&b=0")
+    Observable<Result> getSingleMouldList(@Body NetRequestBean netRequestBean);
 }

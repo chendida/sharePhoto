@@ -29,6 +29,11 @@ public class StickerDrawable extends BitmapDrawable implements FeatherDrawable {
         this.mShadowBitmap = getBitmap().extractAlpha(this.mShadowPaint, offsetXY);
     }
 
+    @Override
+    public void setAlpha(int alpha) {
+        super.setAlpha(alpha);
+    }
+
     public int getBitmapWidth() {
         return getBitmap().getWidth();
     }

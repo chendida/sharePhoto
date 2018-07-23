@@ -150,4 +150,12 @@ public class DataManager {
     public Observable<Result> editPhotoInfo(NetRequestBean netRequestBean){
         return mRetrofitService.editPhotoInfo(netRequestBean);
     }
+
+    public Observable<Result> getWaterMouldList(NetRequestBean netRequestBean){
+        return mRetrofitService.getWaterMouldList(netRequestBean);
+    }
+
+    public Observable<Result> getSingleWaterMouldList(NetRequestBean netRequestBean){
+        return mRetrofitService.getSingleMouldList(netRequestBean);
+    }
 }

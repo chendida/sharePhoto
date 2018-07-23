@@ -20,6 +20,7 @@
     <color name="tv_text_color5">#787878</color>
     <color name="tv_text_color6">#222222</color>
     <color name="tv_text_color7">#75a3d9</color>
+    <color name="tv_text_color8">#777777</color>
     <color name="tv_text_select">#1bbf1f</color>
     <color name="tv_text_normal">#7c7c7c</color>
     <color name="black">#333333</color>
@@ -27,4 +28,5 @@
     <!--线条背景颜色-->
     <color name="line_bg_color">#c0c0c0</color>
     <color name="red_color">#ff0000</color>
+    <color name="add_water_pic">#393939</color>
 </resources>
