@@ -174,4 +174,12 @@ public class DataManager {
     public Observable<Result> getOrdersNumAndBalance(NetRequestBean netRequestBean){
         return mRetrofitService.getOrdersNumAndBalance(netRequestBean);
     }
+
+    public Observable<Result> updateOrderStatus(NetRequestBean netRequestBean){
+        return mRetrofitService.updateOrderStatus(netRequestBean);
+    }
+
+    public Observable<Result> getOrdersList(NetRequestBean netRequestBean){
+        return mRetrofitService.getOrdersList(netRequestBean);
+    }
 }

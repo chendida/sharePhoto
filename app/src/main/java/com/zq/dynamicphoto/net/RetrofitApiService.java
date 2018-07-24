@@ -302,4 +302,21 @@ public interface RetrofitApiService {
      */
     @POST("sdkData.shtml?requestId=54&a=0&b=0")
     Observable<Result> getOrdersNumAndBalance(@Body NetRequestBean netRequestBean);
+
+    /**
+     * 修改订单状态
+     * @param netRequestBean
+     * @return
+     */
+    @POST("sdkData.shtml?requestId=43&a=0&b=0")
+    Observable<Result> updateOrderStatus(@Body NetRequestBean netRequestBean);
+
+
+    /**
+     * 查询所有订单
+     * @param netRequestBean
+     * @return
+     */
+    @POST("sdkData.shtml?requestId=46&a=0&b=0")
+    Observable<Result> getOrdersList(@Body NetRequestBean netRequestBean);
 }

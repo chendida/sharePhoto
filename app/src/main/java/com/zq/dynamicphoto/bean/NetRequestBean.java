@@ -1,5 +1,7 @@
 package com.zq.dynamicphoto.bean;
 
+import com.zq.dynamicphoto.mylive.bean.ChargeOrder;
+
 /**
  * Created by Administrator on 2018/5/24.
  */
@@ -28,6 +30,16 @@ public class NetRequestBean {
     private Watermark watermark;
 
     private UserWatermark userWatermark;
+
+    private ChargeOrder chargeOrder;
+
+    public ChargeOrder getChargeOrder() {
+        return chargeOrder;
+    }
+
+    public void setChargeOrder(ChargeOrder chargeOrder) {
+        this.chargeOrder = chargeOrder;
+    }
 
     public UserWatermark getUserWatermark() {
         return userWatermark;

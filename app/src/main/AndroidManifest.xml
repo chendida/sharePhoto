@@ -90,7 +90,8 @@
         <activity android:name=".ui.PhotoSelectActivity" />
         <activity android:name=".ui.WatermarkActivity" />
         <activity android:name=".ui.WaterStyleActivity" />
-        <activity android:name=".mylive.ui.MyOrdersActivity"></activity>
+        <activity android:name=".mylive.ui.MyOrdersActivity" />
+        <activity android:name=".mylive.ui.AddLiveGoodActivity"></activity>
     </application>
 
 </manifest>

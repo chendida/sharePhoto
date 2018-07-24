@@ -177,4 +177,6 @@
     <string name="tv_confirmed">已确认</string>
     <string name="tv_shipped">已发货</string>
     <string name="tv_canceled">已取消</string>
+    <string name="no_about_order">暂无订单内容</string>
+    <string name="tv_send_out_goods">发货</string>
 </resources>
