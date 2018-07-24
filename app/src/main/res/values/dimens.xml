@@ -24,4 +24,6 @@
     <dimen name="media_controller_view_height">48dip</dimen>
     <dimen name="media_controller_button_height">52dip</dimen>
     <dimen name="media_controller_button_width">71dip</dimen>
+
+    <dimen name="ymd_text_size">17sp</dimen>
 </resources>

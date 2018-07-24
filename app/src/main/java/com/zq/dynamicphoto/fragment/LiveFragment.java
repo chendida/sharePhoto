@@ -75,20 +75,22 @@ public class LiveFragment extends BaseFragment<ILoadView,BalanceAndOrdersNumPres
     public void onClicked(View view) {
         switch (view.getId()) {
             case R.id.layout_my_orders:
-                MFGT.totoMyOrdersActivity(getActivity());
+                MFGT.gotoMyOrdersActivity(getActivity());
                 //startActivity(new Intent(getActivity(), MyOrderActivity.class));
                 break;
             case R.id.layout_live_good:
-                MFGT.totoAddLiveGoodActivity(getActivity());
+                MFGT.gotoAddLiveGoodActivity(getActivity());
                 //startActivity(new Intent(getActivity(), AddLiveGoodActivity.class));
                 break;
             case R.id.layout_my_profit:
+                MFGT.gotoAccountRechargeActivity(getActivity());
                 //startActivity(new Intent(getActivity(), AccountRechargeActivity.class));
                 break;
             case R.id.btn_open_live:
                 //startActivity(new Intent(getActivity(), OpenLiveActivity.class));
                 break;
             case R.id.layout_my_consumption://消费清单
+                MFGT.gotoConsumptionListActivity(getActivity());
                 //startActivity(new Intent(getActivity(), ConsumptionListActivity.class));
                 break;
         }

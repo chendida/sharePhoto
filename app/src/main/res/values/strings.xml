@@ -180,4 +180,12 @@
     <string name="no_about_order">暂无订单内容</string>
     <string name="tv_send_out_goods">发货</string>
     <string name="select_live_good">选择直播产品</string>
+    <string name="no_consumption">暂无消费清单哦！</string>
+    <string name="tv_live_start_time">开始时间</string>
+    <string name="tv_live_end_time">结束时间</string>
+    <string name="tv_watch_num">观看人数</string>
+    <string name="tv_spend">总花费</string>
+    <string name="begin_at">开始于\n</string>
+    <string name="end_at">结束于\n</string>
+    <string name="time_start_larger_end_not_allowed">开始时间不能大于结束时间</string>
 </resources>

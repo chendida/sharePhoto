@@ -91,7 +91,9 @@
         <activity android:name=".ui.WatermarkActivity" />
         <activity android:name=".ui.WaterStyleActivity" />
         <activity android:name=".mylive.ui.MyOrdersActivity" />
-        <activity android:name=".mylive.ui.AddLiveGoodActivity"></activity>
+        <activity android:name=".mylive.ui.AddLiveGoodActivity" />
+        <activity android:name=".mylive.ui.AccountRechargeActivity" />
+        <activity android:name=".mylive.ui.ConsumptionListActivity"></activity>
     </application>
 
 </manifest>

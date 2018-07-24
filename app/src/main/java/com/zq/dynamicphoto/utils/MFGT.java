@@ -11,7 +11,9 @@ import com.zq.dynamicphoto.bean.Image;
 import com.zq.dynamicphoto.bean.Moments;
 import com.zq.dynamicphoto.common.Constans;
 import com.zq.dynamicphoto.fragment.LiveFragment;
+import com.zq.dynamicphoto.mylive.ui.AccountRechargeActivity;
 import com.zq.dynamicphoto.mylive.ui.AddLiveGoodActivity;
+import com.zq.dynamicphoto.mylive.ui.ConsumptionListActivity;
 import com.zq.dynamicphoto.mylive.ui.MyOrdersActivity;
 import com.zq.dynamicphoto.ui.AboutAppActivity;
 import com.zq.dynamicphoto.ui.AddFriendCircleActivity;
@@ -155,11 +157,19 @@ public class MFGT {
         context.startActivity(new Intent(context, WaterStyleActivity.class));
     }
 
-    public static void totoMyOrdersActivity(Context context) {
+    public static void gotoMyOrdersActivity(Context context) {
         context.startActivity(new Intent(context, MyOrdersActivity.class));
     }
 
-    public static void totoAddLiveGoodActivity(Activity context) {
+    public static void gotoAddLiveGoodActivity(Activity context) {
         context.startActivity(new Intent(context, AddLiveGoodActivity.class));
+    }
+
+    public static void gotoConsumptionListActivity(Activity context) {
+        context.startActivity(new Intent(context, ConsumptionListActivity.class));
+    }
+
+    public static void gotoAccountRechargeActivity(Activity context) {
+        context.startActivity(new Intent(context, AccountRechargeActivity.class));
     }
 }
