@@ -3,6 +3,7 @@ package com.zq.dynamicphoto.utils;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.support.v4.app.FragmentActivity;
 
 import com.zq.dynamicphoto.bean.Dynamic;
 import com.zq.dynamicphoto.bean.Folder;
@@ -10,6 +11,7 @@ import com.zq.dynamicphoto.bean.Image;
 import com.zq.dynamicphoto.bean.Moments;
 import com.zq.dynamicphoto.common.Constans;
 import com.zq.dynamicphoto.fragment.LiveFragment;
+import com.zq.dynamicphoto.mylive.ui.AddLiveGoodActivity;
 import com.zq.dynamicphoto.mylive.ui.MyOrdersActivity;
 import com.zq.dynamicphoto.ui.AboutAppActivity;
 import com.zq.dynamicphoto.ui.AddFriendCircleActivity;
@@ -155,5 +157,9 @@ public class MFGT {
 
     public static void totoMyOrdersActivity(Context context) {
         context.startActivity(new Intent(context, MyOrdersActivity.class));
+    }
+
+    public static void totoAddLiveGoodActivity(Activity context) {
+        context.startActivity(new Intent(context, AddLiveGoodActivity.class));
     }
 }

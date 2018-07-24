@@ -1,6 +1,7 @@
 package com.zq.dynamicphoto.bean;
 
 import com.zq.dynamicphoto.mylive.bean.ChargeOrder;
+import com.zq.dynamicphoto.mylive.bean.NewLiveRoom;
 
 /**
  * Created by Administrator on 2018/5/24.
@@ -32,6 +33,16 @@ public class NetRequestBean {
     private UserWatermark userWatermark;
 
     private ChargeOrder chargeOrder;
+
+    private NewLiveRoom newLiveRoom;
+
+    public NewLiveRoom getNewLiveRoom() {
+        return newLiveRoom;
+    }
+
+    public void setNewLiveRoom(NewLiveRoom newLiveRoom) {
+        this.newLiveRoom = newLiveRoom;
+    }
 
     public ChargeOrder getChargeOrder() {
         return chargeOrder;

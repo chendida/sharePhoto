@@ -79,6 +79,7 @@ public class LiveFragment extends BaseFragment<ILoadView,BalanceAndOrdersNumPres
                 //startActivity(new Intent(getActivity(), MyOrderActivity.class));
                 break;
             case R.id.layout_live_good:
+                MFGT.totoAddLiveGoodActivity(getActivity());
                 //startActivity(new Intent(getActivity(), AddLiveGoodActivity.class));
                 break;
             case R.id.layout_my_profit:

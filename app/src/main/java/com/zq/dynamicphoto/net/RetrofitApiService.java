@@ -319,4 +319,20 @@ public interface RetrofitApiService {
      */
     @POST("sdkData.shtml?requestId=46&a=0&b=0")
     Observable<Result> getOrdersList(@Body NetRequestBean netRequestBean);
+
+    /**
+     * 获取直播间产品选择列表
+     * @param netRequestBean
+     * @return
+     */
+    @POST("sdkData.shtml?requestId=47&a=0&b=0")
+    Observable<Result> getLiveGoodsList(@Body NetRequestBean netRequestBean);
+
+    /**
+     * 上传直播间产品
+     * @param netRequestBean
+     * @return
+     */
+    @POST("sdkData.shtml?requestId=40&a=0&b=0")
+    Observable<Result> uploadLiveGoodsList(@Body NetRequestBean netRequestBean);
 }
