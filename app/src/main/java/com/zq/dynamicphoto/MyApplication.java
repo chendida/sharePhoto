@@ -5,8 +5,6 @@ import android.app.Application;
 import android.content.Context;
 import android.support.v4.app.Fragment;
 import android.util.DisplayMetrics;
-import android.util.Log;
-
 import com.blankj.utilcode.util.Utils;
 import com.orhanobut.logger.AndroidLogAdapter;
 import com.orhanobut.logger.Logger;
@@ -24,10 +22,7 @@ import com.tencent.mm.opensdk.openapi.WXAPIFactory;
 import com.zq.dynamicphoto.bean.Bounced;
 import com.zq.dynamicphoto.common.Constans;
 import com.zq.dynamicphoto.utils.AppInit;
-
 import java.util.ArrayList;
-import java.util.List;
-
 import javax.inject.Inject;
 import butterknife.ButterKnife;
 import dagger.android.AndroidInjector;
@@ -41,7 +36,8 @@ import static com.blankj.utilcode.util.ScreenUtils.getScreenDensity;
  * Created by Administrator on 2018/6/7.
  */
 
-public class MyApplication extends Application implements HasSupportFragmentInjector, HasActivityInjector {
+public class MyApplication extends Application implements
+        HasSupportFragmentInjector, HasActivityInjector {
     private static final String TAG = "MyApplication";
     private static MyApplication mInstance;
 
@@ -57,6 +53,11 @@ public class MyApplication extends Application implements HasSupportFragmentInje
 
     public static void setBouncedList(ArrayList<Bounced> bouncedList) {
         MyApplication.bouncedList = bouncedList;
+    }
+
+    @Override
+    protected void attachBaseContext(Context base) {
+        super.attachBaseContext(base);
     }
 
     @Inject

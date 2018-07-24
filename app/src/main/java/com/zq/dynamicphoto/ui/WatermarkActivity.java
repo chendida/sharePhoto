@@ -2,6 +2,7 @@ package com.zq.dynamicphoto.ui;
 
 import android.app.Dialog;
 import android.content.DialogInterface;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
@@ -21,25 +22,40 @@ import android.widget.SeekBar;
 import android.widget.TextView;
 
 import com.blankj.utilcode.util.ToastUtils;
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 import com.zhy.autolayout.AutoRelativeLayout;
 import com.zq.dynamicphoto.R;
 import com.zq.dynamicphoto.adapter.SelectWaterPicAdapter;
+import com.zq.dynamicphoto.base.BaseActivity;
+import com.zq.dynamicphoto.base.BasePresenter;
+import com.zq.dynamicphoto.bean.DeviceProperties;
+import com.zq.dynamicphoto.bean.DrUtils;
 import com.zq.dynamicphoto.bean.Image;
+import com.zq.dynamicphoto.bean.NetRequestBean;
+import com.zq.dynamicphoto.bean.Result;
+import com.zq.dynamicphoto.bean.UserWatermark;
 import com.zq.dynamicphoto.bean.WaterEvent;
 import com.zq.dynamicphoto.common.Constans;
 import com.zq.dynamicphoto.fragment.PictureSlideFragment;
+import com.zq.dynamicphoto.presenter.OperateWaterPresenter;
 import com.zq.dynamicphoto.ui.widge.NoPreloadViewPager;
 import com.zq.dynamicphoto.ui.widge.SwitchButton;
 import com.zq.dynamicphoto.ui.widge.WaterMouldSelectDialog;
 import com.zq.dynamicphoto.utils.MFGT;
+import com.zq.dynamicphoto.utils.SharedPreferencesUtils;
+import com.zq.dynamicphoto.view.IOperateWaterView;
 import com.zq.dynamicphoto.view.WaterMouldView;
 import com.zq.dynamicphoto.waterutil.EffectUtil;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -48,7 +64,8 @@ import butterknife.OnClick;
 /**
  * 图片编辑水印界面
  */
-public class WatermarkActivity extends AppCompatActivity implements WaterMouldView{
+public class WatermarkActivity extends BaseActivity<IOperateWaterView,
+        OperateWaterPresenter<IOperateWaterView>> implements WaterMouldView,IOperateWaterView{
     private static final String TAG = "WatermarkActivity";
 
     @BindView(R.id.btn_switchbutton)
@@ -75,12 +92,14 @@ public class WatermarkActivity extends AppCompatActivity implements WaterMouldVi
     private Dialog selectTextWaterDialog;
     private SelectWaterPicAdapter mWaterAdapter;
     private WaterMouldSelectDialog selectDialog;
+
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_watermark);
-        ButterKnife.bind(this);
-        EventBus.getDefault().register(this);
+    protected int getLayoutId() {
+        return R.layout.activity_watermark;
+    }
+
+    @Override
+    protected void initView() {
         EffectUtil.clear();
         setListener();
         seekBar.setMax(255);
@@ -105,6 +124,16 @@ public class WatermarkActivity extends AppCompatActivity implements WaterMouldVi
 
             }
         });
+    }
+
+    @Override
+    protected void initData() {
+
+    }
+
+    @Override
+    protected OperateWaterPresenter<IOperateWaterView> createPresenter() {
+        return new OperateWaterPresenter<>();
     }
 
     private void setListener() {
@@ -164,10 +193,10 @@ public class WatermarkActivity extends AppCompatActivity implements WaterMouldVi
             R.id.layout_save, R.id.rb_tab_water, R.id.rb_tab_text})
     public void onClicked(View view) {
         int currentItem = viewPager.getCurrentItem();
-        ArrayList<String> url = new ArrayList<>();
+        /*ArrayList<String> url = new ArrayList<>();
         for (Image im : imgs) {
             url.add(im.getPath());
-        }
+        }*/
         switch (view.getId()) {
             case R.id.layout_back:
                 WaterEvent event = new WaterEvent(1);
@@ -187,17 +216,19 @@ public class WatermarkActivity extends AppCompatActivity implements WaterMouldVi
                 break;
             case R.id.rb_tab_water:
                 Log.i("PictureSlideFragment", "rb_tab_water");
-                url.remove(0);
-                showPopWindow(url);
+                getAddWaterList(1);
+                /*url.remove(0);
+                showPopWindow(url);*/
                 break;
             case R.id.rb_tab_text:
                 Log.i("PictureSlideFragment", "rb_tab_text");
-                showTextPopWindow(url);
+                //showTextPopWindow(url);
+                getAddWaterList(2);
                 break;
         }
     }
 
-    private void showPopWindow(final ArrayList<String> urls) {
+    private void showPopWindow(final ArrayList<UserWatermark> urls) {
         selectWaterDialog = new Dialog(this, R.style.MainDialog);
         AutoRelativeLayout root = (AutoRelativeLayout) LayoutInflater.from(this)
                 .inflate(R.layout.water_pic_popup_window, null);
@@ -248,14 +279,15 @@ public class WatermarkActivity extends AppCompatActivity implements WaterMouldVi
             public void onClick(View v) {
                 if (selectWaterDialog.isShowing()) {
                     selectWaterDialog.dismiss();
-                    showTextPopWindow(urls);
+                    //showTextPopWindow(urls);
+                    getAddWaterList(2);
                 }
             }
         });
         selectWaterDialog.show();
     }
 
-    private void showTextPopWindow(final ArrayList<String> urls) {
+    private void showTextPopWindow(final ArrayList<UserWatermark> urls) {
         selectTextWaterDialog = new Dialog(this, R.style.MainDialog);
         AutoRelativeLayout root = (AutoRelativeLayout) LayoutInflater.from(this)
                 .inflate(R.layout.water_pic_popup_window, null);
@@ -298,7 +330,8 @@ public class WatermarkActivity extends AppCompatActivity implements WaterMouldVi
             public void onClick(View v) {
                 if (selectTextWaterDialog.isShowing()) {
                     selectTextWaterDialog.dismiss();
-                    showPopWindow(urls);
+                    //showPopWindow(urls);
+                    getAddWaterList(1);
                 }
             }
         });
@@ -341,6 +374,57 @@ public class WatermarkActivity extends AppCompatActivity implements WaterMouldVi
     @Override
     public void addWaterImage(Image image) {
 
+    }
+
+    @Override
+    public void showAddWaterMouldList(Result result) {
+        if (result != null) {
+            if (result.getResultCode() == Constans.REQUEST_OK) {
+                dealWithResult(result);
+            }else {
+                showFailed();
+            }
+        }else {
+            showFailed();
+        }
+    }
+
+    private void dealWithResult(Result result) {
+        try {
+            JSONObject jsonObject = new JSONObject(result.getData());
+            ArrayList<UserWatermark> userWatermarkList = new Gson().fromJson(jsonObject.optString("userWatermarkList"),
+                    new TypeToken<List<UserWatermark>>() {
+            }.getType());
+            int type = jsonObject.optInt("watermarkType");
+            if (type == 1){//显示水印弹窗
+                showPopWindow(userWatermarkList);
+            }else if (type == 2){//显示文字水印弹窗
+
+            }
+            Log.i("userWatermarkList", "userWatermarkList = " + userWatermarkList.size());
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+    }
+
+    @Override
+    public void deleteWaterMould(Result result) {
+
+    }
+
+    public void getAddWaterList(int type) {
+        DeviceProperties dr = DrUtils.getInstance();
+        UserWatermark userWatermark = new UserWatermark();
+        NetRequestBean netRequestBean = new NetRequestBean();
+        userWatermark.setWatermarkType(type);
+        SharedPreferences sp = SharedPreferencesUtils.getInstance();
+        int userId = sp.getInt(Constans.USERID, 0);
+        userWatermark.setUserId(userId);
+        netRequestBean.setDeviceProperties(dr);
+        netRequestBean.setUserWatermark(userWatermark);
+        if (mPresenter != null){
+            mPresenter.getAddWaterMouldList(netRequestBean);
+        }
     }
 
 

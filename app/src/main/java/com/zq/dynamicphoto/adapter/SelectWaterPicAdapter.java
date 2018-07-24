@@ -13,6 +13,7 @@ import android.widget.ImageView;
 import com.zq.dynamicphoto.R;
 import com.zq.dynamicphoto.bean.Dynamic;
 import com.zq.dynamicphoto.bean.Image;
+import com.zq.dynamicphoto.bean.UserWatermark;
 import com.zq.dynamicphoto.utils.ImageLoaderUtils;
 import com.zq.dynamicphoto.view.WaterMouldView;
 
@@ -27,7 +28,7 @@ import butterknife.ButterKnife;
 
 public class SelectWaterPicAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
-    private ArrayList<String> mList;
+    private ArrayList<UserWatermark> mList;
     private static final int HEAD_TYPE = 00001;
     private static final int BODY_TYPE = 00002;
     private int headCount = 1;//头部个数，后续可以自己拓展
@@ -43,7 +44,7 @@ public class SelectWaterPicAdapter extends RecyclerView.Adapter<RecyclerView.Vie
     }
 
 
-    public SelectWaterPicAdapter(ArrayList<String> mList,WaterMouldView view) {
+    public SelectWaterPicAdapter(ArrayList<UserWatermark> mList,WaterMouldView view) {
         this.mList = mList;
         this.clickListener = view;
     }
@@ -89,7 +90,7 @@ public class SelectWaterPicAdapter extends RecyclerView.Adapter<RecyclerView.Vie
             holder.itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    Image image = new Image(mList.get(position -1));
+                    Image image = new Image(mList.get(position -1).getWatermarkUrl());
                     clickListener.addWaterImage(image);
                 }
             });
@@ -120,9 +121,11 @@ public class SelectWaterPicAdapter extends RecyclerView.Adapter<RecyclerView.Vie
             ButterKnife.bind(this, view);
         }
 
-        public void bind(String s) {
-            if (!TextUtils.isEmpty(s)){
-                ImageLoaderUtils.displayImg(ivWaterPic,s);
+        public void bind(UserWatermark userWatermark) {
+            if (userWatermark != null) {
+                if (!TextUtils.isEmpty(userWatermark.getWatermarkUrl())) {
+                    ImageLoaderUtils.displayImg(ivWaterPic, userWatermark.getWatermarkUrl());
+                }
             }
         }
     }

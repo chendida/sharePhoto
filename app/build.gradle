@@ -20,6 +20,10 @@ android {
         versionName "1.0"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
         signingConfig signingConfigs.config
+        multiDexEnabled true
+        ndk {
+            abiFilters "armeabi", "armeabi-v7a"
+        }
     }
     buildTypes {
         release {
@@ -31,6 +35,11 @@ android {
             signingConfig signingConfigs.config
         }
     }
+    sourceSets {
+        main {
+            jniLibs.srcDirs = ['libs']
+        }
+    }
 }
 
 dependencies {
@@ -39,43 +48,45 @@ dependencies {
     implementation 'com.android.support.constraint:constraint-layout:1.1.0'
     implementation 'com.android.support:support-v4:27.1.1'
     testImplementation 'junit:junit:4.12'
-    compile 'com.android.support:design:27.1.1'
+    implementation 'com.android.support:design:27.1.1'
     androidTestImplementation 'com.android.support.test:runner:1.0.2'
     androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.2'
-    compile 'com.zhy:autolayout:1.4.5'
-    compile 'io.reactivex.rxjava2:rxjava:2.1.9'
-    compile 'io.reactivex.rxjava2:rxandroid:2.0.2'
-    compile 'com.trello.rxlifecycle2:rxlifecycle:2.2.1'
-    compile 'com.trello.rxlifecycle2:rxlifecycle-components:2.2.1'
-    compile 'com.jakewharton.rxbinding2:rxbinding:2.1.1'
-    compile 'com.scwang.smartrefresh:SmartRefreshLayout:1.0.4'
-    compile 'com.scwang.smartrefresh:SmartRefreshHeader:1.0.4'
+    // 导入腾讯云直播SDK aar
+    implementation(name: 'LiteAVSDK_Professional_5.0.4973', ext: 'aar')
+    implementation 'com.zhy:autolayout:1.4.5'
+    implementation 'io.reactivex.rxjava2:rxjava:2.1.9'
+    implementation 'io.reactivex.rxjava2:rxandroid:2.0.2'
+    implementation 'com.trello.rxlifecycle2:rxlifecycle:2.2.1'
+    implementation 'com.trello.rxlifecycle2:rxlifecycle-components:2.2.1'
+    implementation 'com.jakewharton.rxbinding2:rxbinding:2.1.1'
+    implementation 'com.scwang.smartrefresh:SmartRefreshLayout:1.0.4'
+    implementation 'com.scwang.smartrefresh:SmartRefreshHeader:1.0.4'
     //没有使用特殊Header，可以不加这行
-    compile 'com.squareup.retrofit2:retrofit:2.3.0'
-    compile 'com.squareup.retrofit2:adapter-rxjava2:2.3.0'
-    compile 'com.squareup.retrofit2:converter-gson:2.3.0'
-    compile 'com.jakewharton:butterknife:8.8.1'
+    implementation 'com.squareup.retrofit2:retrofit:2.3.0'
+    implementation 'com.squareup.retrofit2:adapter-rxjava2:2.3.0'
+    implementation 'com.squareup.retrofit2:converter-gson:2.3.0'
+    implementation 'com.jakewharton:butterknife:8.8.1'
     annotationProcessor 'com.jakewharton:butterknife-compiler:8.8.1'
-    compile 'com.blankj:utilcode:1.13.9'
-    compile 'com.kaopiz:kprogresshud:1.1.0'
-    compile 'com.google.code.gson:gson:2.8.2'
+    implementation 'com.blankj:utilcode:1.13.9'
+    implementation 'com.kaopiz:kprogresshud:1.1.0'
+    implementation 'com.google.code.gson:gson:2.8.2'
     annotationProcessor 'com.google.dagger:dagger-compiler:2.11'
-    compile 'com.google.dagger:dagger-android:2.11'
-    compile 'com.google.dagger:dagger-android-support:2.11'
+    implementation 'com.google.dagger:dagger-android:2.11'
+    implementation 'com.google.dagger:dagger-android-support:2.11'
     annotationProcessor 'com.google.dagger:dagger-android-processor:2.11'
-    compile 'com.squareup.okhttp3:logging-interceptor:3.9.1'
-    compile 'com.squareup.okhttp3:okhttp:3.9.1'
-    compile 'com.tencent.mm.opensdk:wechat-sdk-android-with-mta:+'
+    implementation 'com.squareup.okhttp3:logging-interceptor:3.9.1'
+    implementation 'com.squareup.okhttp3:okhttp:3.9.1'
+    implementation 'com.tencent.mm.opensdk:wechat-sdk-android-with-mta:+'
     implementation files('libs/commons-lang-2.4.jar')
     implementation 'com.orhanobut:logger:2.2.0'
-    compile 'com.github.bumptech.glide:glide:4.6.1'
+    implementation 'com.github.bumptech.glide:glide:4.6.1'
     implementation 'com.github.LuckSiege.PictureSelector:picture_library:v2.1.9'
-    compile 'com.hyman:flowlayout-lib:1.1.2'
-    compile 'com.github.mcxtzhang:SwipeDelMenuLayout:V1.3.0'
+    implementation 'com.hyman:flowlayout-lib:1.1.2'
+    implementation 'com.github.mcxtzhang:SwipeDelMenuLayout:V1.3.0'
     //compile 'com.birbit:android-priority-jobqueue:2.0.1'
     implementation files('libs/cos-android-sdk-V5.4.3.jar')
-    compile 'org.greenrobot:eventbus:3.1.1'
-    compile 'com.zxy.android:tiny:0.1.0'
+    implementation 'org.greenrobot:eventbus:3.1.1'
+    implementation 'com.zxy.android:tiny:0.1.0'
     implementation files('libs/pldroid-shortvideo-1.10.0.jar')
-    compile 'com.github.chrisbanes:PhotoView:2.0.0'
+    implementation 'com.github.chrisbanes:PhotoView:2.0.0'
 }

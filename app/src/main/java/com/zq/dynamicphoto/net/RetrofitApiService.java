@@ -269,4 +269,29 @@ public interface RetrofitApiService {
      */
     @POST("sdkData.shtml?requestId=85&a=0&b=0")
     Observable<Result> getSingleMouldList(@Body NetRequestBean netRequestBean);
+
+    /**
+     * 获取用户用过的水印模板列表
+     * @param netRequestBean
+     * @return
+     */
+    @POST("sdkData.shtml?requestId=83&a=0&b=0")
+    Observable<Result> getAddMouldList(@Body NetRequestBean netRequestBean);
+
+    /**
+     * 添加用户水印
+     * @param netRequestBean
+     * @return
+     */
+    @POST("sdkData.shtml?requestId=82&a=0&b=0")
+    Observable<Result> addWaterMould(@Body NetRequestBean netRequestBean);
+
+
+    /**
+     * 删除用户水印
+     * @param netRequestBean
+     * @return
+     */
+    @POST("sdkData.shtml?requestId=84&a=0&b=0")
+    Observable<Result> deleteWaterMould(@Body NetRequestBean netRequestBean);
 }

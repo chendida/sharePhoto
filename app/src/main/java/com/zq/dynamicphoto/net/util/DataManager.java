@@ -158,4 +158,16 @@ public class DataManager {
     public Observable<Result> getSingleWaterMouldList(NetRequestBean netRequestBean){
         return mRetrofitService.getSingleMouldList(netRequestBean);
     }
+
+    public Observable<Result> getAddMouldList(NetRequestBean netRequestBean){
+        return mRetrofitService.getAddMouldList(netRequestBean);
+    }
+
+    public Observable<Result> addWaterMould(NetRequestBean netRequestBean){
+        return mRetrofitService.addWaterMould(netRequestBean);
+    }
+
+    public Observable<Result> deleteWaterMould(NetRequestBean netRequestBean){
+        return mRetrofitService.deleteWaterMould(netRequestBean);
+    }
 }

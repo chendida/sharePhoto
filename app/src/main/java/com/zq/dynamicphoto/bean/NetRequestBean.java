@@ -27,6 +27,16 @@ public class NetRequestBean {
 
     private Watermark watermark;
 
+    private UserWatermark userWatermark;
+
+    public UserWatermark getUserWatermark() {
+        return userWatermark;
+    }
+
+    public void setUserWatermark(UserWatermark userWatermark) {
+        this.userWatermark = userWatermark;
+    }
+
     public Watermark getWatermark() {
         return watermark;
     }
