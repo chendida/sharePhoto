@@ -9,12 +9,14 @@
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.CAMERA" />
-    <uses-feature android:name="android.hardware.Camera"/>
+
+    <uses-feature android:name="android.hardware.Camera" />
     <uses-feature android:name="android.hardware.camera.autofocus" />
+
     <uses-permission android:name="android.permission.RECORD_AUDIO" />
     <uses-permission android:name="android.permission.FLASHLIGHT" />
     <uses-permission android:name="android.permission.READ_PHONE_STATE" />
-    <uses-permission android:name="android.permission.CALL_PHONE"/>
+    <uses-permission android:name="android.permission.CALL_PHONE" />
     <uses-permission android:name="android.permission.READ_LOGS" />
 
     <application
@@ -87,7 +89,8 @@
         <activity android:name=".ui.PhotoListActivity" />
         <activity android:name=".ui.PhotoSelectActivity" />
         <activity android:name=".ui.WatermarkActivity" />
-        <activity android:name=".ui.WaterStyleActivity"></activity>
+        <activity android:name=".ui.WaterStyleActivity" />
+        <activity android:name=".mylive.ui.MyOrdersActivity"></activity>
     </application>
 
 </manifest>

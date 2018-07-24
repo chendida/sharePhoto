@@ -294,4 +294,12 @@ public interface RetrofitApiService {
      */
     @POST("sdkData.shtml?requestId=84&a=0&b=0")
     Observable<Result> deleteWaterMould(@Body NetRequestBean netRequestBean);
+
+    /**
+     *  获取订单数量和余额
+     * @param netRequestBean
+     * @return
+     */
+    @POST("sdkData.shtml?requestId=54&a=0&b=0")
+    Observable<Result> getOrdersNumAndBalance(@Body NetRequestBean netRequestBean);
 }

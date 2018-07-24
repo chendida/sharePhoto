@@ -170,4 +170,8 @@ public class DataManager {
     public Observable<Result> deleteWaterMould(NetRequestBean netRequestBean){
         return mRetrofitService.deleteWaterMould(netRequestBean);
     }
+
+    public Observable<Result> getOrdersNumAndBalance(NetRequestBean netRequestBean){
+        return mRetrofitService.getOrdersNumAndBalance(netRequestBean);
+    }
 }

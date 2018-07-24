@@ -166,4 +166,15 @@
     <string name="tv_lower_water">花边水印</string>
     <string name="tv_money_mould">价签模板</string>
     <string name="tv_good_request">精品推荐</string>
+    <string name="order_num">订单数量</string>
+    <string name="tv_my_balance">余额</string>
+    <string name="tv_my_orders">我的订单</string>
+    <string name="tv_my_live_good">直播产品</string>
+    <string name="tv_my_profit">账户充值</string>
+    <string name="consumption">消费清单</string>
+    <string name="tv_open_live">开播</string>
+    <string name="tv_to_be_confirm">待确认</string>
+    <string name="tv_confirmed">已确认</string>
+    <string name="tv_shipped">已发货</string>
+    <string name="tv_canceled">已取消</string>
 </resources>

@@ -9,6 +9,8 @@ import com.zq.dynamicphoto.bean.Folder;
 import com.zq.dynamicphoto.bean.Image;
 import com.zq.dynamicphoto.bean.Moments;
 import com.zq.dynamicphoto.common.Constans;
+import com.zq.dynamicphoto.fragment.LiveFragment;
+import com.zq.dynamicphoto.mylive.ui.MyOrdersActivity;
 import com.zq.dynamicphoto.ui.AboutAppActivity;
 import com.zq.dynamicphoto.ui.AddFriendCircleActivity;
 import com.zq.dynamicphoto.ui.AddLabelActivity;
@@ -149,5 +151,9 @@ public class MFGT {
 
     public static void gotoWaterStyleActivity(Context context) {
         context.startActivity(new Intent(context, WaterStyleActivity.class));
+    }
+
+    public static void totoMyOrdersActivity(Context context) {
+        context.startActivity(new Intent(context, MyOrdersActivity.class));
     }
 }

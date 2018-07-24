@@ -1,62 +1,63 @@
-package com.zq.dynamicphoto.ui;
+package com.zq.dynamicphoto.mylive.ui;
 
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
+import android.widget.TextView;
+
+import com.zhy.autolayout.AutoRelativeLayout;
 import com.zq.dynamicphoto.R;
 import com.zq.dynamicphoto.adapter.MyPageAdapter;
 import com.zq.dynamicphoto.base.BaseActivity;
 import com.zq.dynamicphoto.base.BasePresenter;
-import com.zq.dynamicphoto.fragment.WaterMouldFragment;
+import com.zq.dynamicphoto.mylive.fragment.LiveOrdersFragment;
+import com.zq.dynamicphoto.utils.TitleUtils;
+
 import java.util.ArrayList;
+
 import butterknife.BindView;
 import butterknife.OnClick;
 
-/**
- * 水印样式
- */
-public class WaterStyleActivity extends BaseActivity {
-
+public class MyOrdersActivity extends BaseActivity {
     @BindView(R.id.tab_layout)
     TabLayout tabLayout;
     @BindView(R.id.view_pager)
     ViewPager viewPager;
+    @BindView(R.id.layout_back)
+    AutoRelativeLayout layoutBack;
+    @BindView(R.id.tv_title)
+    TextView tvTitle;
+    @BindView(R.id.layout_finish)
+    AutoRelativeLayout layoutFinish;
     private ArrayList<String> mTitleStrs = new ArrayList<>();
-    private ArrayList<Fragment>mFragments = new ArrayList<>();
+    private ArrayList<Fragment> mFragments = new ArrayList<>();
     private int mCurrentTabPos = 0;
     private MyPageAdapter pageAdapter;
+
     @Override
     protected int getLayoutId() {
-        return R.layout.activity_water_style;
+        return R.layout.activity_my_orders;
     }
 
     @Override
     protected void initView() {
-        WaterMouldFragment fragment1 = new WaterMouldFragment(0);
-        WaterMouldFragment fragment2 = new WaterMouldFragment(1);
-        WaterMouldFragment fragment3 = new WaterMouldFragment(2);
-        WaterMouldFragment fragment4 = new WaterMouldFragment(3);
-        WaterMouldFragment fragment5 = new WaterMouldFragment(4);
-        WaterMouldFragment fragment6 = new WaterMouldFragment(5);
-        WaterMouldFragment fragment7 = new WaterMouldFragment(6);
-        WaterMouldFragment fragment8 = new WaterMouldFragment(7);
+        TitleUtils.setTitleBar(getResources().getString(R.string.tv_my_orders),tvTitle,layoutBack,layoutFinish);
+        LiveOrdersFragment fragment1 = new LiveOrdersFragment(0);
+        LiveOrdersFragment fragment2 = new LiveOrdersFragment(1);
+        LiveOrdersFragment fragment3 = new LiveOrdersFragment(2);
+        LiveOrdersFragment fragment4 = new LiveOrdersFragment(3);
+        LiveOrdersFragment fragment5 = new LiveOrdersFragment(4);
         mFragments.add(fragment1);
         mFragments.add(fragment2);
         mFragments.add(fragment3);
         mFragments.add(fragment4);
         mFragments.add(fragment5);
-        mFragments.add(fragment6);
-        mFragments.add(fragment7);
-        mFragments.add(fragment8);
 
         mTitleStrs.add(getResources().getString(R.string.tv_all));
-        mTitleStrs.add(getResources().getString(R.string.tv_label_sticker));
-        mTitleStrs.add(getResources().getString(R.string.tv_two_code));
-        mTitleStrs.add(getResources().getString(R.string.tv_kinds_shape));
-        mTitleStrs.add(getResources().getString(R.string.tv_more_mould));
-        mTitleStrs.add(getResources().getString(R.string.tv_lower_water));
-        mTitleStrs.add(getResources().getString(R.string.tv_money_mould));
-        mTitleStrs.add(getResources().getString(R.string.tv_good_request));
+        mTitleStrs.add(getResources().getString(R.string.tv_to_be_confirm));
+        mTitleStrs.add(getResources().getString(R.string.tv_confirmed));
+        mTitleStrs.add(getResources().getString(R.string.tv_shipped));
+        mTitleStrs.add(getResources().getString(R.string.tv_canceled));
     }
 
     @Override
