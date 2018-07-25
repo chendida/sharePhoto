@@ -22,7 +22,8 @@ import butterknife.Unbinder;
 /**
  * @author wong
  */
-public abstract class BaseActivity<V,T extends BasePresenter<V>> extends RxAppCompatActivity implements BaseView {
+public abstract class BaseActivity<V,T extends BasePresenter<V>>
+        extends RxAppCompatActivity implements BaseView {
     @Nullable
     @Inject
     protected T mPresenter;

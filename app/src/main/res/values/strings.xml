@@ -188,4 +188,8 @@
     <string name="begin_at">开始于\n</string>
     <string name="end_at">结束于\n</string>
     <string name="time_start_larger_end_not_allowed">开始时间不能大于结束时间</string>
+    <string name="recharge_fail">充值失败</string>
+    <string name="pay_success">支付成功</string>
+    <string name="pay_fail">支付失败</string>
+    <string name="pay_cancel">支付取消</string>
 </resources>

@@ -343,4 +343,21 @@ public interface RetrofitApiService {
      */
     @POST("sdkData.shtml?requestId=70&a=0&b=0")
     Observable<Result> getUserConsumptionList(@Body NetRequestBean netRequestBean);
+
+    /**
+     * 获取计费点
+     * @param netRequestBean
+     * @return
+     */
+    @POST("sdkData.shtml?requestId=51&a=0&b=0")
+    Observable<Result> getChargeCode(@Body NetRequestBean netRequestBean);
+
+
+    /**
+     *  获取订单id
+     * @param netRequestBean
+     * @return
+     */
+    @POST("sdkData.shtml?requestId=52&a=0&b=0")
+    Observable<Result> getOrderId(@Body NetRequestBean netRequestBean);
 }

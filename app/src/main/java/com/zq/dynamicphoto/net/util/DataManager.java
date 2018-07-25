@@ -194,4 +194,12 @@ public class DataManager {
     public Observable<Result> getUserConsumptionList(NetRequestBean netRequestBean){
         return mRetrofitService.getUserConsumptionList(netRequestBean);
     }
+
+    public Observable<Result> getChargeCode(NetRequestBean netRequestBean){
+        return mRetrofitService.getChargeCode(netRequestBean);
+    }
+
+    public Observable<Result> getOrderId(NetRequestBean netRequestBean){
+        return mRetrofitService.getOrderId(netRequestBean);
+    }
 }
