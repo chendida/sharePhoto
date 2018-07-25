@@ -89,4 +89,5 @@ dependencies {
     implementation 'com.zxy.android:tiny:0.1.0'
     implementation files('libs/pldroid-shortvideo-1.10.0.jar')
     implementation 'com.github.chrisbanes:PhotoView:2.0.0'
+    implementation files('libs/zysdk.jar')
 }

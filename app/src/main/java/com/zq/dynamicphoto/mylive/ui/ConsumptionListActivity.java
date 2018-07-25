@@ -150,6 +150,7 @@ public class ConsumptionListActivity extends BaseActivity<ILoadView,
 
     @Override
     protected void initData() {
+        pager = 1;
         getConsumptionList(pager,beginTime,finishTime);
     }
 
@@ -169,7 +170,8 @@ public class ConsumptionListActivity extends BaseActivity<ILoadView,
                 etSearch.setText(null);
                 break;
             case R.id.layout_filter:
-                getConsumptionList(1,beginTime,finishTime);
+                pager = 1;
+                getConsumptionList(pager,beginTime,finishTime);
                 break;
         }
     }
@@ -183,6 +185,7 @@ public class ConsumptionListActivity extends BaseActivity<ILoadView,
             mDoubleTimeSelectDialog.setOnDateSelectFinished(new DoubleTimeSelectDialog.OnDateSelectFinished() {
                 @Override
                 public void onSelectFinished(String startTime, String endTime) {
+                    pager = 1;
                     beginTime = startTime;
                     finishTime = endTime;
                     etSearch.setText(startTime.replace("-", ".") +
