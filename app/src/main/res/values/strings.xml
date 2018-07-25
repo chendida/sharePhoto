@@ -192,4 +192,19 @@
     <string name="pay_success">支付成功</string>
     <string name="pay_fail">支付失败</string>
     <string name="pay_cancel">支付取消</string>
+    <string name="click_change_pic">点击更换封面</string>
+    <string name="tv_default_fans">初始人气</string>
+    <string name="tv_default_fans_num">1</string>
+    <string name="tv_default_add_fans">递增人气</string>
+    <string name="please_input_live_title">请输入直播标题</string>
+    <string name="phone_number">联系电话</string>
+    <string name="wx_number">微信号</string>
+    <string name="tv_notify_content">公告内容</string>
+    <string name="please_input_notify_content">请输入公告内容</string>
+    <string name="user_privacy_protocol">《主播开播协议》</string>
+    <string name="release_live">发布直播</string>
+    <string name="please_upload_cover">请上传直播封面</string>
+    <string name="live_title_no_empty">标题不能为空</string>
+    <string name="please_input_start_fans">请输入初始人气</string>
+    <string name="please_input_add_fans">请输入递增人气</string>
 </resources>

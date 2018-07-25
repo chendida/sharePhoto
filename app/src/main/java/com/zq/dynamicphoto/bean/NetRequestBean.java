@@ -4,6 +4,7 @@ import com.zq.dynamicphoto.mylive.bean.Charge;
 import com.zq.dynamicphoto.mylive.bean.ChargeOrder;
 import com.zq.dynamicphoto.mylive.bean.ChargeType;
 import com.zq.dynamicphoto.mylive.bean.LiveConsumeRecord;
+import com.zq.dynamicphoto.mylive.bean.LiveRoom;
 import com.zq.dynamicphoto.mylive.bean.NewLiveRoom;
 
 /**
@@ -44,6 +45,16 @@ public class NetRequestBean {
     private ChargeType chargeType;
 
     private Charge charge;
+
+    private LiveRoom liveRoom;
+
+    public LiveRoom getLiveRoom() {
+        return liveRoom;
+    }
+
+    public void setLiveRoom(LiveRoom liveRoom) {
+        this.liveRoom = liveRoom;
+    }
 
     public Charge getCharge() {
         return charge;

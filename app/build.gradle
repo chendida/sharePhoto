@@ -90,4 +90,5 @@ dependencies {
     implementation files('libs/pldroid-shortvideo-1.10.0.jar')
     implementation 'com.github.chrisbanes:PhotoView:2.0.0'
     implementation files('libs/zysdk.jar')
+    implementation files('libs/bugly_2.4.0_imsdk_release.jar')
 }

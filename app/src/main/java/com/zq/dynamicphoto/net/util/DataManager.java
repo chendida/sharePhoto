@@ -202,4 +202,12 @@ public class DataManager {
     public Observable<Result> getOrderId(NetRequestBean netRequestBean){
         return mRetrofitService.getOrderId(netRequestBean);
     }
+
+    public Observable<Result> getLiveInfo(NetRequestBean netRequestBean){
+        return mRetrofitService.getLiveInfo(netRequestBean);
+    }
+
+    public Observable<Result> createLiveRoom(NetRequestBean netRequestBean){
+        return mRetrofitService.createLiveRoom(netRequestBean);
+    }
 }

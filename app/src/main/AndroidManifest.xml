@@ -18,6 +18,12 @@
     <uses-permission android:name="android.permission.READ_PHONE_STATE" />
     <uses-permission android:name="android.permission.CALL_PHONE" />
     <uses-permission android:name="android.permission.READ_LOGS" />
+    <uses-permission android:name="android.permission.CHANGE_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.GET_TASKS" />
+    <uses-permission android:name="android.permission.MODIFY_AUDIO_SETTINGS" />
+    <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
+    <uses-permission android:name="android.permission.VIBRATE" />
+    <uses-permission android:name="android.permission.WAKE_LOCK" />
 
     <application
         android:name=".MyApplication"
@@ -83,8 +89,47 @@
             android:screenOrientation="landscape"
             android:theme="@android:style/Theme.Dialog" />
 
-        <service android:name="com.zysdk.login.service.FloatWindowService" />
+        <!-- 【必须】消息收发service -->
+        <service
+            android:name="com.tencent.qalsdk.service.QalService"
+            android:exported="true"
+            android:process=":QALSERVICE"></service>
+        <service
+            android:name="com.tencent.qalsdk.service.QalAssistService"
+            android:exported="false"
+            android:process=":QALSERVICE"></service>
 
+        <!-- 【必须】 离线消息广播接收器 -->
+        <receiver
+            android:name="com.tencent.qalsdk.QALBroadcastReceiver"
+            android:exported="false">
+            <intent-filter>
+                <action android:name="com.tencent.qalsdk.broadcast.qal" />
+            </intent-filter>
+        </receiver>
+        <receiver
+            android:name="com.tencent.qalsdk.core.NetConnInfoCenter"
+            android:process=":QALSERVICE">
+            <intent-filter>
+                <action android:name="android.intent.action.BOOT_COMPLETED" />
+            </intent-filter>
+            <intent-filter>
+                <action android:name="android.net.conn.CONNECTIVITY_CHANGE" />
+            </intent-filter>
+            <intent-filter>
+                <action android:name="android.intent.action.TIME_SET" />
+            </intent-filter>
+            <intent-filter>
+                <action android:name="android.intent.action.TIMEZONE_CHANGED" />
+            </intent-filter>
+
+            <!-- ImSDK 3.0.2 后添加 -->
+            <intent-filter>
+                <action android:name="com.tencent.qalsdk.service.TASK_REMOVED" />
+            </intent-filter>
+        </receiver>
+
+        <service android:name="com.zysdk.login.service.FloatWindowService" />
 
         <activity android:name=".ui.HomeActivity" />
         <activity android:name=".ui.LoginActivity" />
@@ -122,7 +167,9 @@
         <activity android:name=".mylive.ui.MyOrdersActivity" />
         <activity android:name=".mylive.ui.AddLiveGoodActivity" />
         <activity android:name=".mylive.ui.AccountRechargeActivity" />
-        <activity android:name=".mylive.ui.ConsumptionListActivity"></activity>
+        <activity android:name=".mylive.ui.ConsumptionListActivity" />
+        <activity android:name=".mylive.ui.OpenLiveActivity" />
+        <activity android:name=".mylive.ui.LiveActivity"></activity>
     </application>
 
 </manifest>

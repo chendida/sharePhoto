@@ -9,12 +9,16 @@ import com.zq.dynamicphoto.bean.Dynamic;
 import com.zq.dynamicphoto.bean.Folder;
 import com.zq.dynamicphoto.bean.Image;
 import com.zq.dynamicphoto.bean.Moments;
+import com.zq.dynamicphoto.bean.UserInfo;
 import com.zq.dynamicphoto.common.Constans;
 import com.zq.dynamicphoto.fragment.LiveFragment;
+import com.zq.dynamicphoto.mylive.bean.NewLiveRoom;
 import com.zq.dynamicphoto.mylive.ui.AccountRechargeActivity;
 import com.zq.dynamicphoto.mylive.ui.AddLiveGoodActivity;
 import com.zq.dynamicphoto.mylive.ui.ConsumptionListActivity;
+import com.zq.dynamicphoto.mylive.ui.LiveActivity;
 import com.zq.dynamicphoto.mylive.ui.MyOrdersActivity;
+import com.zq.dynamicphoto.mylive.ui.OpenLiveActivity;
 import com.zq.dynamicphoto.ui.AboutAppActivity;
 import com.zq.dynamicphoto.ui.AddFriendCircleActivity;
 import com.zq.dynamicphoto.ui.AddLabelActivity;
@@ -171,5 +175,17 @@ public class MFGT {
 
     public static void gotoAccountRechargeActivity(Activity context) {
         context.startActivity(new Intent(context, AccountRechargeActivity.class));
+    }
+
+    public static void gotoOpenLiveActivity(Activity activity) {
+        activity.startActivity(new Intent(activity, OpenLiveActivity.class));
+    }
+
+    public static void gotoLiveActivity(OpenLiveActivity activity, NewLiveRoom newLiveRoom,
+                                        UserInfo userInfo, boolean flag) {
+        activity.startActivity(new Intent(activity,LiveActivity.class)
+                .putExtra(Constans.NEW_LIVE_ROOM,newLiveRoom)
+                .putExtra(Constans.USERINFO,userInfo)
+                .putExtra(Constans.ISANCHOR,flag));
     }
 }

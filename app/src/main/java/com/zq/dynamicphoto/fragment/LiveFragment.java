@@ -87,6 +87,7 @@ public class LiveFragment extends BaseFragment<ILoadView,BalanceAndOrdersNumPres
                 //startActivity(new Intent(getActivity(), AccountRechargeActivity.class));
                 break;
             case R.id.btn_open_live:
+                MFGT.gotoOpenLiveActivity(getActivity());
                 //startActivity(new Intent(getActivity(), OpenLiveActivity.class));
                 break;
             case R.id.layout_my_consumption://消费清单
