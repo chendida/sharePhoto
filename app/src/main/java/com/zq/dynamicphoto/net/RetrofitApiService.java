@@ -335,4 +335,12 @@ public interface RetrofitApiService {
      */
     @POST("sdkData.shtml?requestId=40&a=0&b=0")
     Observable<Result> uploadLiveGoodsList(@Body NetRequestBean netRequestBean);
+
+    /**
+     *  查询用户消费清单
+     * @param netRequestBean
+     * @return
+     */
+    @POST("sdkData.shtml?requestId=70&a=0&b=0")
+    Observable<Result> getUserConsumptionList(@Body NetRequestBean netRequestBean);
 }

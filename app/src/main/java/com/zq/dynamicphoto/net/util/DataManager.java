@@ -190,4 +190,8 @@ public class DataManager {
     public Observable<Result> uploadLiveGoodsList(NetRequestBean netRequestBean){
         return mRetrofitService.uploadLiveGoodsList(netRequestBean);
     }
+
+    public Observable<Result> getUserConsumptionList(NetRequestBean netRequestBean){
+        return mRetrofitService.getUserConsumptionList(netRequestBean);
+    }
 }

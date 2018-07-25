@@ -1,21 +1,19 @@
 package com.zq.dynamicphoto.mylive.ui;
 
 import android.app.Dialog;
-import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
 import android.widget.TextView;
-
 import com.zhy.autolayout.AutoRelativeLayout;
 import com.zq.dynamicphoto.R;
+import com.zq.dynamicphoto.base.BaseActivity;
+import com.zq.dynamicphoto.base.BasePresenter;
 import com.zq.dynamicphoto.mylive.bean.Recharge;
-
 import java.util.ArrayList;
-
 import butterknife.BindView;
+
 /**
  * 账户充值界面
  */
-public class AccountRechargeActivity extends AppCompatActivity {
+public class AccountRechargeActivity extends BaseActivity {
     @BindView(R.id.layout_back)
     AutoRelativeLayout layoutBack;
     @BindView(R.id.tv_title)
@@ -69,9 +67,24 @@ public class AccountRechargeActivity extends AppCompatActivity {
     TextView tvMoney4Hint;
     private Integer flag = 0;
     ArrayList<Recharge> rechargeList = new ArrayList<>();
+
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_account_recharge);
+    protected int getLayoutId() {
+        return R.layout.activity_account_recharge;
+    }
+
+    @Override
+    protected void initView() {
+
+    }
+
+    @Override
+    protected void initData() {
+
+    }
+
+    @Override
+    protected BasePresenter createPresenter() {
+        return null;
     }
 }

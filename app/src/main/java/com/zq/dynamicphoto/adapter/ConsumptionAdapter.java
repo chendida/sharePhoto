@@ -1,6 +1,5 @@
 package com.zq.dynamicphoto.adapter;
 
-import android.content.Context;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
 import android.view.View;
@@ -27,7 +26,8 @@ public class ConsumptionAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
 
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        return new ConsumptionHolder(View.inflate(parent.getContext(), R.layout.layout_consumption_item, null));
+        return new ConsumptionHolder(View.inflate(parent.getContext(),
+                R.layout.layout_consumption_item, null));
     }
 
     @Override
