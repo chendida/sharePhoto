@@ -13,7 +13,6 @@ public class WatermarkType extends BaseModel implements Serializable{
 	 * t_watermark_type
 	 */
 
-
 	private Integer watermarkType;//水印图片类型
 	private String watermarkName;//水印图片类型名称
 	

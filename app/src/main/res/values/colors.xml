@@ -21,6 +21,8 @@
     <color name="tv_text_color6">#222222</color>
     <color name="tv_text_color7">#75a3d9</color>
     <color name="tv_text_color8">#777777</color>
+    <color name="tv_text_color9">#282828</color>
+    <color name="tv_text_color10">#a5a5a5</color>
     <color name="tv_text_select">#1bbf1f</color>
     <color name="tv_text_normal">#7c7c7c</color>
     <color name="black">#333333</color>
@@ -34,4 +36,34 @@
     <color name="black99">#999999</color>
     <color name="blue_bg">#45a2ff</color>
     <color name="black33">#333333</color>
+
+    <!--水印背景颜色-->
+    <color name="water_bg_002">#cc33cc</color>
+    <color name="water_bg_003">#cccc99</color>
+    <color name="water_bg_004">#ff3333</color>
+    <color name="water_bg_005">#000000</color>
+
+    <color name="water_bg_006">#a6caf0</color>
+    <color name="water_bg_007">#f1f1f1</color>
+    <color name="water_bg_008">#ffcccc</color>
+    <color name="water_bg_009">#efd6c6</color>
+    <color name="water_bg_010">#c0c0c0</color>
+    <color name="water_bg_011">#3399ff</color>
+
+    <color name="water_bg_012">#cc9966</color>
+    <color name="water_bg_013">#cccc99</color>
+    <color name="water_bg_014">#9999cc</color>
+    <color name="water_bg_015">#808080</color>
+    <color name="water_bg_016">#ff6633</color>
+    <color name="water_bg_017">#663333</color>
+
+    <color name="water_bg_018">#ccecff</color>
+    <color name="water_bg_019">#ff6600</color>
+    <color name="water_bg_020">#ff0066</color>
+    <color name="water_bg_021">#66cc66</color>
+    <color name="water_bg_022">#ffff66</color>
+    <color name="water_bg_023">#ff99cc</color>
+
+    <color name="water_bg_024">#9999cc</color>
+    <color name="water_bg_025">#cc66ff</color>
 </resources>

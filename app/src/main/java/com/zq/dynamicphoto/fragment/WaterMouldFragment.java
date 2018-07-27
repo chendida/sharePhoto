@@ -1,6 +1,9 @@
 package com.zq.dynamicphoto.fragment;
 
 import android.annotation.SuppressLint;
+import android.graphics.Bitmap;
+import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -8,6 +11,9 @@ import android.support.v7.widget.StaggeredGridLayoutManager;
 import android.util.Log;
 import android.view.View;
 
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.request.target.SimpleTarget;
+import com.bumptech.glide.request.transition.Transition;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.scwang.smartrefresh.layout.SmartRefreshLayout;
@@ -23,6 +29,8 @@ import com.zq.dynamicphoto.bean.Watermark;
 import com.zq.dynamicphoto.bean.WatermarkType;
 import com.zq.dynamicphoto.common.Constans;
 import com.zq.dynamicphoto.presenter.WaterMouldPresenter;
+import com.zq.dynamicphoto.utils.MFGT;
+import com.zq.dynamicphoto.view.EditWaterListener;
 import com.zq.dynamicphoto.view.IGetWaterMouldView;
 import com.zq.dynamicphoto.view.ILoadView;
 
@@ -39,7 +47,8 @@ import butterknife.BindView;
  */
 @SuppressLint("ValidFragment")
 public class WaterMouldFragment extends BaseFragment<IGetWaterMouldView,
-        WaterMouldPresenter<IGetWaterMouldView>> implements IGetWaterMouldView{
+        WaterMouldPresenter<IGetWaterMouldView>> implements IGetWaterMouldView,EditWaterListener{
+    private static final String TAG = "WaterMouldFragment";
     @BindView(R.id.rcl_water_list)
     RecyclerView rclWaterList;
     @BindView(R.id.refreshLayout)
@@ -82,12 +91,12 @@ public class WaterMouldFragment extends BaseFragment<IGetWaterMouldView,
             LinearLayoutManager manager = new LinearLayoutManager(getActivity(),
                     LinearLayoutManager.VERTICAL, false);
             rclWaterList.setLayoutManager(manager);
-            mAdapter = new WaterMouldListAdapter(watermarks, position);
+            mAdapter = new WaterMouldListAdapter(watermarks, position,this);
             rclWaterList.setAdapter(mAdapter);
         }else {
             rclWaterList.setLayoutManager(new StaggeredGridLayoutManager(3
                     ,StaggeredGridLayoutManager.VERTICAL));
-            adapter = new WaterMouldItemAdapter(singleWatermarks);
+            adapter = new WaterMouldItemAdapter(singleWatermarks,this);
             rclWaterList.setAdapter(adapter);
         }
         rclWaterList.setNestedScrollingEnabled(false);
@@ -161,5 +170,10 @@ public class WaterMouldFragment extends BaseFragment<IGetWaterMouldView,
         } catch (JSONException e) {
             e.printStackTrace();
         }
+    }
+
+    @Override
+    public void click(Watermark watermark) {
+        MFGT.gotoEditWaterActivity(getActivity());
     }
 }

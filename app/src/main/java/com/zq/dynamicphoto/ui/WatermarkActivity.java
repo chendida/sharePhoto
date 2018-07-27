@@ -399,7 +399,7 @@ public class WatermarkActivity extends BaseActivity<IOperateWaterView,
             if (type == 1){//显示水印弹窗
                 showPopWindow(userWatermarkList);
             }else if (type == 2){//显示文字水印弹窗
-
+                showTextPopWindow(userWatermarkList);
             }
             Log.i("userWatermarkList", "userWatermarkList = " + userWatermarkList.size());
         } catch (JSONException e) {

@@ -26,6 +26,7 @@ import com.zq.dynamicphoto.ui.AddPicActivity;
 import com.zq.dynamicphoto.ui.DynamicDetailsActivity;
 import com.zq.dynamicphoto.ui.DynamicSelectActivity;
 import com.zq.dynamicphoto.ui.EditDynamicActivity;
+import com.zq.dynamicphoto.ui.EditWaterActivity;
 import com.zq.dynamicphoto.ui.HtmlManagerActivity;
 import com.zq.dynamicphoto.ui.HtmlPhotoDetailsActivity;
 import com.zq.dynamicphoto.ui.LabelManagerActivity;
@@ -187,5 +188,9 @@ public class MFGT {
                 .putExtra(Constans.NEW_LIVE_ROOM,newLiveRoom)
                 .putExtra(Constans.USERINFO,userInfo)
                 .putExtra(Constans.ISANCHOR,flag));
+    }
+
+    public static void gotoEditWaterActivity(Activity activity) {
+        activity.startActivity(new Intent(activity, EditWaterActivity.class));
     }
 }

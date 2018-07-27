@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<shape
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:shape="oval"
+    android:useLevel="false"
+    >
+    <solid android:color="@color/water_bg_012" />
+    <solid
+        android:color="@color/water_bg_012" />
+    <size android:width="38dp"
+        android:height="38dp" />
+</shape>

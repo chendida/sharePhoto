@@ -13,6 +13,8 @@ import com.zq.dynamicphoto.R;
 import com.zq.dynamicphoto.bean.Watermark;
 import com.zq.dynamicphoto.bean.WatermarkType;
 import com.zq.dynamicphoto.utils.ImageLoaderUtils;
+import com.zq.dynamicphoto.utils.MFGT;
+import com.zq.dynamicphoto.view.EditWaterListener;
 
 import java.util.ArrayList;
 
@@ -26,9 +28,10 @@ import butterknife.ButterKnife;
 public class WaterMouldItemAdapter extends RecyclerView.Adapter
         <WaterMouldItemAdapter.WaterMouldItemViewHolder> {
     ArrayList<Watermark> mList;
-
-    public WaterMouldItemAdapter(ArrayList<Watermark> mList) {
+    private EditWaterListener mListener;
+    public WaterMouldItemAdapter(ArrayList<Watermark> mList,EditWaterListener listener) {
         this.mList = mList;
+        this.mListener = listener;
     }
 
     @NonNull
@@ -39,8 +42,14 @@ public class WaterMouldItemAdapter extends RecyclerView.Adapter
     }
 
     @Override
-    public void onBindViewHolder(@NonNull WaterMouldItemViewHolder holder, int position) {
+    public void onBindViewHolder(@NonNull final WaterMouldItemViewHolder holder, final int position) {
         holder.bind(mList.get(position));
+        holder.itemView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mListener.click(mList.get(position));
+            }
+        });
     }
 
     @Override
@@ -51,6 +60,8 @@ public class WaterMouldItemAdapter extends RecyclerView.Adapter
     class WaterMouldItemViewHolder extends RecyclerView.ViewHolder{
         @BindView(R.id.iv_item)
         ImageView ivItem;
+        @BindView(R.id.tv_id)
+        TextView tvId;
         WaterMouldItemViewHolder(View view) {
             super(view);
             ButterKnife.bind(this, view);
@@ -60,6 +71,9 @@ public class WaterMouldItemAdapter extends RecyclerView.Adapter
             if (watermark != null){
                 if (!TextUtils.isEmpty(watermark.getWatermarkUrl())){
                     ImageLoaderUtils.displayImg(ivItem,watermark.getWatermarkUrl());
+                }
+                if (watermark.getWatermarkId() != null){
+                    tvId.setText(String.valueOf(watermark.getWatermarkId()));
                 }
             }
         }

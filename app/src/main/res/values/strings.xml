@@ -207,4 +207,11 @@
     <string name="live_title_no_empty">标题不能为空</string>
     <string name="please_input_start_fans">请输入初始人气</string>
     <string name="please_input_add_fans">请输入递增人气</string>
+    <string name="tv_default_app_name">微商云管家</string>
+    <string name="tv_default_wx">wgxxc6666</string>
+    <string name="tv_whole_color_edit">整体颜色修改</string>
+    <string name="tv_is_show_bg">是否显示背景</string>
+    <string name="tv_water_bg_set">水印背景设置</string>
+    <string name="tv_title">标题</string>
+    <string name="update_color">修改颜色</string>
 </resources>

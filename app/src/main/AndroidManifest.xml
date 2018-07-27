@@ -93,11 +93,11 @@
         <service
             android:name="com.tencent.qalsdk.service.QalService"
             android:exported="true"
-            android:process=":QALSERVICE"></service>
+            android:process=":QALSERVICE" />
         <service
             android:name="com.tencent.qalsdk.service.QalAssistService"
             android:exported="false"
-            android:process=":QALSERVICE"></service>
+            android:process=":QALSERVICE" />
 
         <!-- 【必须】 离线消息广播接收器 -->
         <receiver
@@ -169,7 +169,8 @@
         <activity android:name=".mylive.ui.AccountRechargeActivity" />
         <activity android:name=".mylive.ui.ConsumptionListActivity" />
         <activity android:name=".mylive.ui.OpenLiveActivity" />
-        <activity android:name=".mylive.ui.LiveActivity"></activity>
+        <activity android:name=".mylive.ui.LiveActivity" />
+        <activity android:name=".ui.EditWaterActivity"></activity>
     </application>
 
 </manifest>

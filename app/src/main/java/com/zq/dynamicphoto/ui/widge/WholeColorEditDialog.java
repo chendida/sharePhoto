@@ -3,39 +3,30 @@ package com.zq.dynamicphoto.ui.widge;
 import android.app.Activity;
 import android.app.Dialog;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.view.View;
 import android.view.WindowManager;
-
-import com.zq.dynamicphoto.MyApplication;
 import com.zq.dynamicphoto.R;
 
 /**
- * Created by Administrator on 2018/3/15.
+ * Created by Administrator on 2018/7/26.
  */
 
-public class ShareWxDialog extends Dialog implements View.OnClickListener {
+public class WholeColorEditDialog extends Dialog implements View.OnClickListener{
     private Activity mContext;
-    private OnItemClickListener mListener;
 
-
-    public ShareWxDialog(Activity context) {
+    public WholeColorEditDialog(@NonNull  Activity context) {
         super(context);
         this.mContext = context;
     }
 
-
-    public ShareWxDialog(Activity context, int themeResId) {
+    public WholeColorEditDialog(@NonNull Activity context, int themeResId) {
         super(context, themeResId);
         this.mContext = context;
     }
 
-    public ShareWxDialog(Activity context, int themeResId, OnItemClickListener mListener) {
-        super(context, themeResId);
-        this.mContext = context;
-        this.mListener = mListener;
-    }
-
-    protected ShareWxDialog(Activity context, boolean cancelable, OnCancelListener cancelListener) {
+    protected WholeColorEditDialog(@NonNull Activity context, boolean cancelable, @Nullable OnCancelListener cancelListener) {
         super(context, cancelable, cancelListener);
         this.mContext = context;
     }
@@ -43,7 +34,7 @@ public class ShareWxDialog extends Dialog implements View.OnClickListener {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.dialog_share_wx);
+        setContentView(R.layout.dialog_whole_water_color_edit);
         setCanceledOnTouchOutside(false);
         initView();
         getWindow().setWindowAnimations(R.style.dialogWindowAnim); //设置窗口弹出动画
@@ -56,21 +47,17 @@ public class ShareWxDialog extends Dialog implements View.OnClickListener {
         getWindow().setAttributes(lp);
     }
 
-    private void initView(){
-        findViewById(R.id.lay_cancel).setOnClickListener(this);
-        findViewById(R.id.share_wx).setOnClickListener(this);
-        findViewById(R.id.share_wx_friend).setOnClickListener(this);
-        //findViewById(R.id.all_save).setOnClickListener(this);
+    private void initView() {
+        findViewById(R.id.layout_cancel).setOnClickListener(this);
     }
-
 
     @Override
     public void onClick(View v) {
         switch (v.getId()){
-            case R.id.lay_cancel:
+            case R.id.layout_cancel:
                 dismiss();
                 break;
-            case R.id.share_wx:
+            /*case R.id.share_wx:
                 if(mListener != null){
                     mListener.onClick(this, 1);
                 }
@@ -79,11 +66,7 @@ public class ShareWxDialog extends Dialog implements View.OnClickListener {
                 if(mListener != null){
                     mListener.onClick(this, 2);
                 }
-                break;
+                break;*/
         }
-    }
-
-    public interface OnItemClickListener{
-        void onClick(Dialog dialog, int position);
     }
 }
