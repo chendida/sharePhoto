@@ -5,7 +5,8 @@
     android:layout_height="match_parent"
     android:layout_marginLeft="40px"
     android:layout_marginRight="40px"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    >
     <com.zhy.autolayout.AutoRelativeLayout
         android:layout_marginTop="24px"
         android:layout_width="match_parent"

@@ -45,7 +45,7 @@
         android:layout_marginRight="18px">
         <CheckBox
             android:layout_marginLeft="18px"
-            android:id="@+id/rb_is_select"
+            android:id="@+id/check_full_watermark"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
@@ -55,10 +55,10 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textColor="@color/tv_text_color9"
-            android:layout_toRightOf="@+id/rb_is_select"
+            android:layout_toRightOf="@+id/check_full_watermark"
             android:layout_centerVertical="true"
             android:layout_marginLeft="20px"
-            android:text="@string/tv_is_show_bg"/>
+            android:text="@string/tv_is_full_screen_watermark"/>
         <ImageView
             android:id="@+id/bg_right"
             android:layout_width="wrap_content"
@@ -79,6 +79,7 @@
     </com.zhy.autolayout.AutoRelativeLayout>
 
     <com.zhy.autolayout.AutoRelativeLayout
+        android:id="@+id/layout_bg_setting"
         android:layout_marginTop="2px"
         android:layout_width="match_parent"
         android:layout_height="95px"
@@ -87,7 +88,7 @@
         android:layout_marginRight="18px">
         <CheckBox
             android:layout_marginLeft="18px"
-            android:id="@+id/rb_is_select_water_bg"
+            android:id="@+id/check_water_bg_setting"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
@@ -97,7 +98,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textColor="@color/tv_text_color9"
-            android:layout_toRightOf="@+id/rb_is_select_water_bg"
+            android:layout_toRightOf="@+id/check_water_bg_setting"
             android:layout_centerVertical="true"
             android:layout_marginLeft="20px"
             android:text="@string/tv_water_bg_set"/>
@@ -111,6 +112,7 @@
     </com.zhy.autolayout.AutoRelativeLayout>
 
     <com.zhy.autolayout.AutoRelativeLayout
+        android:id="@+id/layout_water_title"
         android:layout_marginTop="34px"
         android:layout_width="match_parent"
         android:layout_height="95px"
