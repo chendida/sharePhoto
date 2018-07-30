@@ -3,7 +3,7 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:background="@color/add_water_pic"
+    android:background="@color/colorBackground"
     >
     <android.support.v7.widget.RecyclerView
         android:id="@+id/rcl_water_select"

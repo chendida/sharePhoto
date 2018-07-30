@@ -38,8 +38,11 @@ import com.zq.dynamicphoto.common.Constans;
 import com.zq.dynamicphoto.fragment.PictureSlideFragment;
 import com.zq.dynamicphoto.presenter.OperateWaterPresenter;
 import com.zq.dynamicphoto.ui.widge.NoPreloadViewPager;
+import com.zq.dynamicphoto.ui.widge.SaveImageUtils;
+import com.zq.dynamicphoto.ui.widge.SelectPicDialog;
 import com.zq.dynamicphoto.ui.widge.SwitchButton;
 import com.zq.dynamicphoto.ui.widge.WaterMouldSelectDialog;
+import com.zq.dynamicphoto.utils.ImageSaveUtils;
 import com.zq.dynamicphoto.utils.MFGT;
 import com.zq.dynamicphoto.utils.SharedPreferencesUtils;
 import com.zq.dynamicphoto.view.IOperateWaterView;
@@ -90,6 +93,7 @@ public class WatermarkActivity extends BaseActivity<IOperateWaterView,
     private Dialog selectTextWaterDialog;
     private SelectWaterPicAdapter mWaterAdapter;
     private WaterMouldSelectDialog selectDialog;
+    private SelectPicDialog selectPicDialog;
     @Override
     protected int getLayoutId() {
         return R.layout.activity_watermark;
@@ -371,9 +375,44 @@ public class WatermarkActivity extends BaseActivity<IOperateWaterView,
 
     @Override
     public void addWaterImage(Image image) {
-
+        WaterEvent waterEvent =new WaterEvent(1);
+        waterEvent.setImage(image);
+        EventBus.getDefault().post(waterEvent);
     }
 
+    @Override
+    public void showLongClickOperate(UserWatermark image) {
+        showSelectPicDialog(image);
+    }
+
+    private void showSelectPicDialog(final UserWatermark image) {
+        if (selectPicDialog == null){
+            selectPicDialog = new SelectPicDialog("存入相册","删除",this, R.style.dialog, new SelectPicDialog.OnItemClickListener() {
+                @Override
+                public void onClick(Dialog dialog, int position) {
+                    dialog.dismiss();
+                    switch (position) {
+                        case 1://选择存入相册
+                            SaveImageUtils.saveImageByGlide(image.getWatermarkUrl());
+                            break;
+                        case 2://选择删除水印
+                            deleteWatermark(image);
+                            break;
+                    }
+                }
+            });
+        }
+        selectPicDialog.show();
+    }
+
+    private void deleteWatermark(UserWatermark image) {
+        NetRequestBean netRequestBean = new NetRequestBean();
+        netRequestBean.setDeviceProperties(DrUtils.getInstance());
+        netRequestBean.setUserWatermark(image);
+        if (mPresenter != null){
+            mPresenter.deleteWaterMould(netRequestBean);
+        }
+    }
 
     @Override
     public void showAddWaterMouldList(Result result) {

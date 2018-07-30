@@ -101,7 +101,7 @@ public class PicSelectUtils {
 
     private void showSelectPicDialog(final int num) {
         if (selectPicDialog == null){
-            selectPicDialog = new SelectPicDialog(activity, R.style.dialog, new SelectPicDialog.OnItemClickListener() {
+            selectPicDialog = new SelectPicDialog("图片","视频",activity, R.style.dialog, new SelectPicDialog.OnItemClickListener() {
                 @Override
                 public void onClick(Dialog dialog, int position) {
                     dialog.dismiss();

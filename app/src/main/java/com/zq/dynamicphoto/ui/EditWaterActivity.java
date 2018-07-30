@@ -5,49 +5,46 @@ import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
-import android.graphics.Color;
 import android.graphics.Paint;
-import android.graphics.PorterDuff;
-import android.graphics.Rect;
-import android.graphics.RectF;
 import android.net.Uri;
 import android.os.Environment;
 import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
-
 import com.blankj.utilcode.util.ToastUtils;
 import com.zhy.autolayout.AutoRelativeLayout;
-import com.zq.dynamicphoto.MyApplication;
 import com.zq.dynamicphoto.R;
 import com.zq.dynamicphoto.base.BaseActivity;
-import com.zq.dynamicphoto.base.BasePresenter;
+import com.zq.dynamicphoto.bean.DrUtils;
+import com.zq.dynamicphoto.bean.NetRequestBean;
+import com.zq.dynamicphoto.bean.Result;
+import com.zq.dynamicphoto.bean.UserWatermark;
 import com.zq.dynamicphoto.bean.WaterImage;
 import com.zq.dynamicphoto.common.Constans;
 import com.zq.dynamicphoto.mylive.tools.Message;
+import com.zq.dynamicphoto.presenter.AddWatermarkPresenter;
 import com.zq.dynamicphoto.ui.widge.FullScreenWatermarkDialog;
 import com.zq.dynamicphoto.ui.widge.WaterBgDialog;
 import com.zq.dynamicphoto.ui.widge.WaterTitleDialog;
 import com.zq.dynamicphoto.ui.widge.WholeColorEditDialog;
 import com.zq.dynamicphoto.utils.ColorUtils;
 import com.zq.dynamicphoto.utils.CosUtils;
-import com.zq.dynamicphoto.view.EditWaterListener;
+import com.zq.dynamicphoto.utils.SharedPreferencesUtils;
+import com.zq.dynamicphoto.view.ILoadView;
 import com.zq.dynamicphoto.view.UploadView;
-
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
-
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
-
 import butterknife.BindView;
 import butterknife.OnClick;
 
-public class EditWaterActivity extends BaseActivity implements UploadView{
+public class EditWaterActivity extends BaseActivity<ILoadView,AddWatermarkPresenter<ILoadView>>
+        implements UploadView,ILoadView{
     private static final String TAG = "EditWaterActivity";
     @BindView(R.id.iv_head)
     ImageView ivHead;
@@ -130,8 +127,8 @@ public class EditWaterActivity extends BaseActivity implements UploadView{
     }
 
     @Override
-    protected BasePresenter createPresenter() {
-        return null;
+    protected AddWatermarkPresenter<ILoadView> createPresenter() {
+        return new AddWatermarkPresenter<>();
     }
 
     @OnClick({R.id.layout_bg, R.id.layout_whole_color, R.id.check_full_watermark,
@@ -166,6 +163,7 @@ public class EditWaterActivity extends BaseActivity implements UploadView{
     }
 
     private void addWater() {
+        showLoading();
         layoutWholeWaterContent.setDrawingCacheEnabled(true);
         //tvWaterTitle.buildDrawingCache();
         Bitmap bitmap = layoutWholeWaterContent.getDrawingCache();
@@ -243,10 +241,21 @@ public class EditWaterActivity extends BaseActivity implements UploadView{
     @Override
     public void onUploadResult(int code, String url) {
         Log.i(TAG,"code = " + code + ",url = " + url);
+        hideLoading();
         if (code == Constans.REQUEST_OK){
-            WaterImage image = new WaterImage(path);
-            EventBus.getDefault().post(image);
-            EditWaterActivity.this.finish();
+            UserWatermark userWatermark = new UserWatermark();
+            userWatermark.setWatermarkType(1);//1表示图片水印，2表示文字水印
+            userWatermark.setWatermarkUrl(url);
+            int userId = SharedPreferencesUtils.getInstance().getInt(Constans.USERID, 0);
+            userWatermark.setUserId(userId);
+            NetRequestBean netRequestBean = new NetRequestBean();
+            netRequestBean.setDeviceProperties(DrUtils.getInstance());
+            netRequestBean.setUserWatermark(userWatermark);
+            if (mPresenter != null){
+                mPresenter.addWatermarkPic(netRequestBean);
+            }
+        }else {
+            ToastUtils.showShort(getResources().getString(R.string.tv_water_mark_upload_fail));
         }
     }
 
@@ -254,5 +263,20 @@ public class EditWaterActivity extends BaseActivity implements UploadView{
     protected void onDestroy() {
         super.onDestroy();
         EventBus.getDefault().unregister(this);
+    }
+
+    @Override
+    public void showData(Result result) {
+        if (result != null){
+            if (result.getResultCode() == Constans.REQUEST_OK){
+                WaterImage image = new WaterImage(path);
+                EventBus.getDefault().post(image);
+                EditWaterActivity.this.finish();
+            }else {
+                showFailed();
+            }
+        }else {
+            showFailed();
+        }
     }
 }

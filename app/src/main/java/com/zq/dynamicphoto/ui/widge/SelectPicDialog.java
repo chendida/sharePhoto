@@ -5,6 +5,7 @@ import android.app.Dialog;
 import android.os.Bundle;
 import android.view.View;
 import android.view.WindowManager;
+import android.widget.TextView;
 
 import com.zq.dynamicphoto.R;
 
@@ -15,7 +16,7 @@ import com.zq.dynamicphoto.R;
 public class SelectPicDialog extends Dialog implements View.OnClickListener {
     private Activity mContext;
     private OnItemClickListener mListener;
-
+    private String title1,title2;
 
     public SelectPicDialog(Activity context) {
         super(context);
@@ -28,10 +29,12 @@ public class SelectPicDialog extends Dialog implements View.OnClickListener {
         this.mContext = context;
     }
 
-    public SelectPicDialog(Activity context, int themeResId,OnItemClickListener mListener) {
+    public SelectPicDialog(String title1,String title2,Activity context, int themeResId,OnItemClickListener mListener) {
         super(context, themeResId);
         this.mContext = context;
         this.mListener = mListener;
+        this.title1 = title1;
+        this.title2 = title2;
     }
 
     protected SelectPicDialog(Activity context, boolean cancelable, OnCancelListener cancelListener) {
@@ -59,6 +62,10 @@ public class SelectPicDialog extends Dialog implements View.OnClickListener {
         findViewById(R.id.lay_cancel).setOnClickListener(this);
         findViewById(R.id.layout_pic).setOnClickListener(this);
         findViewById(R.id.layout_video).setOnClickListener(this);
+        TextView tv1 = findViewById(R.id.tv_title1);
+        TextView tv2 = findViewById(R.id.tv_title2);
+        tv1.setText(title1);
+        tv2.setText(title2);
     }
 
 

@@ -11,6 +11,9 @@ import android.graphics.RectF;
 import android.util.Log;
 import android.util.Size;
 
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.RequestBuilder;
+import com.bumptech.glide.request.RequestOptions;
 import com.zq.dynamicphoto.MyApplication;
 import com.zq.dynamicphoto.R;
 import com.zq.dynamicphoto.bean.Image;
@@ -20,9 +23,11 @@ import com.zq.dynamicphoto.waterutil.customview.MyHighlightView;
 import com.zq.dynamicphoto.waterutil.customview.MyImageViewDrawableOverlay;
 import com.zq.dynamicphoto.waterutil.customview.drawable.StickerDrawable;
 
+import java.io.ByteArrayOutputStream;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.CopyOnWriteArrayList;
+import java.util.concurrent.ExecutionException;
 
 import static com.yalantis.ucrop.util.BitmapLoadUtils.calculateInSampleSize;
 
@@ -60,7 +65,7 @@ public class EffectUtil {
         public void onRemoveSticker(Image sticker);
     }
 
-    public static Bitmap getSmallBitmap(String filePath) {
+    public static Bitmap getSmallBitmap(final String filePath) {
         final BitmapFactory.Options options = new BitmapFactory.Options();
         options.inJustDecodeBounds = true;// 设置为ture,只读取图片的大小，不把它加载到内存中去
         BitmapFactory.decodeFile(filePath, options);
@@ -75,11 +80,39 @@ public class EffectUtil {
     }
 
     //添加贴纸
-    public static MyHighlightView addStickerImage(final ImageViewTouch processImage,
+    public static void addStickerImage(final ImageViewTouch processImage,
                                                   final Image sticker,
                                                   final StickerCallback callback) {
+        if (sticker.getPath().startsWith("http")){
+            new Thread(new Runnable() {
+                @Override
+                public void run() {
+                    RequestOptions myOptions = new RequestOptions()
+                            .fitCenter();
+                    try {
+                        Bitmap bitmap = Glide.with(MyApplication.getAppContext())
+                                .asBitmap()
+                                .apply(myOptions)
+                                .load(sticker.getPath())
+                                .into(480, 800)
+                                .get();
+                        addWatermark(bitmap,sticker,processImage,callback);
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    } catch (ExecutionException e) {
+                        e.printStackTrace();
+                    }
+                }
+            }).start();
+        }else {
+            Bitmap bitmap = getSmallBitmap(sticker.getPath());
+            addWatermark(bitmap,sticker,processImage,callback);
+        }
+    }
 
-        Bitmap bitmap = getSmallBitmap(sticker.getPath());
+    private static MyHighlightView addWatermark(Bitmap bitmap, final Image sticker,
+                                                final ImageViewTouch processImage,
+                                                final StickerCallback callback) {
         if (bitmap == null) {
             return null;
         }

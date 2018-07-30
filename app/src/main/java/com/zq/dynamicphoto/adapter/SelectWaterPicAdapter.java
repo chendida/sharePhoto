@@ -10,6 +10,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 
+import com.bumptech.glide.Glide;
 import com.zq.dynamicphoto.R;
 import com.zq.dynamicphoto.bean.Dynamic;
 import com.zq.dynamicphoto.bean.Image;
@@ -35,6 +36,7 @@ public class SelectWaterPicAdapter extends RecyclerView.Adapter<RecyclerView.Vie
     private HeadViewHolder headViewHolder;
     private WaterPicViewHolder waterPicViewHolder;
     private WaterMouldView clickListener;
+    private Context mContext;
     private int getBodySize() {
         return mList.size();
     }
@@ -61,6 +63,7 @@ public class SelectWaterPicAdapter extends RecyclerView.Adapter<RecyclerView.Vie
     @NonNull
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+        mContext = parent.getContext();
         switch (viewType) {
             case HEAD_TYPE:
                 headViewHolder = new HeadViewHolder(LayoutInflater.from(parent.getContext()).inflate(R.layout.layout_select_water_head,null));
@@ -94,6 +97,13 @@ public class SelectWaterPicAdapter extends RecyclerView.Adapter<RecyclerView.Vie
                     clickListener.addWaterImage(image);
                 }
             });
+            holder.itemView.setOnLongClickListener(new View.OnLongClickListener() {
+                @Override
+                public boolean onLongClick(View v) {
+                    clickListener.showLongClickOperate(mList.get(position -1));
+                    return false;
+                }
+            });
         }
     }
 
@@ -124,7 +134,8 @@ public class SelectWaterPicAdapter extends RecyclerView.Adapter<RecyclerView.Vie
         public void bind(UserWatermark userWatermark) {
             if (userWatermark != null) {
                 if (!TextUtils.isEmpty(userWatermark.getWatermarkUrl())) {
-                    ImageLoaderUtils.displayImg(ivWaterPic, userWatermark.getWatermarkUrl());
+                    //ImageLoaderUtils.displayImg(ivWaterPic, userWatermark.getWatermarkUrl());
+                    Glide.with(mContext).load(userWatermark.getWatermarkUrl()).into(ivWaterPic);
                 }
             }
         }
