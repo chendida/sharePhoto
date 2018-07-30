@@ -222,4 +222,6 @@
     <string name="tv_align">文字对齐</string>
     <string name="tv_stroke">描边</string>
     <string name="tv_bg_color">背景色</string>
+    <string name="mould_preview">模板预览</string>
+    <string name="create_water">生成水印</string>
 </resources>

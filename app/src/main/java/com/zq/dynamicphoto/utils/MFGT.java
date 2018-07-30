@@ -3,7 +3,6 @@ package com.zq.dynamicphoto.utils;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
-import android.support.v4.app.FragmentActivity;
 
 import com.zq.dynamicphoto.bean.Dynamic;
 import com.zq.dynamicphoto.bean.Folder;
@@ -11,7 +10,6 @@ import com.zq.dynamicphoto.bean.Image;
 import com.zq.dynamicphoto.bean.Moments;
 import com.zq.dynamicphoto.bean.UserInfo;
 import com.zq.dynamicphoto.common.Constans;
-import com.zq.dynamicphoto.fragment.LiveFragment;
 import com.zq.dynamicphoto.mylive.bean.NewLiveRoom;
 import com.zq.dynamicphoto.mylive.ui.AccountRechargeActivity;
 import com.zq.dynamicphoto.mylive.ui.AddLiveGoodActivity;
@@ -192,5 +190,6 @@ public class MFGT {
 
     public static void gotoEditWaterActivity(Activity activity) {
         activity.startActivity(new Intent(activity, EditWaterActivity.class));
+        activity.finish();
     }
 }

@@ -66,4 +66,5 @@
 
     <color name="water_bg_024">#9999cc</color>
     <color name="water_bg_025">#cc66ff</color>
+    <color name="alpha">#00ffffff</color>
 </resources>

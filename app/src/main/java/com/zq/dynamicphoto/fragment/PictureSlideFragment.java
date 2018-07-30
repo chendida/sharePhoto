@@ -31,7 +31,6 @@ import com.zq.dynamicphoto.base.BasePresenter;
 import com.zq.dynamicphoto.bean.Image;
 import com.zq.dynamicphoto.bean.WaterEvent;
 import com.zq.dynamicphoto.utils.ImageSaveUtils;
-import com.zq.dynamicphoto.utils.SaveTasks;
 import com.zq.dynamicphoto.waterutil.EffectUtil;
 import com.zq.dynamicphoto.waterutil.customview.MyHighlightView;
 import com.zq.dynamicphoto.waterutil.customview.MyImageViewDrawableOverlay;

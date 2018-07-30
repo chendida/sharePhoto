@@ -26,7 +26,8 @@ public class WaterMouldListAdapter extends
     ArrayList<WatermarkType> mList;
     private int type;
     private EditWaterListener mListener;
-    public WaterMouldListAdapter(ArrayList<WatermarkType> mList,int type,EditWaterListener listener) {
+    public WaterMouldListAdapter(ArrayList<WatermarkType> mList,int type,
+                                 EditWaterListener listener) {
         this.mList = mList;
         this.type = type;
         this.mListener = listener;

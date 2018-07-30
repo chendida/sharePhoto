@@ -12,12 +12,14 @@
         android:id="@+id/layout_bg"
         android:layout_width="match_parent"
         android:layout_height="430px"
-        android:background="@color/add_water_pic">
+        android:background="@color/add_water_pic"
+        >
         <com.zhy.autolayout.AutoRelativeLayout
-            android:id="@+id/layout_whole_water_bg"
+            android:id="@+id/layout_whole_water_content"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_centerInParent="true">
+            android:layout_centerInParent="true"
+            >
             <ImageView
                 android:id="@+id/iv_head"
                 android:layout_width="wrap_content"
@@ -45,6 +47,7 @@
                     android:src="@drawable/water_002"
                     />
                 <TextView
+                    android:id="@+id/tv_wx"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:textSize="46px"

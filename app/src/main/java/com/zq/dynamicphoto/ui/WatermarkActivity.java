@@ -3,10 +3,8 @@ package com.zq.dynamicphoto.ui;
 import android.app.Dialog;
 import android.content.DialogInterface;
 import android.content.SharedPreferences;
-import android.os.Bundle;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
-import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -28,7 +26,6 @@ import com.zhy.autolayout.AutoRelativeLayout;
 import com.zq.dynamicphoto.R;
 import com.zq.dynamicphoto.adapter.SelectWaterPicAdapter;
 import com.zq.dynamicphoto.base.BaseActivity;
-import com.zq.dynamicphoto.base.BasePresenter;
 import com.zq.dynamicphoto.bean.DeviceProperties;
 import com.zq.dynamicphoto.bean.DrUtils;
 import com.zq.dynamicphoto.bean.Image;
@@ -36,6 +33,7 @@ import com.zq.dynamicphoto.bean.NetRequestBean;
 import com.zq.dynamicphoto.bean.Result;
 import com.zq.dynamicphoto.bean.UserWatermark;
 import com.zq.dynamicphoto.bean.WaterEvent;
+import com.zq.dynamicphoto.bean.WaterImage;
 import com.zq.dynamicphoto.common.Constans;
 import com.zq.dynamicphoto.fragment.PictureSlideFragment;
 import com.zq.dynamicphoto.presenter.OperateWaterPresenter;
@@ -58,14 +56,14 @@ import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.BindView;
-import butterknife.ButterKnife;
 import butterknife.OnClick;
 
 /**
  * 图片编辑水印界面
  */
 public class WatermarkActivity extends BaseActivity<IOperateWaterView,
-        OperateWaterPresenter<IOperateWaterView>> implements WaterMouldView,IOperateWaterView{
+        OperateWaterPresenter<IOperateWaterView>> implements
+        WaterMouldView,IOperateWaterView {
     private static final String TAG = "WatermarkActivity";
 
     @BindView(R.id.btn_switchbutton)
@@ -92,7 +90,6 @@ public class WatermarkActivity extends BaseActivity<IOperateWaterView,
     private Dialog selectTextWaterDialog;
     private SelectWaterPicAdapter mWaterAdapter;
     private WaterMouldSelectDialog selectDialog;
-
     @Override
     protected int getLayoutId() {
         return R.layout.activity_watermark;
@@ -100,6 +97,7 @@ public class WatermarkActivity extends BaseActivity<IOperateWaterView,
 
     @Override
     protected void initView() {
+        EventBus.getDefault().register(this);
         EffectUtil.clear();
         setListener();
         seekBar.setMax(255);
@@ -376,6 +374,7 @@ public class WatermarkActivity extends BaseActivity<IOperateWaterView,
 
     }
 
+
     @Override
     public void showAddWaterMouldList(Result result) {
         if (result != null) {
@@ -448,8 +447,11 @@ public class WatermarkActivity extends BaseActivity<IOperateWaterView,
     }
 
     @Subscribe(threadMode = ThreadMode.MAIN)
-    public void Event(Image image) {
-
+    public void Event(WaterImage image) {
+        Log.i(TAG,"image = " + image.getUrl());
+        WaterEvent waterEvent =new WaterEvent(1);
+        waterEvent.setImage(new Image(image.getUrl()));
+        EventBus.getDefault().post(waterEvent);
     }
 
     @Override

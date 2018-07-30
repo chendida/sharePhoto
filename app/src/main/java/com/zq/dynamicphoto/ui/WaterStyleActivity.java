@@ -7,7 +7,9 @@ import com.zq.dynamicphoto.R;
 import com.zq.dynamicphoto.adapter.MyPageAdapter;
 import com.zq.dynamicphoto.base.BaseActivity;
 import com.zq.dynamicphoto.base.BasePresenter;
+import com.zq.dynamicphoto.common.Constans;
 import com.zq.dynamicphoto.fragment.WaterMouldFragment;
+
 import java.util.ArrayList;
 import butterknife.BindView;
 import butterknife.OnClick;

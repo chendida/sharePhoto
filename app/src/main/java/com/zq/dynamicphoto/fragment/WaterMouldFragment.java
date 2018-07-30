@@ -1,9 +1,6 @@
 package com.zq.dynamicphoto.fragment;
 
 import android.annotation.SuppressLint;
-import android.graphics.Bitmap;
-import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -11,9 +8,6 @@ import android.support.v7.widget.StaggeredGridLayoutManager;
 import android.util.Log;
 import android.view.View;
 
-import com.bumptech.glide.Glide;
-import com.bumptech.glide.request.target.SimpleTarget;
-import com.bumptech.glide.request.transition.Transition;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.scwang.smartrefresh.layout.SmartRefreshLayout;
@@ -32,7 +26,6 @@ import com.zq.dynamicphoto.presenter.WaterMouldPresenter;
 import com.zq.dynamicphoto.utils.MFGT;
 import com.zq.dynamicphoto.view.EditWaterListener;
 import com.zq.dynamicphoto.view.IGetWaterMouldView;
-import com.zq.dynamicphoto.view.ILoadView;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -58,7 +51,6 @@ public class WaterMouldFragment extends BaseFragment<IGetWaterMouldView,
     private ArrayList<Watermark>singleWatermarks = new ArrayList<>();
     private int position = 0;
     private WaterMouldItemAdapter adapter;
-
     @SuppressLint("ValidFragment")
     public WaterMouldFragment(int position) {
         this.position = position;
