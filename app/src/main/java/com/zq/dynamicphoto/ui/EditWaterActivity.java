@@ -1,20 +1,28 @@
 package com.zq.dynamicphoto.ui;
 
+import android.annotation.TargetApi;
 import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.Matrix;
+import android.graphics.Outline;
 import android.graphics.Paint;
+import android.graphics.PorterDuff;
+import android.graphics.PorterDuffXfermode;
 import android.graphics.Rect;
+import android.graphics.RectF;
 import android.graphics.drawable.BitmapDrawable;
 import android.net.Uri;
+import android.opengl.Visibility;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
 import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.ViewOutlineProvider;
 import android.view.ViewTreeObserver;
 import android.widget.CheckBox;
 import android.widget.ImageView;
@@ -41,6 +49,7 @@ import com.zq.dynamicphoto.utils.CosUtils;
 import com.zq.dynamicphoto.utils.SharedPreferencesUtils;
 import com.zq.dynamicphoto.view.ILoadView;
 import com.zq.dynamicphoto.view.UploadView;
+import com.zq.dynamicphoto.view.WatermarkSeekBarListener;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
@@ -56,7 +65,7 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 
 public class EditWaterActivity extends BaseActivity<ILoadView, AddWatermarkPresenter<ILoadView>>
-        implements UploadView, ILoadView,FullScreenWatermarkDialog.OnItemClickListener {
+        implements UploadView, ILoadView,WatermarkSeekBarListener {
     private static final String TAG = "EditWaterActivity";
     @BindView(R.id.iv_head)
     ImageView ivHead;
@@ -93,6 +102,8 @@ public class EditWaterActivity extends BaseActivity<ILoadView, AddWatermarkPrese
     int realWidth = 0;
     private int default_screen_num = 1;//默认的全屏水印的数量是2*2
     private int default_watermark_space = 0;//默认的全屏水印的间距
+    private int position = 0;//保存背景颜色色值
+    private int round = 0;//默认圆角值
     @Override
     protected int getLayoutId() {
         return R.layout.activity_edit_water;
@@ -160,13 +171,39 @@ public class EditWaterActivity extends BaseActivity<ILoadView, AddWatermarkPrese
             });
         }
         if (waterBgDialog == null) {
-            waterBgDialog = new WaterBgDialog(this, R.style.dialog);
+            waterBgDialog = new WaterBgDialog(this, R.style.dialog,
+                    getResources().getString(R.string.watermark_bg),
+                    getResources().getString(R.string.watermark_alpha),
+                    getResources().getString(R.string.watermark_corner), this,
+                    new WaterBgDialog.OnItemClickListener() {
+                        @Override
+                        public void onClick(Dialog dialog, int position) {
+                            updateBgColor(position);
+                        }
+                    });
         }
         if (waterTitleDialog == null) {
             waterTitleDialog = new WaterTitleDialog(this, R.style.dialog);
         }
     }
 
+    /**
+     * 更改水印背景颜色
+     * @param position
+     */
+    private void updateBgColor(int position) {
+        this.position = position;
+        int color = ColorUtils.getColor(position);
+        layoutInitPic.setBackgroundColor(color);
+        if (!(layoutInitPic.getVisibility() == View.VISIBLE)){
+            setScreenWatermark(default_screen_num,default_watermark_space);
+        }
+    }
+
+    /**
+     * 更改整体水印颜色
+     * @param position
+     */
     private void updateWholeColor(int position) {
         int color = ColorUtils.getColor(position);
         ivHead.setColorFilter(color);
@@ -206,9 +243,13 @@ public class EditWaterActivity extends BaseActivity<ILoadView, AddWatermarkPrese
                 break;
             case R.id.check_water_bg_setting:
                 if (!checkWaterBgSetting.isChecked()) {
-                    layoutWholeWaterContent.setBackgroundColor(getResources().getColor(R.color.alpha));
+                    layoutInitPic.setBackgroundColor(getResources().getColor(R.color.alpha));
+                    if (!(layoutInitPic.getVisibility() == View.VISIBLE)){
+                        setScreenWatermark(default_screen_num,default_watermark_space);
+                    }
                 } else {
-                    layoutWholeWaterContent.setBackgroundColor(getResources().getColor(R.color.red_color));
+                    updateBgColor(position);
+                    //layoutInitPic.setBackgroundColor(getResources().getColor(R.color.red_color));
                 }
                 break;
             case R.id.check_full_watermark://全屏水印开关
@@ -237,6 +278,7 @@ public class EditWaterActivity extends BaseActivity<ILoadView, AddWatermarkPrese
      * 还原全屏水印
      */
     private void setScreenWatermarkInit() {
+        default_screen_num = 1;
         layoutInitPic.setVisibility(View.VISIBLE);
         layoutWholeWaterContent.setBackground(null);
     }
@@ -266,18 +308,8 @@ public class EditWaterActivity extends BaseActivity<ILoadView, AddWatermarkPrese
         }
         Log.i(TAG,"newHeight = " + newHeight);
         Log.i(TAG,"newWidth = " + newWidth);
-        /*if (newHeight < 30 || newWidth < 20){
-            newHeight = realHeight / default_screen_num;
-            newWidth = realWidth / default_screen_num;
-            Bitmap repeater = createRepeater(default_screen_num,
-                    zoomImg(bitmap,newWidth, newHeight),0);
-            layoutInitPic.setVisibility(View.GONE);
-            layoutWholeWaterContent.setBackground(new BitmapDrawable(repeater));
-            layoutWholeWaterContent.setDrawingCacheEnabled(false);
-            return;
-        }*/
         Bitmap repeater = createRepeater(default_screen_num,
-                zoomImg(bitmap,newWidth, newHeight),default_watermark_space);
+                zoomImg(getRoundedCornerBitmap(bitmap,round),newWidth, newHeight),default_watermark_space);
         layoutInitPic.setVisibility(View.GONE);
         layoutWholeWaterContent.setBackground(new BitmapDrawable(repeater));
         layoutWholeWaterContent.setDrawingCacheEnabled(false);
@@ -308,9 +340,6 @@ public class EditWaterActivity extends BaseActivity<ILoadView, AddWatermarkPrese
             Rect rect1 = new Rect(0,0,src.getWidth(),src.getHeight());
             Rect rect = new Rect((idx+1)*space + idx * src.getWidth(),0,
                     (idx+1)*space + (idx+1) * src.getWidth(),src.getHeight());
-            /*canvas.drawRect(idx*space + idx * src.getWidth(),0,
-                    (idx+1)*space + idx * src.getWidth(),src.getHeight(),null);*/
-            //canvas.drawBitmap(src, idx * src.getWidth(), 0, null);
             canvas.drawBitmap(src, rect1, rect, null);
         }
         return createYRepeater(count,bitmap,space);
@@ -323,7 +352,6 @@ public class EditWaterActivity extends BaseActivity<ILoadView, AddWatermarkPrese
             Rect rect1 = new Rect(0,0,src.getWidth(),src.getHeight());
             Rect rect = new Rect(0,(idx+1)*space + idx * src.getHeight(),src.getWidth(),
                     (idx+1)*space + (idx+1) * src.getHeight());
-            //canvas.drawBitmap(src, 0, idx * src.getHeight(), null);
             canvas.drawBitmap(src,rect1,rect,null);
         }
         return bitmap;
@@ -467,5 +495,83 @@ public class EditWaterActivity extends BaseActivity<ILoadView, AddWatermarkPrese
     public void onSpaceListener(int process) {
         default_watermark_space = process / default_screen_num;
         setScreenWatermark(default_screen_num,default_watermark_space);
+    }
+
+    @Override
+    public void onWatermarkCorner(final int process) {
+        //setClipViewCornerRadius(layoutInitPic,process);
+        round = process/2;
+        if (default_screen_num > 1) {
+            setScreenWatermark(default_screen_num, default_watermark_space);
+        }else {
+            setClipViewCornerRadius(layoutInitPic,round);
+        }
+    }
+
+    /**
+     * 绘制图片圆角
+     * @param bitmap
+     * @param roundPx
+     * @return
+     */
+    public Bitmap getRoundedCornerBitmap(Bitmap bitmap, int roundPx) {
+        int w = bitmap.getWidth();
+        int h = bitmap.getHeight();
+        Bitmap output = Bitmap.createBitmap(w, h, Bitmap.Config.ARGB_8888);
+        Canvas canvas = new Canvas(output);
+        final int color = 0xdd424242;
+        final Paint paint = new Paint();
+        final Rect rect = new Rect(0, 0, w, h);
+        final RectF rectF = new RectF(rect);
+        paint.setAntiAlias(true);
+        canvas.drawARGB(0, 0, 0, 0);
+        paint.setColor(color);
+        canvas.drawRoundRect(rectF, roundPx, roundPx, paint);
+        paint.setXfermode(new PorterDuffXfermode(PorterDuff.Mode.SRC_IN));
+        canvas.drawBitmap(bitmap, rect, rect, paint);
+        return output;
+    }
+
+    /**
+     * 设置视图裁剪的圆角半径
+     * @param radius
+     */
+    @TargetApi(Build.VERSION_CODES.LOLLIPOP)
+    public void setClipViewCornerRadius(View view, final int radius) {
+
+        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.LOLLIPOP) {
+            //不支持5.0版本以下的系统
+            return;
+        }
+
+        if (view == null) return;
+
+        if (radius <= 0) {
+            return;
+        }
+
+        /*view.setOutlineProvider(new ViewOutlineProvider() {
+            @Override
+            public void getOutline(View view, Outline outline) {
+                outline.setRoundRect(view.getLeft(), view.getTop(), view.getRight(), view.getBottom(), radius);
+            }
+        });*/
+        view.setOutlineProvider(new ViewOutlineProvider() {
+
+            @Override
+            public void getOutline(View view, Outline outline) {
+                outline.setRoundRect(0, 0, view.getWidth(), view.getHeight(), radius);
+            }
+        });
+        view.setClipToOutline(true);
+    }
+
+
+        @Override
+    public void onWatermarkAlpha(int process) {
+        layoutInitPic.getBackground().setAlpha(process);
+        if (default_screen_num > 1) {
+            setScreenWatermark(default_screen_num, default_watermark_space);
+        }
     }
 }

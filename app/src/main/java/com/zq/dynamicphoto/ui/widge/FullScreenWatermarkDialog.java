@@ -11,6 +11,7 @@ import android.view.WindowManager;
 import android.widget.SeekBar;
 
 import com.zq.dynamicphoto.R;
+import com.zq.dynamicphoto.view.WatermarkSeekBarListener;
 
 /**
  * Created by Administrator on 2018/7/27.
@@ -18,7 +19,7 @@ import com.zq.dynamicphoto.R;
 
 public class FullScreenWatermarkDialog extends Dialog implements View.OnClickListener {
     private Activity mContext;
-    private OnItemClickListener mListener;
+    private WatermarkSeekBarListener mListener;
     private int space;
     private int num;
 
@@ -28,7 +29,7 @@ public class FullScreenWatermarkDialog extends Dialog implements View.OnClickLis
     }
 
     public FullScreenWatermarkDialog(@NonNull Activity context, int themeResId,
-                                     int space,int num,OnItemClickListener listener) {
+                                     int space,int num,WatermarkSeekBarListener listener) {
         super(context, themeResId);
         this.mContext = context;
         this.space = space;
@@ -121,11 +122,5 @@ public class FullScreenWatermarkDialog extends Dialog implements View.OnClickLis
 
             }
         });
-    }
-
-    public interface OnItemClickListener{
-        void onNumListener(int process);
-
-        void onSpaceListener(int process);
     }
 }
