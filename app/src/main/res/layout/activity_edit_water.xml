@@ -18,42 +18,49 @@
             android:id="@+id/layout_whole_water_content"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_centerInParent="true"
-            >
-            <ImageView
-                android:id="@+id/iv_head"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:src="@drawable/water_001"/>
-            <TextView
-                android:id="@+id/tv_water_title"
-                android:layout_below="@+id/iv_head"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_centerHorizontal="true"
-                android:textColor="@color/white"
-                android:textSize="70px"
-                android:text="@string/tv_default_app_name"
-                />
+            android:layout_centerInParent="true">
             <com.zhy.autolayout.AutoRelativeLayout
-                android:layout_below="@+id/tv_water_title"
+                android:id="@+id/layout_init_pic"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_centerHorizontal="true">
+                android:layout_centerInParent="true"
+                >
                 <ImageView
-                    android:id="@+id/iv_water_icon"
+                    android:id="@+id/iv_head"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:src="@drawable/water_002"
-                    />
+                    android:src="@drawable/water_001"
+                    android:layout_centerHorizontal="true"/>
                 <TextView
-                    android:id="@+id/tv_wx"
+                    android:id="@+id/tv_water_title"
+                    android:layout_below="@+id/iv_head"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:textSize="46px"
+                    android:layout_centerHorizontal="true"
                     android:textColor="@color/white"
-                    android:layout_toRightOf="@+id/iv_water_icon"
-                    android:text="@string/tv_default_wx"/>
+                    android:textSize="70px"
+                    android:text="@string/tv_default_app_name"
+                    />
+                <com.zhy.autolayout.AutoRelativeLayout
+                    android:layout_below="@+id/tv_water_title"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerHorizontal="true">
+                    <ImageView
+                        android:id="@+id/iv_water_icon"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:src="@drawable/water_002"
+                        />
+                    <TextView
+                        android:id="@+id/tv_wx"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textSize="46px"
+                        android:textColor="@color/white"
+                        android:layout_toRightOf="@+id/iv_water_icon"
+                        android:text="@string/tv_default_wx"/>
+                </com.zhy.autolayout.AutoRelativeLayout>
             </com.zhy.autolayout.AutoRelativeLayout>
         </com.zhy.autolayout.AutoRelativeLayout>
     </com.zhy.autolayout.AutoRelativeLayout>

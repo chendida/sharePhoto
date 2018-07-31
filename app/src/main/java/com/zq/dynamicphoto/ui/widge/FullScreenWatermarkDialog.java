@@ -18,15 +18,22 @@ import com.zq.dynamicphoto.R;
 
 public class FullScreenWatermarkDialog extends Dialog implements View.OnClickListener {
     private Activity mContext;
+    private OnItemClickListener mListener;
+    private int space;
+    private int num;
 
     public FullScreenWatermarkDialog(@NonNull Activity context) {
         super(context);
         this.mContext = context;
     }
 
-    public FullScreenWatermarkDialog(@NonNull Activity context, int themeResId) {
+    public FullScreenWatermarkDialog(@NonNull Activity context, int themeResId,
+                                     int space,int num,OnItemClickListener listener) {
         super(context, themeResId);
         this.mContext = context;
+        this.space = space;
+        this.num = num;
+        this.mListener = listener;
     }
 
     protected FullScreenWatermarkDialog(@NonNull Activity context, boolean cancelable, @Nullable OnCancelListener cancelListener) {
@@ -74,7 +81,51 @@ public class FullScreenWatermarkDialog extends Dialog implements View.OnClickLis
         SeekBar seekBarNum = findViewById(R.id.seek_bar_num);
         SeekBar seekBarSpace = findViewById(R.id.seek_bar_space);
         seekBarNum.setMax(6);
-        seekBarNum.setProgress(1);
+        seekBarNum.setProgress(num);
         seekBarSpace.setMax(100);
+        seekBarSpace.setProgress(space);
+
+        seekBarSpace.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
+            @Override
+            public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
+                if(mListener != null){
+                    mListener.onSpaceListener(progress);
+                }
+            }
+
+            @Override
+            public void onStartTrackingTouch(SeekBar seekBar) {
+
+            }
+
+            @Override
+            public void onStopTrackingTouch(SeekBar seekBar) {
+
+            }
+        });
+        seekBarNum.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
+            @Override
+            public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
+                if(mListener != null){
+                    mListener.onNumListener(progress);
+                }
+            }
+
+            @Override
+            public void onStartTrackingTouch(SeekBar seekBar) {
+
+            }
+
+            @Override
+            public void onStopTrackingTouch(SeekBar seekBar) {
+
+            }
+        });
+    }
+
+    public interface OnItemClickListener{
+        void onNumListener(int process);
+
+        void onSpaceListener(int process);
     }
 }

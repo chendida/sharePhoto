@@ -94,7 +94,7 @@ public class EffectUtil {
                                 .asBitmap()
                                 .apply(myOptions)
                                 .load(sticker.getPath())
-                                .into(480, 800)
+                                .into(720, 1080)
                                 .get();
                         addWatermark(bitmap,sticker,processImage,callback);
                     } catch (InterruptedException e) {
@@ -116,10 +116,11 @@ public class EffectUtil {
         if (bitmap == null) {
             return null;
         }
+        Log.i("bitmap.size",bitmap.getByteCount()+"");
         StickerDrawable drawable = new StickerDrawable(MyApplication.getInstance().getResources(), bitmap);
         drawable.setAntiAlias(true);
         drawable.setMinSize(30, 30);
-
+        Log.i("bitmap.size",drawable.getBitmap().getByteCount()+"");
         final MyHighlightView hv = new MyHighlightView(processImage, R.style.AppTheme, drawable);
         //设置贴纸padding
         hv.setPadding(10);
