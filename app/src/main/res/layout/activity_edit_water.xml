@@ -39,6 +39,7 @@
                     android:layout_centerHorizontal="true"
                     android:textColor="@color/white"
                     android:textSize="70px"
+                    android:singleLine="true"
                     android:text="@string/tv_default_app_name"
                     />
                 <com.zhy.autolayout.AutoRelativeLayout

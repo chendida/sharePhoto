@@ -9,8 +9,9 @@ public interface WatermarkSeekBarListener {
 
     void onSpaceListener(int process);//全屏水印间距
 
-    void onWatermarkCorner(int process);//圆角
+    void onWatermarkCorner(int process);//背景圆角
 
-    void onWatermarkAlpha(int process);//透明度
+    void onWatermarkAlpha(int process);//背景透明度
 
+    void onTextAlpha(int process);//文字透明度
 }

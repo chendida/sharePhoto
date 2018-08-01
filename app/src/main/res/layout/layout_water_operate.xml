@@ -144,7 +144,7 @@
             android:layout_toLeftOf="@+id/title_right"
             android:layout_marginRight="20px">
             <TextView
-                android:id="@+id/tv_water_title"
+                android:id="@+id/tv_water_mark_title"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentRight="true"

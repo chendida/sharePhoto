@@ -7,7 +7,7 @@
         android:id="@+id/layout_content"
         android:background="@color/white"
         android:layout_width="match_parent"
-        android:layout_height="575px"
+        android:layout_height="wrap_content"
         android:layout_alignParentBottom="true">
         <com.zhy.autolayout.AutoRelativeLayout
             android:id="@+id/layout_title"
@@ -16,16 +16,34 @@
             android:layout_marginLeft="20px"
             android:layout_width="match_parent"
             android:layout_height="95px"
-            android:background="@drawable/water_title_input_bg">
-            <EditText
-                android:layout_marginLeft="20px"
+            >
+            <com.zhy.autolayout.AutoRelativeLayout
+                android:layout_toLeftOf="@+id/btn_edit_finish"
+                android:layout_marginRight="20px"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:background="@null"
-                android:textCursorDrawable="@color/red_color"
+                android:background="@drawable/water_title_input_bg">
+                <EditText
+                    android:id="@+id/et_content"
+                    android:layout_marginLeft="10px"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:background="@null"
+                    android:textCursorDrawable="@color/red_color"
+                    android:layout_centerVertical="true"
+                    android:textSize="32px"
+                    android:textColor="@color/water_bg_005"/>
+            </com.zhy.autolayout.AutoRelativeLayout>
+            <Button
+                android:id="@+id/btn_edit_finish"
+                android:layout_width="100px"
+                android:layout_height="80px"
+                android:layout_alignParentRight="true"
                 android:layout_centerVertical="true"
+                android:text="@string/finish"
+                android:background="@color/tv_text_color7"
                 android:textSize="32px"
-                android:textColor="@color/water_bg_005"/>
+                />
         </com.zhy.autolayout.AutoRelativeLayout>
         
         <com.zhy.autolayout.AutoRelativeLayout
@@ -181,6 +199,15 @@
                 android:layout_height="1px"
                 android:background="@color/line_bg_color"
                 android:layout_alignParentBottom="true"/>
+        </com.zhy.autolayout.AutoRelativeLayout>
+
+        <com.zhy.autolayout.AutoRelativeLayout
+            android:id="@+id/layout_translation"
+            android:layout_below="@+id/layout_title_bg_color"
+            android:layout_width="match_parent"
+            android:layout_height="300px"
+            android:visibility="gone">
+
         </com.zhy.autolayout.AutoRelativeLayout>
     </com.zhy.autolayout.AutoRelativeLayout>
 

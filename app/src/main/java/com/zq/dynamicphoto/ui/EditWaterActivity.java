@@ -19,7 +19,9 @@ import android.opengl.Visibility;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
+import android.text.TextPaint;
 import android.util.Log;
+import android.util.TypedValue;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.ViewOutlineProvider;
@@ -41,12 +43,15 @@ import com.zq.dynamicphoto.common.Constans;
 import com.zq.dynamicphoto.mylive.tools.Message;
 import com.zq.dynamicphoto.presenter.AddWatermarkPresenter;
 import com.zq.dynamicphoto.ui.widge.FullScreenWatermarkDialog;
+import com.zq.dynamicphoto.ui.widge.TextColorDialog;
 import com.zq.dynamicphoto.ui.widge.WaterBgDialog;
 import com.zq.dynamicphoto.ui.widge.WaterTitleDialog;
 import com.zq.dynamicphoto.ui.widge.WholeColorEditDialog;
 import com.zq.dynamicphoto.utils.ColorUtils;
 import com.zq.dynamicphoto.utils.CosUtils;
 import com.zq.dynamicphoto.utils.SharedPreferencesUtils;
+import com.zq.dynamicphoto.utils.SoftKeyBoardListener;
+import com.zq.dynamicphoto.utils.SoftUtils;
 import com.zq.dynamicphoto.view.ILoadView;
 import com.zq.dynamicphoto.view.UploadView;
 import com.zq.dynamicphoto.view.WatermarkSeekBarListener;
@@ -71,6 +76,8 @@ public class EditWaterActivity extends BaseActivity<ILoadView, AddWatermarkPrese
     ImageView ivHead;
     @BindView(R.id.tv_water_title)
     TextView tvWaterTitle;
+    @BindView(R.id.tv_water_mark_title)
+    TextView tvWatermarkTitle;
     @BindView(R.id.iv_water_icon)
     ImageView ivWaterIcon;
     @BindView(R.id.tv_wx)
@@ -96,6 +103,7 @@ public class EditWaterActivity extends BaseActivity<ILoadView, AddWatermarkPrese
     private WholeColorEditDialog colorEditDialog;
     private WaterBgDialog waterBgDialog;
     private WaterTitleDialog waterTitleDialog;
+    private TextColorDialog textColorDialog;
     private String path;
     int screentWidth, screentHeight;
     int realHeight = 0;
@@ -104,6 +112,7 @@ public class EditWaterActivity extends BaseActivity<ILoadView, AddWatermarkPrese
     private int default_watermark_space = 0;//默认的全屏水印的间距
     private int position = 0;//保存背景颜色色值
     private int round = 0;//默认圆角值
+    private String watermarkTitle = "微商云管家";
     @Override
     protected int getLayoutId() {
         return R.layout.activity_edit_water;
@@ -118,9 +127,16 @@ public class EditWaterActivity extends BaseActivity<ILoadView, AddWatermarkPrese
         ivCamera.setVisibility(View.GONE);
         tvTitle.setText(getResources().getString(R.string.mould_preview));
         tvFinish.setText(getResources().getString(R.string.create_water));
+        tvWaterTitle.setText(watermarkTitle);
+        tvWatermarkTitle.setText(watermarkTitle);
         tvFinish.setTextColor(getResources().getColor(R.color.tv_text_color7));
         initDialog();
         //增加整体布局监听
+        setLayoutListener();
+        softKeyboardListnenr();
+    }
+
+    private void setLayoutListener() {
         ViewTreeObserver vto = layoutWholeWaterContent.getViewTreeObserver();
         vto.addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
             @Override
@@ -153,7 +169,59 @@ public class EditWaterActivity extends BaseActivity<ILoadView, AddWatermarkPrese
                 Log.i(TAG, "realHeight = " + realHeight);
             }
         });
+
+        ViewTreeObserver vto1 = ivHead.getViewTreeObserver();
+        vto1.addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
+            @Override
+            public void onGlobalLayout() {
+                ivHead.getViewTreeObserver().removeGlobalOnLayoutListener(this);
+                int height = ivHead.getMeasuredHeight();
+                int width = ivHead.getMeasuredWidth();
+                Log.i(TAG, "height ivHead= " + height);
+                Log.i(TAG, "width ivHead = " + width);
+                tvWaterTitle.setMaxWidth(width);
+            }
+        });
+
+        tvWaterTitle.addOnLayoutChangeListener(new View.OnLayoutChangeListener() {
+            @Override
+            public void onLayoutChange(View v, int left, int top, int right, int bottom,
+                                       int oldLeft, int oldTop, int oldRight, int oldBottom) {
+                float vWidth = v.getWidth();
+                TextPaint paint = tvWaterTitle.getPaint();
+                String text = tvWaterTitle.getText().toString();
+                float textLen = paint.measureText(text);
+                float oldSize = tvWaterTitle.getTextSize();
+                if (textLen != vWidth){
+                    float size = vWidth * oldSize / textLen;
+                    tvWaterTitle.setTextSize(TypedValue.COMPLEX_UNIT_PX, size);
+                }
+            }
+        });
     }
+
+    /**
+     * 软键盘显示与隐藏的监听
+     */
+    private void softKeyboardListnenr() {
+        SoftKeyBoardListener.setListener(this, new SoftKeyBoardListener.OnSoftKeyBoardChangeListener() {
+            @Override
+            public void keyBoardShow(int height) {/*软键盘显示：执行隐藏title动画，并修改listview高度和装载礼物容器的高度*/
+                Log.i("6666666","show height = " + height);
+                if (waterTitleDialog != null){
+                    waterTitleDialog.showLayoutTransaliton(true);
+                }
+            }
+
+            @Override
+            public void keyBoardHide(int height) {/*软键盘隐藏：隐藏聊天输入框并显示聊天按钮，执行显示title动画，并修改listview高度和装载礼物容器的高度*/
+                if (waterTitleDialog != null){
+                    waterTitleDialog.showLayoutTransaliton(false);
+                }
+            }
+        });
+    }
+
 
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void Event(Message image) {
@@ -182,8 +250,25 @@ public class EditWaterActivity extends BaseActivity<ILoadView, AddWatermarkPrese
                         }
                     });
         }
-        if (waterTitleDialog == null) {
-            waterTitleDialog = new WaterTitleDialog(this, R.style.dialog);
+        if (textColorDialog == null){
+            textColorDialog = new TextColorDialog(this, R.style.dialog, this,
+                    new TextColorDialog.OnItemClickListener() {
+                @Override
+                public void onClick(Dialog dialog, int position) {
+                    updateTextColor(position);
+                }
+            });
+        }
+    }
+
+    /**
+     * 更改文字颜色
+     */
+    private void updateTextColor(int position) {
+        int color = ColorUtils.getColor(position);
+        tvWaterTitle.setTextColor(color);
+        if (!(layoutInitPic.getVisibility() == View.VISIBLE)){
+            setScreenWatermark(default_screen_num,default_watermark_space);
         }
     }
 
@@ -269,9 +354,34 @@ public class EditWaterActivity extends BaseActivity<ILoadView, AddWatermarkPrese
                 waterBgDialog.show();
                 break;
             case R.id.layout_water_title:
-                waterTitleDialog.show();
+                showTextEditDialog();
                 break;
         }
+    }
+
+    private void showTextEditDialog() {
+        waterTitleDialog = new WaterTitleDialog(this, R.style.dialog, watermarkTitle, new WaterTitleDialog.OnItemClickListener() {
+            @Override
+            public void onClick(Dialog dialog, int position, String content) {
+                switch (position){
+                    case 0:
+                        watermarkTitle = content;
+                        tvWatermarkTitle.setText(content);
+                        tvWaterTitle.setText(content);
+                        if (!(layoutInitPic.getVisibility() == View.VISIBLE)){
+                            setScreenWatermark(default_screen_num,default_watermark_space);
+                        }
+                        break;
+                    case 1:
+
+                        break;
+                    case 2:
+                        textColorDialog.show();
+                        break;
+                }
+            }
+        });
+        waterTitleDialog.show();
     }
 
     /**
@@ -283,6 +393,9 @@ public class EditWaterActivity extends BaseActivity<ILoadView, AddWatermarkPrese
         layoutWholeWaterContent.setBackground(null);
     }
 
+    /**
+     * 全屏水印dialog
+     */
     private void showFullScreenWatermarkDialog() {
         new FullScreenWatermarkDialog(this,R.style.dialog,
                 default_watermark_space,default_screen_num,this).show();
@@ -363,7 +476,6 @@ public class EditWaterActivity extends BaseActivity<ILoadView, AddWatermarkPrese
         showLoading();
         layoutWholeWaterContent.setDrawingCacheEnabled(true);
         Bitmap bitmap = layoutWholeWaterContent.getDrawingCache();
-        //bitmap = drawBg4Bitmap(getResources().getColor(R.color.alpha), bitmap);
         ByteArrayOutputStream baos = new ByteArrayOutputStream();
         bitmap.compress(Bitmap.CompressFormat.PNG, 100, baos);
         byte[] bytes = baos.toByteArray();
@@ -371,18 +483,6 @@ public class EditWaterActivity extends BaseActivity<ILoadView, AddWatermarkPrese
         CosUtils.getInstance(this).uploadToCos(path, 10);
         layoutWholeWaterContent.setDrawingCacheEnabled(false);
     }
-
-    public Bitmap drawBg4Bitmap(int color, Bitmap orginBitmap) {
-        Paint paint = new Paint();
-        paint.setColor(color);
-        Bitmap bitmap = Bitmap.createBitmap(orginBitmap.getWidth(),
-                orginBitmap.getHeight(), orginBitmap.getConfig());
-        Canvas canvas = new Canvas(bitmap);
-        canvas.drawRect(0, 0, orginBitmap.getWidth(), orginBitmap.getHeight(), paint);
-        canvas.drawBitmap(orginBitmap, 0, 0, paint);
-        return bitmap;
-    }
-
 
     private String saveBitmap(String imgName, byte[] bytes) {
         if (Environment.getExternalStorageState().equals(Environment.MEDIA_MOUNTED)) {
@@ -550,14 +650,7 @@ public class EditWaterActivity extends BaseActivity<ILoadView, AddWatermarkPrese
             return;
         }
 
-        /*view.setOutlineProvider(new ViewOutlineProvider() {
-            @Override
-            public void getOutline(View view, Outline outline) {
-                outline.setRoundRect(view.getLeft(), view.getTop(), view.getRight(), view.getBottom(), radius);
-            }
-        });*/
         view.setOutlineProvider(new ViewOutlineProvider() {
-
             @Override
             public void getOutline(View view, Outline outline) {
                 outline.setRoundRect(0, 0, view.getWidth(), view.getHeight(), radius);
@@ -572,6 +665,14 @@ public class EditWaterActivity extends BaseActivity<ILoadView, AddWatermarkPrese
         layoutInitPic.getBackground().setAlpha(process);
         if (default_screen_num > 1) {
             setScreenWatermark(default_screen_num, default_watermark_space);
+        }
+    }
+
+    @Override
+    public void onTextAlpha(int process) {
+        tvWaterTitle.setAlpha((float) process/255);
+        if (!(layoutInitPic.getVisibility() == View.VISIBLE)){
+            setScreenWatermark(default_screen_num,default_watermark_space);
         }
     }
 }
