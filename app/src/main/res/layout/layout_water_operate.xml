@@ -157,6 +157,7 @@
     </com.zhy.autolayout.AutoRelativeLayout>
 
     <com.zhy.autolayout.AutoRelativeLayout
+        android:id="@+id/layout_small_icon"
         android:layout_marginTop="2px"
         android:layout_width="match_parent"
         android:layout_height="95px"
@@ -165,7 +166,7 @@
         android:layout_marginRight="18px">
         <CheckBox
             android:layout_marginLeft="18px"
-            android:id="@+id/rb_is_select_icon"
+            android:id="@+id/check_is_select_icon"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
@@ -173,10 +174,10 @@
             android:checked="true"
             />
         <ImageView
-            android:id="@+id/iv_water_icon"
+            android:id="@+id/iv_water_icon_hint"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_toRightOf="@+id/rb_is_select_icon"
+            android:layout_toRightOf="@+id/check_is_select_icon"
             android:layout_centerVertical="true"
             android:layout_marginLeft="20px"
             android:src="@drawable/water_wx_icon"

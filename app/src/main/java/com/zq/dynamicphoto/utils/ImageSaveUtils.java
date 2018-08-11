@@ -2,6 +2,7 @@ package com.zq.dynamicphoto.utils;
 
 import android.content.Context;
 import android.content.Intent;
+import android.content.res.AssetManager;
 import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Environment;
@@ -108,14 +109,22 @@ public class ImageSaveUtils {
                 if (dynamic.getDynamicVideos().size() != 0){
                     DynamicVideo dynamicVideo = dynamic.getDynamicVideos().get(0);
                     if (!TextUtils.isEmpty(dynamicVideo.getDownloadVideoURL())) {
-                        downloadVideo(dynamicVideo.getDownloadVideoURL());
+                        downloadVideo(dynamicVideo.getDownloadVideoURL(),1);
                     }
                 }
             }
         }
     }
 
-    private void downloadVideo(final String videoUrl){
+    /**
+     * 保存字体到本地
+     * @param url
+     */
+    public void saveTextFonts(String url){
+        downloadVideo(url,2);
+    }
+
+    private void downloadVideo(final String videoUrl, final int flag){
         NetRequestBean netRequestBean = new NetRequestBean();
         DeviceProperties dr = DrUtils.getInstance();
         netRequestBean.setDeviceProperties(dr);
@@ -127,7 +136,7 @@ public class ImageSaveUtils {
                 Result result = response.body();
                 if (result != null) {
                     if (result.getResultCode() == 0) {
-                        dealWithResult(result,videoUrl);
+                        dealWithResult(result, videoUrl,flag);
                     } else {
                         mListener.callBack(-1,"视频下载失败");
                     }
@@ -141,7 +150,7 @@ public class ImageSaveUtils {
         });
     }
 
-    private void dealWithResult(Result result, String videoUrl) {
+    private void dealWithResult(Result result, String videoUrl,int flag) {
         JSONObject jsonObject = null;
         try {
             jsonObject = new JSONObject(result.getData());
@@ -151,8 +160,9 @@ public class ImageSaveUtils {
             String tmpSecretId = jsonObject2.optString("tmpSecretId");
             String tmpSecretKey = jsonObject2.optString("tmpSecretKey");
             String sessionToken = jsonObject2.optString("sessionToken");
-            LocalSessionCredentialProvider localCredentialProvider = new LocalSessionCredentialProvider(tmpSecretId, tmpSecretKey, sessionToken, expiredTime);
-            startDownload(videoUrl,localCredentialProvider);
+            LocalSessionCredentialProvider localCredentialProvider =
+                    new LocalSessionCredentialProvider(tmpSecretId, tmpSecretKey, sessionToken, expiredTime);
+            startDownload(videoUrl, localCredentialProvider,flag);
         } catch (JSONException e) {
             e.printStackTrace();
         }
@@ -162,7 +172,9 @@ public class ImageSaveUtils {
      * 下载Cos中的视频，并 将其保存在本地
      * @param videoUrl
      */
-    private void startDownload(String videoUrl,LocalSessionCredentialProvider localCredentialProvider){
+    private void startDownload(String videoUrl,
+                               LocalSessionCredentialProvider localCredentialProvider
+                                , final int flag){
         //创建 CosXmlServiceConfig 对象，根据需要修改默认的配置参数
         String appid = "1253738394";
         String region = "ap-guangzhou";
@@ -173,41 +185,42 @@ public class ImageSaveUtils {
                 .setDebuggable(true)
                 .builder();
 
-        Log.i("COSUtils","开始下载");
-        CosXmlService cosXmlService = new CosXmlService(MyApplication.getAppContext(),serviceConfig, localCredentialProvider);
-        String fileName = System.currentTimeMillis() + ".mp4";
-        try {
-            final String savePath = Environment.getExternalStorageDirectory().getCanonicalPath()+ "/共享相册/";
-            GetObjectRequest getObjectRequest = new GetObjectRequest(bucket, videoUrl, savePath);
-            getObjectRequest.setSign(signDuration,null,null);
-            getObjectRequest.setProgressListener(new CosXmlProgressListener() {
-                @Override
-                public void onProgress(long progress, long max) {
-                    float result = (float) (progress * 100.0/max);
-                    Log.w("TEST","progress =" + (long)result + "%");
-                }
-            });
+        Log.i("TEST","开始下载");
+        Log.i("TEST","videoUrl = " + videoUrl);
+        CosXmlService cosXmlService = new CosXmlService(MyApplication.getAppContext(),
+                serviceConfig, localCredentialProvider);
+        String savePath = Environment.getExternalStorageDirectory()+"/";
+        final GetObjectRequest getObjectRequest = new GetObjectRequest(bucket, videoUrl, savePath);
+        getObjectRequest.setSign(signDuration,null,null);
+        getObjectRequest.setProgressListener(new CosXmlProgressListener() {
+            @Override
+            public void onProgress(long progress, long max) {
+                float result = (float) (progress * 100.0/max);
+                Log.w("TEST","progress =" + (long)result + "%");
+            }
+        });
 
-            cosXmlService.getObjectAsync(getObjectRequest, new CosXmlResultListener() {
-                @Override
-                public void onSuccess(CosXmlRequest cosXmlRequest, CosXmlResult cosXmlResult) {
-                    Log.w("TEST","success" + cosXmlResult.printResult());
-                    scanPhoto(MyApplication.getAppContext(),savePath);
+        cosXmlService.getObjectAsync(getObjectRequest, new CosXmlResultListener() {
+            @Override
+            public void onSuccess(CosXmlRequest cosXmlRequest, CosXmlResult cosXmlResult) {
+                Log.w("TEST","success" + cosXmlResult.printResult());
+                if (flag == 1) {
+                    scanPhoto(MyApplication.getAppContext(), getObjectRequest.getSavePath());
                     mListener.callBack(0,"视频保存成功");
+                }else {
+                    mListener.callBack(0,getObjectRequest.getSavePath());
                 }
+            }
 
-                @Override
-                public void onFail(CosXmlRequest cosXmlRequest, CosXmlClientException clientException, CosXmlServiceException
+            @Override
+            public void onFail(CosXmlRequest cosXmlRequest, CosXmlClientException clientException, CosXmlServiceException
 
-                        serviceException)  {
-                    String errorMsg = clientException != null ? clientException.toString() : serviceException.toString();
-                    Log.w("TEST",errorMsg);
-                    mListener.callBack(-1,"视频保存失败");
-                }
-            });
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+                    serviceException)  {
+                String errorMsg = clientException != null ? clientException.toString() : serviceException.toString();
+                Log.w("TEST",errorMsg);
+                mListener.callBack(-1,"视频保存失败");
+            }
+        });
     }
 
     /**

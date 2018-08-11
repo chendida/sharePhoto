@@ -2,6 +2,7 @@ package com.zq.dynamicphoto.utils;
 
 import android.content.Context;
 import android.content.res.Resources;
+import android.graphics.Color;
 
 import com.zq.dynamicphoto.MyApplication;
 import com.zq.dynamicphoto.R;

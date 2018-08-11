@@ -166,6 +166,9 @@ public class WaterMouldFragment extends BaseFragment<IGetWaterMouldView,
 
     @Override
     public void click(Watermark watermark) {
-        MFGT.gotoEditWaterActivity(getActivity());
+        String watermarkId = watermark.getWatermarkId();
+        if (watermarkId.equals("5023") || watermarkId.equals("5022")) {
+            MFGT.gotoEditWaterActivity(getActivity(),watermarkId);
+        }
     }
 }

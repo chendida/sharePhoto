@@ -48,8 +48,12 @@ public class CompressVideoUtils {
             view.onCompressResult(-1,"请先选择转码文件！");
             return;
         }
-        //PLShortVideoTranscoder初始化，三个参数，第一个context，第二个要压缩文件的路径，第三个视频压缩后输出的路径
-        PLShortVideoTranscoder mShortVideoTranscoder = new PLShortVideoTranscoder(mContext, filepath, Environment.DIRECTORY_MOVIES + System.currentTimeMillis()+"/compress.mp4");
+        //PLShortVideoTranscoder初始化，三个参数，第一个context，第二个要压缩文件的路径，
+        // 第三个视频压缩后输出的路径
+        PLShortVideoTranscoder mShortVideoTranscoder =
+                new PLShortVideoTranscoder(mContext, filepath,
+                        Environment.DIRECTORY_MOVIES +
+                                System.currentTimeMillis()+"/compress.mp4");
         MediaMetadataRetriever retr = new MediaMetadataRetriever();
         retr.setDataSource(filepath);
         String height = retr.extractMetadata(MediaMetadataRetriever.METADATA_KEY_VIDEO_HEIGHT); // 视频高度

@@ -154,7 +154,8 @@ public class CosUtils extends Presenter {
         return srcPath;
     }
 
-    private void uploadCos(String srcPath, LocalSessionCredentialProvider localCredentialProvider, int flag) {
+    private void uploadCos(String srcPath, LocalSessionCredentialProvider
+            localCredentialProvider, int flag) {
         cosXmlService = new CosXmlService(mContext,serviceConfig, localCredentialProvider);
         cosPath = createNetUrl(flag);
         final PutObjectRequest putObjectRequest = new PutObjectRequest(bucket, cosPath, srcPath);
@@ -300,7 +301,8 @@ public class CosUtils extends Presenter {
             String tmpSecretId = jsonObject2.optString("tmpSecretId");
             String tmpSecretKey = jsonObject2.optString("tmpSecretKey");
             String sessionToken = jsonObject2.optString("sessionToken");
-            localCredentialProvider = new LocalSessionCredentialProvider(tmpSecretId, tmpSecretKey, sessionToken, expiredTime);
+            localCredentialProvider = new LocalSessionCredentialProvider(tmpSecretId,
+                    tmpSecretKey, sessionToken, expiredTime);
             startDownload(videoUrl,localCredentialProvider);
         } catch (JSONException e) {
             e.printStackTrace();

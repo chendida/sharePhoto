@@ -228,4 +228,12 @@
     <string name="watermark_bg">水印背景</string>
     <string name="watermark_alpha">透明</string>
     <string name="watermark_corner">圆角</string>
+    <string name="tv_text_align">文字对齐</string>
+    <string name="tv_text_left">左</string>
+    <string name="tv_text_center">中</string>
+    <string name="tv_text_right">右</string>
+    <string name="degree">粗细</string>
+    <string name="tv_icon">图标</string>
+    <string name="watermark_text_size">字体大小</string>
+    <string name="watermark_text_space">文字间距</string>
 </resources>

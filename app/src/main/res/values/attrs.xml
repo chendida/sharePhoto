@@ -16,4 +16,9 @@
         <attr name="bg_bitmap" format="reference"/>
         <attr name="btn_bitmap" format="reference"/>
     </declare-styleable>
+
+    <declare-styleable name="StrokeText">
+        <attr name="StrokeColor" format="reference|color"/>
+        <attr name="TextColor" format="reference|color"/>
+    </declare-styleable>
 </resources>

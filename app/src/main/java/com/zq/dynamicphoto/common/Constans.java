@@ -43,6 +43,7 @@ public class Constans {
     public static String USERINFO = "userInfo";
     public static String ISANCHOR = "isAnchor";
     public static String LISTENER = "listener";
+    public static String WATERMARKID = "watermarkId";
 
     public static Integer REQUEST_OK = 0;
     public static Integer REQUEST_LOIGN_ERROR = -4;//登录时手机号或密码错误

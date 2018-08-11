@@ -29,20 +29,22 @@
                     android:id="@+id/iv_head"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:src="@drawable/water_001"
-                    android:layout_centerHorizontal="true"/>
-                <TextView
+                    android:src="@drawable/water_5023"
+                    android:layout_centerHorizontal="true"
+                    />
+                <com.zq.dynamicphoto.ui.widge.StrokeTextView
                     android:id="@+id/tv_water_title"
                     android:layout_below="@+id/iv_head"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_centerHorizontal="true"
+                    android:gravity="center_horizontal"
                     android:textColor="@color/white"
-                    android:textSize="70px"
-                    android:singleLine="true"
+                    android:textSize="28sp"
                     android:text="@string/tv_default_app_name"
+                    android:maxLines="1"
                     />
                 <com.zhy.autolayout.AutoRelativeLayout
+                    android:id="@+id/layout_show_icon_and_wx"
                     android:layout_below="@+id/tv_water_title"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -51,16 +53,19 @@
                         android:id="@+id/iv_water_icon"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:src="@drawable/water_002"
+                        android:src="@drawable/water_wx_icon"
+                        android:layout_centerVertical="true"
                         />
-                    <TextView
+                    <com.zq.dynamicphoto.ui.widge.StrokeTextView
                         android:id="@+id/tv_wx"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:textSize="46px"
+                        android:textSize="20sp"
                         android:textColor="@color/white"
                         android:layout_toRightOf="@+id/iv_water_icon"
-                        android:text="@string/tv_default_wx"/>
+                        android:text="@string/tv_default_wx"
+                        android:gravity="center_horizontal"
+                        android:maxLines="1"/>
                 </com.zhy.autolayout.AutoRelativeLayout>
             </com.zhy.autolayout.AutoRelativeLayout>
         </com.zhy.autolayout.AutoRelativeLayout>

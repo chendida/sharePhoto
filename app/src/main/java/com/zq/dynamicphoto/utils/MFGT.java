@@ -188,8 +188,9 @@ public class MFGT {
                 .putExtra(Constans.ISANCHOR,flag));
     }
 
-    public static void gotoEditWaterActivity(Activity activity) {
-        activity.startActivity(new Intent(activity, EditWaterActivity.class));
+    public static void gotoEditWaterActivity(Activity activity,String watermarkId) {
+        activity.startActivity(new Intent(activity, EditWaterActivity.class)
+                .putExtra(Constans.WATERMARKID,watermarkId));
         activity.finish();
     }
 }

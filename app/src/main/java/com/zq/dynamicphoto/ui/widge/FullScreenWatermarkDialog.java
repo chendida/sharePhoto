@@ -20,8 +20,8 @@ import com.zq.dynamicphoto.view.WatermarkSeekBarListener;
 public class FullScreenWatermarkDialog extends Dialog implements View.OnClickListener {
     private Activity mContext;
     private WatermarkSeekBarListener mListener;
-    private int space;
-    private int num;
+    /*private int space;
+    private int num;*/
 
     public FullScreenWatermarkDialog(@NonNull Activity context) {
         super(context);
@@ -29,11 +29,11 @@ public class FullScreenWatermarkDialog extends Dialog implements View.OnClickLis
     }
 
     public FullScreenWatermarkDialog(@NonNull Activity context, int themeResId,
-                                     int space,int num,WatermarkSeekBarListener listener) {
+                                     /*int space,int num,*/WatermarkSeekBarListener listener) {
         super(context, themeResId);
         this.mContext = context;
-        this.space = space;
-        this.num = num;
+        /*this.space = space;
+        this.num = num;*/
         this.mListener = listener;
     }
 
@@ -48,16 +48,6 @@ public class FullScreenWatermarkDialog extends Dialog implements View.OnClickLis
             case R.id.layout_cancel:
                 dismiss();
                 break;
-            /*case R.id.share_wx:
-                if(mListener != null){
-                    mListener.onClick(this, 1);
-                }
-                break;
-            case R.id.share_wx_friend:
-                if(mListener != null){
-                    mListener.onClick(this, 2);
-                }
-                break;*/
         }
     }
 
@@ -82,9 +72,8 @@ public class FullScreenWatermarkDialog extends Dialog implements View.OnClickLis
         SeekBar seekBarNum = findViewById(R.id.seek_bar_num);
         SeekBar seekBarSpace = findViewById(R.id.seek_bar_space);
         seekBarNum.setMax(6);
-        seekBarNum.setProgress(num);
+        seekBarNum.setProgress(2);
         seekBarSpace.setMax(100);
-        seekBarSpace.setProgress(space);
 
         seekBarSpace.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
             @Override

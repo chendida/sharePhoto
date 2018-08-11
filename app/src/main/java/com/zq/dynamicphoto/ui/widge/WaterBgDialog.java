@@ -104,7 +104,7 @@ public class WaterBgDialog extends Dialog implements View.OnClickListener {
             @Override
             public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
                 if (mListener != null){
-                    mListener.onWatermarkAlpha(progress);
+                    mListener.onWatermarkBgAlpha(progress);
                 }
             }
 
@@ -123,7 +123,7 @@ public class WaterBgDialog extends Dialog implements View.OnClickListener {
             @Override
             public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
                 if (mListener != null){
-                    mListener.onWatermarkCorner(progress);
+                    mListener.onWatermarkBgCorner(progress);
                 }
             }
 

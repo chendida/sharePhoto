@@ -129,6 +129,7 @@ public class MineFragment extends BaseFragment {
                 break;
             case R.id.layout_water:
                 MFGT.gotoPhotoListActivity(getActivity());
+                //MFGT.gotoEditWaterActivity(getActivity());
                 break;
         }
     }

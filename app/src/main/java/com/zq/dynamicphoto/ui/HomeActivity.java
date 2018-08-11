@@ -376,7 +376,9 @@ public class HomeActivity extends BaseActivity<IUploadDynamicView,
             ArrayList<String> thumb = new ArrayList<>();
             thumb.add(file.getPath());
             compressImage(thumb, PictureConfig.TYPE_IMAGE);
-            CompressVideoUtils.getInstance().compressVideoResouce(this,dynamicBean.getmSelectedImages().get(0),this);
+            CompressVideoUtils.getInstance().
+                    compressVideoResouce(this,dynamicBean.getmSelectedImages()
+                            .get(0),this);
         }
     }
 

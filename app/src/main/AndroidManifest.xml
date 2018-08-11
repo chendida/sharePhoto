@@ -170,7 +170,8 @@
         <activity android:name=".mylive.ui.ConsumptionListActivity" />
         <activity android:name=".mylive.ui.OpenLiveActivity" />
         <activity android:name=".mylive.ui.LiveActivity" />
-        <activity android:name=".ui.EditWaterActivity"></activity>
+        <activity android:name=".ui.EditWaterActivity" />
+        <activity android:name=".ui.Watermark0001Activity"></activity>
     </application>
 
 </manifest>
