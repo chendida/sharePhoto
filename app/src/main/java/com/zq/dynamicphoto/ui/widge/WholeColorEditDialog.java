@@ -2,13 +2,17 @@ package com.zq.dynamicphoto.ui.widge;
 
 import android.app.Activity;
 import android.app.Dialog;
+import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.util.Log;
 import android.view.View;
 import android.view.WindowManager;
+
+import com.zq.dynamicphoto.MyApplication;
 import com.zq.dynamicphoto.R;
+import com.zq.dynamicphoto.base.BaseActivity;
 
 /**
  * Created by Administrator on 2018/7/26.
@@ -34,7 +38,8 @@ public class WholeColorEditDialog extends Dialog implements View.OnClickListener
         this.mListener = listener;
     }
 
-    protected WholeColorEditDialog(@NonNull Activity context, boolean cancelable, @Nullable OnCancelListener cancelListener) {
+    protected WholeColorEditDialog(@NonNull Activity context, boolean cancelable,
+                                   @Nullable OnCancelListener cancelListener) {
         super(context, cancelable, cancelListener);
         this.mContext = context;
     }

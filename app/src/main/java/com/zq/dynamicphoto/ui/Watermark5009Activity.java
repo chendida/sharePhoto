@@ -4,7 +4,9 @@ import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.net.Uri;
+import android.os.Bundle;
 import android.os.Environment;
+import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.util.TypedValue;
 import android.view.View;
@@ -14,10 +16,12 @@ import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.ImageView;
 import android.widget.TextView;
+
 import com.blankj.utilcode.util.ToastUtils;
 import com.zhy.autolayout.AutoRelativeLayout;
 import com.zq.dynamicphoto.R;
 import com.zq.dynamicphoto.base.BaseActivity;
+import com.zq.dynamicphoto.base.BasePresenter;
 import com.zq.dynamicphoto.bean.DrUtils;
 import com.zq.dynamicphoto.bean.NetRequestBean;
 import com.zq.dynamicphoto.bean.Result;
@@ -33,19 +37,23 @@ import com.zq.dynamicphoto.utils.SharedPreferencesUtils;
 import com.zq.dynamicphoto.utils.WatermarkManager;
 import com.zq.dynamicphoto.view.ILoadView;
 import com.zq.dynamicphoto.view.UploadView;
+
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
+
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
+
 import butterknife.BindView;
+import butterknife.ButterKnife;
 import butterknife.OnClick;
 
-public class EditWaterActivity extends BaseActivity<ILoadView, AddWatermarkPresenter<ILoadView>>
-        implements UploadView, ILoadView {
-    private static final String TAG = "EditWaterActivity";
+public class Watermark5009Activity extends BaseActivity <ILoadView, AddWatermarkPresenter<ILoadView>>
+        implements UploadView, ILoadView{
+    private static final String TAG = "Watermark5009Activity";
     @BindView(R.id.iv_head)
     ImageView ivHead;
     @BindView(R.id.tv_water_title)
@@ -89,32 +97,19 @@ public class EditWaterActivity extends BaseActivity<ILoadView, AddWatermarkPrese
     int realHeight = 0;
     int realWidth = 0;
     private String watermarkTitle = "微商云管家";
-
+    String watermarkId;
     @Override
     protected int getLayoutId() {
-        String watermarkId = getIntent().getStringExtra(Constans.WATERMARKID);
-        if (watermarkId.equals(Constans.WATERMARKID_5021) ||
-                watermarkId.equals(Constans.WATERMARKID_5003)||
-                watermarkId.equals(Constans.WATERMARKID_5004)||
-                watermarkId.equals(Constans.WATERMARKID_5005)||
-                watermarkId.equals(Constans.WATERMARKID_5006)||
-                watermarkId.equals(Constans.WATERMARKID_5007)||
-                watermarkId.equals(Constans.WATERMARKID_5011)||
-                watermarkId.equals(Constans.WATERMARKID_5012)||
-                watermarkId.equals(Constans.WATERMARKID_5013)){
-            return R.layout.layout_watermarkid_5021;
-        }else if (watermarkId.equals(Constans.WATERMARKID_5010)){
-            return R.layout.layout_watermarkid_5010;
-        }else if (watermarkId.equals(Constans.WATERMARKID_5015)){
-            return R.layout.layout_watermarkid_5015;
-        }else{
-            return R.layout.activity_edit_water;
+        watermarkId = getIntent().getStringExtra(Constans.WATERMARKID);
+        if (watermarkId.equals("5009")) {
+            return R.layout.activity_watermark0001;
+        }else {
+            return R.layout.activity_watermark0014;
         }
     }
 
     @Override
     protected void initView() {
-        updateView();
         screentWidth = getResources().getDisplayMetrics().widthPixels;//屏幕宽度
         screentHeight = getResources().getDisplayMetrics().heightPixels;//屏幕宽度
         EventBus.getDefault().register(this);
@@ -130,63 +125,6 @@ public class EditWaterActivity extends BaseActivity<ILoadView, AddWatermarkPrese
         WatermarkManager.getInstance().initView(layoutInitPic, layoutWholeWaterContent,
                 ivHead, ivWaterIcon, ivWaterIconHint, tvWaterTitle, tvWatermarkTitle, tvWx, tvWaterWx
                 , checkFullWatermark, checkWaterBgSetting, checkIsShowIcon, this);
-    }
-
-    private void updateView() {
-        String watermarkId = getIntent().getStringExtra(Constans.WATERMARKID);
-        if (watermarkId.equals(Constans.WATERMARKID_5023)){
-            return;
-        }else if (watermarkId.equals(Constans.WATERMARKID_5022)){
-            ivHead.setImageDrawable(getResources().getDrawable(R.drawable.water_5022));
-            updateViewColor(1);
-        }else if(watermarkId.equals(Constans.WATERMARKID_5008)){
-            ivHead.setImageDrawable(getResources().getDrawable(R.drawable.water_5008));
-            int color = ColorUtils.getColor(3);
-            ivWaterIcon.setColorFilter(color);
-            tvWaterTitle.setTextColor(color);
-            tvWx.setTextColor(color);
-        }else if(watermarkId.equals(Constans.WATERMARKID_5016)){
-            ivHead.setImageDrawable(getResources().getDrawable(R.drawable.water_5016));
-            updateViewColor(1);
-        }else if(watermarkId.equals(Constans.WATERMARKID_5017)){
-            ivHead.setImageDrawable(getResources().getDrawable(R.drawable.water_5017));
-        }else if(watermarkId.equals(Constans.WATERMARKID_5018)){
-            ivHead.setImageDrawable(getResources().getDrawable(R.drawable.water_5018));
-            updateViewColor(1);
-        }else if(watermarkId.equals(Constans.WATERMARKID_5019)){
-            ivHead.setImageDrawable(getResources().getDrawable(R.drawable.water_5019));
-            updateViewColor(1);
-        }else if(watermarkId.equals(Constans.WATERMARKID_5003)){
-            ivHead.setImageDrawable(getResources().getDrawable(R.drawable.water_5003));
-        }else if(watermarkId.equals(Constans.WATERMARKID_5004)){
-            ivHead.setImageDrawable(getResources().getDrawable(R.drawable.water_5004));
-        }else if(watermarkId.equals(Constans.WATERMARKID_5005)){
-            ivHead.setImageDrawable(getResources().getDrawable(R.drawable.water_5005));
-        }else if(watermarkId.equals(Constans.WATERMARKID_5006)){
-            ivHead.setImageDrawable(getResources().getDrawable(R.drawable.water_5006));
-        }else if(watermarkId.equals(Constans.WATERMARKID_5007)){
-            ivHead.setImageDrawable(getResources().getDrawable(R.drawable.water_5007));
-            int color = ColorUtils.getColor(27);
-            ivWaterIcon.setColorFilter(color);
-            tvWaterTitle.setTextColor(color);
-            tvWx.setTextColor(color);
-        }else if(watermarkId.equals(Constans.WATERMARKID_5011)){
-            ivHead.setImageDrawable(getResources().getDrawable(R.drawable.water_5011));
-        }else if(watermarkId.equals(Constans.WATERMARKID_5012)){
-            ivHead.setImageDrawable(getResources().getDrawable(R.drawable.water_5012));
-        }else if(watermarkId.equals(Constans.WATERMARKID_5013)){
-            ivHead.setImageDrawable(getResources().getDrawable(R.drawable.water_5013));
-        }
-    }
-
-    private void updateViewColor(int flag){
-        if (flag == 1){//黑色
-            ivWaterIcon.setImageDrawable(getResources().getDrawable(R.drawable.water_icon021));
-            ivWaterIconHint.setImageDrawable(getResources().getDrawable(R.drawable.water_icon021));
-            tvWaterTitle.setTextColor(getResources().getColor(R.color.black));
-            tvWx.setTextColor(getResources().getColor(R.color.black));
-            layoutBg.setBackgroundColor(getResources().getColor(R.color.white));
-        }
     }
 
     private void setLayoutListener() {
@@ -221,33 +159,6 @@ public class EditWaterActivity extends BaseActivity<ILoadView, AddWatermarkPrese
             }
         });
 
-        ViewTreeObserver vto1 = ivHead.getViewTreeObserver();
-        vto1.addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
-            @Override
-            public void onGlobalLayout() {
-                ivHead.getViewTreeObserver().removeGlobalOnLayoutListener(this);
-                float maxHeight = (float) 350 / Constans.DEFAULT_HEIGHT * screentHeight;
-                int width = ivHead.getMeasuredWidth();
-                int height = ivHead.getMeasuredHeight();
-                if (height > maxHeight) {
-                    ViewGroup.LayoutParams layoutParams = ivHead.getLayoutParams();
-                    layoutParams.height = (int) maxHeight;
-                    int ivHeadWidth = (int) (width * maxHeight/height);
-                    layoutParams.width = ivHeadWidth;
-                    ivHead.setLayoutParams(layoutParams);
-                    tvWaterTitle.changeTextSize(TypedValue.COMPLEX_UNIT_PX, 66);
-                    tvWx.changeTextSize(TypedValue.COMPLEX_UNIT_PX, 40);
-                    tvWaterTitle.setWidth(ivHeadWidth);
-                    tvWx.setMaxWidth(ivHeadWidth);
-                    Log.i(TAG,"ivHead width = " +ivHeadWidth+",height = " +maxHeight);
-                    return;
-                }
-                tvWaterTitle.setWidth(width);
-                tvWx.setMaxWidth(width - 50);
-                Log.i(TAG,"ivHead width = " +maxHeight+",height = " +height);
-            }
-        });
-
         checkIsShowIcon.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
@@ -255,10 +166,10 @@ public class EditWaterActivity extends BaseActivity<ILoadView, AddWatermarkPrese
                 WatermarkManager.getInstance().refreshChanged();
             }
         });
-    }
-
-    @Subscribe(threadMode = ThreadMode.MAIN)
-    public void Event(Message image) {
+        int color = ColorUtils.getColor(28);
+        tvWaterTitle.setTextColor(color);
+        tvWx.setTextColor(color);
+        ivWaterIcon.setColorFilter(color);
     }
 
     @Override
@@ -271,6 +182,10 @@ public class EditWaterActivity extends BaseActivity<ILoadView, AddWatermarkPrese
         return new AddWatermarkPresenter<>();
     }
 
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void Event(Message image) {
+    }
+
     @OnClick({R.id.layout_bg, R.id.layout_whole_color, R.id.check_full_watermark,
             R.id.check_water_bg_setting, R.id.layout_bg_setting, R.id.layout_water_title,
             R.id.layout_back, R.id.layout_finish, R.id.layout_full_screen_watermark,
@@ -281,7 +196,7 @@ public class EditWaterActivity extends BaseActivity<ILoadView, AddWatermarkPrese
                 WatermarkManager.getInstance().showTextEditDialog(2);
                 break;
             case R.id.layout_back:
-                EditWaterActivity.this.finish();
+                Watermark5009Activity.this.finish();
                 break;
             case R.id.layout_finish:
                 addWater();
@@ -335,7 +250,6 @@ public class EditWaterActivity extends BaseActivity<ILoadView, AddWatermarkPrese
     private String saveBitmap(String imgName, byte[] bytes) {
         if (Environment.getExternalStorageState().equals(Environment.MEDIA_MOUNTED)) {
             FileOutputStream fos = null;
-            //filePath = null;
             try {
                 String filePath = Environment.getExternalStorageDirectory().getCanonicalPath() + "/共享相册";
                 File imgDir = new File(filePath);
@@ -416,7 +330,7 @@ public class EditWaterActivity extends BaseActivity<ILoadView, AddWatermarkPrese
             if (result.getResultCode() == Constans.REQUEST_OK) {
                 WaterImage image = new WaterImage(url);
                 EventBus.getDefault().post(image);
-                EditWaterActivity.this.finish();
+                Watermark5009Activity.this.finish();
             } else {
                 showFailed();
             }

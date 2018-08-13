@@ -30,14 +30,14 @@
                     android:id="@+id/iv_head"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:src="@drawable/water_5009"
-                    android:layout_marginLeft="95px"
+                    android:src="@drawable/water_5014"
+                    android:layout_marginLeft="120px"
                     />
                 <com.zhy.autolayout.AutoRelativeLayout
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginLeft="270px"
-                    android:layout_marginTop="173px"
+                    android:layout_marginLeft="178px"
+                    android:layout_marginTop="74px"
                     >
                     <com.zq.dynamicphoto.ui.widge.StrokeTextView
                         android:id="@+id/tv_water_title"
@@ -69,7 +69,7 @@
                             android:textSize="20sp"
                             android:textColor="@color/white"
                             android:layout_toRightOf="@+id/iv_water_icon"
-                            android:text="@string/tv_default_wx"
+                            android:text="@string/tv_default_wx_5014"
                             android:gravity="center_horizontal"
                             android:maxLines="1"/>
                     </com.zhy.autolayout.AutoRelativeLayout>

@@ -18,43 +18,40 @@
             android:id="@+id/layout_whole_water_content"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_centerVertical="true"
-            >
+            android:layout_centerInParent="true">
             <com.zhy.autolayout.AutoRelativeLayout
                 android:id="@+id/layout_init_pic"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_centerVertical="true"
+                android:layout_centerInParent="true"
                 >
                 <ImageView
                     android:id="@+id/iv_head"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:src="@drawable/water_5009"
-                    android:layout_marginLeft="95px"
+                    android:layout_centerInParent="true"
+                    android:src="@drawable/water_5021"
                     />
                 <com.zhy.autolayout.AutoRelativeLayout
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginLeft="270px"
-                    android:layout_marginTop="173px"
-                    >
+                    android:layout_centerVertical="true">
                     <com.zq.dynamicphoto.ui.widge.StrokeTextView
                         android:id="@+id/tv_water_title"
-                        android:layout_width="420px"
+                        android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:gravity="center_horizontal"
                         android:textColor="@color/white"
                         android:textSize="28sp"
                         android:text="@string/tv_default_app_name"
                         android:maxLines="1"
-
                         />
                     <com.zhy.autolayout.AutoRelativeLayout
-                        android:layout_below="@+id/tv_water_title"
                         android:id="@+id/layout_show_icon_and_wx"
-                        android:layout_width="420px"
+                        android:layout_below="@+id/tv_water_title"
+                        android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        >
+                        android:layout_centerHorizontal="true">
                         <ImageView
                             android:id="@+id/iv_water_icon"
                             android:layout_width="wrap_content"

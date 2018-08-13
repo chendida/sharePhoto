@@ -38,6 +38,7 @@
     <color name="blue_bg">#45a2ff</color>
     <color name="black33">#333333</color>
 
+
     <!--水印背景颜色-->
     <color name="water_bg_002">#cc33cc</color>
     <color name="water_bg_003">#cccc99</color>
@@ -68,4 +69,6 @@
     <color name="water_bg_024">#9999cc</color>
     <color name="water_bg_025">#cc66ff</color>
     <color name="alpha">#00ffffff</color>
+    <color name="text_watermarkid_5007_color">#f077ab</color>
+    <color name="text_watermarkid_5009_color">#ff7ca4</color>
 </resources>

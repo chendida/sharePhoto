@@ -3,6 +3,7 @@ package com.zq.dynamicphoto.utils;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.support.v4.app.FragmentActivity;
 
 import com.zq.dynamicphoto.bean.Dynamic;
 import com.zq.dynamicphoto.bean.Folder;
@@ -37,6 +38,7 @@ import com.zq.dynamicphoto.ui.ProblemAndFeedbackActivity;
 import com.zq.dynamicphoto.ui.ResetPwdActivity;
 import com.zq.dynamicphoto.ui.VideoPlayActivity;
 import com.zq.dynamicphoto.ui.WaterStyleActivity;
+import com.zq.dynamicphoto.ui.Watermark5009Activity;
 import com.zq.dynamicphoto.ui.WatermarkActivity;
 
 import java.util.ArrayList;
@@ -191,6 +193,11 @@ public class MFGT {
     public static void gotoEditWaterActivity(Activity activity,String watermarkId) {
         activity.startActivity(new Intent(activity, EditWaterActivity.class)
                 .putExtra(Constans.WATERMARKID,watermarkId));
-        activity.finish();
+        //activity.finish();
+    }
+
+    public static void gotoEditWatermark5009Activity(Activity activity,String watermarkId) {
+        activity.startActivity(new Intent(activity, Watermark5009Activity.class)
+                .putExtra(Constans.WATERMARKID,watermarkId));
     }
 }

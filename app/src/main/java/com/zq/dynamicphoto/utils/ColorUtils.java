@@ -67,6 +67,10 @@ public class ColorUtils {
             color = resources.getColor(R.color.water_bg_024);
         }else if (positon == 26){
             color = resources.getColor(R.color.water_bg_025);
+        }else if (positon == 27){
+            color = resources.getColor(R.color.text_watermarkid_5007_color);
+        }else if (positon == 28){
+            color = resources.getColor(R.color.text_watermarkid_5009_color);
         }
         return color;
     }

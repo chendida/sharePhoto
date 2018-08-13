@@ -6,7 +6,7 @@ package com.zq.dynamicphoto.common;
 
 public class Constans {
     public static final float  DEFAULT_PIXEL              = 1280;
-    public static final float  DEFAULT_HEIGHT              = 1080;
+    public static final float  DEFAULT_HEIGHT              = 1280;
     public static final float  DEFAULT_WIDTH              = 720;
     //微信登录参数
     public static String APP_ID = "wx5d4d593bf265cfd0";
@@ -44,12 +44,31 @@ public class Constans {
     public static String ISANCHOR = "isAnchor";
     public static String LISTENER = "listener";
     public static String WATERMARKID = "watermarkId";
+    public static String WATERMARKID_5008 = "5008";
+    public static String WATERMARKID_5010 = "5010";
+    public static String WATERMARKID_5015 = "5015";
+    public static String WATERMARKID_5016 = "5016";
+    public static String WATERMARKID_5017 = "5017";
+    public static String WATERMARKID_5018 = "5018";
+    public static String WATERMARKID_5019 = "5019";
+    public static String WATERMARKID_5020 = "5020";
+    public static String WATERMARKID_5021 = "5021";
+    public static String WATERMARKID_5022 = "5022";
+    public static String WATERMARKID_5023 = "5023";
+    public static String WATERMARKID_5003 = "5003";
+    public static String WATERMARKID_5004 = "5004";
+    public static String WATERMARKID_5005 = "5005";
+    public static String WATERMARKID_5006 = "5006";
+    public static String WATERMARKID_5007 = "5007";
+    public static String WATERMARKID_5011 = "5011";
+    public static String WATERMARKID_5012 = "5012";
+    public static String WATERMARKID_5013 = "5013";
 
     public static Integer REQUEST_OK = 0;
     public static Integer REQUEST_LOIGN_ERROR = -4;//登录时手机号或密码错误
 
     public static final int SDK_APPID = 1400087984;
-    public static String Base_Url = "http://192.168.1.78:8080/photo/interface/";
+    public static String Base_Url = "http://192.168.1.83:8080/photo/interface/";
 
     public static String HTML_Url = "http://redshoping.cn/";
     //public static String HTML_Url = "http://192.168.1.184:8080/photo/";

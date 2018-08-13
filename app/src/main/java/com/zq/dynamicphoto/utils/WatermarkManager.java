@@ -1,9 +1,7 @@
 package com.zq.dynamicphoto.utils;
 
 import android.annotation.TargetApi;
-import android.app.Activity;
 import android.app.Dialog;
-import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.Matrix;
@@ -17,10 +15,6 @@ import android.graphics.Typeface;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.os.Build;
-import android.support.annotation.RequiresApi;
-import android.text.Spannable;
-import android.text.SpannableString;
-import android.text.style.ScaleXSpan;
 import android.util.Log;
 import android.util.TypedValue;
 import android.view.Gravity;
@@ -33,7 +27,6 @@ import com.blankj.utilcode.util.ToastUtils;
 import com.zhy.autolayout.AutoRelativeLayout;
 import com.zq.dynamicphoto.R;
 import com.zq.dynamicphoto.base.BaseActivity;
-import com.zq.dynamicphoto.ui.Watermark0001Activity;
 import com.zq.dynamicphoto.ui.widge.FullScreenWatermarkDialog;
 import com.zq.dynamicphoto.ui.widge.StrokeTextView;
 import com.zq.dynamicphoto.ui.widge.TextAlignDialog;
@@ -349,27 +342,24 @@ public class WatermarkManager implements WatermarkSeekBarListener{
      * 显示文字对齐弹窗
      */
     private void showTextAlignDialog() {
-        if (textAlignDialog == null){
-            textAlignDialog = new TextAlignDialog(mContext, R.style.dialog,
-                    new TextAlignDialog.OnItemClickListener() {
-                @Override
-                public void onClick(Dialog dialog, int position) {
-                    switch (position){
-                        case 0://左
-                            tvTitle.setPlace(Gravity.START);
-                            break;
-                        case 1://中
-                            tvTitle.setPlace(Gravity.CENTER_HORIZONTAL);
-                            break;
-                        case 2://右
-                            tvTitle.setPlace(Gravity.END);
-                            break;
+        new TextAlignDialog(mContext, R.style.dialog,
+                new TextAlignDialog.OnItemClickListener() {
+                    @Override
+                    public void onClick(Dialog dialog, int position) {
+                        switch (position){
+                            case 0://左
+                                tvTitle.setPlace(Gravity.START);
+                                break;
+                            case 1://中
+                                tvTitle.setPlace(Gravity.CENTER_HORIZONTAL);
+                                break;
+                            case 2://右
+                                tvTitle.setPlace(Gravity.END);
+                                break;
+                        }
+                        refreshChanged();
                     }
-                    refreshChanged();
-                }
-            });
-        }
-        textAlignDialog.show();
+                }).show();
     }
 
     /**
@@ -688,23 +678,20 @@ public class WatermarkManager implements WatermarkSeekBarListener{
      * 展示整体颜色修改弹窗
      */
     public void showWholeColorDialog() {
-        if (colorEditDialog == null){
-            colorEditDialog = new WholeColorEditDialog(mContext, R.style.dialog,
-                    new WholeColorEditDialog.OnItemClickListener() {
-                        @Override
-                        public void onClick(Dialog dialog, int position) {
-                            updateWholeColor(position);
-                        }
-                    });
-        }
-        colorEditDialog.show();
+        new WholeColorEditDialog(mContext, R.style.dialog,
+                new WholeColorEditDialog.OnItemClickListener() {
+                    @Override
+                    public void onClick(Dialog dialog, int position) {
+                        updateWholeColor(position);
+                    }
+                }).show();
     }
 
     /**
      * 更改整体水印颜色
      * @param position
      */
-    private void updateWholeColor(int position) {
+    public void updateWholeColor(int position) {
         int color = ColorUtils.getColor(position);
         ivHead.setColorFilter(color);
         ivWaterIcon.setColorFilter(color);
