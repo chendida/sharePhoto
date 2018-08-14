@@ -346,14 +346,18 @@ public class WatermarkManager implements WatermarkSeekBarListener{
                 new TextAlignDialog.OnItemClickListener() {
                     @Override
                     public void onClick(Dialog dialog, int position) {
+                        int left = tvTitle.getLeft();
                         switch (position){
                             case 0://左
+                                //tvTitle.setTranslationX(-left);
                                 tvTitle.setPlace(Gravity.START);
                                 break;
                             case 1://中
+                                //tvTitle.setTranslationX(0);
                                 tvTitle.setPlace(Gravity.CENTER_HORIZONTAL);
                                 break;
                             case 2://右
+                                //tvTitle.setTranslationX(left);
                                 tvTitle.setPlace(Gravity.END);
                                 break;
                         }

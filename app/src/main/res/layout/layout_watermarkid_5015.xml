@@ -21,13 +21,13 @@
             android:layout_centerInParent="true">
             <com.zhy.autolayout.AutoRelativeLayout
                 android:id="@+id/layout_init_pic"
-                android:layout_width="wrap_content"
+                android:layout_width="500px"
                 android:layout_height="wrap_content"
                 android:layout_centerInParent="true"
                 >
                 <com.zq.dynamicphoto.ui.widge.StrokeTextView
                     android:id="@+id/tv_water_title"
-                    android:layout_width="wrap_content"
+                    android:layout_width="500px"
                     android:layout_height="wrap_content"
                     android:gravity="center_horizontal"
                     android:textColor="@color/white"

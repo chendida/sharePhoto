@@ -237,4 +237,5 @@
     <string name="watermark_text_size">字体大小</string>
     <string name="watermark_text_space">文字间距</string>
     <string name="tv_default_wx_5014">wx:wgxxc6666</string>
+    <string name="tv_default_money">199</string>
 </resources>

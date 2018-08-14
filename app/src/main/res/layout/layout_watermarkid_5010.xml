@@ -21,13 +21,13 @@
             android:layout_centerInParent="true">
             <com.zhy.autolayout.AutoRelativeLayout
                 android:id="@+id/layout_init_pic"
-                android:layout_width="wrap_content"
+                android:layout_width="500px"
                 android:layout_height="wrap_content"
                 android:layout_centerInParent="true"
                 >
                 <com.zq.dynamicphoto.ui.widge.StrokeTextView
                     android:id="@+id/tv_water_title"
-                    android:layout_width="wrap_content"
+                    android:layout_width="500px"
                     android:layout_height="wrap_content"
                     android:gravity="center_horizontal"
                     android:textColor="@color/white"
@@ -39,6 +39,8 @@
                     android:id="@+id/layout_show_icon_and_wx"
                     android:layout_below="@+id/tv_water_title"
                     android:layout_width="wrap_content"
+                    android:layout_marginLeft="50px"
+                    android:layout_marginRight="50px"
                     android:layout_height="wrap_content"
                     android:layout_centerHorizontal="true">
                     <ImageView
@@ -60,7 +62,7 @@
                         android:maxLines="1"/>
                 </com.zhy.autolayout.AutoRelativeLayout>
                 <ImageView
-                    android:layout_below="@+id/layout_show_icon_and_wx"
+                    android:layout_marginTop="90px"
                     android:id="@+id/iv_head"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"

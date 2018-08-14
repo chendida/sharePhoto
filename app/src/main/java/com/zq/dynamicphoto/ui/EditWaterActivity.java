@@ -93,16 +93,18 @@ public class EditWaterActivity extends BaseActivity<ILoadView, AddWatermarkPrese
     @Override
     protected int getLayoutId() {
         String watermarkId = getIntent().getStringExtra(Constans.WATERMARKID);
-        if (watermarkId.equals(Constans.WATERMARKID_5021) ||
-                watermarkId.equals(Constans.WATERMARKID_5003)||
-                watermarkId.equals(Constans.WATERMARKID_5004)||
+        if (watermarkId.equals(Constans.WATERMARKID_5021)){
+            return R.layout.layout_watermarkid_5021;
+        }else if (watermarkId.equals(Constans.WATERMARKID_5003)){
+            return R.layout.layout_watermarkid_5003;
+        }else if (watermarkId.equals(Constans.WATERMARKID_5004)||
                 watermarkId.equals(Constans.WATERMARKID_5005)||
                 watermarkId.equals(Constans.WATERMARKID_5006)||
                 watermarkId.equals(Constans.WATERMARKID_5007)||
                 watermarkId.equals(Constans.WATERMARKID_5011)||
                 watermarkId.equals(Constans.WATERMARKID_5012)||
                 watermarkId.equals(Constans.WATERMARKID_5013)){
-            return R.layout.layout_watermarkid_5021;
+            return R.layout.layout_watermarkid_5004;
         }else if (watermarkId.equals(Constans.WATERMARKID_5010)){
             return R.layout.layout_watermarkid_5010;
         }else if (watermarkId.equals(Constans.WATERMARKID_5015)){
@@ -237,13 +239,8 @@ public class EditWaterActivity extends BaseActivity<ILoadView, AddWatermarkPrese
                     ivHead.setLayoutParams(layoutParams);
                     tvWaterTitle.changeTextSize(TypedValue.COMPLEX_UNIT_PX, 66);
                     tvWx.changeTextSize(TypedValue.COMPLEX_UNIT_PX, 40);
-                    tvWaterTitle.setWidth(ivHeadWidth);
-                    tvWx.setMaxWidth(ivHeadWidth);
                     Log.i(TAG,"ivHead width = " +ivHeadWidth+",height = " +maxHeight);
-                    return;
                 }
-                tvWaterTitle.setWidth(width);
-                tvWx.setMaxWidth(width - 50);
                 Log.i(TAG,"ivHead width = " +maxHeight+",height = " +height);
             }
         });

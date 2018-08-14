@@ -21,7 +21,7 @@
             android:layout_centerInParent="true">
             <com.zhy.autolayout.AutoRelativeLayout
                 android:id="@+id/layout_init_pic"
-                android:layout_width="500px"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_centerInParent="true"
                 >
@@ -30,16 +30,16 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_centerInParent="true"
-                    android:src="@drawable/water_5021"
+                    android:src="@drawable/water_5004"
                     />
                 <com.zhy.autolayout.AutoRelativeLayout
-                    android:layout_width="wrap_content"
+                    android:layout_width="300px"
                     android:layout_height="wrap_content"
                     android:layout_centerVertical="true"
                     android:layout_centerHorizontal="true">
                     <com.zq.dynamicphoto.ui.widge.StrokeTextView
                         android:id="@+id/tv_water_title"
-                        android:layout_width="500px"
+                        android:layout_width="300px"
                         android:layout_height="wrap_content"
                         android:textColor="@color/white"
                         android:gravity="center_horizontal"
@@ -68,7 +68,6 @@
                             android:textColor="@color/white"
                             android:layout_toRightOf="@+id/iv_water_icon"
                             android:text="@string/tv_default_wx"
-                            android:gravity="center_horizontal"
                             android:maxLines="1"/>
                     </com.zhy.autolayout.AutoRelativeLayout>
                 </com.zhy.autolayout.AutoRelativeLayout>
