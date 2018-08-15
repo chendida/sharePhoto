@@ -77,7 +77,7 @@ public class PhotoInfoActivity extends BaseActivity<IPhotoInfoView,PhotoInfoPres
     EditText etDescription;
     @BindView(R.id.layout_photo_url)
     AutoRelativeLayout layoutPhotoUrl;
-    private static String avatarUrl,twoCodeUrl;
+    private static String avatarUrl = "",twoCodeUrl = "";
     private Boolean isSelectAvatar;
     @Override
     protected int getLayoutId() {
@@ -175,15 +175,23 @@ public class PhotoInfoActivity extends BaseActivity<IPhotoInfoView,PhotoInfoPres
     }
 
     private void uploadImages() {
-        if (twoCodeUrl.startsWith("http") && avatarUrl.startsWith("http")){
-            editPhotoInfo();
-        }else if (avatarUrl.startsWith("http") && !twoCodeUrl.startsWith("http")){
-            compressImage(twoCodeUrl,9);
-        }else if (!avatarUrl.startsWith("http") && twoCodeUrl.startsWith("http")){
-            compressImage(avatarUrl,4);
+        if (!TextUtils.isEmpty(twoCodeUrl)) {
+            if (twoCodeUrl.startsWith("http") && avatarUrl.startsWith("http")) {
+                editPhotoInfo();
+            } else if (avatarUrl.startsWith("http") && !twoCodeUrl.startsWith("http")) {
+                compressImage(twoCodeUrl, 9);
+            } else if (!avatarUrl.startsWith("http") && twoCodeUrl.startsWith("http")) {
+                compressImage(avatarUrl, 4);
+            } else {
+                compressImage(avatarUrl, 4);
+                compressImage(twoCodeUrl, 9);
+            }
         }else {
-            compressImage(avatarUrl,4);
-            compressImage(twoCodeUrl,9);
+            if (avatarUrl.startsWith("http")){
+                editPhotoInfo();
+            }else {
+                compressImage(avatarUrl, 4);
+            }
         }
     }
 

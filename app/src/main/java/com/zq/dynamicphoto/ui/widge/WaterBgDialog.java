@@ -23,19 +23,23 @@ public class WaterBgDialog extends Dialog implements View.OnClickListener {
     private String title,fuction1,fuction2;
     private WatermarkSeekBarListener mListener;
     private OnItemClickListener mBgColorListener;
+    private int alpha,corner;
     public WaterBgDialog(@NonNull Activity context) {
         super(context);
         this.mContext = context;
     }
 
     public WaterBgDialog(@NonNull Activity context, int themeResId,String title,
-                         String fuction1,String fuction2,WatermarkSeekBarListener listener,
+                         String fuction1,String fuction2,int alpha,int corner,
+                         WatermarkSeekBarListener listener,
                          OnItemClickListener mBgColorListener) {
         super(context, themeResId);
         this.mContext = context;
         this.title = title;
         this.fuction1 = fuction1;
         this.fuction2 = fuction2;
+        this.alpha = alpha;
+        this.corner = corner;
         this.mListener = listener;
         this.mBgColorListener = mBgColorListener;
     }
@@ -98,8 +102,9 @@ public class WaterBgDialog extends Dialog implements View.OnClickListener {
         tv2.setText(fuction2);
         SeekBar seekBarAlpha = findViewById(R.id.seek_bar_num);
         seekBarAlpha.setMax(255);
-        seekBarAlpha.setProgress(255);
+        seekBarAlpha.setProgress(alpha);
         SeekBar seekBarCorner = findViewById(R.id.seek_bar_space);
+        seekBarCorner.setProgress(corner*2);
         seekBarAlpha.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
             @Override
             public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {

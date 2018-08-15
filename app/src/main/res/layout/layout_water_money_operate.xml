@@ -113,15 +113,24 @@
     </com.zhy.autolayout.AutoRelativeLayout>
 
     <com.zhy.autolayout.AutoRelativeLayout
-        android:id="@+id/layout_water_title"
+        android:id="@+id/layout_et_title1"
         android:layout_marginTop="34px"
         android:layout_width="match_parent"
         android:layout_height="95px"
         android:layout_marginLeft="18px"
         android:background="@color/white"
         android:layout_marginRight="18px">
+        <CheckBox
+            android:layout_marginLeft="18px"
+            android:id="@+id/check_title1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:button="@drawable/select_water_setting"
+            android:checked="true"
+            />
         <TextView
-            android:id="@+id/tv_water_title_hint"
+            android:id="@+id/tv_title1_hint"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textColor="@color/tv_text_color9"
@@ -137,14 +146,14 @@
             android:layout_marginRight="18px"
             android:src="@drawable/right_go"/>
         <com.zhy.autolayout.AutoRelativeLayout
-            android:layout_toRightOf="@+id/tv_water_title_hint"
+            android:layout_toRightOf="@+id/tv_title1_hint"
             android:layout_marginLeft="200px"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_toLeftOf="@+id/title_right"
             android:layout_marginRight="20px">
             <TextView
-                android:id="@+id/tv_water_mark_title"
+                android:id="@+id/et_title1"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentRight="true"
@@ -157,15 +166,25 @@
     </com.zhy.autolayout.AutoRelativeLayout>
 
     <com.zhy.autolayout.AutoRelativeLayout
-        android:id="@+id/layout_second_title"
+        android:visibility="gone"
+        android:id="@+id/layout_et_title2"
         android:layout_width="match_parent"
         android:layout_height="95px"
         android:layout_marginTop="2px"
         android:layout_marginLeft="18px"
         android:background="@color/white"
         android:layout_marginRight="18px">
+        <CheckBox
+            android:layout_marginLeft="18px"
+            android:id="@+id/check_title2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:button="@drawable/select_water_setting"
+            android:checked="true"
+            />
         <TextView
-            android:id="@+id/tv_second_title_hint"
+            android:id="@+id/tv_title2_hint"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textColor="@color/tv_text_color9"
@@ -181,14 +200,14 @@
             android:layout_marginRight="18px"
             android:src="@drawable/right_go"/>
         <com.zhy.autolayout.AutoRelativeLayout
-            android:layout_toRightOf="@+id/tv_second_title_hint"
+            android:layout_toRightOf="@+id/tv_title2_hint"
             android:layout_marginLeft="200px"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_toLeftOf="@+id/title_right"
+            android:layout_toLeftOf="@+id/title_second_right"
             android:layout_marginRight="20px">
             <TextView
-                android:id="@+id/tv_water_second_title"
+                android:id="@+id/et_title2"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentRight="true"
@@ -201,15 +220,25 @@
     </com.zhy.autolayout.AutoRelativeLayout>
 
     <com.zhy.autolayout.AutoRelativeLayout
-        android:id="@+id/layout_three_title"
+        android:visibility="gone"
+        android:id="@+id/layout_et_title3"
         android:layout_width="match_parent"
         android:layout_height="95px"
         android:layout_marginTop="2px"
         android:layout_marginLeft="18px"
         android:background="@color/white"
         android:layout_marginRight="18px">
+        <CheckBox
+            android:layout_marginLeft="18px"
+            android:id="@+id/check_title3"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:button="@drawable/select_water_setting"
+            android:checked="true"
+            />
         <TextView
-            android:id="@+id/tv_three_title_hint"
+            android:id="@+id/tv_title3_hint"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textColor="@color/tv_text_color9"
@@ -225,14 +254,14 @@
             android:layout_marginRight="18px"
             android:src="@drawable/right_go"/>
         <com.zhy.autolayout.AutoRelativeLayout
-            android:layout_toRightOf="@+id/tv_three_title_hint"
+            android:layout_toRightOf="@+id/tv_title3_hint"
             android:layout_marginLeft="200px"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_toLeftOf="@+id/title_right"
+            android:layout_toLeftOf="@+id/title_three_right"
             android:layout_marginRight="20px">
             <TextView
-                android:id="@+id/tv_water_three_title"
+                android:id="@+id/et_title3"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentRight="true"
@@ -245,15 +274,25 @@
     </com.zhy.autolayout.AutoRelativeLayout>
 
     <com.zhy.autolayout.AutoRelativeLayout
-        android:id="@+id/layout_four_title"
+        android:visibility="gone"
+        android:id="@+id/layout_et_title4"
         android:layout_width="match_parent"
         android:layout_height="95px"
         android:layout_marginTop="2px"
         android:layout_marginLeft="18px"
         android:background="@color/white"
         android:layout_marginRight="18px">
+        <CheckBox
+            android:layout_marginLeft="18px"
+            android:id="@+id/check_title4"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:button="@drawable/select_water_setting"
+            android:checked="true"
+            />
         <TextView
-            android:id="@+id/tv_four_title_hint"
+            android:id="@+id/tv_title4_hint"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textColor="@color/tv_text_color9"
@@ -269,14 +308,14 @@
             android:layout_marginRight="18px"
             android:src="@drawable/right_go"/>
         <com.zhy.autolayout.AutoRelativeLayout
-            android:layout_toRightOf="@+id/tv_four_title_hint"
+            android:layout_toRightOf="@+id/tv_title4_hint"
             android:layout_marginLeft="200px"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_toLeftOf="@+id/title_right"
+            android:layout_toLeftOf="@+id/title_four_right"
             android:layout_marginRight="20px">
             <TextView
-                android:id="@+id/tv_water_four_title"
+                android:id="@+id/et_title4"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentRight="true"

@@ -72,9 +72,13 @@ public class TextFontDialog extends Dialog implements View.OnClickListener{
         SeekBar seekBarTextSpace = findViewById(R.id.seek_bar_space);
         if (size < 101) {
             seekBarTextSize.setProgress(size);
+        }else {
+            seekBarTextSize.setProgress(100);
         }
         if (space < 101){
             seekBarTextSpace.setProgress(space);
+        }else {
+            seekBarTextSpace.setProgress(100);
         }
         seekBarTextSize.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
             @Override

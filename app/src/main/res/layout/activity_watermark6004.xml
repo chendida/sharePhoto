@@ -37,7 +37,7 @@
                             android:id="@+id/iv_head"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:src="@drawable/water_6003"
+                            android:src="@drawable/water_6004"
                             android:layout_centerHorizontal="true"
                             android:layout_centerVertical="true"/>
                         <ImageView
@@ -47,14 +47,14 @@
                             android:layout_height="wrap_content" />
                         <com.zq.dynamicphoto.ui.widge.StrokeTextView
                             android:id="@+id/tv_title1"
-                            android:layout_width="180px"
-                            android:layout_centerHorizontal="true"
-                            android:layout_height="wrap_content"
-                            android:gravity="center_horizontal"
-                            android:layout_marginTop="80px"
-                            android:textColor="@color/white"
-                            android:textSize="14sp"
-                            android:text="@string/tv_happy"
+                            android:layout_width="160px"
+                            android:layout_height="160px"
+                            android:layout_marginTop="170px"
+                            android:layout_marginLeft="60px"
+                            android:textColor="@color/black"
+                            android:textSize="40sp"
+                            android:text="@string/tv_fu"
+                            android:gravity="center"
                             android:maxLines="1"
                             />
                         <com.zq.dynamicphoto.ui.widge.StrokeTextView
@@ -68,6 +68,7 @@
                             android:textSize="32sp"
                             android:text="@string/tv_new"
                             android:maxLines="1"
+                            android:visibility="gone"
                             />
                         <com.zq.dynamicphoto.ui.widge.StrokeTextView
                             android:id="@+id/tv_title3"
@@ -80,6 +81,7 @@
                             android:textSize="32sp"
                             android:text="@string/tv_year"
                             android:maxLines="1"
+                            android:visibility="gone"
                             />
                         <com.zq.dynamicphoto.ui.widge.StrokeTextView
                             android:id="@+id/tv_title4"
@@ -92,6 +94,7 @@
                             android:textSize="12sp"
                             android:text="@string/tv_hello_2018"
                             android:maxLines="1"
+                            android:visibility="gone"
                             />
                     </com.zhy.autolayout.AutoRelativeLayout>
                 </com.zhy.autolayout.AutoRelativeLayout>

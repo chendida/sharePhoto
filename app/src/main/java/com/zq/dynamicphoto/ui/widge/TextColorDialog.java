@@ -20,17 +20,19 @@ public class TextColorDialog extends Dialog implements View.OnClickListener {
     private Activity mContext;
     private WatermarkSeekBarListener listener;
     private OnItemClickListener mTextColorListener;
+    private int alpha;
     public TextColorDialog(@NonNull Activity context) {
         super(context);
         this.mContext = context;
     }
 
-    public TextColorDialog(@NonNull Activity context, int themeResId,
+    public TextColorDialog(@NonNull Activity context, int themeResId,int alpha,
                            WatermarkSeekBarListener listener,OnItemClickListener colorListener) {
         super(context, themeResId);
         this.mContext = context;
         this.listener = listener;
         this.mTextColorListener = colorListener;
+        this.alpha = alpha;
     }
 
     protected TextColorDialog(@NonNull Activity context, boolean cancelable, @Nullable OnCancelListener cancelListener) {
@@ -84,7 +86,7 @@ public class TextColorDialog extends Dialog implements View.OnClickListener {
         findViewById(R.id.iv_water_color025).setOnClickListener(this);
         SeekBar seekBarAlpha = findViewById(R.id.seek_bar_alpha);
         seekBarAlpha.setMax(255);
-        seekBarAlpha.setProgress(255);
+        seekBarAlpha.setProgress(alpha);
         seekBarAlpha.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
             @Override
             public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {

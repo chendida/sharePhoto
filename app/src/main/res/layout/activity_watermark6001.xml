@@ -33,54 +33,60 @@
                         android:layout_centerInParent="true"
                         >
                         <ImageView
-                            android:layout_marginTop="90px"
+                            android:layout_marginTop="1px"
                             android:id="@+id/iv_head"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:src="@drawable/water_6003"
+                            android:src="@drawable/water_top_6001"
                             android:layout_centerHorizontal="true"
-                            android:layout_centerVertical="true"/>
+                            />
+                        <com.zhy.autolayout.AutoLinearLayout
+                            android:layout_below="@+id/iv_head"
+                            android:id="@+id/layout_text"
+                            android:layout_width="wrap_content"
+                            android:orientation="vertical"
+                            android:layout_height="160px"
+                            android:gravity="center_horizontal">
+                            <com.zq.dynamicphoto.ui.widge.StrokeTextView
+                                android:id="@+id/tv_title1"
+                                android:layout_width="120px"
+                                android:layout_height="wrap_content"
+                                android:gravity="center_horizontal"
+                                android:textColor="@color/text_watermarkid_6001_color"
+                                android:textSize="20sp"
+                                android:text="@string/tv_default_years"
+                                android:maxLines="1"
+                                />
+                            <com.zq.dynamicphoto.ui.widge.StrokeTextView
+                                android:layout_below="@+id/tv_title1"
+                                android:id="@+id/tv_title2"
+                                android:layout_width="120px"
+                                android:layout_height="wrap_content"
+                                android:gravity="center_horizontal"
+                                android:textColor="@color/text_watermarkid_6001_color"
+                                android:textSize="20sp"
+                                android:text="@string/tv_gonghe"
+                                android:maxLines="1"
+                                />
+                            <com.zq.dynamicphoto.ui.widge.StrokeTextView
+                                android:id="@+id/tv_title3"
+                                android:layout_width="120px"
+                                android:layout_height="wrap_content"
+                                android:layout_below="@+id/tv_title2"
+                                android:gravity="center_horizontal"
+                                android:textColor="@color/text_watermarkid_6001_color"
+                                android:textSize="20sp"
+                                android:text="@string/tv_xinxi"
+                                android:maxLines="1"
+                                />
+                        </com.zhy.autolayout.AutoLinearLayout>
                         <ImageView
                             android:id="@+id/iv_head1"
-                            android:visibility="gone"
                             android:layout_width="wrap_content"
-                            android:layout_height="wrap_content" />
-                        <com.zq.dynamicphoto.ui.widge.StrokeTextView
-                            android:id="@+id/tv_title1"
-                            android:layout_width="180px"
-                            android:layout_centerHorizontal="true"
                             android:layout_height="wrap_content"
-                            android:gravity="center_horizontal"
-                            android:layout_marginTop="80px"
-                            android:textColor="@color/white"
-                            android:textSize="14sp"
-                            android:text="@string/tv_happy"
-                            android:maxLines="1"
-                            />
-                        <com.zq.dynamicphoto.ui.widge.StrokeTextView
-                            android:id="@+id/tv_title2"
-                            android:layout_below="@+id/tv_title1"
-                            android:layout_width="200px"
+                            android:layout_below="@+id/layout_text"
                             android:layout_centerHorizontal="true"
-                            android:layout_height="wrap_content"
-                            android:gravity="center_horizontal"
-                            android:textColor="@color/white"
-                            android:textSize="32sp"
-                            android:text="@string/tv_new"
-                            android:maxLines="1"
-                            />
-                        <com.zq.dynamicphoto.ui.widge.StrokeTextView
-                            android:id="@+id/tv_title3"
-                            android:layout_below="@+id/tv_title2"
-                            android:layout_width="200px"
-                            android:layout_centerHorizontal="true"
-                            android:layout_height="wrap_content"
-                            android:gravity="center_horizontal"
-                            android:textColor="@color/white"
-                            android:textSize="32sp"
-                            android:text="@string/tv_year"
-                            android:maxLines="1"
-                            />
+                            android:src="@drawable/water_bottom_6001"/>
                         <com.zq.dynamicphoto.ui.widge.StrokeTextView
                             android:id="@+id/tv_title4"
                             android:layout_below="@+id/tv_title3"
@@ -92,6 +98,7 @@
                             android:textSize="12sp"
                             android:text="@string/tv_hello_2018"
                             android:maxLines="1"
+                            android:visibility="gone"
                             />
                     </com.zhy.autolayout.AutoRelativeLayout>
                 </com.zhy.autolayout.AutoRelativeLayout>

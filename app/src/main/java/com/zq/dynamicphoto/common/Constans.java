@@ -64,6 +64,18 @@ public class Constans {
     public static String WATERMARKID_5012 = "5012";
     public static String WATERMARKID_5013 = "5013";
 
+    public static String WATERMARKID_6001 = "6001";
+    public static String WATERMARKID_6002 = "6002";
+    public static String WATERMARKID_6003 = "6003";
+    public static String WATERMARKID_6004 = "6004";
+    public static String WATERMARKID_6005 = "6005";
+    public static String WATERMARKID_6006 = "6006";
+    public static String WATERMARKID_6007 = "6007";
+    public static String WATERMARKID_6008 = "6008";
+    public static String WATERMARKID_6009 = "6009";
+    public static String WATERMARKID_6010 = "6010";
+    public static String WATERMARKID_6011 = "6011";
+
     public static Integer REQUEST_OK = 0;
     public static Integer REQUEST_LOIGN_ERROR = -4;//登录时手机号或密码错误
 

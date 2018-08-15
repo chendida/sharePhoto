@@ -238,4 +238,19 @@
     <string name="watermark_text_space">文字间距</string>
     <string name="tv_default_wx_5014">wx:wgxxc6666</string>
     <string name="tv_default_money">199</string>
+    <string name="tv_happy">HAPPY</string>
+    <string name="tv_new">NEW</string>
+    <string name="tv_year">YEAR</string>
+    <string name="tv_hello_2018">HELLO 2018</string>
+    <string name="tv_default_years">2018</string>
+    <string name="tv_gonghe">恭贺</string>
+    <string name="tv_xinxi">新禧</string>
+    <string name="tv_256">256</string>
+    <string name="tv_yishouqin">已售罄</string>
+    <string name="tv_sold">sold</string>
+    <string name="tv_fu">福</string>
+    <string name="input_text">输入文字</string>
+    <string name="xianjia">现价：</string>
+    <string name="yuanjia">原价：</string>
+    <string name="phone_input">请输入</string>
 </resources>

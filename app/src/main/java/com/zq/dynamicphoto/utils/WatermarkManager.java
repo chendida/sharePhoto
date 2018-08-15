@@ -4,6 +4,7 @@ import android.annotation.TargetApi;
 import android.app.Dialog;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
+import android.graphics.Color;
 import android.graphics.Matrix;
 import android.graphics.Outline;
 import android.graphics.Paint;
@@ -47,19 +48,16 @@ import com.zq.dynamicphoto.view.WatermarkSeekBarListener;
 public class WatermarkManager implements WatermarkSeekBarListener{
     private static final String TAG = "WatermarkManager";
     private static WatermarkManager instance;
-    private WaterIconDialog waterIconDialog;
-    private FullScreenWatermarkDialog fullScreenWatermarkDialog;
-    private WaterBgDialog waterBgDialog;
-    private WholeColorEditDialog colorEditDialog;
-    private TextAlignDialog textAlignDialog;
-    private TextOutlineDialog titleOutlineDialog;
-    private TextOutlineDialog secondTitleOutlineDialog;
     private int editTitleType = 1;//1表示编辑第一标题，2表示编辑第二标题
     private int default_screen_num = 1;//默认的全屏水印的数量是2*2
     private int default_watermark_space = 0;//默认的全屏水印的间距
     private int position = 0;//保存水印背景颜色色值
     private int titleOutlinePosition = 0;//保存第一标题描边颜色
     private int secondTitleOutlinePosition = 0;//保存第二标题描边颜色
+    private int color_index_title1 = 0;//第一标题颜色
+    private int color_index_title2 = 0;//第二标题颜色
+    private int color_alpha_title1 = 255;//第一标题颜色透明度
+    private int color_alpha_title2 = 255;//第二标题颜色透明度
     private int round = 0;//默认圆角值
     private String watermarkTitle = "微商云管家";
     private float degree = 1.0f;//第一标题描边宽度
@@ -86,6 +84,7 @@ public class WatermarkManager implements WatermarkSeekBarListener{
     private Boolean titleBgIsOpen = false;//第一标题背景开关状态
     private Boolean secondTitleOutlineIsOpen = false;//第二标题描边开关状态
     private Boolean secondTitleBgIsOpen = false;//第二标题背景开关状态
+
     public int getDefault_watermark_space() {
         return default_watermark_space;
     }
@@ -160,7 +159,11 @@ public class WatermarkManager implements WatermarkSeekBarListener{
                         }
                         break;
                     case 2://文字颜色修改
-                        showTextColorDialog(type);
+                        if (type == 1) {
+                            showTextColorDialog(type,color_alpha_title1);
+                        }else {
+                            showTextColorDialog(type,color_alpha_title2);
+                        }
                         break;
                     case 3://文字对齐或者更换图标弹窗
                         if (type == 1){
@@ -346,7 +349,6 @@ public class WatermarkManager implements WatermarkSeekBarListener{
                 new TextAlignDialog.OnItemClickListener() {
                     @Override
                     public void onClick(Dialog dialog, int position) {
-                        int left = tvTitle.getLeft();
                         switch (position){
                             case 0://左
                                 //tvTitle.setTranslationX(-left);
@@ -385,8 +387,8 @@ public class WatermarkManager implements WatermarkSeekBarListener{
     /**
      * 展示改变文字颜色的弹窗
      */
-    private void showTextColorDialog(final int type) {
-        new TextColorDialog(mContext, R.style.dialog, this,
+    private void showTextColorDialog(final int type,int alpha) {
+        new TextColorDialog(mContext, R.style.dialog, alpha,this,
                 new TextColorDialog.OnItemClickListener() {
                     @Override
                     public void onClick(Dialog dialog, int position) {
@@ -401,9 +403,13 @@ public class WatermarkManager implements WatermarkSeekBarListener{
     private void updateTextColor(int position,int type) {
         int color = ColorUtils.getColor(position);
         if (type == 1) {
-            tvTitle.setTextColor(color);
+            color_index_title1 = position;
+            tvTitle.setTextColor(Color.argb(color_alpha_title1,Color.red(color),
+                    Color.green(color),Color.blue(color)));
         }else {
-            tvSecondTitle.setTextColor(color);
+            color_index_title2 = position;
+            tvSecondTitle.setTextColor(Color.argb(color_alpha_title2,Color.red(color),
+                    Color.green(color),Color.blue(color)));
         }
         refreshChanged();
     }
@@ -517,21 +523,15 @@ public class WatermarkManager implements WatermarkSeekBarListener{
      * 展示图标弹窗
      */
     private void showWaterIconDialog() {
-        if (waterIconDialog == null) {
-            waterIconDialog = new WaterIconDialog(mContext, R.style.dialog,this);
-        }
-        waterIconDialog.show();
+        new WaterIconDialog(mContext, R.style.dialog,this).show();
     }
 
     /**
      * 全屏水印dialog
      */
     public void showFullScreenWatermarkDialog() {
-        if (fullScreenWatermarkDialog == null){
-            fullScreenWatermarkDialog = new FullScreenWatermarkDialog(mContext,
-                    R.style.dialog,this);
-        }
-        fullScreenWatermarkDialog.show();
+        new FullScreenWatermarkDialog(mContext,
+                R.style.dialog,default_watermark_space,default_screen_num,this).show();
     }
 
     @Override
@@ -616,7 +616,16 @@ public class WatermarkManager implements WatermarkSeekBarListener{
 
     @Override
     public void onTextAlpha(int process) {
-
+        if (editTitleType == 1){
+            color_alpha_title1 = process;
+            int color = ColorUtils.getColor(color_index_title1);
+            tvTitle.setTextColor(Color.argb(process,Color.red(color),Color.green(color),Color.blue(color)));
+        }else {
+            color_alpha_title2 = process;
+            int color = ColorUtils.getColor(color_index_title2);
+            tvSecondTitle.setTextColor(Color.argb(process,Color.red(color),Color.green(color),Color.blue(color)));
+        }
+        refreshChanged();
     }
 
     @Override
@@ -624,8 +633,6 @@ public class WatermarkManager implements WatermarkSeekBarListener{
         if (editTitleType == 1){
             degree = process / 10;
             if (isOpen) {
-                /*tvTitle.init(ColorUtils.getColor(titleOutlinePosition), degree,
-                        outLineAlpha, tvTitle.getText().toString());*/
                 setTextViewOutline(tvTitle,ColorUtils.getColor(titleOutlinePosition),degree
                     ,outLineAlpha);
                 refreshChanged();
@@ -635,8 +642,6 @@ public class WatermarkManager implements WatermarkSeekBarListener{
             if (isOpen) {
                 setTextViewOutline(tvSecondTitle,ColorUtils.getColor(secondTitleOutlinePosition),
                         secondDegree,secondOutLineAlpha);
-               /* tvSecondTitle.init(ColorUtils.getColor(secondTitleOutlinePosition), secondDegree,
-                        secondOutLineAlpha, tvSecondTitle.getText().toString());*/
                 refreshChanged();
             }
         }
@@ -654,8 +659,6 @@ public class WatermarkManager implements WatermarkSeekBarListener{
         }else {
             secondOutLineAlpha = process;
             if (isOpen) {
-                /*tvSecondTitle.init(ColorUtils.getColor(secondTitleOutlinePosition), secondDegree,
-                        secondOutLineAlpha, tvSecondTitle.getText().toString());*/
                 setTextViewOutline(tvSecondTitle,ColorUtils.getColor(secondTitleOutlinePosition),
                         secondDegree,secondOutLineAlpha);
                 refreshChanged();
@@ -764,20 +767,17 @@ public class WatermarkManager implements WatermarkSeekBarListener{
      * 显示水印背景设置弹窗
      */
     public void showWaterBgDialog() {
-        if (waterBgDialog == null) {
-            waterBgDialog = new WaterBgDialog(mContext, R.style.dialog,
-                    mContext.getResources().getString(R.string.watermark_bg),
-                    mContext.getString(R.string.watermark_alpha),
-                    mContext.getString(R.string.watermark_corner), this,
-                    new WaterBgDialog.OnItemClickListener() {
-                        @Override
-                        public void onClick(Dialog dialog, int position) {
-                            setPosition(position);
-                            updateBgColor();
-                        }
-                    });
-        }
-        waterBgDialog.show();
+        new WaterBgDialog(mContext, R.style.dialog,
+                mContext.getResources().getString(R.string.watermark_bg),
+                mContext.getString(R.string.watermark_alpha),
+                mContext.getString(R.string.watermark_corner),bgAlpha,round, this,
+                new WaterBgDialog.OnItemClickListener() {
+                    @Override
+                    public void onClick(Dialog dialog, int position) {
+                        setPosition(position);
+                        updateBgColor();
+                    }
+                }).show();
     }
 
     /**

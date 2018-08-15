@@ -71,4 +71,6 @@
     <color name="alpha">#00ffffff</color>
     <color name="text_watermarkid_5007_color">#f077ab</color>
     <color name="text_watermarkid_5009_color">#ff7ca4</color>
+    <color name="text_watermarkid_6001_color">#f13c16</color>
+    <color name="text_watermarkid_6002_color">#e4d52e</color>
 </resources>
