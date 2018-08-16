@@ -32,20 +32,27 @@
                         android:layout_height="wrap_content"
                         android:layout_centerInParent="true"
                         >
-                        <ImageView
-                            android:id="@+id/iv_head"
-                            android:layout_width="150px"
-                            android:layout_height="150px"
-                            android:src="@drawable/water_top_7004"
-                            android:layout_centerHorizontal="true"
-                            />
+                        <com.zhy.autolayout.AutoRelativeLayout
+                            android:id="@+id/layout_avatar_frame"
+                            android:layout_width="158px"
+                            android:layout_height="158px"
+                            android:layout_centerHorizontal="true">
+                            <ImageView
+                                android:id="@+id/iv_head"
+                                android:layout_width="150px"
+                                android:layout_height="150px"
+                                android:src="@drawable/water_top_7004"
+                                android:layout_centerHorizontal="true"
+                                android:layout_centerVertical="true"
+                                />
+                        </com.zhy.autolayout.AutoRelativeLayout>
                         <com.zq.dynamicphoto.ui.widge.StrokeTextView
                             android:id="@+id/tv_title1"
                             android:layout_width="500px"
                             android:layout_centerHorizontal="true"
                             android:layout_height="wrap_content"
                             android:gravity="center_horizontal"
-                            android:layout_below="@+id/iv_head"
+                            android:layout_below="@+id/layout_avatar_frame"
                             android:textColor="@color/white"
                             android:textSize="40sp"
                             android:text="@string/tv_default_app_name"

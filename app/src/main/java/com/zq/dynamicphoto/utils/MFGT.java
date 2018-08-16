@@ -3,6 +3,8 @@ package com.zq.dynamicphoto.utils;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.drawable.Drawable;
+import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
 
 import com.zq.dynamicphoto.bean.Dynamic;
@@ -38,10 +40,12 @@ import com.zq.dynamicphoto.ui.PhotoSelectActivity;
 import com.zq.dynamicphoto.ui.ProblemAndFeedbackActivity;
 import com.zq.dynamicphoto.ui.RecommendActivity;
 import com.zq.dynamicphoto.ui.ResetPwdActivity;
+import com.zq.dynamicphoto.ui.UploadWaterAvatarActivity;
 import com.zq.dynamicphoto.ui.VideoPlayActivity;
 import com.zq.dynamicphoto.ui.WaterStyleActivity;
 import com.zq.dynamicphoto.ui.Watermark5009Activity;
 import com.zq.dynamicphoto.ui.WatermarkActivity;
+import com.zq.dynamicphoto.view.UploadView;
 
 import java.util.ArrayList;
 
@@ -211,5 +215,15 @@ public class MFGT {
     public static void gotoRecommendActivity(Activity activity, String watermarkId) {
         activity.startActivity(new Intent(activity, RecommendActivity.class)
                 .putExtra(Constans.WATERMARKID,watermarkId));
+    }
+
+    public static void gotoUploadWaterAvatarActivity(Activity activity, String watermarkId,Boolean isChange,
+                                                     int type,String avatarPath) {
+        activity.startActivityForResult(new Intent(activity, UploadWaterAvatarActivity.class)
+                .putExtra(Constans.WATERMARKID,watermarkId)
+                .putExtra(Constans.AVATAR_CHANGE,isChange)
+                .putExtra(Constans.FRAME_TYPE,type)
+                .putExtra(Constans.AVATAR_PATH,avatarPath)
+                ,Constans.REQUEST_CODE);
     }
 }

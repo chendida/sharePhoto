@@ -77,8 +77,14 @@ public class Constans {
     public static String WATERMARKID_6011 = "6011";
 
     public static String WATERMARKID_7004 = "7004";
-
+    public static String DRAWABLE = "drawable";
     public static Integer REQUEST_OK = 0;
+    public static int REQUEST_CODE = 1001;
+    public static int RESULT_CODE = 1008;
+    public static String AVATAR_CHANGE = "avatar_change";
+    public static String AVATAR_PATH = "avatar_path";
+    public static String FRAME_TYPE = "frame_type";
+
     public static Integer REQUEST_LOIGN_ERROR = -4;//登录时手机号或密码错误
 
     public static final int SDK_APPID = 1400087984;

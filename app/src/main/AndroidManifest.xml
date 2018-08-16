@@ -173,7 +173,8 @@
         <activity android:name=".ui.EditWaterActivity" />
         <activity android:name=".ui.Watermark5009Activity" />
         <activity android:name=".ui.MoneyWatermarkActivity" />
-        <activity android:name=".ui.RecommendActivity"></activity>
+        <activity android:name=".ui.RecommendActivity" />
+        <activity android:name=".ui.UploadWaterAvatarActivity"></activity>
     </application>
 
 </manifest>

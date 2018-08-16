@@ -254,4 +254,8 @@
     <string name="yuanjia">原价：</string>
     <string name="phone_input">请输入</string>
     <string name="tv_avater">头像</string>
+    <string name="tv_click_upload">点击上传</string>
+    <string name="tv_circle">圆形</string>
+    <string name="tv_frame">边框</string>
+    <string name="tv_shadow">阴影</string>
 </resources>

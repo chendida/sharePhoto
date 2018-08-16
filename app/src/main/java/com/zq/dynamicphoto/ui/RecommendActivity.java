@@ -1,5 +1,6 @@
 package com.zq.dynamicphoto.ui;
 
+import android.content.Intent;
 import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
@@ -8,18 +9,16 @@ import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.ImageView;
 import android.widget.TextView;
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.request.RequestOptions;
 import com.zhy.autolayout.AutoRelativeLayout;
 import com.zq.dynamicphoto.R;
 import com.zq.dynamicphoto.base.BaseActivity;
 import com.zq.dynamicphoto.base.BasePresenter;
 import com.zq.dynamicphoto.common.Constans;
 import com.zq.dynamicphoto.ui.widge.StrokeTextView;
-import com.zq.dynamicphoto.utils.WatermarkManager;
-import com.zq.dynamicphoto.utils.WatermarkMoneyManager;
+import com.zq.dynamicphoto.utils.MFGT;
 import com.zq.dynamicphoto.utils.WatermarkRecommedManager;
-
-import org.greenrobot.eventbus.EventBus;
-
 import butterknife.BindView;
 import butterknife.OnClick;
 
@@ -47,6 +46,8 @@ public class RecommendActivity extends BaseActivity {
     AutoRelativeLayout layoutInitPic;
     @BindView(R.id.layout_whole_water_content)
     AutoRelativeLayout layoutWholeWaterContent;
+    @BindView(R.id.layout_avatar_frame)
+    AutoRelativeLayout layoutAvatarFrame;
     @BindView(R.id.layout_wx_and_icon)
     AutoRelativeLayout layoutWxAndIcon;
     @BindView(R.id.check_full_watermark)
@@ -67,6 +68,11 @@ public class RecommendActivity extends BaseActivity {
     int realHeight = 0;
     int realWidth = 0;
     String watermarkId;
+    RequestOptions options = new RequestOptions()
+            .circleCrop();
+    private Boolean isChange = false;//是否更换过头像
+    private String avatarPath = "";//图片路径
+    private int frameType = 1;//默认的是不加边框是圆形
     @Override
     protected int getLayoutId() {
         watermarkId = getIntent().getStringExtra(Constans.WATERMARKID);
@@ -220,6 +226,7 @@ public class RecommendActivity extends BaseActivity {
                 WatermarkRecommedManager.getInstance().showWaterBgDialog();
                 break;
             case R.id.layout_et_title1:
+                MFGT.gotoUploadWaterAvatarActivity(this,watermarkId,isChange,frameType,avatarPath);
                 break;
             case R.id.layout_et_title2:
                 WatermarkRecommedManager.getInstance().showTextEditDialog(1);
@@ -230,5 +237,75 @@ public class RecommendActivity extends BaseActivity {
                 WatermarkRecommedManager.getInstance().showTextEditDialog(2);
                 break;
         }
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == Constans.REQUEST_CODE){
+            if (resultCode == Constans.RESULT_CODE){
+                isChange = data.getBooleanExtra(Constans.AVATAR_CHANGE, false);
+                frameType = data.getIntExtra(Constans.FRAME_TYPE, 0);
+                avatarPath = data.getStringExtra(Constans.AVATAR_PATH);
+                Log.i(TAG,"frameType = " + frameType);
+                if (!isChange){//图片没变
+                    if (frameType == 2){
+                        layoutAvatarFrame.setBackground(getResources().getDrawable(R.drawable.shape_square_shadow));
+                    }else if (frameType == 3){
+                        layoutAvatarFrame.setBackground(getResources().getDrawable(R.drawable.shape_circle_shadow));
+                    }else {
+                        layoutAvatarFrame.setBackground(null);
+                    }
+                }else {//图片变化
+                    if (frameType == 0){
+                        loadSquare(avatarPath);
+                    }else if (frameType == 1){
+                        loadCirclePic(avatarPath);
+                    }else if (frameType == 2){
+                        loadSquareAndShadow(avatarPath);
+                    }else if (frameType == 3){
+                        loadCirclePicAndShadow(avatarPath);
+                    }
+                }
+            }
+        }
+    }
+
+    /**
+     * 单纯的处理图片成圆形显示，不加边框
+     * @param path
+     */
+    private void loadCirclePic(String path){
+        Glide.with(this).load(path).apply(options).into(ivHead);
+        Glide.with(this).load(path).into(ivAvatar);
+        layoutAvatarFrame.setBackground(null);
+    }
+    /**
+     * 处理图片成圆形显示并加边框
+     * @param path
+     */
+    private void loadCirclePicAndShadow(String path){
+        Glide.with(this).load(path).apply(options).into(ivHead);
+        Glide.with(this).load(path).into(ivAvatar);
+        layoutAvatarFrame.setBackground(getResources().getDrawable(R.drawable.shape_circle_shadow));
+    }
+
+    /**
+     * 单纯的处理图片成正方形显示，不加边框
+     * @param path
+     */
+    private void loadSquare(String path){
+        Glide.with(this).load(path).into(ivHead);
+        Glide.with(this).load(path).into(ivAvatar);
+        layoutAvatarFrame.setBackground(null);
+    }
+    /**
+     * 处理图片成正方形显示并加边框
+     * @param path
+     */
+    private void loadSquareAndShadow(String path){
+        Glide.with(this).load(path).into(ivHead);
+        Glide.with(this).load(path).into(ivAvatar);
+        layoutAvatarFrame.setBackground(getResources().getDrawable(R.drawable.shape_square_shadow));
     }
 }
