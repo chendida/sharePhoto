@@ -33,6 +33,7 @@ public class WaterTitleDialog extends Dialog implements View.OnClickListener {
     private AutoRelativeLayout layoutTranslation;
     private OnItemClickListener mListener;
     private EditText etContent;
+    private Boolean flag;
     private int type;
     private CheckBox checkBoxOutline,checkBoxBg;
     private Boolean outlineIsOpen,bgIsOpen;
@@ -42,13 +43,14 @@ public class WaterTitleDialog extends Dialog implements View.OnClickListener {
     }
 
     public WaterTitleDialog(@NonNull Activity context, int themeResId,
-                            String content,OnItemClickListener listener,int type,
+                            String content,OnItemClickListener listener,Boolean flag,int type,
                             Boolean outlineIsOpen,Boolean bgIsOpen) {
         super(context, themeResId);
         this.mContext = context;
         this.content = content;
         this.mListener = listener;
         this.type = type;
+        this.flag = flag;
         this.outlineIsOpen = outlineIsOpen;
         this.bgIsOpen = bgIsOpen;
     }
@@ -81,7 +83,7 @@ public class WaterTitleDialog extends Dialog implements View.OnClickListener {
         checkBoxBg.setChecked(bgIsOpen);
         layoutTranslation = findViewById(R.id.layout_translation);
         TextView textView = findViewById(R.id.tv_align);
-        if (type == 2){//表示图标
+        if (flag && type == 2){//表示显示图标
             textView.setText(mContext.getResources().getString(R.string.tv_icon));
         }
         findViewById(R.id.layout_cancel).setOnClickListener(this);

@@ -194,7 +194,7 @@ public class WatermarkManager implements WatermarkSeekBarListener{
                         break;
                 }
             }
-        },type,outlineStatus,bgStatus).show();
+        },true,type,outlineStatus,bgStatus).show();
     }
 
     /**

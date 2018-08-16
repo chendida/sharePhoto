@@ -119,6 +119,7 @@ public class Watermark5009Activity extends BaseActivity <ILoadView, AddWatermark
         tvFinish.setText(getResources().getString(R.string.create_water));
         tvWaterTitle.setText(watermarkTitle, TextView.BufferType.SPANNABLE);
         tvWatermarkTitle.setText(watermarkTitle);
+        tvWx.setText(getResources().getString(R.string.tv_default_wx));
         tvFinish.setTextColor(getResources().getColor(R.color.tv_text_color7));
         //增加整体布局监听
         setLayoutListener();

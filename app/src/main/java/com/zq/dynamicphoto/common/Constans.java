@@ -76,6 +76,8 @@ public class Constans {
     public static String WATERMARKID_6010 = "6010";
     public static String WATERMARKID_6011 = "6011";
 
+    public static String WATERMARKID_7004 = "7004";
+
     public static Integer REQUEST_OK = 0;
     public static Integer REQUEST_LOIGN_ERROR = -4;//登录时手机号或密码错误
 

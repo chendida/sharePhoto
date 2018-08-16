@@ -172,7 +172,8 @@
         <activity android:name=".mylive.ui.LiveActivity" />
         <activity android:name=".ui.EditWaterActivity" />
         <activity android:name=".ui.Watermark5009Activity" />
-        <activity android:name=".ui.MoneyWatermarkActivity"></activity>
+        <activity android:name=".ui.MoneyWatermarkActivity" />
+        <activity android:name=".ui.RecommendActivity"></activity>
     </application>
 
 </manifest>

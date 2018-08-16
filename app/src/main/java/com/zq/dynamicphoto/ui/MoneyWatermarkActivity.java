@@ -168,6 +168,10 @@ public class MoneyWatermarkActivity extends BaseActivity<ILoadView, AddWatermark
 
     private void updateView() {
         if (watermarkId.equals(Constans.WATERMARKID_6003)) {
+            tvTitle1.setText(getResources().getString(R.string.tv_happy));
+            tvTitle2.setText(getResources().getString(R.string.tv_new));
+            tvTitle3.setText(getResources().getString(R.string.tv_year));
+            tvTitle4.setText(getResources().getString(R.string.tv_hello_2018));
             etTitle1.setText(getResources().getString(R.string.tv_happy));
             etTitle2.setText(getResources().getString(R.string.tv_new));
             etTitle3.setText(getResources().getString(R.string.tv_year));
@@ -189,20 +193,27 @@ public class MoneyWatermarkActivity extends BaseActivity<ILoadView, AddWatermark
             checkTitle1.setVisibility(View.GONE);
             tvTitle1Hint.setText(getResources().getString(R.string.input_text));
             etTitle1.setText(getResources().getString(R.string.tv_default_money));
+            tvTitle1.setText(getResources().getString(R.string.tv_default_money));
         } else if (watermarkId.equals(Constans.WATERMARKID_6007)) {
             layoutEtTitle2.setVisibility(View.VISIBLE);
             etTitle1.setText(getResources().getString(R.string.tv_default_money));
             etTitle2.setText(getResources().getString(R.string.tv_256));
+            tvTitle1.setText(getResources().getString(R.string.tv_default_money));
+            tvTitle2.setText(getResources().getString(R.string.tv_256));
             tvTitle1Hint.setText(getResources().getString(R.string.xianjia));
             tvTitle2Hint.setText(getResources().getString(R.string.yuanjia));
         } else if (watermarkId.equals(Constans.WATERMARKID_6009)) {
             layoutEtTitle2.setVisibility(View.VISIBLE);
             etTitle1.setText(getResources().getString(R.string.tv_default_money));
             etTitle2.setText(getResources().getString(R.string.tv_256));
+            tvTitle1.setText(getResources().getString(R.string.tv_default_money));
+            tvTitle2.setText(getResources().getString(R.string.tv_256));
         } else if (watermarkId.equals(Constans.WATERMARKID_6010)) {
             layoutEtTitle2.setVisibility(View.VISIBLE);
             etTitle1.setText(getResources().getString(R.string.tv_default_money));
             etTitle2.setText(getResources().getString(R.string.tv_256));
+            tvTitle1.setText(getResources().getString(R.string.tv_default_money));
+            tvTitle2.setText(getResources().getString(R.string.tv_256));
             tvTitle2.getPaint().setFlags(Paint.STRIKE_THRU_TEXT_FLAG);
             tvTitle1Hint.setText(getResources().getString(R.string.xianjia));
             tvTitle2Hint.setText(getResources().getString(R.string.yuanjia));
@@ -211,6 +222,8 @@ public class MoneyWatermarkActivity extends BaseActivity<ILoadView, AddWatermark
             layoutEtTitle2.setVisibility(View.VISIBLE);
             etTitle1.setText(getResources().getString(R.string.tv_default_money));
             etTitle2.setText(getResources().getString(R.string.tv_256));
+            tvTitle1.setText(getResources().getString(R.string.tv_default_money));
+            tvTitle2.setText(getResources().getString(R.string.tv_256));
             tvTitle2.getPaint().setFlags(Paint.STRIKE_THRU_TEXT_FLAG);
             tvTitle1Hint.setText(getResources().getString(R.string.xianjia));
             tvTitle2Hint.setText(getResources().getString(R.string.yuanjia));
@@ -221,14 +234,19 @@ public class MoneyWatermarkActivity extends BaseActivity<ILoadView, AddWatermark
             etTitle1.setText(getResources().getString(R.string.tv_default_years));
             etTitle2.setText(getResources().getString(R.string.tv_gonghe));
             etTitle3.setText(getResources().getString(R.string.tv_xinxi));
+            tvTitle1.setText(getResources().getString(R.string.tv_default_years));
+            tvTitle2.setText(getResources().getString(R.string.tv_gonghe));
+            tvTitle3.setText(getResources().getString(R.string.tv_xinxi));
         } else if (watermarkId.equals(Constans.WATERMARKID_6002)
                 || watermarkId.equals(Constans.WATERMARKID_6004)) {
             etTitle1.setText(getResources().getString(R.string.tv_fu));
+            tvTitle1.setText(getResources().getString(R.string.tv_fu));
             checkTitle1.setVisibility(View.GONE);
             tvTitle1Hint.setText(getResources().getString(R.string.phone_input));
         }else if (watermarkId.equals(Constans.WATERMARKID_6008)) {
             checkTitle1.setVisibility(View.GONE);
             tvTitle1Hint.setText(getResources().getString(R.string.phone_input));
+            tvTitle1.setText(getResources().getString(R.string.tv_default_money));
         }
     }
 

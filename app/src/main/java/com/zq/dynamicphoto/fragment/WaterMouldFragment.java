@@ -186,6 +186,8 @@ public class WaterMouldFragment extends BaseFragment<IGetWaterMouldView,
             }
         }else if (watermarkId.startsWith("6")){
             MFGT.gotoMoneyWatermarkActivity(this.getActivity(),watermarkId);
+        }else if (watermarkId.startsWith("7")){
+            MFGT.gotoRecommendActivity(this.getActivity(),watermarkId);
         }
     }
 }

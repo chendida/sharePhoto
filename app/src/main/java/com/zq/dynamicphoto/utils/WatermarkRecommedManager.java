@@ -29,7 +29,6 @@ import com.blankj.utilcode.util.ToastUtils;
 import com.zhy.autolayout.AutoRelativeLayout;
 import com.zq.dynamicphoto.R;
 import com.zq.dynamicphoto.base.BaseActivity;
-import com.zq.dynamicphoto.bean.Image;
 import com.zq.dynamicphoto.ui.widge.FullScreenWatermarkDialog;
 import com.zq.dynamicphoto.ui.widge.StrokeTextView;
 import com.zq.dynamicphoto.ui.widge.TextAlignDialog;
@@ -38,22 +37,23 @@ import com.zq.dynamicphoto.ui.widge.TextFontDialog;
 import com.zq.dynamicphoto.ui.widge.TextOutlineDialog;
 import com.zq.dynamicphoto.ui.widge.TitleBgColorDialog;
 import com.zq.dynamicphoto.ui.widge.WaterBgDialog;
+import com.zq.dynamicphoto.ui.widge.WaterIconDialog;
 import com.zq.dynamicphoto.ui.widge.WaterTitleDialog;
 import com.zq.dynamicphoto.ui.widge.WholeColorEditDialog;
 import com.zq.dynamicphoto.view.WatermarkSeekBarListener;
 
 /**
- * 价签水印管理器
- * Created by Administrator on 2018/8/14.
+ * 精品推荐管理类
+ * Created by Administrator on 2018/8/16.
  */
 
-public class WatermarkMoneyManager implements WatermarkSeekBarListener {
-    private static WatermarkMoneyManager instance;
+public class WatermarkRecommedManager implements WatermarkSeekBarListener {
+    private static WatermarkRecommedManager instance;
     private BaseActivity mContext;
-    private ImageView ivHead,ivHead1;
+    private ImageView ivHead,ivHead1,ivIcon,ivIconHint;
     private AutoRelativeLayout layoutInitPic,layoutWholeWaterContent;
-    private StrokeTextView tvTitle1,tvTitle2,tvTitle3,tvTitle4;
-    private TextView etTitle1,etTitle2,etTitle3,etTitle4;
+    private StrokeTextView tvTitle1,tvTitle2;
+    private TextView etTitle1,etTitle2;
     private int default_screen_num = 1;//默认的全屏水印的数量是2*2
     private int default_watermark_space = 0;//默认的全屏水印的间距
     private CheckBox checkFullWatermark;
@@ -67,43 +67,25 @@ public class WatermarkMoneyManager implements WatermarkSeekBarListener {
     private Boolean check_title1_bg = false;//第一标题背景开关状态
     private Boolean check_title2_outline = false;//第二标题描边开关状态
     private Boolean check_title2_bg = false;//第二标题背景开关状态
-    private Boolean check_title3_outline = false;//第三标题描边开关状态
-    private Boolean check_title3_bg = false;//第三标题背景开关状态
-    private Boolean check_title4_outline = false;//第四标题描边开关状态
-    private Boolean check_title4_bg = false;//第四标题背景开关状态
     private int editTitleType = 1;//1表示编辑第一标题，2表示编辑第二标题,以此类推
 
     //描边数据
     private float degree1 = 1.0f;//第一标题描边宽度
     private float degree2 = 1.0f;//第二标题描边宽度
-    private float degree3 = 1.0f;//第3标题描边宽度
-    private float degree4 = 1.0f;//第4标题描边宽度
     private int outLineAlpha1 = 255;//默认的第一标题描边透明度
     private int outLineAlpha2 = 255;//默认的第二标题描边透明度
-    private int outLineAlpha3 = 255;//默认的第二标题描边透明度
-    private int outLineAlpha4 = 255;//默认的第二标题描边透明度
     private int outline_color_position1 = 0;//保存第一标题描边颜色
     private int outline_color_position2 = 0;//保存第二标题描边颜色
-    private int outline_color_position3 = 0;//保存第3标题描边颜色
-    private int outline_color_position4 = 0;//保存第3标题描边颜色
     //文字颜色背景
     private int bg_color_alpha_title1 = 255;//默认的第一标题背景颜色透明度
     private int bg_color_alpha_title2 = 255;//默认的第二标题背景颜色透明度
-    private int bg_color_alpha_title3 = 255;//默认的第3标题背景颜色透明度
-    private int bg_color_alpha_title4 = 255;//默认的第4标题背景颜色透明度
     private int bg_color_index_title1 = 0;//默认的第一标题背景颜色的色值下标
     private int bg_color_index_title2 = 0;//默认的第二标题背景颜色的色值下标
-    private int bg_color_index_title3 = 0;//默认的第二标题背景颜色的色值下标
-    private int bg_color_index_title4 = 0;//默认的第二标题背景颜色的色值下标
     //文字颜色和透明度
     private int color_index_title1 = 0;//第一标题颜色
     private int color_index_title2 = 0;//第二标题颜色
-    private int color_index_title3 = 0;//第3标题颜色
-    private int color_index_title4 = 0;//第4标题颜色
     private int color_alpha_title1 = 255;//第一标题颜色透明度
     private int color_alpha_title2 = 255;//第二标题颜色透明度
-    private int color_alpha_title3 = 255;//第3标题颜色透明度
-    private int color_alpha_title4 = 255;//第4标题颜色透明度
 
     public void setRealHeight(int realHeight) {
         this.realHeight = realHeight;
@@ -112,22 +94,20 @@ public class WatermarkMoneyManager implements WatermarkSeekBarListener {
     public void setRealWidth(int realWidth) {
         this.realWidth = realWidth;
     }
-
     /**
      * 单例
      * @return
      */
-    public static WatermarkMoneyManager getInstance(){
+    public static WatermarkRecommedManager getInstance(){
         if (null == instance) {
-            synchronized (WatermarkMoneyManager.class) {
+            synchronized (WatermarkRecommedManager.class) {
                 if (null == instance) {
-                    instance = new WatermarkMoneyManager();
+                    instance = new WatermarkRecommedManager();
                 }
             }
         }
         return instance;
     }
-
 
     @Override
     public void onNumListener(int process) {
@@ -211,14 +191,6 @@ public class WatermarkMoneyManager implements WatermarkSeekBarListener {
             color_alpha_title2 = process;
             int color = ColorUtils.getColor(color_index_title2);
             tvTitle2.setTextColor(Color.argb(process,Color.red(color),Color.green(color),Color.blue(color)));
-        }else if (editTitleType == 3){
-            color_alpha_title3 = process;
-            int color = ColorUtils.getColor(color_index_title3);
-            tvTitle3.setTextColor(Color.argb(process,Color.red(color),Color.green(color),Color.blue(color)));
-        }else if (editTitleType == 4){
-            color_alpha_title4 = process;
-            int color = ColorUtils.getColor(color_index_title4);
-            tvTitle4.setTextColor(Color.argb(process,Color.red(color),Color.green(color),Color.blue(color)));
         }
         refreshChanged();
     }
@@ -237,20 +209,6 @@ public class WatermarkMoneyManager implements WatermarkSeekBarListener {
             if (isOpen) {
                 setTextViewOutline(tvTitle2,ColorUtils.getColor(outline_color_position2),degree2
                         ,outLineAlpha2);
-                refreshChanged();
-            }
-        }else if (editTitleType == 3){
-            degree3 = process / 10;
-            if (isOpen) {
-                setTextViewOutline(tvTitle3,ColorUtils.getColor(outline_color_position3),degree3
-                        ,outLineAlpha3);
-                refreshChanged();
-            }
-        }else if (editTitleType == 4){
-            degree4 = process / 10;
-            if (isOpen) {
-                setTextViewOutline(tvTitle4,ColorUtils.getColor(outline_color_position4),degree4
-                        ,outLineAlpha4);
                 refreshChanged();
             }
         }
@@ -272,20 +230,6 @@ public class WatermarkMoneyManager implements WatermarkSeekBarListener {
                         ,outLineAlpha2);
                 refreshChanged();
             }
-        }else if (editTitleType == 3){
-            outLineAlpha3 = process;
-            if (isOpen) {
-                setTextViewOutline(tvTitle3,ColorUtils.getColor(outline_color_position3),degree3
-                        ,outLineAlpha3);
-                refreshChanged();
-            }
-        }else if (editTitleType == 4){
-            outLineAlpha4 = process;
-            if (isOpen) {
-                setTextViewOutline(tvTitle4,ColorUtils.getColor(outline_color_position4),degree4
-                        ,outLineAlpha4);
-                refreshChanged();
-            }
         }
     }
 
@@ -301,16 +245,6 @@ public class WatermarkMoneyManager implements WatermarkSeekBarListener {
             if (isOpen) {
                 updateTitleBgColor(bg_color_index_title2,true);
             }
-        }else if (editTitleType == 3){
-            bg_color_alpha_title3 = process;
-            if (isOpen) {
-                updateTitleBgColor(bg_color_index_title3,true);
-            }
-        }else if (editTitleType == 4){
-            bg_color_alpha_title4 = process;
-            if (isOpen) {
-                updateTitleBgColor(bg_color_index_title4,true);
-            }
         }
     }
 
@@ -320,10 +254,6 @@ public class WatermarkMoneyManager implements WatermarkSeekBarListener {
             refreshTextSize(tvTitle1,process);
         }else if (editTitleType == 2){
             refreshTextSize(tvTitle2,process);
-        }else if (editTitleType == 3){
-            refreshTextSize(tvTitle3,process);
-        }else if (editTitleType == 4){
-            refreshTextSize(tvTitle4,process);
         }
     }
 
@@ -338,10 +268,6 @@ public class WatermarkMoneyManager implements WatermarkSeekBarListener {
             refreshTextSpace(tvTitle1,process);
         }else if (editTitleType == 2){
             refreshTextSpace(tvTitle2,process);
-        }else if (editTitleType == 3){
-            refreshTextSpace(tvTitle3,process);
-        }else if (editTitleType == 4){
-            refreshTextSpace(tvTitle4,process);
         }
     }
 
@@ -352,12 +278,18 @@ public class WatermarkMoneyManager implements WatermarkSeekBarListener {
 
     @Override
     public void onHideIcon() {
-
+        ivIcon.setVisibility(View.GONE);
+        refreshChanged();
     }
 
     @Override
     public void onChangeIcon(Drawable drawable) {
-
+        if (ivIcon.getVisibility() == View.GONE){
+            ivIcon.setVisibility(View.VISIBLE);
+        }
+        ivIcon.setImageDrawable(drawable);
+        ivIconHint.setImageDrawable(drawable);
+        refreshChanged();
     }
 
     @Override
@@ -376,23 +308,21 @@ public class WatermarkMoneyManager implements WatermarkSeekBarListener {
 
     public void initView(BaseActivity activity,AutoRelativeLayout layoutInitPic,
                          AutoRelativeLayout layoutWholeWaterContent,ImageView ivHead,ImageView ivHead1,
-                         StrokeTextView tvTitle1,
-                         StrokeTextView tvTitle2,StrokeTextView tvTitle3,StrokeTextView tvTitle4,
-                         TextView etTitle1,TextView etTitle2,TextView etTitle3,TextView etTitle4,
+                         ImageView ivIcon,ImageView ivIconHint,
+                         StrokeTextView tvTitle1, StrokeTextView tvTitle2,
+                         TextView etTitle1,TextView etTitle2,
                          CheckBox checkFullWatermark,CheckBox checkWaterBgSetting) {
         this.mContext = activity;
         this.layoutInitPic = layoutInitPic;
         this.layoutWholeWaterContent = layoutWholeWaterContent;
         this.ivHead = ivHead;
         this.ivHead1 = ivHead1;
+        this.ivIcon = ivIcon;
+        this.ivIconHint = ivIconHint;
         this.tvTitle1 = tvTitle1;
         this.tvTitle2 = tvTitle2;
-        this.tvTitle3 = tvTitle3;
-        this.tvTitle4 = tvTitle4;
         this.etTitle1 = etTitle1;
         this.etTitle2 = etTitle2;
-        this.etTitle3 = etTitle3;
-        this.etTitle4 = etTitle4;
         this.checkFullWatermark = checkFullWatermark;
         this.checkWaterBgSetting = checkWaterBgSetting;
     }
@@ -424,11 +354,8 @@ public class WatermarkMoneyManager implements WatermarkSeekBarListener {
         if (tvTitle2 != null){
             tvTitle2.setTextColor(color);
         }
-        if (tvTitle3 != null){
-            tvTitle3.setTextColor(color);
-        }
-        if (tvTitle4 != null){
-            tvTitle4.setTextColor(color);
+        if (ivIcon != null){
+            ivIcon.setColorFilter(color);
         }
         refreshChanged();
     }
@@ -633,14 +560,6 @@ public class WatermarkMoneyManager implements WatermarkSeekBarListener {
             tvContent = etTitle2.getText().toString();
             outlineStatus = check_title2_outline;
             bgStatus = check_title2_bg;
-        }else if (type == 3){
-            tvContent = etTitle3.getText().toString();
-            outlineStatus = check_title3_outline;
-            bgStatus = check_title3_bg;
-        }else if (type == 4){
-            tvContent = etTitle4.getText().toString();
-            outlineStatus = check_title4_outline;
-            bgStatus = check_title4_bg;
         }
         editTitleType = type;
         new WaterTitleDialog(mContext, R.style.dialog, tvContent,
@@ -657,10 +576,6 @@ public class WatermarkMoneyManager implements WatermarkSeekBarListener {
                                     showTextFontDialog((int) tvTitle1.getTextSize(),tvTitle1.getSpacing());
                                 }else if (type == 2){
                                     showTextFontDialog((int) tvTitle2.getTextSize(),tvTitle2.getSpacing());
-                                }else if (type == 3){
-                                    showTextFontDialog((int) tvTitle3.getTextSize(),tvTitle3.getSpacing());
-                                }else if (type == 4){
-                                    showTextFontDialog((int) tvTitle4.getTextSize(),tvTitle4.getSpacing());
                                 }
                                 break;
                             case 2://文字颜色修改
@@ -668,24 +583,20 @@ public class WatermarkMoneyManager implements WatermarkSeekBarListener {
                                     showTextColorDialog(type,color_alpha_title1);
                                 }else if (type == 2){
                                     showTextColorDialog(type,color_alpha_title2);
-                                }else if (type == 3){
-                                    showTextColorDialog(type,color_alpha_title3);
-                                }else if (type == 4){
-                                    showTextColorDialog(type,color_alpha_title4);
                                 }
                                 break;
                             case 3://文字对齐
-                                showTextAlignDialog(type);
+                                if (type == 1) {
+                                    showTextAlignDialog(type);
+                                }else {
+                                    showWaterIconDialog();
+                                }
                                 break;
                             case 4://文字描边设置
                                 if (type == 1){
                                     showTextOutlineDialog(isOpen,degree1,outLineAlpha1);
                                 }else if (type == 2){
                                     showTextOutlineDialog(isOpen,degree2,outLineAlpha2);
-                                }else if (type == 3){
-                                    showTextOutlineDialog(isOpen,degree3,outLineAlpha3);
-                                }else if (type == 4){
-                                    showTextOutlineDialog(isOpen,degree4,outLineAlpha4);
                                 }
                                 break;
                             case 5://文字背景设置
@@ -693,10 +604,6 @@ public class WatermarkMoneyManager implements WatermarkSeekBarListener {
                                     showTextBgDialog(isOpen, bg_color_alpha_title1);
                                 }else if (type == 2){
                                     showTextBgDialog(isOpen, bg_color_alpha_title2);
-                                }else if (type == 3){
-                                    showTextBgDialog(isOpen, bg_color_alpha_title3);
-                                }else if (type == 4){
-                                    showTextBgDialog(isOpen, bg_color_alpha_title4);
                                 }
                                 break;
                             case 6://文字背景的开关
@@ -707,7 +614,14 @@ public class WatermarkMoneyManager implements WatermarkSeekBarListener {
                                 break;
                         }
                     }
-                },false,type,outlineStatus,bgStatus).show();
+                },true,type,outlineStatus,bgStatus).show();
+    }
+
+    /**
+     * 展示图标弹窗
+     */
+    private void showWaterIconDialog() {
+        new WaterIconDialog(mContext, R.style.dialog,this).show();
     }
 
     /**
@@ -722,12 +636,6 @@ public class WatermarkMoneyManager implements WatermarkSeekBarListener {
             }else if (editTitleType == 2){
                 check_title2_outline = true;
                 updateTextOutline(outline_color_position2,true);
-            }else if (editTitleType == 3){
-                check_title3_outline = true;
-                updateTextOutline(outline_color_position3,true);
-            }else if (editTitleType == 4){
-                check_title4_outline = true;
-                updateTextOutline(outline_color_position4,true);
             }
         }else {
             if (editTitleType == 1){
@@ -737,14 +645,6 @@ public class WatermarkMoneyManager implements WatermarkSeekBarListener {
             }else if (editTitleType == 2){
                 check_title2_outline = false;
                 setTextViewOutline(tvTitle2,ColorUtils.getColor(0),degree2,outLineAlpha2);
-                refreshChanged();
-            }else if (editTitleType == 3){
-                check_title3_outline = false;
-                setTextViewOutline(tvTitle3,ColorUtils.getColor(0),degree3,outLineAlpha3);
-                refreshChanged();
-            }else if (editTitleType == 4){
-                check_title4_outline = false;
-                setTextViewOutline(tvTitle4,ColorUtils.getColor(0),degree4,outLineAlpha4);
                 refreshChanged();
             }
         }
@@ -762,12 +662,6 @@ public class WatermarkMoneyManager implements WatermarkSeekBarListener {
             }else if (editTitleType == 2){
                 check_title2_bg = true;
                 updateTitleBgColor(bg_color_index_title2,true);
-            }else if (editTitleType == 3){
-                check_title3_bg = true;
-                updateTitleBgColor(bg_color_index_title3,true);
-            }else if (editTitleType == 4){
-                check_title4_bg = true;
-                updateTitleBgColor(bg_color_index_title4,true);
             }
         }else {
             if (editTitleType == 1){
@@ -777,14 +671,6 @@ public class WatermarkMoneyManager implements WatermarkSeekBarListener {
             }else if (editTitleType == 2){
                 check_title2_bg = false;
                 tvTitle2.setBackgroundColor(ColorUtils.getColor(0));
-                refreshChanged();
-            }else if (editTitleType == 3){
-                check_title3_bg = false;
-                tvTitle3.setBackgroundColor(ColorUtils.getColor(0));
-                refreshChanged();
-            }else if (editTitleType == 4){
-                check_title4_bg = false;
-                tvTitle4.setBackgroundColor(ColorUtils.getColor(0));
                 refreshChanged();
             }
         }
@@ -825,20 +711,6 @@ public class WatermarkMoneyManager implements WatermarkSeekBarListener {
                 tvTitle2.getBackground().setAlpha(bg_color_alpha_title2);
                 refreshChanged();
             }
-        }else if (editTitleType == 3){
-            bg_color_index_title3 = position;
-            if (isOpen){
-                tvTitle3.setBackgroundColor(color);
-                tvTitle3.getBackground().setAlpha(bg_color_alpha_title3);
-                refreshChanged();
-            }
-        }else if (editTitleType == 4){
-            bg_color_index_title4 = position;
-            if (isOpen){
-                tvTitle4.setBackgroundColor(color);
-                tvTitle4.getBackground().setAlpha(bg_color_alpha_title4);
-                refreshChanged();
-            }
         }
     }
 
@@ -873,18 +745,6 @@ public class WatermarkMoneyManager implements WatermarkSeekBarListener {
                 setTextViewOutline(tvTitle2,color,degree2,outLineAlpha2);
                 refreshChanged();
             }
-        }else if (editTitleType == 3){
-            outline_color_position3 = position;
-            if (isOpen){
-                setTextViewOutline(tvTitle3,color,degree3,outLineAlpha3);
-                refreshChanged();
-            }
-        }else if (editTitleType == 4){
-            outline_color_position4 = position;
-            if (isOpen){
-                setTextViewOutline(tvTitle4,color,degree4,outLineAlpha4);
-                refreshChanged();
-            }
         }
     }
 
@@ -909,10 +769,6 @@ public class WatermarkMoneyManager implements WatermarkSeekBarListener {
                                     tvTitle1.setPlace(Gravity.START);
                                 }else if (type == 2){
                                     tvTitle2.setPlace(Gravity.START);
-                                }else if (type == 3){
-                                    tvTitle3.setPlace(Gravity.START);
-                                }else if (type == 4){
-                                    tvTitle4.setPlace(Gravity.START);
                                 }
                                 break;
                             case 1://中
@@ -920,10 +776,6 @@ public class WatermarkMoneyManager implements WatermarkSeekBarListener {
                                     tvTitle1.setPlace(Gravity.CENTER_HORIZONTAL);
                                 }else if (type == 2){
                                     tvTitle2.setPlace(Gravity.CENTER_HORIZONTAL);
-                                }else if (type == 3){
-                                    tvTitle3.setPlace(Gravity.CENTER_HORIZONTAL);
-                                }else if (type == 4){
-                                    tvTitle4.setPlace(Gravity.CENTER_HORIZONTAL);
                                 }
                                 break;
                             case 2://右
@@ -931,10 +783,6 @@ public class WatermarkMoneyManager implements WatermarkSeekBarListener {
                                     tvTitle1.setPlace(Gravity.END);
                                 }else if (type == 2){
                                     tvTitle2.setPlace(Gravity.END);
-                                }else if (type == 3){
-                                    tvTitle3.setPlace(Gravity.END);
-                                }else if (type == 4){
-                                    tvTitle4.setPlace(Gravity.END);
                                 }
                                 break;
                         }
@@ -974,12 +822,6 @@ public class WatermarkMoneyManager implements WatermarkSeekBarListener {
         }else if (type == 2){
             color_index_title2 = position;
             changeTextColor(color_alpha_title2,color,tvTitle2);
-        }else if (type == 3){
-            color_index_title3 = position;
-            changeTextColor(color_alpha_title3,color,tvTitle3);
-        }else if (type == 4){
-            color_index_title4 = position;
-            changeTextColor(color_alpha_title4,color,tvTitle4);
         }
         refreshChanged();
     }
@@ -999,10 +841,6 @@ public class WatermarkMoneyManager implements WatermarkSeekBarListener {
             changeTextContent(tvTitle1,etTitle1,content);
         }else if (type == 2){
             changeTextContent(tvTitle2,etTitle2,content);
-        }else if (type == 3){
-            changeTextContent(tvTitle3,etTitle3,content);
-        }else if (type == 4){
-            changeTextContent(tvTitle4,etTitle4,content);
         }
         refreshChanged();
     }

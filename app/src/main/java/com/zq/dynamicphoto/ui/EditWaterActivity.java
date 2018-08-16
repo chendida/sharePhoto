@@ -126,6 +126,7 @@ public class EditWaterActivity extends BaseActivity<ILoadView, AddWatermarkPrese
         tvFinish.setText(getResources().getString(R.string.create_water));
         tvWaterTitle.setText(watermarkTitle, TextView.BufferType.SPANNABLE);
         tvWatermarkTitle.setText(watermarkTitle);
+        tvWx.setText(getResources().getString(R.string.tv_default_wx));
         tvFinish.setTextColor(getResources().getColor(R.color.tv_text_color7));
         //增加整体布局监听
         setLayoutListener();

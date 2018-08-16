@@ -36,6 +36,7 @@ import com.zq.dynamicphoto.ui.PhotoInfoActivity;
 import com.zq.dynamicphoto.ui.PhotoListActivity;
 import com.zq.dynamicphoto.ui.PhotoSelectActivity;
 import com.zq.dynamicphoto.ui.ProblemAndFeedbackActivity;
+import com.zq.dynamicphoto.ui.RecommendActivity;
 import com.zq.dynamicphoto.ui.ResetPwdActivity;
 import com.zq.dynamicphoto.ui.VideoPlayActivity;
 import com.zq.dynamicphoto.ui.WaterStyleActivity;
@@ -204,6 +205,11 @@ public class MFGT {
 
     public static void gotoMoneyWatermarkActivity(Activity activity, String watermarkId) {
         activity.startActivity(new Intent(activity, MoneyWatermarkActivity.class)
+                .putExtra(Constans.WATERMARKID,watermarkId));
+    }
+
+    public static void gotoRecommendActivity(Activity activity, String watermarkId) {
+        activity.startActivity(new Intent(activity, RecommendActivity.class)
                 .putExtra(Constans.WATERMARKID,watermarkId));
     }
 }
