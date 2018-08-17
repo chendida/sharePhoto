@@ -1,6 +1,10 @@
 package com.zq.dynamicphoto.ui;
 
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.graphics.drawable.Drawable;
+import android.support.annotation.Nullable;
 import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
@@ -10,7 +14,12 @@ import android.widget.CompoundButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.DataSource;
+import com.bumptech.glide.load.engine.GlideException;
+import com.bumptech.glide.request.RequestListener;
 import com.bumptech.glide.request.RequestOptions;
+import com.bumptech.glide.request.target.Target;
+import com.bumptech.glide.request.transition.Transition;
 import com.zhy.autolayout.AutoRelativeLayout;
 import com.zq.dynamicphoto.R;
 import com.zq.dynamicphoto.base.BaseActivity;
@@ -19,6 +28,11 @@ import com.zq.dynamicphoto.common.Constans;
 import com.zq.dynamicphoto.ui.widge.StrokeTextView;
 import com.zq.dynamicphoto.utils.MFGT;
 import com.zq.dynamicphoto.utils.WatermarkRecommedManager;
+
+import java.io.IOException;
+import java.util.Timer;
+import java.util.TimerTask;
+
 import butterknife.BindView;
 import butterknife.OnClick;
 
@@ -256,56 +270,81 @@ public class RecommendActivity extends BaseActivity {
                     }else {
                         layoutAvatarFrame.setBackground(null);
                     }
+                    WatermarkRecommedManager.getInstance().refreshChanged();
                 }else {//图片变化
+                    Bitmap bitmap = BitmapFactory.decodeFile(avatarPath);
                     if (frameType == 0){
-                        loadSquare(avatarPath);
+                        loadSquare(bitmap);
                     }else if (frameType == 1){
-                        loadCirclePic(avatarPath);
+                        loadCirclePic(bitmap);
                     }else if (frameType == 2){
-                        loadSquareAndShadow(avatarPath);
+                        loadSquareAndShadow(bitmap);
                     }else if (frameType == 3){
-                        loadCirclePicAndShadow(avatarPath);
+                        loadCirclePicAndShadow(bitmap);
                     }
                 }
             }
         }
     }
 
+
     /**
      * 单纯的处理图片成圆形显示，不加边框
-     * @param path
+     * @param bitmap
      */
-    private void loadCirclePic(String path){
-        Glide.with(this).load(path).apply(options).into(ivHead);
-        Glide.with(this).load(path).into(ivAvatar);
+    private void loadCirclePic(Bitmap bitmap){
+        ivAvatar.setImageBitmap(bitmap);
         layoutAvatarFrame.setBackground(null);
+        Glide.with(this).load(bitmap).apply(options).into(ivHead);
+        synchorCirclePic();
     }
     /**
      * 处理图片成圆形显示并加边框
-     * @param path
+     * @param bitmap
      */
-    private void loadCirclePicAndShadow(String path){
-        Glide.with(this).load(path).apply(options).into(ivHead);
-        Glide.with(this).load(path).into(ivAvatar);
+    private void loadCirclePicAndShadow(Bitmap bitmap){
+        ivAvatar.setImageBitmap(bitmap);
         layoutAvatarFrame.setBackground(getResources().getDrawable(R.drawable.shape_circle_shadow));
+        Glide.with(this).load(bitmap).apply(options).into(ivHead);
+        synchorCirclePic();
+    }
+
+    private void synchorCirclePic(){
+        Timer timer = new Timer();
+        TimerTask task = new TimerTask() {
+            @Override
+            public void run() {
+                hideLoading();
+                runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        WatermarkRecommedManager.getInstance().refreshChanged();
+                    }
+                });
+            }
+        };
+        showLoading();
+        timer.schedule(task,1000);
     }
 
     /**
      * 单纯的处理图片成正方形显示，不加边框
-     * @param path
+     * @param bitmap
      */
-    private void loadSquare(String path){
-        Glide.with(this).load(path).into(ivHead);
-        Glide.with(this).load(path).into(ivAvatar);
+    private void loadSquare(Bitmap bitmap){
+        ivHead.setImageBitmap(bitmap);
+        ivAvatar.setImageBitmap(bitmap);
         layoutAvatarFrame.setBackground(null);
+        WatermarkRecommedManager.getInstance().refreshChanged();
     }
     /**
      * 处理图片成正方形显示并加边框
-     * @param path
+     * @param bitmap
      */
-    private void loadSquareAndShadow(String path){
-        Glide.with(this).load(path).into(ivHead);
-        Glide.with(this).load(path).into(ivAvatar);
+    private void loadSquareAndShadow(Bitmap bitmap){
+        ivHead.setImageBitmap(bitmap);
+        ivAvatar.setImageBitmap(bitmap);
         layoutAvatarFrame.setBackground(getResources().getDrawable(R.drawable.shape_square_shadow));
+        WatermarkRecommedManager.getInstance().refreshChanged();
     }
 }

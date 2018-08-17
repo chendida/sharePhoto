@@ -67,20 +67,6 @@ public class UploadWaterAvatarActivity extends BaseActivity {
         return R.layout.activity_upload_water_avatar;
     }
 
-    /**
-     * 得到资源文件中图片的Uri
-     * @param id 资源id
-     * @return path
-     */
-    public String getPathDrawableRes(int id) {
-        Resources resources = getResources();
-        String path = ContentResolver.SCHEME_ANDROID_RESOURCE + "://"
-                + resources.getResourcePackageName(id) + "/"
-                + resources.getResourceTypeName(id) + "/"
-                + resources.getResourceEntryName(id);
-        return path;
-    }
-
     @Override
     protected void initView() {
         if (watermarkId.equals(Constans.WATERMARKID_7004)){
@@ -231,20 +217,7 @@ public class UploadWaterAvatarActivity extends BaseActivity {
                 finish();
                 break;
             case R.id.layout_finish:
-                if (!checkFrame.isChecked() && !checkCircle.isChecked()){//不加边框，不是圆形
-                    frameType = 0;
-                }else if (!checkFrame.isChecked() && checkCircle.isChecked()){//不加边框，是圆形
-                    frameType = 1;
-                }else if (checkFrame.isChecked() && !checkCircle.isChecked()){//加边框，不是圆形
-                    frameType = 2;
-                }else if (checkFrame.isChecked() && checkCircle.isChecked()){//加边框，是圆形
-                    frameType = 3;
-                }
-                setResult(Constans.RESULT_CODE,new Intent()
-                        .putExtra(Constans.AVATAR_CHANGE,isSelect)
-                        .putExtra(Constans.FRAME_TYPE,frameType)
-                        .putExtra(Constans.AVATAR_PATH,path));
-                finish();
+                synchor();
                 break;
             case R.id.iv_avatar:
             case R.id.tv_click_upload:
@@ -263,6 +236,23 @@ public class UploadWaterAvatarActivity extends BaseActivity {
                 changeCheckStatus(checkCircle);
                 break;
         }
+    }
+
+    private void synchor(){
+        if (!checkFrame.isChecked() && !checkCircle.isChecked()){//不加边框，不是圆形
+            frameType = 0;
+        }else if (!checkFrame.isChecked() && checkCircle.isChecked()){//不加边框，是圆形
+            frameType = 1;
+        }else if (checkFrame.isChecked() && !checkCircle.isChecked()){//加边框，不是圆形
+            frameType = 2;
+        }else if (checkFrame.isChecked() && checkCircle.isChecked()){//加边框，是圆形
+            frameType = 3;
+        }
+        setResult(Constans.RESULT_CODE,new Intent()
+                .putExtra(Constans.AVATAR_CHANGE,isSelect)
+                .putExtra(Constans.FRAME_TYPE,frameType)
+                .putExtra(Constans.AVATAR_PATH,path));
+        finish();
     }
 
     @Override

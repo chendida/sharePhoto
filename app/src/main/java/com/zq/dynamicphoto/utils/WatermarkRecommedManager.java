@@ -373,7 +373,6 @@ public class WatermarkRecommedManager implements WatermarkSeekBarListener {
      * 全屏水印的设置
      */
     public void setScreenWatermark() {
-        Log.i("66666666666","tt = " + "setScreenWatermark()");
         layoutInitPic.refreshDrawableState();
         layoutInitPic.setDrawingCacheEnabled(true);
         Bitmap bitmap = layoutInitPic.getDrawingCache();
