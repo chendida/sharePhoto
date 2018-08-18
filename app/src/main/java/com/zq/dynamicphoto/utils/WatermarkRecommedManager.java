@@ -48,6 +48,7 @@ import com.zq.dynamicphoto.view.WatermarkSeekBarListener;
  */
 
 public class WatermarkRecommedManager implements WatermarkSeekBarListener {
+    private static final String TAG = "WatermarkRecommedManage";
     private static WatermarkRecommedManager instance;
     private BaseActivity mContext;
     private ImageView ivHead,ivHead1,ivIcon,ivIconHint;
@@ -386,6 +387,7 @@ public class WatermarkRecommedManager implements WatermarkSeekBarListener {
             newHeight = realHeight / default_screen_num;
             newWidth = realWidth / default_screen_num;
         }
+        Log.i(TAG,"newHeight = " + newHeight + ",newWidth = "+ newWidth);
         Bitmap repeater = createRepeater(default_screen_num,
                 zoomImg(getRoundedCornerBitmap(bitmap,round),newWidth, newHeight),default_watermark_space);
         layoutInitPic.setVisibility(View.GONE);
@@ -724,6 +726,14 @@ public class WatermarkRecommedManager implements WatermarkSeekBarListener {
                 updateTextOutline(position,isOepn);
             }
         },isOepn,degree,alpha).show();
+    }
+
+    public void textOutline(int position,float degree){
+        int color = ColorUtils.getColor(position);
+        degree1 = degree;
+        degree2 = degree;
+        setTextViewOutline(tvTitle1,color,degree1,outLineAlpha1);
+        setTextViewOutline(tvTitle2,color,degree2,outLineAlpha2);
     }
 
     /**

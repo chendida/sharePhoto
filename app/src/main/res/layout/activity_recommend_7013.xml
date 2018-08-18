@@ -25,7 +25,8 @@
                     android:id="@+id/layout_whole_water_content"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_centerInParent="true">
+                    android:layout_centerInParent="true"
+                    >
                     <com.zhy.autolayout.AutoRelativeLayout
                         android:id="@+id/layout_init_pic"
                         android:layout_width="wrap_content"
@@ -34,38 +35,41 @@
                         >
                         <com.zhy.autolayout.AutoRelativeLayout
                             android:id="@+id/layout_avatar_frame"
-                            android:layout_width="158px"
-                            android:layout_height="158px"
-                            android:layout_centerHorizontal="true">
+                            android:layout_width="120px"
+                            android:layout_height="120px"
+                            android:layout_marginLeft="40px"
+                            android:layout_marginTop="80px"
+                            >
                             <ImageView
                                 android:id="@+id/iv_head"
-                                android:layout_width="150px"
-                                android:layout_height="150px"
-                                android:src="@drawable/water_top_7004"
-                                android:layout_centerHorizontal="true"
-                                android:layout_centerVertical="true"
+                                android:layout_width="114px"
+                                android:layout_height="114px"
+                                android:src="@drawable/water_7013_avatar"
+                                android:layout_centerInParent="true"
                                 />
                         </com.zhy.autolayout.AutoRelativeLayout>
-                        <com.zq.dynamicphoto.ui.widge.StrokeTextView
-                            android:id="@+id/tv_title1"
-                            android:layout_width="500px"
-                            android:layout_centerHorizontal="true"
-                            android:layout_height="80px"
-                            android:gravity="center"
-                            android:layout_below="@+id/layout_avatar_frame"
-                            android:textColor="@color/white"
-                            android:textSize="32sp"
-                            android:text="@string/tv_default_app_name"
-                            android:maxLines="1"
-                            />
                         <ImageView
                             android:id="@+id/iv_head1"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:src="@drawable/water_bottom_7004"
-                            android:layout_centerHorizontal="true"
-                            android:layout_below="@+id/tv_title1"/>
+                            android:src="@drawable/water_7013"
+                            android:layout_toRightOf="@+id/layout_avatar_frame"
+                            android:layout_marginTop="100px"
+                            />
+                        <com.zq.dynamicphoto.ui.widge.StrokeTextView
+                            android:id="@+id/tv_title1"
+                            android:layout_width="360px"
+                            android:layout_marginLeft="200px"
+                            android:layout_height="wrap_content"
+                            android:gravity="center"
+                            android:textColor="@color/white"
+                            android:layout_marginTop="180px"
+                            android:textSize="28sp"
+                            android:text="@string/tv_default_app_name"
+                            android:maxLines="1"
+                            />
                         <com.zhy.autolayout.AutoRelativeLayout
+                            android:visibility="gone"
                             android:layout_below="@+id/iv_head1"
                             android:id="@+id/layout_wx_and_icon"
                             android:layout_width="wrap_content"

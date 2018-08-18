@@ -258,4 +258,7 @@
     <string name="tv_circle">圆形</string>
     <string name="tv_frame">边框</string>
     <string name="tv_shadow">阴影</string>
+    <string name="tv_upload_avatar">上传头像</string>
+    <string name="tv_default_7014">微商云管家  微信:wgxxc6666</string>
+    <string name="tv_input_content">输入内容</string>
 </resources>

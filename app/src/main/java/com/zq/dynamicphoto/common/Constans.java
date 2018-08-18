@@ -77,6 +77,15 @@ public class Constans {
     public static String WATERMARKID_6011 = "6011";
 
     public static String WATERMARKID_7004 = "7004";
+    public static String WATERMARKID_7005 = "7005";
+    public static String WATERMARKID_7006= "7006";
+    public static String WATERMARKID_7007= "7007";
+    public static String WATERMARKID_7008 = "7008";
+    public static String WATERMARKID_7009 = "7009";
+    public static String WATERMARKID_7011 = "7011";
+    public static String WATERMARKID_7013 = "7013";
+    public static String WATERMARKID_7014= "7014";
+    public static String WATERMARKID_7015 = "7015";
     public static String DRAWABLE = "drawable";
     public static Integer REQUEST_OK = 0;
     public static int REQUEST_CODE = 1001;

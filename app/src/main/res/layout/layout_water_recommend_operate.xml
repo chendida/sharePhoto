@@ -112,9 +112,12 @@
             android:src="@drawable/right_go"/>
     </com.zhy.autolayout.AutoRelativeLayout>
 
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="34px" />
     <com.zhy.autolayout.AutoRelativeLayout
+        android:visibility="gone"
         android:id="@+id/layout_et_title1"
-        android:layout_marginTop="34px"
         android:layout_width="match_parent"
         android:layout_height="95px"
         android:layout_marginLeft="18px"

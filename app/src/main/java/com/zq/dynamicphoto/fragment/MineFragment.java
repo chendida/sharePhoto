@@ -2,6 +2,7 @@ package com.zq.dynamicphoto.fragment;
 
 import android.content.ClipboardManager;
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.text.TextUtils;
@@ -18,6 +19,7 @@ import com.zq.dynamicphoto.R;
 import com.zq.dynamicphoto.base.BaseFragment;
 import com.zq.dynamicphoto.base.BasePresenter;
 import com.zq.dynamicphoto.common.Constans;
+import com.zq.dynamicphoto.ui.ScorllTestActivity;
 import com.zq.dynamicphoto.ui.SettingActivity;
 import com.zq.dynamicphoto.utils.ImageLoaderUtils;
 import com.zq.dynamicphoto.utils.MFGT;
@@ -130,6 +132,7 @@ public class MineFragment extends BaseFragment {
             case R.id.layout_water:
                 MFGT.gotoPhotoListActivity(getActivity());
                 //MFGT.gotoEditWaterActivity(getActivity());
+                //startActivity(new Intent(getActivity(), ScorllTestActivity.class));
                 break;
         }
     }

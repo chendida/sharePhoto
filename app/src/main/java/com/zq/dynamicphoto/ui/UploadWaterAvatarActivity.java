@@ -69,45 +69,61 @@ public class UploadWaterAvatarActivity extends BaseActivity {
 
     @Override
     protected void initView() {
+        layoutBack.setVisibility(View.VISIBLE);
+        ivCamera.setVisibility(View.GONE);
+        tvTitle.setText(getResources().getString(R.string.tv_upload_avatar));
+        tvFinish.setText(getResources().getString(R.string.finish));
+        tvFinish.setTextColor(getResources().getColor(R.color.tv_text_color7));
         if (watermarkId.equals(Constans.WATERMARKID_7004)){
-            if (!isSelect) {//没改变
-                ivAvatar.setImageDrawable(getResources().getDrawable(R.drawable.water_top_7004));
-                if (frameType ==2){
-                    checkFrame.setChecked(true);
-                    checkCircle.setChecked(false);
-                    layoutAvatarFrame.setBackground(getResources().getDrawable(R.drawable.shape_square_shadow));
-                }else if (frameType == 3){
-                    checkFrame.setChecked(true);
-                    checkCircle.setChecked(true);
-                    layoutAvatarFrame.setBackground(getResources().getDrawable(R.drawable.shape_circle_shadow));
-                }else if (frameType == 1){
-                    checkCircle.setChecked(true);
-                    checkFrame.setChecked(false);
-                }else {
-                    checkCircle.setChecked(false);
-                    checkFrame.setChecked(false);
-                }
-            }else {
-                if (frameType == 0){
-                    checkCircle.setChecked(false);
-                    checkFrame.setChecked(false);
-                    loadSquare(path);
-                }else if (frameType == 1){
-                    checkCircle.setChecked(true);
-                    checkFrame.setChecked(false);
-                    loadCirclePic(path);
-                }else if (frameType == 2){
-                    checkCircle.setChecked(false);
-                    checkFrame.setChecked(true);
-                    loadSquareAndShadow(path);
-                }else{
-                    checkCircle.setChecked(true);
-                    checkFrame.setChecked(true);
-                    loadCirclePicAndShadow(path);
-                }
-            }
+            Drawable drawable = getResources().getDrawable(R.drawable.water_top_7004);
+            initPic(drawable);
+        }else if (watermarkId.equals(Constans.WATERMARKID_7008)){
+            Drawable drawable = getResources().getDrawable(R.drawable.water_top_7008);
+            initPic(drawable);
+        }else if (watermarkId.equals(Constans.WATERMARKID_7013)){
+            Drawable drawable = getResources().getDrawable(R.drawable.water_7013_avatar);
+            initPic(drawable);
         }
         setListener();
+    }
+
+    private void initPic(Drawable drawable) {
+        if (!isSelect) {//没改变
+            ivAvatar.setImageDrawable(drawable);
+            if (frameType ==2){
+                checkFrame.setChecked(true);
+                checkCircle.setChecked(false);
+                layoutAvatarFrame.setBackground(getResources().getDrawable(R.drawable.shape_square_shadow));
+            }else if (frameType == 3){
+                checkFrame.setChecked(true);
+                checkCircle.setChecked(true);
+                layoutAvatarFrame.setBackground(getResources().getDrawable(R.drawable.shape_circle_shadow));
+            }else if (frameType == 1){
+                checkCircle.setChecked(true);
+                checkFrame.setChecked(false);
+            }else {
+                checkCircle.setChecked(false);
+                checkFrame.setChecked(false);
+            }
+        }else {
+            if (frameType == 0){
+                checkCircle.setChecked(false);
+                checkFrame.setChecked(false);
+                loadSquare(path);
+            }else if (frameType == 1){
+                checkCircle.setChecked(true);
+                checkFrame.setChecked(false);
+                loadCirclePic(path);
+            }else if (frameType == 2){
+                checkCircle.setChecked(false);
+                checkFrame.setChecked(true);
+                loadSquareAndShadow(path);
+            }else{
+                checkCircle.setChecked(true);
+                checkFrame.setChecked(true);
+                loadCirclePicAndShadow(path);
+            }
+        }
     }
 
     /**
