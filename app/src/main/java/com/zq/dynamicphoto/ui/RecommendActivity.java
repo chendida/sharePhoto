@@ -57,6 +57,9 @@ import java.util.TimerTask;
 import butterknife.BindView;
 import butterknife.OnClick;
 
+/**
+ * 精品推荐模板和各种形状模板水印的处理
+ */
 public class RecommendActivity extends BaseActivity<ILoadView, AddWatermarkPresenter<ILoadView>>
         implements UploadView, ILoadView {
     private static final String TAG = "RecommendActivity";
@@ -120,9 +123,23 @@ public class RecommendActivity extends BaseActivity<ILoadView, AddWatermarkPrese
         if (watermarkId.equals(Constans.WATERMARKID_7008)
                 || watermarkId.equals(Constans.WATERMARKID_7004)) {
             return R.layout.activity_recommend;
-        }else if (watermarkId.equals(Constans.WATERMARKID_7005)){
+        }else if (watermarkId.equals(Constans.WATERMARKID_7005)
+                || watermarkId.equals(Constans.WATERMARKID_3008)){
             return R.layout.activity_recommend_7005;
-        }else if (watermarkId.equals(Constans.WATERMARKID_7006)){
+        }else if (watermarkId.equals(Constans.WATERMARKID_7006) ||
+                watermarkId.equals(Constans.WATERMARKID_3003)||
+                watermarkId.equals(Constans.WATERMARKID_3005) ||
+                watermarkId.equals(Constans.WATERMARKID_3006) ||
+                watermarkId.equals(Constans.WATERMARKID_3009) ||
+                watermarkId.equals(Constans.WATERMARKID_3010) ||
+                watermarkId.equals(Constans.WATERMARKID_3011) ||
+                watermarkId.equals(Constans.WATERMARKID_3012) ||
+                watermarkId.equals(Constans.WATERMARKID_3016) ||
+                watermarkId.equals(Constans.WATERMARKID_3017) ||
+                watermarkId.equals(Constans.WATERMARKID_3018) ||
+                watermarkId.equals(Constans.WATERMARKID_3019) ||
+                watermarkId.equals(Constans.WATERMARKID_3020) ||
+                watermarkId.equals(Constans.WATERMARKID_3021)){
             return R.layout.activity_recommend_7006;
         }else if (watermarkId.equals(Constans.WATERMARKID_7007)){
             return R.layout.activity_recommend_7007;
@@ -169,6 +186,30 @@ public class RecommendActivity extends BaseActivity<ILoadView, AddWatermarkPrese
             tvTitle1.setText(getResources().getString(R.string.tv_default_app_name));
             tvTitle2.setText(getResources().getString(R.string.tv_default_wx));
             WatermarkRecommedManager.getInstance().textOutline(29,8);
+        }else if (watermarkId.equals(Constans.WATERMARKID_3008)){
+            etTitle2.setText(getResources().getString(R.string.tv_default_app_name));
+            etTitle3.setText(getResources().getString(R.string.tv_default_wx));
+            tvTitle1.setText(getResources().getString(R.string.tv_default_app_name));
+            tvTitle2.setText(getResources().getString(R.string.tv_default_wx));
+            ivHead.setImageDrawable(getResources().getDrawable(R.drawable.water_3008));
+        }else if (watermarkId.equals(Constans.WATERMARKID_3003) ||
+                watermarkId.equals(Constans.WATERMARKID_3005) ||
+                watermarkId.equals(Constans.WATERMARKID_3006) ||
+                watermarkId.equals(Constans.WATERMARKID_3009) ||
+                watermarkId.equals(Constans.WATERMARKID_3010) ||
+                watermarkId.equals(Constans.WATERMARKID_3011) ||
+                watermarkId.equals(Constans.WATERMARKID_3012) ||
+                watermarkId.equals(Constans.WATERMARKID_3016) ||
+                watermarkId.equals(Constans.WATERMARKID_3017) ||
+                watermarkId.equals(Constans.WATERMARKID_3018) ||
+                watermarkId.equals(Constans.WATERMARKID_3019) ||
+                watermarkId.equals(Constans.WATERMARKID_3020) ||
+                watermarkId.equals(Constans.WATERMARKID_3021)){
+            etTitle2.setText(getResources().getString(R.string.tv_default_app_name));
+            etTitle3.setText(getResources().getString(R.string.tv_default_wx));
+            tvTitle1.setText(getResources().getString(R.string.tv_default_app_name));
+            tvTitle2.setText(getResources().getString(R.string.tv_default_wx));
+            ivHead.setImageDrawable(getDrawable(watermarkId));
         }else if (watermarkId.equals(Constans.WATERMARKID_7006)
                 || watermarkId.equals(Constans.WATERMARKID_7007)
                 || watermarkId.equals(Constans.WATERMARKID_7011)){
@@ -204,6 +245,41 @@ public class RecommendActivity extends BaseActivity<ILoadView, AddWatermarkPrese
             tvTitle1.setText(getResources().getString(R.string.tv_default_app_name));
             tvTitle2.setText(getResources().getString(R.string.tv_default_wx));
         }
+    }
+
+    private Drawable getDrawable(String watermarkId) {
+        Drawable drawable = null;
+        if (watermarkId.equals(Constans.WATERMARKID_3003)) {
+            drawable = getResources().getDrawable(R.drawable.water_3003);
+            WatermarkRecommedManager.getInstance().textOutline(24,8);
+        }else if (watermarkId.equals(Constans.WATERMARKID_3005)){
+            drawable = getResources().getDrawable(R.drawable.water_3005);
+        }else if (watermarkId.equals(Constans.WATERMARKID_3006)){
+            drawable = getResources().getDrawable(R.drawable.water_3006);
+        }else if (watermarkId.equals(Constans.WATERMARKID_3009)){
+            drawable = getResources().getDrawable(R.drawable.water_3009);
+        }else if (watermarkId.equals(Constans.WATERMARKID_3010)){
+            drawable = getResources().getDrawable(R.drawable.water_3010);
+            WatermarkRecommedManager.getInstance().textOutline(24,8);
+        }else if (watermarkId.equals(Constans.WATERMARKID_3011)){
+            drawable = getResources().getDrawable(R.drawable.water_3011);
+            WatermarkRecommedManager.getInstance().textOutline(24,8);
+        }else if (watermarkId.equals(Constans.WATERMARKID_3012)){
+            drawable = getResources().getDrawable(R.drawable.water_3012);
+        }else if (watermarkId.equals(Constans.WATERMARKID_3016)){
+            drawable = getResources().getDrawable(R.drawable.water_3016);
+        }else if (watermarkId.equals(Constans.WATERMARKID_3017)){
+            drawable = getResources().getDrawable(R.drawable.water_3017);
+        }else if (watermarkId.equals(Constans.WATERMARKID_3018)){
+            drawable = getResources().getDrawable(R.drawable.water_3018);
+        }else if (watermarkId.equals(Constans.WATERMARKID_3019)){
+            drawable = getResources().getDrawable(R.drawable.water_3019);
+        }else if (watermarkId.equals(Constans.WATERMARKID_3020)){
+            drawable = getResources().getDrawable(R.drawable.water_3020);
+        }else if (watermarkId.equals(Constans.WATERMARKID_3021)){
+            drawable = getResources().getDrawable(R.drawable.water_3021);
+        }
+        return drawable;
     }
 
     private void setLayoutListener() {
