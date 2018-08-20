@@ -59,6 +59,18 @@ public class Constans {
     public static String WATERMARKID_3020 = "3020";
     public static String WATERMARKID_3021 = "3021";
 
+    public static String WATERMARKID_4003 = "4003";
+    public static String WATERMARKID_4005= "4005";
+    public static String WATERMARKID_4006 = "4006";
+    public static String WATERMARKID_4007 = "4007";
+    public static String WATERMARKID_4008 = "4008";
+    public static String WATERMARKID_4011 = "4011";
+    public static String WATERMARKID_4012 = "4012";
+    public static String WATERMARKID_4013 = "4013";
+    public static String WATERMARKID_4014 = "4014";
+    public static String WATERMARKID_4015 = "4015";
+    public static String WATERMARKID_4017 = "4017";
+
     public static String WATERMARKID_5008 = "5008";
     public static String WATERMARKID_5010 = "5010";
     public static String WATERMARKID_5015 = "5015";

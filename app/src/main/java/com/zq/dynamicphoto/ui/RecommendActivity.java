@@ -145,7 +145,9 @@ public class RecommendActivity extends BaseActivity<ILoadView, AddWatermarkPrese
                 watermarkId.equals(Constans.WATERMARKID_3012) ||
                 watermarkId.equals(Constans.WATERMARKID_3016) ||
                 watermarkId.equals(Constans.WATERMARKID_3019) ||
-                watermarkId.equals(Constans.WATERMARKID_3021)){
+                watermarkId.equals(Constans.WATERMARKID_3021)||
+                watermarkId.equals(Constans.WATERMARKID_4007)||
+                watermarkId.equals(Constans.WATERMARKID_4008)){
             return R.layout.activity_recommend_7006;
         }else if (watermarkId.equals(Constans.WATERMARKID_7007)){
             return R.layout.activity_recommend_7007;
@@ -157,6 +159,24 @@ public class RecommendActivity extends BaseActivity<ILoadView, AddWatermarkPrese
             return R.layout.activity_recommend_7013;
         }else if (watermarkId.equals(Constans.WATERMARKID_7014)){
             return R.layout.activity_recommend_7014;
+        }else if (watermarkId.equals(Constans.WATERMARKID_4003)){
+            return R.layout.activity_recommend_4003;
+        }else if (watermarkId.equals(Constans.WATERMARKID_4005)){
+            return R.layout.activity_recommend_4005;
+        }else if (watermarkId.equals(Constans.WATERMARKID_4006)){
+            return R.layout.activity_recommend_4006;
+        }else if (watermarkId.equals(Constans.WATERMARKID_4011)){
+            return R.layout.activity_recommend_4011;
+        }else if (watermarkId.equals(Constans.WATERMARKID_4012)){
+            return R.layout.activity_recommend_4012;
+        }else if (watermarkId.equals(Constans.WATERMARKID_4013)){
+            return R.layout.activity_recommend_4013;
+        }else if (watermarkId.equals(Constans.WATERMARKID_4014)){
+            return R.layout.activity_recommend_4014;
+        }else if (watermarkId.equals(Constans.WATERMARKID_4015)){
+            return R.layout.activity_recommend_4015;
+        }else if (watermarkId.equals(Constans.WATERMARKID_4017)){
+            return R.layout.activity_recommend_4017;
         }else {
             return R.layout.activity_recommend_7015;
         }
@@ -200,6 +220,8 @@ public class RecommendActivity extends BaseActivity<ILoadView, AddWatermarkPrese
         }else if (watermarkId.equals(Constans.WATERMARKID_3003) ||
                 watermarkId.equals(Constans.WATERMARKID_3005) ||
                 watermarkId.equals(Constans.WATERMARKID_3006) ||
+                watermarkId.equals(Constans.WATERMARKID_4007) ||
+                watermarkId.equals(Constans.WATERMARKID_4008) ||
                 watermarkId.equals(Constans.WATERMARKID_3009) ||
                 watermarkId.equals(Constans.WATERMARKID_3010) ||
                 watermarkId.equals(Constans.WATERMARKID_3011) ||
@@ -221,6 +243,8 @@ public class RecommendActivity extends BaseActivity<ILoadView, AddWatermarkPrese
                     watermarkId.equals(Constans.WATERMARKID_3016) ||
                     watermarkId.equals(Constans.WATERMARKID_3019) ||
                     watermarkId.equals(Constans.WATERMARKID_3020) ||
+                    watermarkId.equals(Constans.WATERMARKID_4007) ||
+                    watermarkId.equals(Constans.WATERMARKID_4008) ||
                     watermarkId.equals(Constans.WATERMARKID_3021)){
                 ivHead.setImageDrawable(getDrawable(watermarkId));
             }
@@ -258,6 +282,19 @@ public class RecommendActivity extends BaseActivity<ILoadView, AddWatermarkPrese
             etTitle3.setText(getResources().getString(R.string.tv_default_wx));
             tvTitle1.setText(getResources().getString(R.string.tv_default_app_name));
             tvTitle2.setText(getResources().getString(R.string.tv_default_wx));
+        }else if (watermarkId.equals(Constans.WATERMARKID_4003)
+                || watermarkId.equals(Constans.WATERMARKID_4005)
+                || watermarkId.equals(Constans.WATERMARKID_4006)
+                || watermarkId.equals(Constans.WATERMARKID_4011)
+                || watermarkId.equals(Constans.WATERMARKID_4012)
+                || watermarkId.equals(Constans.WATERMARKID_4013)
+                || watermarkId.equals(Constans.WATERMARKID_4014)
+                || watermarkId.equals(Constans.WATERMARKID_4015)
+                || watermarkId.equals(Constans.WATERMARKID_4017)){
+            etTitle2.setText(getResources().getString(R.string.tv_default_app_name));
+            etTitle3.setText(getResources().getString(R.string.tv_default_wx));
+            tvTitle1.setText(getResources().getString(R.string.tv_default_app_name));
+            tvTitle2.setText(getResources().getString(R.string.tv_default_wx));
         }
     }
 
@@ -289,6 +326,10 @@ public class RecommendActivity extends BaseActivity<ILoadView, AddWatermarkPrese
             drawable = getResources().getDrawable(R.drawable.water_3020);
         }else if (watermarkId.equals(Constans.WATERMARKID_3021)){
             drawable = getResources().getDrawable(R.drawable.water_3021);
+        }else if (watermarkId.equals(Constans.WATERMARKID_4007)){
+            drawable = getResources().getDrawable(R.drawable.water_4007);
+        }else if (watermarkId.equals(Constans.WATERMARKID_4008)){
+            drawable = getResources().getDrawable(R.drawable.water_4008);
         }
         return drawable;
     }
