@@ -74,4 +74,8 @@
     <color name="text_watermarkid_6001_color">#f13c16</color>
     <color name="text_watermarkid_6002_color">#e4d52e</color>
     <color name="text_watermarkid_7005_color">#b86c8f</color>
+    <color name="text_watermarkid_3003_color">#ffd16f</color>
+    <color name="text_watermarkid_3010_color">#fce701</color>
+    <color name="text_watermarkid_3011_color">#fb8879</color>
+    <color name="text_watermarkid_3018_color">#ffb920</color>
 </resources>
