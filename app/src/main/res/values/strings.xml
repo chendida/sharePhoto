@@ -261,4 +261,12 @@
     <string name="tv_upload_avatar">上传头像</string>
     <string name="tv_default_7014">微商云管家  微信:wgxxc6666</string>
     <string name="tv_input_content">输入内容</string>
+    <string name="tv_water_2001">仅需一扫 码上有礼</string>
+    <string name="tv_water_2004">扫一扫加微信</string>
+    <string name="tv_water_2006">长按识别二维码加好友</string>
+    <string name="tv_water_2008">微信扫扫加好友</string>
+    <string name="tv_water_2009">扫二维码即可加粉</string>
+    <string name="tv_water_2015">扫码进入</string>
+    <string name="upload_two_code">上传二维码</string>
+    <string name="tv_erji_title">二级标题</string>
 </resources>

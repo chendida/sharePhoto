@@ -42,7 +42,7 @@
         android:id="@+id/layout_frame"
         android:layout_width="match_parent"
         android:layout_height="95px"
-        android:layout_marginTop="2px"
+        android:layout_marginTop="34px"
         android:layout_marginLeft="18px"
         android:background="@color/white"
         android:layout_marginRight="18px">

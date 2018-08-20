@@ -124,7 +124,7 @@
         android:background="@color/white"
         android:layout_marginRight="18px">
         <TextView
-            android:id="@+id/tv_title1_hint"
+            android:id="@+id/et_title1"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textColor="@color/tv_text_color9"
@@ -182,6 +182,51 @@
             android:layout_marginRight="20px">
             <TextView
                 android:id="@+id/et_title2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:singleLine="true"
+                android:layout_centerVertical="true"
+                android:textColor="@color/tv_text_color10"
+                android:textSize="32px"
+                />
+        </com.zhy.autolayout.AutoRelativeLayout>
+    </com.zhy.autolayout.AutoRelativeLayout>
+
+    <com.zhy.autolayout.AutoRelativeLayout
+        android:visibility="gone"
+        android:id="@+id/layout_et_title4"
+        android:layout_width="match_parent"
+        android:layout_height="95px"
+        android:layout_marginTop="2px"
+        android:layout_marginLeft="18px"
+        android:background="@color/white"
+        android:layout_marginRight="18px">
+        <TextView
+            android:id="@+id/tv_title4_hint"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/tv_text_color9"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="82px"
+            android:text="@string/tv_erji_title"/>
+        <ImageView
+            android:id="@+id/title_four_right"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="18px"
+            android:src="@drawable/right_go"/>
+        <com.zhy.autolayout.AutoRelativeLayout
+            android:layout_toRightOf="@+id/tv_title4_hint"
+            android:layout_marginLeft="200px"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_toLeftOf="@+id/title_four_right"
+            android:layout_marginRight="20px">
+            <TextView
+                android:id="@+id/et_title4"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentRight="true"

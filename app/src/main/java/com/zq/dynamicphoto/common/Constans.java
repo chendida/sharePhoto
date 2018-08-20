@@ -44,6 +44,18 @@ public class Constans {
     public static String ISANCHOR = "isAnchor";
     public static String LISTENER = "listener";
     public static String WATERMARKID = "watermarkId";
+    public static String WATERMARKID_2001 = "2001";
+    public static String WATERMARKID_2002 = "2002";
+    public static String WATERMARKID_2004 = "2004";
+    public static String WATERMARKID_2005 = "2005";
+    public static String WATERMARKID_2006 = "2006";
+    public static String WATERMARKID_2008 = "2008";
+    public static String WATERMARKID_2009 = "2009";
+    public static String WATERMARKID_2011= "2011";
+    public static String WATERMARKID_2012 = "2012";
+    public static String WATERMARKID_2014 = "2014";
+    public static String WATERMARKID_2015 = "2015";
+
     public static String WATERMARKID_3003 = "3003";
     public static String WATERMARKID_3005 = "3005";
     public static String WATERMARKID_3006 = "3006";

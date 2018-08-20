@@ -40,6 +40,8 @@ public class UploadWaterAvatarActivity extends BaseActivity {
     AutoRelativeLayout layoutBack;
     @BindView(R.id.layout_avatar_frame)
     AutoRelativeLayout layoutAvatarFrame;
+    @BindView(R.id.layout_circle)
+    AutoRelativeLayout layoutCircle;
     @BindView(R.id.tv_title)
     TextView tvTitle;
     @BindView(R.id.tv_finish)
@@ -83,6 +85,11 @@ public class UploadWaterAvatarActivity extends BaseActivity {
         }else if (watermarkId.equals(Constans.WATERMARKID_7013)){
             Drawable drawable = getResources().getDrawable(R.drawable.water_7013_avatar);
             initPic(drawable);
+        }else {
+            Drawable drawable = getResources().getDrawable(R.drawable.water_two_code);
+            initPic(drawable);
+            layoutCircle.setVisibility(View.GONE);
+            checkCircle.setChecked(false);
         }
         setListener();
     }

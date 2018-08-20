@@ -54,7 +54,7 @@ public class WatermarkRecommedManager implements WatermarkSeekBarListener {
     private ImageView ivHead,ivHead1,ivIcon,ivIconHint;
     private AutoRelativeLayout layoutInitPic,layoutWholeWaterContent;
     private StrokeTextView tvTitle1,tvTitle2;
-    private TextView etTitle1,etTitle2;
+    private TextView etTitle1,etTitle2,etTitle3;
     private int default_screen_num = 1;//默认的全屏水印的数量是2*2
     private int default_watermark_space = 0;//默认的全屏水印的间距
     private CheckBox checkFullWatermark;
@@ -188,7 +188,7 @@ public class WatermarkRecommedManager implements WatermarkSeekBarListener {
             color_alpha_title1 = process;
             int color = ColorUtils.getColor(color_index_title1);
             tvTitle1.setTextColor(Color.argb(process,Color.red(color),Color.green(color),Color.blue(color)));
-        }else if (editTitleType == 2){
+        }else if (editTitleType == 2 || editTitleType == 3){
             color_alpha_title2 = process;
             int color = ColorUtils.getColor(color_index_title2);
             tvTitle2.setTextColor(Color.argb(process,Color.red(color),Color.green(color),Color.blue(color)));
@@ -205,7 +205,7 @@ public class WatermarkRecommedManager implements WatermarkSeekBarListener {
                         ,outLineAlpha1);
                 refreshChanged();
             }
-        }else if (editTitleType == 2){
+        }else if (editTitleType == 2 || editTitleType == 3){
             degree2 = process / 10;
             if (isOpen) {
                 setTextViewOutline(tvTitle2,ColorUtils.getColor(outline_color_position2),degree2
@@ -231,6 +231,13 @@ public class WatermarkRecommedManager implements WatermarkSeekBarListener {
                         ,outLineAlpha2);
                 refreshChanged();
             }
+        }else if (editTitleType == 3){
+            outLineAlpha2 = process;
+            if (isOpen) {
+                setTextViewOutline(tvTitle2,ColorUtils.getColor(outline_color_position2),degree2
+                        ,outLineAlpha2);
+                refreshChanged();
+            }
         }
     }
 
@@ -246,6 +253,11 @@ public class WatermarkRecommedManager implements WatermarkSeekBarListener {
             if (isOpen) {
                 updateTitleBgColor(bg_color_index_title2,true);
             }
+        }else if (editTitleType == 3){
+            bg_color_alpha_title2 = process;
+            if (isOpen) {
+                updateTitleBgColor(bg_color_index_title2,true);
+            }
         }
     }
 
@@ -254,6 +266,8 @@ public class WatermarkRecommedManager implements WatermarkSeekBarListener {
         if (editTitleType == 1) {
             refreshTextSize(tvTitle1,process);
         }else if (editTitleType == 2){
+            refreshTextSize(tvTitle2,process);
+        }else if (editTitleType == 3){
             refreshTextSize(tvTitle2,process);
         }
     }
@@ -268,6 +282,8 @@ public class WatermarkRecommedManager implements WatermarkSeekBarListener {
         if (editTitleType == 1) {
             refreshTextSpace(tvTitle1,process);
         }else if (editTitleType == 2){
+            refreshTextSpace(tvTitle2,process);
+        }else if (editTitleType == 3){
             refreshTextSpace(tvTitle2,process);
         }
     }
@@ -311,7 +327,7 @@ public class WatermarkRecommedManager implements WatermarkSeekBarListener {
                          AutoRelativeLayout layoutWholeWaterContent,ImageView ivHead,ImageView ivHead1,
                          ImageView ivIcon,ImageView ivIconHint,
                          StrokeTextView tvTitle1, StrokeTextView tvTitle2,
-                         TextView etTitle1,TextView etTitle2,
+                         TextView etTitle1,TextView etTitle2,TextView etTitle3,
                          CheckBox checkFullWatermark,CheckBox checkWaterBgSetting) {
         this.mContext = activity;
         this.layoutInitPic = layoutInitPic;
@@ -324,6 +340,7 @@ public class WatermarkRecommedManager implements WatermarkSeekBarListener {
         this.tvTitle2 = tvTitle2;
         this.etTitle1 = etTitle1;
         this.etTitle2 = etTitle2;
+        this.etTitle3 = etTitle3;
         this.checkFullWatermark = checkFullWatermark;
         this.checkWaterBgSetting = checkWaterBgSetting;
     }
@@ -561,6 +578,10 @@ public class WatermarkRecommedManager implements WatermarkSeekBarListener {
             tvContent = etTitle2.getText().toString();
             outlineStatus = check_title2_outline;
             bgStatus = check_title2_bg;
+        }else if (type == 3){
+            tvContent = etTitle3.getText().toString();
+            outlineStatus = check_title2_outline;
+            bgStatus = check_title2_bg;
         }
         editTitleType = type;
         new WaterTitleDialog(mContext, R.style.dialog, tvContent,
@@ -577,6 +598,8 @@ public class WatermarkRecommedManager implements WatermarkSeekBarListener {
                                     showTextFontDialog((int) tvTitle1.getTextSize(),tvTitle1.getSpacing());
                                 }else if (type == 2){
                                     showTextFontDialog((int) tvTitle2.getTextSize(),tvTitle2.getSpacing());
+                                }else if (type == 3){
+                                    showTextFontDialog((int) tvTitle2.getTextSize(),tvTitle2.getSpacing());
                                 }
                                 break;
                             case 2://文字颜色修改
@@ -584,13 +607,17 @@ public class WatermarkRecommedManager implements WatermarkSeekBarListener {
                                     showTextColorDialog(type,color_alpha_title1);
                                 }else if (type == 2){
                                     showTextColorDialog(type,color_alpha_title2);
+                                }else if (type == 3){
+                                    showTextColorDialog(type,color_alpha_title2);
                                 }
                                 break;
                             case 3://文字对齐
                                 if (type == 1) {
                                     showTextAlignDialog(type);
-                                }else {
+                                }else if (type == 2){
                                     showWaterIconDialog();
+                                }else if (type == 3){
+                                    showTextAlignDialog(type);
                                 }
                                 break;
                             case 4://文字描边设置
@@ -598,12 +625,16 @@ public class WatermarkRecommedManager implements WatermarkSeekBarListener {
                                     showTextOutlineDialog(isOpen,degree1,outLineAlpha1);
                                 }else if (type == 2){
                                     showTextOutlineDialog(isOpen,degree2,outLineAlpha2);
+                                }else if (type == 3){
+                                    showTextOutlineDialog(isOpen,degree2,outLineAlpha2);
                                 }
                                 break;
                             case 5://文字背景设置
                                 if (type == 1) {
                                     showTextBgDialog(isOpen, bg_color_alpha_title1);
                                 }else if (type == 2){
+                                    showTextBgDialog(isOpen, bg_color_alpha_title2);
+                                }else if (type == 3){
                                     showTextBgDialog(isOpen, bg_color_alpha_title2);
                                 }
                                 break;
@@ -637,6 +668,9 @@ public class WatermarkRecommedManager implements WatermarkSeekBarListener {
             }else if (editTitleType == 2){
                 check_title2_outline = true;
                 updateTextOutline(outline_color_position2,true);
+            }else if (editTitleType == 3){
+                check_title2_outline = true;
+                updateTextOutline(outline_color_position2,true);
             }
         }else {
             if (editTitleType == 1){
@@ -644,6 +678,10 @@ public class WatermarkRecommedManager implements WatermarkSeekBarListener {
                 setTextViewOutline(tvTitle1,ColorUtils.getColor(0),degree1,outLineAlpha1);
                 refreshChanged();
             }else if (editTitleType == 2){
+                check_title2_outline = false;
+                setTextViewOutline(tvTitle2,ColorUtils.getColor(0),degree2,outLineAlpha2);
+                refreshChanged();
+            }else if (editTitleType == 3){
                 check_title2_outline = false;
                 setTextViewOutline(tvTitle2,ColorUtils.getColor(0),degree2,outLineAlpha2);
                 refreshChanged();
@@ -663,6 +701,9 @@ public class WatermarkRecommedManager implements WatermarkSeekBarListener {
             }else if (editTitleType == 2){
                 check_title2_bg = true;
                 updateTitleBgColor(bg_color_index_title2,true);
+            }else if (editTitleType == 3){
+                check_title2_bg = true;
+                updateTitleBgColor(bg_color_index_title2,true);
             }
         }else {
             if (editTitleType == 1){
@@ -670,6 +711,10 @@ public class WatermarkRecommedManager implements WatermarkSeekBarListener {
                 tvTitle1.setBackgroundColor(ColorUtils.getColor(0));
                 refreshChanged();
             }else if (editTitleType == 2){
+                check_title2_bg = false;
+                tvTitle2.setBackgroundColor(ColorUtils.getColor(0));
+                refreshChanged();
+            }else if (editTitleType == 3){
                 check_title2_bg = false;
                 tvTitle2.setBackgroundColor(ColorUtils.getColor(0));
                 refreshChanged();
@@ -706,6 +751,13 @@ public class WatermarkRecommedManager implements WatermarkSeekBarListener {
                 refreshChanged();
             }
         }else if (editTitleType == 2){
+            bg_color_index_title2 = position;
+            if (isOpen){
+                tvTitle2.setBackgroundColor(color);
+                tvTitle2.getBackground().setAlpha(bg_color_alpha_title2);
+                refreshChanged();
+            }
+        }else if (editTitleType == 3){
             bg_color_index_title2 = position;
             if (isOpen){
                 tvTitle2.setBackgroundColor(color);
@@ -754,6 +806,12 @@ public class WatermarkRecommedManager implements WatermarkSeekBarListener {
                 setTextViewOutline(tvTitle2,color,degree2,outLineAlpha2);
                 refreshChanged();
             }
+        }else if (editTitleType == 3){
+            outline_color_position2 = position;
+            if (isOpen){
+                setTextViewOutline(tvTitle2,color,degree2,outLineAlpha2);
+                refreshChanged();
+            }
         }
     }
 
@@ -778,6 +836,8 @@ public class WatermarkRecommedManager implements WatermarkSeekBarListener {
                                     tvTitle1.setPlace(Gravity.START);
                                 }else if (type == 2){
                                     tvTitle2.setPlace(Gravity.START);
+                                }else if (type == 3){
+                                    tvTitle2.setPlace(Gravity.START);
                                 }
                                 break;
                             case 1://中
@@ -785,12 +845,16 @@ public class WatermarkRecommedManager implements WatermarkSeekBarListener {
                                     tvTitle1.setPlace(Gravity.CENTER_HORIZONTAL);
                                 }else if (type == 2){
                                     tvTitle2.setPlace(Gravity.CENTER_HORIZONTAL);
+                                }else if (type == 3){
+                                    tvTitle2.setPlace(Gravity.CENTER_HORIZONTAL);
                                 }
                                 break;
                             case 2://右
                                 if (type == 1){
                                     tvTitle1.setPlace(Gravity.END);
                                 }else if (type == 2){
+                                    tvTitle2.setPlace(Gravity.END);
+                                }else if (type == 3){
                                     tvTitle2.setPlace(Gravity.END);
                                 }
                                 break;
@@ -831,6 +895,9 @@ public class WatermarkRecommedManager implements WatermarkSeekBarListener {
         }else if (type == 2){
             color_index_title2 = position;
             changeTextColor(color_alpha_title2,color,tvTitle2);
+        }else if (type == 3){
+            color_index_title2 = position;
+            changeTextColor(color_alpha_title2,color,tvTitle2);
         }
         refreshChanged();
     }
@@ -850,6 +917,8 @@ public class WatermarkRecommedManager implements WatermarkSeekBarListener {
             changeTextContent(tvTitle1,etTitle1,content);
         }else if (type == 2){
             changeTextContent(tvTitle2,etTitle2,content);
+        }else if (type == 3){
+            changeTextContent(tvTitle2,etTitle3,content);
         }
         refreshChanged();
     }
