@@ -269,4 +269,11 @@
     <string name="tv_water_2015">扫码进入</string>
     <string name="upload_two_code">上传二维码</string>
     <string name="tv_erji_title">二级标题</string>
+    <string name="tv_title_1001">店庆大酬宾</string>
+    <string name="tv_quanchang">全场</string>
+    <string name="tv_wuzhe">五折</string>
+    <string name="tv_qishou">起售</string>
+    <string name="subhead1">副标题1</string>
+    <string name="subhead2">副标题2</string>
+    <string name="subhead3">副标题3</string>
 </resources>

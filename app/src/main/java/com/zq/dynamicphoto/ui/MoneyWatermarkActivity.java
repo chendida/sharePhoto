@@ -278,6 +278,8 @@ public class MoneyWatermarkActivity extends BaseActivity<ILoadView, AddWatermark
                 ViewGroup.LayoutParams layoutParams = layoutWholeWaterContent.getLayoutParams();
                 layoutParams.width = realWidth;
                 layoutParams.height = realHeight;
+                Log.i("space","realHeight = " + realHeight);
+                Log.i("space","realWidth = " + realWidth);
                 layoutWholeWaterContent.setLayoutParams(layoutParams);
             }
         });

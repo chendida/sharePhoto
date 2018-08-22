@@ -1,6 +1,7 @@
 package com.zq.dynamicphoto.fragment;
 
 import android.annotation.SuppressLint;
+import android.content.Intent;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -23,6 +24,7 @@ import com.zq.dynamicphoto.bean.Watermark;
 import com.zq.dynamicphoto.bean.WatermarkType;
 import com.zq.dynamicphoto.common.Constans;
 import com.zq.dynamicphoto.presenter.WaterMouldPresenter;
+import com.zq.dynamicphoto.ui.LabelWatermarkActivity;
 import com.zq.dynamicphoto.utils.MFGT;
 import com.zq.dynamicphoto.view.EditWaterListener;
 import com.zq.dynamicphoto.view.IGetWaterMouldView;
@@ -190,6 +192,9 @@ public class WaterMouldFragment extends BaseFragment<IGetWaterMouldView,
                 || watermarkId.startsWith("4")
                 || watermarkId.startsWith("2")){
             MFGT.gotoRecommendActivity(this.getActivity(),watermarkId);
+        }else if (watermarkId.startsWith("1")){
+            startActivity(new Intent(this.getActivity(),
+                    LabelWatermarkActivity.class).putExtra(Constans.WATERMARKID,watermarkId));
         }
     }
 }

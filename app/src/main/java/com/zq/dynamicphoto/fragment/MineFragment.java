@@ -2,16 +2,11 @@ package com.zq.dynamicphoto.fragment;
 
 import android.content.ClipboardManager;
 import android.content.Context;
-import android.content.Intent;
 import android.content.SharedPreferences;
-import android.os.Bundle;
 import android.text.TextUtils;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.blankj.utilcode.util.ToastUtils;
 import com.zhy.autolayout.AutoRelativeLayout;
@@ -19,16 +14,13 @@ import com.zq.dynamicphoto.R;
 import com.zq.dynamicphoto.base.BaseFragment;
 import com.zq.dynamicphoto.base.BasePresenter;
 import com.zq.dynamicphoto.common.Constans;
-import com.zq.dynamicphoto.ui.ScorllTestActivity;
 import com.zq.dynamicphoto.ui.SettingActivity;
 import com.zq.dynamicphoto.utils.ImageLoaderUtils;
 import com.zq.dynamicphoto.utils.MFGT;
 import com.zq.dynamicphoto.utils.SharedPreferencesUtils;
 
 import butterknife.BindView;
-import butterknife.ButterKnife;
 import butterknife.OnClick;
-import butterknife.Unbinder;
 
 /**
  * 我的
