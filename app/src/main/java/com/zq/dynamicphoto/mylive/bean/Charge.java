@@ -6,13 +6,23 @@ public class Charge {
 	
 	private String realName;
 	
-	private Integer ChargeTypeId;//6
+	private Integer ChargeTypeId;//6直播钻石计费点获取，7vip会员计费点获取
 	
 	private String paymentName;
 	
 	private Integer money;
 	
 	private String orderId;
+
+	private Integer chargeMode;//1表示直播充值，2表示vip半年会员，3表示vip年度会员
+
+	public Integer getChargeMode() {
+		return chargeMode;
+	}
+
+	public void setChargeMode(Integer chargeMode) {
+		this.chargeMode = chargeMode;
+	}
 
 	public String getPaymentName() {
 		return paymentName;

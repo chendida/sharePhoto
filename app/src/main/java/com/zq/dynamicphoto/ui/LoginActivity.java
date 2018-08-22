@@ -84,12 +84,6 @@ public class LoginActivity extends BaseActivity<ILoadView,WxLoginPresenter<ILoad
         openId = null;
     }
 
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        ButterKnife.bind(this);
-    }
-
     @OnClick({R.id.btn_wx_login, R.id.layout_phone_login})
     public void onClicked(View view) {
         switch (view.getId()) {

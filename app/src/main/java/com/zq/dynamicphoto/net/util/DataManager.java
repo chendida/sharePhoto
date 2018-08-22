@@ -210,4 +210,8 @@ public class DataManager {
     public Observable<Result> createLiveRoom(NetRequestBean netRequestBean){
         return mRetrofitService.createLiveRoom(netRequestBean);
     }
+
+    public Observable<Result> getVipStatus(NetRequestBean netRequestBean){
+        return mRetrofitService.getVipStatus(netRequestBean);
+    }
 }

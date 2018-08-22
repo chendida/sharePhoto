@@ -99,6 +99,7 @@ public class MineFragment extends BaseFragment {
                 MFGT.gotoPhotoInfoActivity(getActivity());
                 break;
             case R.id.layout_open_vip:
+                MFGT.gotoOpenVipActivity(getActivity());
                 break;
             case R.id.layout_my_two_code:
                 SharedPreferences sp = SharedPreferencesUtils.getInstance();

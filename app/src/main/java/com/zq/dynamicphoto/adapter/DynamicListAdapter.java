@@ -23,6 +23,7 @@ import com.zq.dynamicphoto.bean.Dynamic;
 import com.zq.dynamicphoto.bean.DynamicPhoto;
 import com.zq.dynamicphoto.bean.DynamicVideo;
 import com.zq.dynamicphoto.bean.NetRequestBean;
+import com.zq.dynamicphoto.common.Constans;
 import com.zq.dynamicphoto.ui.HtmlPhotoDetailsActivity;
 import com.zq.dynamicphoto.ui.MyFollowsActivity;
 import com.zq.dynamicphoto.ui.widge.NineGridImageLayout;
@@ -30,6 +31,7 @@ import com.zq.dynamicphoto.utils.ImageLoaderUtils;
 import com.zq.dynamicphoto.utils.ImageSaveUtils;
 import com.zq.dynamicphoto.utils.MFGT;
 import com.zq.dynamicphoto.utils.SharedPreferencesUtils;
+import com.zq.dynamicphoto.view.DynamicDelete;
 
 import java.util.ArrayList;
 import butterknife.BindView;
@@ -39,7 +41,8 @@ import butterknife.ButterKnife;
  * Created by Administrator on 2018/6/11.
  */
 
-public class DynamicListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>{
+public class DynamicListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
+        implements DynamicDelete{
     private static final int HEAD_TYPE = 00001;
     private static final int BODY_TYPE = 00002;
     private int headCount = 1;//头部个数，后续可以自己拓展
@@ -64,9 +67,15 @@ public class DynamicListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
         return headCount != 0 && position < headCount;
     }
 
+    @Override
+    public void deleteSuccess(int position) {
+        mList.remove(position);
+        notifyDataSetChanged();
+    }
+
     //自定义接口，用于回调按钮点击事件到Activity
     public interface MyClickListener {
-        void clickListener(View view,int position,NetRequestBean netRequestBean);
+        void clickListener(View view,int position,NetRequestBean netRequestBean,DynamicDelete listener);
     }
 
     public ArrayList<Dynamic> getmList() {
@@ -91,10 +100,10 @@ public class DynamicListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
         this.mList = mList;
         this.mListener = listener;
         SharedPreferences sp = SharedPreferencesUtils.getInstance();
-        userId = sp.getInt("userId", 0);
-        userLogo = sp.getString("userLogo", "");
-        realName = sp.getString("remarkName", "");
-        bgUrl = sp.getString("bgImage", "");
+        userId = sp.getInt(Constans.USERID, 0);
+        userLogo = sp.getString(Constans.USERLOGO, "");
+        realName = sp.getString(Constans.REMARKNAME, "");
+        bgUrl = sp.getString(Constans.BGIMAGE, "");
     }
 
     @NonNull
@@ -116,6 +125,34 @@ public class DynamicListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
     public void onBindViewHolder(@NonNull RecyclerView.ViewHolder parent, final int position) {
         if (parent instanceof HeadViewHolder){
             HeadViewHolder holder = (HeadViewHolder) parent;
+            holder.layoutSearch.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    mListener.clickListener(v,position - 1,null,
+                            DynamicListAdapter.this);
+                }
+            });
+            holder.ivBg.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    mListener.clickListener(v,position - 1,null,
+                            DynamicListAdapter.this);
+                }
+            });
+            holder.ivMyAvatar.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    mListener.clickListener(v,position - 1,null,
+                            DynamicListAdapter.this);
+                }
+            });
+            holder.layoutShareMyPhoto.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    mListener.clickListener(v,position - 1,null,
+                            DynamicListAdapter.this);
+                }
+            });
             holder.bind(position);
         }else if (parent instanceof DynamicViewHolder){
             final DynamicViewHolder holder = (DynamicViewHolder) parent;
@@ -127,9 +164,8 @@ public class DynamicListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
                     NetRequestBean netRequestBean = new NetRequestBean();
                     netRequestBean.setDeviceProperties(dr);
                     netRequestBean.setDynamic(dynamic);
-                    mListener.clickListener(v,position - 1,netRequestBean);
-                    mList.remove(position-1);
-                    notifyDataSetChanged();
+                    mListener.clickListener(v,position - 1,netRequestBean,
+                            DynamicListAdapter.this);
                 }
             });
             holder.tvStick.setOnClickListener(new View.OnClickListener() {
@@ -138,7 +174,8 @@ public class DynamicListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
                     NetRequestBean netRequestBean = new NetRequestBean();
                     netRequestBean.setDeviceProperties(dr);
                     netRequestBean.setDynamic(dynamic);
-                    mListener.clickListener(v,position - 1,netRequestBean);
+                    mListener.clickListener(v,position - 1,netRequestBean,
+                            DynamicListAdapter.this);
                 }
             });
             holder.tvEdit.setOnClickListener(new View.OnClickListener() {
@@ -155,7 +192,8 @@ public class DynamicListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
                         NetRequestBean netRequestBean = new NetRequestBean();
                         netRequestBean.setDeviceProperties(dr);
                         netRequestBean.setDynamic(dynamic);
-                        mListener.clickListener(v,position - 1,netRequestBean);
+                        mListener.clickListener(v,position - 1,netRequestBean,
+                                DynamicListAdapter.this);
                     }else {
                         MFGT.gotoEditDynamicActivity(mContext,dynamic);
                     }
@@ -181,7 +219,8 @@ public class DynamicListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
                 public void onClick(View view) {
                     NetRequestBean netRequestBean = new NetRequestBean();
                     netRequestBean.setDynamic(mList.get(position-1));
-                    mListener.clickListener(view,position - 1,netRequestBean);
+                    mListener.clickListener(view,position - 1,netRequestBean,
+                            DynamicListAdapter.this);
                 }
             });
             holder.ivAvatar.setOnClickListener(new View.OnClickListener() {
@@ -196,7 +235,8 @@ public class DynamicListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
                     }else {
                         NetRequestBean netRequestBean = new NetRequestBean();
                         netRequestBean.setDynamic(mList.get(position-1));
-                        mListener.clickListener(view,position-1,netRequestBean);
+                        mListener.clickListener(view,position-1,netRequestBean,
+                                DynamicListAdapter.this);
                     }
                 }
             });

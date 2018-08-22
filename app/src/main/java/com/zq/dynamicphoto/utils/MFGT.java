@@ -34,6 +34,7 @@ import com.zq.dynamicphoto.ui.LabelManagerActivity;
 import com.zq.dynamicphoto.ui.MoneyWatermarkActivity;
 import com.zq.dynamicphoto.ui.MyFansActivity;
 import com.zq.dynamicphoto.ui.MyFollowsActivity;
+import com.zq.dynamicphoto.ui.OpenVipActivity;
 import com.zq.dynamicphoto.ui.PhotoInfoActivity;
 import com.zq.dynamicphoto.ui.PhotoListActivity;
 import com.zq.dynamicphoto.ui.PhotoSelectActivity;
@@ -225,5 +226,9 @@ public class MFGT {
                 .putExtra(Constans.FRAME_TYPE,type)
                 .putExtra(Constans.AVATAR_PATH,avatarPath)
                 ,Constans.REQUEST_CODE);
+    }
+
+    public static void gotoOpenVipActivity(Activity activity) {
+        activity.startActivity(new Intent(activity, OpenVipActivity.class));
     }
 }

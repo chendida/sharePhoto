@@ -65,12 +65,22 @@ public class DataUtils {
                 if (!TextUtils.isEmpty(userInfo.getRemarkName())){
                     edit.putString(Constans.REMARKNAME,userInfo.getRemarkName());
                 }
+                if (userInfo.getIsVip() != null){
+                    if (userInfo.getIsVip() == 1) {
+                        edit.putBoolean(Constans.IS_VIP, true);
+                        if (!TextUtils.isEmpty(userInfo.getVip())){
+                            edit.putString(Constans.VIP,userInfo.getVip());
+                        }
+                    }else {
+                        edit.putBoolean(Constans.IS_VIP, false);
+                    }
+                }
                 if (user != null){
                     if (!TextUtils.isEmpty(user.getPhone())){
                         edit.putBoolean(Constans.ISBIND,true);
                     }
                     if (!TextUtils.isEmpty(user.getUnionId())){
-                        edit.putString(Constans.ISLOGIN,user.getUnionId());
+                        edit.putString(Constans.UNIONID,user.getUnionId());
                     }
                 }
                 edit.putBoolean(Constans.ISLOGIN,true);

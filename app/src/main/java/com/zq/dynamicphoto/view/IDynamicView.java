@@ -11,4 +11,5 @@ public interface IDynamicView extends BaseView {
     void showData(Result result);
     void showDeleteResult(Result result);
     void showStickResult(Result result);
+    void showUpdateBgResult(Result result);
 }

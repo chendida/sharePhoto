@@ -44,6 +44,8 @@ public class Constans {
     public static String ISANCHOR = "isAnchor";
     public static String LISTENER = "listener";
     public static String WATERMARKID = "watermarkId";
+    public static String IS_VIP = "isVip";//是否是vip
+    public static String VIP = "vip";//vip到期时间
     public static String WATERMARKID_1001 = "1001";
     public static String WATERMARKID_1002 = "1002";
     public static String WATERMARKID_1003 = "1003";
@@ -148,7 +150,7 @@ public class Constans {
     public static Integer REQUEST_LOIGN_ERROR = -4;//登录时手机号或密码错误
 
     public static final int SDK_APPID = 1400087984;
-    public static String Base_Url = "http://192.168.1.7:8080/photo/interface/";
+    public static String Base_Url = "http://192.168.1.91:8080/photo/interface/";
 
     public static String HTML_Url = "http://redshoping.cn/";
     //public static String HTML_Url = "http://192.168.1.184:8080/photo/";

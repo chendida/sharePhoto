@@ -40,6 +40,8 @@ public class UserInfo extends BaseModel implements Serializable {
 	private String remarkName;//昵称
 
 	private String url;//相册地址
+	private Integer isVip;//1表示是vip,0表示非vip
+	private String vip;//vip到期时间
 
 	private List<DynamicLabel> dynamicLabels;
 
@@ -47,6 +49,23 @@ public class UserInfo extends BaseModel implements Serializable {
 	private Integer coin;//余额
 
 	private Integer num;//订单数量
+
+
+	public Integer getIsVip() {
+		return isVip;
+	}
+
+	public void setIsVip(Integer isVip) {
+		this.isVip = isVip;
+	}
+
+	public String getVip() {
+		return vip;
+	}
+
+	public void setVip(String vip) {
+		this.vip = vip;
+	}
 
 	public Integer getNum() {
 		return num;

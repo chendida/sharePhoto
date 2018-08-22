@@ -170,6 +170,7 @@ public class AccountRechargeActivity extends BaseActivity<IAccountRechargeView,
         int userId = sp.getInt(Constans.USERID, 0);
         Charge charge = new Charge();
         charge.setUserId(userId);
+        charge.setChargeMode(1);
         charge.setMoney(Integer.parseInt(totalDiamond));
         charge.setChargeTypeId(6);
         NetRequestBean netRequestBean = new NetRequestBean();

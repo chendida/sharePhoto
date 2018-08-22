@@ -7,29 +7,31 @@
     >
     <com.zhy.autolayout.AutoLinearLayout
         android:layout_width="500px"
-        android:layout_height="wrap_content"
-        android:background="@color/white"
+        android:layout_height="200px"
+        android:background="@drawable/corner"
         android:layout_centerHorizontal="true"
         android:layout_centerInParent="true"
         android:orientation="vertical">
         <com.zhy.autolayout.AutoRelativeLayout
-            android:layout_marginTop="30px"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="100px"
+            android:layout_marginLeft="30px"
+            android:layout_marginRight="30px"
+            android:gravity="center"
+            >
             <TextView
                 android:id="@+id/tv_title"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textSize="30px"
+                android:textSize="32px"
                 android:textColor="@color/black"
-                android:layout_centerHorizontal="true"
                 />
         </com.zhy.autolayout.AutoRelativeLayout>
 
         <com.zhy.autolayout.AutoRelativeLayout
             android:layout_width="match_parent"
             android:layout_height="81px"
-            android:layout_marginTop="40px"
+            android:layout_marginTop="20px"
             >
             <TextView
                 android:layout_width="match_parent"

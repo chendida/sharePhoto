@@ -362,6 +362,14 @@ public interface RetrofitApiService {
     Observable<Result> getOrderId(@Body NetRequestBean netRequestBean);
 
     /**
+     * 修改背景
+     * @param netRequestBean
+     * @return
+     */
+    @POST("sdkData.shtml?requestId=35&a=0&b=0")
+    Observable<Result> updateBg(@Body NetRequestBean netRequestBean);
+
+    /**
      * 创建直播间
      * @param netRequestBean
      * @return
@@ -377,4 +385,12 @@ public interface RetrofitApiService {
      */
     @POST("sdkData.shtml?requestId=50&a=0&b=0")
     Observable<Result> getLiveInfo(@Body NetRequestBean netRequestBean);
+
+    /**
+     * 获取当前vip状态
+     * @param netRequestBean
+     * @return
+     */
+    @POST("sdkData.shtml?requestId=91&a=0&b=0")
+    Observable<Result> getVipStatus(@Body NetRequestBean netRequestBean);
 }

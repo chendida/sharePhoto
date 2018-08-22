@@ -18,6 +18,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.blankj.utilcode.util.ToastUtils;
+import com.google.gson.Gson;
 import com.luck.picture.lib.PictureSelector;
 import com.luck.picture.lib.config.PictureConfig;
 import com.luck.picture.lib.config.PictureMimeType;
@@ -28,6 +29,8 @@ import com.zq.dynamicphoto.R;
 import com.zq.dynamicphoto.adapter.PicAdapter;
 import com.zq.dynamicphoto.base.BaseActivity;
 import com.zq.dynamicphoto.base.BasePresenter;
+import com.zq.dynamicphoto.bean.DeviceProperties;
+import com.zq.dynamicphoto.bean.DrUtils;
 import com.zq.dynamicphoto.bean.Dynamic;
 import com.zq.dynamicphoto.bean.DynamicBean;
 import com.zq.dynamicphoto.bean.DynamicForward;
@@ -35,8 +38,14 @@ import com.zq.dynamicphoto.bean.DynamicLabel;
 import com.zq.dynamicphoto.bean.DynamicPhoto;
 import com.zq.dynamicphoto.bean.DynamicVideo;
 import com.zq.dynamicphoto.bean.MessageEvent;
+import com.zq.dynamicphoto.bean.NetRequestBean;
+import com.zq.dynamicphoto.bean.Result;
+import com.zq.dynamicphoto.bean.UserInfo;
 import com.zq.dynamicphoto.common.Constans;
+import com.zq.dynamicphoto.model.GetVipStatusImp;
+import com.zq.dynamicphoto.presenter.GetVipStatusPresenter;
 import com.zq.dynamicphoto.ui.widge.ShareDialog;
+import com.zq.dynamicphoto.ui.widge.VipHintDialog;
 import com.zq.dynamicphoto.utils.ImageSaveUtils;
 import com.zq.dynamicphoto.utils.MFGT;
 import com.zq.dynamicphoto.utils.PermissionUtils;
@@ -46,10 +55,13 @@ import com.zq.dynamicphoto.utils.ShareUtils;
 import com.zq.dynamicphoto.utils.SharedPreferencesUtils;
 import com.zq.dynamicphoto.utils.SoftUtils;
 import com.zq.dynamicphoto.utils.TitleUtils;
+import com.zq.dynamicphoto.view.ILoadView;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.util.ArrayList;
 
@@ -57,8 +69,8 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
-public class EditDynamicActivity extends BaseActivity implements
-        PicAdapter.AddPicListener,ImageSaveUtils.DownLoadListener {
+public class EditDynamicActivity extends BaseActivity<ILoadView,GetVipStatusPresenter<ILoadView>> implements
+        PicAdapter.AddPicListener,ImageSaveUtils.DownLoadListener,ILoadView {
 
     @BindView(R.id.layout_back)
     AutoRelativeLayout layoutBack;
@@ -86,6 +98,10 @@ public class EditDynamicActivity extends BaseActivity implements
     private Integer userId;
     private Dynamic dynamic;
     private ShareDialog shareDialog;
+    private Boolean isUploadPic = false;
+    private Boolean isVip = false;
+    private int type = 0;
+    SharedPreferences sp = SharedPreferencesUtils.getInstance();
     @Override
     protected int getLayoutId() {
         return R.layout.activity_add_pic;
@@ -93,7 +109,6 @@ public class EditDynamicActivity extends BaseActivity implements
 
     @Override
     protected void initView() {
-        SharedPreferences sp = SharedPreferencesUtils.getInstance();
         userId = sp.getInt(Constans.USERID, 0);
         dynamic = (Dynamic) getIntent().getSerializableExtra(Constans.DYNAMIC);
         TitleUtils.setTitleBar(getResources().getString(R.string.edit_image_and_text), tvTitle, layoutBack, ivCamera, tvFinish);
@@ -176,8 +191,8 @@ public class EditDynamicActivity extends BaseActivity implements
     }
 
     @Override
-    protected BasePresenter createPresenter() {
-        return null;
+    protected GetVipStatusPresenter<ILoadView> createPresenter() {
+        return new GetVipStatusPresenter<>();
     }
 
     @Override
@@ -188,6 +203,7 @@ public class EditDynamicActivity extends BaseActivity implements
             switch (requestCode) {
                 case PictureConfig.CHOOSE_REQUEST:
                     PicSelectUtils.getInstance().clear();
+                    isUploadPic = true;
                     // 图片选择结果回调
                     ArrayList<LocalMedia> newFiles = (ArrayList<LocalMedia>) PictureSelector.obtainMultipleResult(data);
                     mAdapter.initDynamicList(newFiles);
@@ -266,11 +282,8 @@ public class EditDynamicActivity extends BaseActivity implements
     public void onClicked(View view) {
         switch (view.getId()) {
             case R.id.layout_finish:
-                if (checkClause.isChecked()) {
-                    toUpload(0);
-                } else {
-                    Toast.makeText(this, getResources().getString(R.string.please_read_and_agree_clause), Toast.LENGTH_SHORT).show();
-                }
+                type = 0;
+                getVipStatus();
                 break;
             case R.id.layout_back:
                 finish();
@@ -320,6 +333,58 @@ public class EditDynamicActivity extends BaseActivity implements
         }
     }
 
+    public void getVipStatus() {
+        DeviceProperties dr = DrUtils.getInstance();
+        SharedPreferences sp =
+                SharedPreferencesUtils.getInstance();
+        int userId = sp.getInt(Constans.USERID, 0);
+        UserInfo userInfo = new UserInfo();
+        userInfo.setUserId(userId);
+        NetRequestBean netRequestBean = new NetRequestBean();
+        netRequestBean.setDeviceProperties(dr);
+        netRequestBean.setUserInfo(userInfo);
+        if (mPresenter != null) {
+            mPresenter.getVipStatus(netRequestBean);
+        }
+    }
+
+    private void uploadDynamic() {
+        if (!isUploadPic) {
+            if (checkClause.isChecked()) {
+                toUpload(type);
+            } else {
+                Toast.makeText(this, getResources().getString(R.string.please_read_and_agree_clause), Toast.LENGTH_SHORT).show();
+            }
+        }else {//改变了图片
+            if (isVip){
+                if (checkClause.isChecked()) {
+                    toUpload(type);
+                } else {
+                    Toast.makeText(this, getResources().getString(R.string.please_read_and_agree_clause), Toast.LENGTH_SHORT).show();
+                }
+            }else {
+                showVipHintDialog();
+            }
+        }
+    }
+
+    private void showVipHintDialog() {
+        new VipHintDialog(this, R.style.dialog, new VipHintDialog.OnItemClickListener() {
+            @Override
+            public void onClick(int position, Dialog dialog) {
+                dialog.dismiss();
+                switch (position){
+                    case 1://了解详情
+
+                        break;
+                    case 2://立即开通
+                        MFGT.gotoOpenVipActivity(EditDynamicActivity.this);
+                        break;
+                }
+            }
+        }).show();
+    }
+
     private void showShareDialog(final Dynamic dynamic) {
         shareDialog = new ShareDialog(this, R.style.dialog, new ShareDialog.OnItemClickListener() {
             @Override
@@ -327,12 +392,14 @@ public class EditDynamicActivity extends BaseActivity implements
                 dialog.dismiss();
                 switch (position) {
                     case 1://分享给好友
-                        //ShareUtils.getInstance().shareFriend(dynamic,1,EditDynamicActivity.this);
-                        toUpload(1);
+                        type = 1;
+                        getVipStatus();
+                        //toUpload(1);
                         break;
                     case 2://分享给微信朋友圈
-                        //ShareUtils.getInstance().shareFriend(dynamic,2,EditDynamicActivity.this);
-                        toUpload(2);
+                        type = 2;
+                        getVipStatus();
+                        //toUpload(2);
                         break;
                     case 3://批量保存
                         if (dynamic != null){
@@ -403,5 +470,41 @@ public class EditDynamicActivity extends BaseActivity implements
     public void callBack(int code, String msg) {
         hideLoading();
         ToastUtils.showShort(msg);
+    }
+
+    @Override
+    public void showData(Result result) {
+        if (result != null) {
+            if (result.getResultCode() == Constans.REQUEST_OK) {
+                dealWithResult(result);
+            } else {
+                showFailed();
+            }
+        } else {
+            showFailed();
+        }
+    }
+
+    private void dealWithResult(Result result) {
+        try {
+            JSONObject jsonObject = new JSONObject(result.getData());
+            UserInfo userInfo = new Gson().fromJson(jsonObject.optString("userInfo"), UserInfo.class);
+            if (userInfo != null) {
+                if (userInfo.getIsVip() != null){
+                    if (userInfo.getIsVip() == 1){
+                        isVip = true;
+                    }else {
+                        isVip = false;
+                    }
+                    uploadDynamic();
+                }else {
+                    ToastUtils.showShort(getResources().getString(R.string.data_error));
+                }
+            }else {
+                ToastUtils.showShort(getResources().getString(R.string.data_error));
+            }
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
     }
 }

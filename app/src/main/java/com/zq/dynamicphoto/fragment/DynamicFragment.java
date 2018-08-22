@@ -7,10 +7,15 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.Toast;
 import com.blankj.utilcode.util.ToastUtils;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
+import com.luck.picture.lib.PictureSelector;
+import com.luck.picture.lib.config.PictureConfig;
+import com.luck.picture.lib.config.PictureMimeType;
+import com.luck.picture.lib.entity.LocalMedia;
 import com.scwang.smartrefresh.layout.SmartRefreshLayout;
 import com.scwang.smartrefresh.layout.api.RefreshLayout;
 import com.scwang.smartrefresh.layout.listener.OnLoadmoreListener;
@@ -22,6 +27,7 @@ import com.zq.dynamicphoto.base.BaseFragment;
 import com.zq.dynamicphoto.bean.DeviceProperties;
 import com.zq.dynamicphoto.bean.DrUtils;
 import com.zq.dynamicphoto.bean.Dynamic;
+import com.zq.dynamicphoto.bean.MessageEvent;
 import com.zq.dynamicphoto.bean.NetRequestBean;
 import com.zq.dynamicphoto.bean.Result;
 import com.zq.dynamicphoto.bean.UserRelation;
@@ -30,16 +36,22 @@ import com.zq.dynamicphoto.presenter.DynamicLoadPresenter;
 import com.zq.dynamicphoto.ui.SettingPermissionActivity;
 import com.zq.dynamicphoto.ui.widge.DynamicDialog;
 import com.zq.dynamicphoto.ui.widge.ShareDialog;
+import com.zq.dynamicphoto.utils.ImageLoaderUtils;
 import com.zq.dynamicphoto.utils.ImageSaveUtils;
 import com.zq.dynamicphoto.utils.MFGT;
 import com.zq.dynamicphoto.utils.ShareUtils;
 import com.zq.dynamicphoto.utils.SharedPreferencesUtils;
+import com.zq.dynamicphoto.view.DynamicDelete;
 import com.zq.dynamicphoto.view.IDynamicView;
+
+import org.greenrobot.eventbus.EventBus;
 import org.json.JSONException;
 import org.json.JSONObject;
 import java.util.ArrayList;
 import java.util.List;
 import butterknife.BindView;
+
+import static android.app.Activity.RESULT_OK;
 
 /**
  * 动态列表界面
@@ -57,6 +69,9 @@ public class DynamicFragment extends BaseFragment<IDynamicView,DynamicLoadPresen
     DynamicListAdapter mAdapter;
     private DynamicDialog dynamicDialog;
     private ShareDialog shareDialog;
+    private DynamicDelete listener;
+    private int positon;
+    private ImageView ivBg;
     @Override
     protected int getLayoutId() {
         return R.layout.fragment_dynamic;
@@ -204,9 +219,13 @@ public class DynamicFragment extends BaseFragment<IDynamicView,DynamicLoadPresen
     }
 
     @Override
-    public void clickListener(View view,int position, NetRequestBean netRequestBean) {
+    public void clickListener(View view, int position, NetRequestBean netRequestBean,
+                              DynamicDelete listener) {
+        int userId = SharedPreferencesUtils.getInstance().getInt(Constans.USERID, 0);
         switch (view.getId()){
             case R.id.tv_delete:
+                this.listener = listener;
+                this.positon = position;
                 deleteDynamic(netRequestBean);
                 break;
             case R.id.tv_stick:
@@ -225,8 +244,54 @@ public class DynamicFragment extends BaseFragment<IDynamicView,DynamicLoadPresen
             case R.id.layout_one_key_share:
                 showShareDialog(netRequestBean.getDynamic());
                 break;
+            case  R.id.layout_search:
+
+                break;
+            case R.id.iv_my_avatar:
+                MFGT.gotoHtmlPhotoDetailsActivity(getActivity(),"friends.html?userId="+
+                               userId,
+                        getResources().getString(R.string.tv_photo_details),
+                        userId);
+                break;
+            case R.id.layout_share_my_photo:
+                MFGT.gotoHtmlManagerActivity(getActivity(),"share.html?userid="+userId,
+                        getResources().getString(R.string.photo_two_code),1);
+                break;
+            case R.id.iv_bg:
+                ivBg = (ImageView) view;
+                intoPicSelect();
+                break;
         }
     }
+
+    private void intoPicSelect() {
+        PictureSelector.create(this)
+                .openGallery(PictureMimeType.ofImage())
+                .maxSelectNum(1)
+                .previewImage(true)
+                .enableCrop(true)
+                .withAspectRatio(1,1)
+                .forResult(PictureConfig.CHOOSE_REQUEST);
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        // 接收图片选择器返回结果，更新所选图片集合
+        if (resultCode == RESULT_OK) {
+            switch (requestCode) {
+                case PictureConfig.CHOOSE_REQUEST:
+                    // 图片选择结果回调
+                    List<LocalMedia> localMedia = PictureSelector.obtainMultipleResult(data);
+                    String path = localMedia.get(0).getCutPath();
+                    //updatePic(path);
+                    //mAdapter.updateBg(path);
+                    ImageLoaderUtils.displayImg(ivBg,path);
+                    break;
+            }
+        }
+    }
+
 
     private void showShareDialog(final Dynamic dynamic) {
         shareDialog = new ShareDialog(getActivity(), R.style.dialog, new ShareDialog.OnItemClickListener() {
@@ -310,6 +375,9 @@ public class DynamicFragment extends BaseFragment<IDynamicView,DynamicLoadPresen
         if (result != null) {
             if (result.getResultCode() == Constans.REQUEST_OK) {
                 ToastUtils.showShort(getResources().getString(R.string.tv_delete_success));
+                if (listener != null){
+                    listener.deleteSuccess(positon);
+                }
             }else {
                 showFailed();
             }

@@ -18,6 +18,8 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.blankj.utilcode.util.ToastUtils;
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 import com.luck.picture.lib.PictureSelector;
 import com.luck.picture.lib.config.PictureConfig;
 import com.luck.picture.lib.config.PictureMimeType;
@@ -28,15 +30,25 @@ import com.zq.dynamicphoto.R;
 import com.zq.dynamicphoto.adapter.PicAdapter;
 import com.zq.dynamicphoto.base.BaseActivity;
 import com.zq.dynamicphoto.base.BasePresenter;
+import com.zq.dynamicphoto.bean.DeviceProperties;
+import com.zq.dynamicphoto.bean.DrUtils;
 import com.zq.dynamicphoto.bean.Dynamic;
 import com.zq.dynamicphoto.bean.DynamicBean;
 import com.zq.dynamicphoto.bean.DynamicLabel;
 import com.zq.dynamicphoto.bean.DynamicPhoto;
 import com.zq.dynamicphoto.bean.DynamicVideo;
 import com.zq.dynamicphoto.bean.MessageEvent;
+import com.zq.dynamicphoto.bean.NetRequestBean;
+import com.zq.dynamicphoto.bean.Result;
+import com.zq.dynamicphoto.bean.UserInfo;
 import com.zq.dynamicphoto.common.Constans;
 import com.zq.dynamicphoto.fragment.DynamicFragment;
+import com.zq.dynamicphoto.mylive.bean.ChargeOrder;
+import com.zq.dynamicphoto.mylive.bean.ChargeType;
+import com.zq.dynamicphoto.presenter.GetVipStatusPresenter;
 import com.zq.dynamicphoto.ui.widge.ShareDialog;
+import com.zq.dynamicphoto.ui.widge.TextHintDialog;
+import com.zq.dynamicphoto.ui.widge.VipHintDialog;
 import com.zq.dynamicphoto.utils.ImageSaveUtils;
 import com.zq.dynamicphoto.utils.MFGT;
 import com.zq.dynamicphoto.utils.PermissionUtils;
@@ -46,20 +58,24 @@ import com.zq.dynamicphoto.utils.ShareUtils;
 import com.zq.dynamicphoto.utils.SharedPreferencesUtils;
 import com.zq.dynamicphoto.utils.SoftUtils;
 import com.zq.dynamicphoto.utils.TitleUtils;
+import com.zq.dynamicphoto.view.ILoadView;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
 
-public class AddPicActivity extends BaseActivity implements PicAdapter.AddPicListener,
-        ImageSaveUtils.DownLoadListener{
+public class AddPicActivity extends BaseActivity<ILoadView,GetVipStatusPresenter<ILoadView>>
+        implements PicAdapter.AddPicListener, ImageSaveUtils.DownLoadListener,ILoadView{
     private static final String TAG = "AddPicActivity";
     @BindView(R.id.layout_article)
     AutoRelativeLayout layoutArticle;
@@ -86,6 +102,9 @@ public class AddPicActivity extends BaseActivity implements PicAdapter.AddPicLis
     private final int MIN_DELAY_TIME = 1000;  // 两次点击间隔不能少于500ms
     private long lastClickTime;
     private ShareDialog shareDialog;
+    private Boolean isVip = false;
+    private int type = 0;
+    SharedPreferences sp = SharedPreferencesUtils.getInstance();
     @Override
     protected int getLayoutId() {
         return R.layout.activity_add_pic;
@@ -99,7 +118,6 @@ public class AddPicActivity extends BaseActivity implements PicAdapter.AddPicLis
         mSelectedImages.clear();
         mAdapter = new PicAdapter(AddPicActivity.this, mSelectedImages, this);
         mGridView.setAdapter(mAdapter);
-
         initListener();
     }
 
@@ -129,8 +147,8 @@ public class AddPicActivity extends BaseActivity implements PicAdapter.AddPicLis
     }
 
     @Override
-    protected BasePresenter createPresenter() {
-        return null;
+    protected GetVipStatusPresenter<ILoadView> createPresenter() {
+        return new GetVipStatusPresenter<>();
     }
 
     @Override
@@ -217,11 +235,8 @@ public class AddPicActivity extends BaseActivity implements PicAdapter.AddPicLis
     public void onClicked(View view) {
         switch (view.getId()) {
             case R.id.layout_finish:
-                if (checkClause.isChecked()) {
-                    toUpload(0);
-                } else {
-                    Toast.makeText(this, getResources().getString(R.string.please_read_and_agree_clause), Toast.LENGTH_SHORT).show();
-                }
+                type = 0;
+                getVipStatus();
                 break;
             case R.id.layout_back:
                 finish();
@@ -236,7 +251,6 @@ public class AddPicActivity extends BaseActivity implements PicAdapter.AddPicLis
                 PermissionUtils.showSeePermissionSelectDialog(this,tvWhoCanSee);
                 break;
             case R.id.tv_about_clause:
-                SharedPreferences sp = SharedPreferencesUtils.getInstance();
                 String agreement = sp.getString(Constans.AGREEMENT, "");
                 MFGT.gotoHtmlManagerActivity(this,agreement,getResources().getString(R.string.about_clause));
                 break;
@@ -271,6 +285,23 @@ public class AddPicActivity extends BaseActivity implements PicAdapter.AddPicLis
         }
     }
 
+    private void showVipHintDialog() {
+        new VipHintDialog(this, R.style.dialog, new VipHintDialog.OnItemClickListener() {
+            @Override
+            public void onClick(int position, Dialog dialog) {
+                dialog.dismiss();
+                switch (position){
+                    case 1://了解详情
+
+                        break;
+                    case 2://立即开通
+                        MFGT.gotoOpenVipActivity(AddPicActivity.this);
+                        break;
+                }
+            }
+        }).show();
+    }
+
     private void showShareDialog(final Dynamic dynamic) {
         shareDialog = new ShareDialog(this, R.style.dialog, new ShareDialog.OnItemClickListener() {
             @Override
@@ -278,10 +309,12 @@ public class AddPicActivity extends BaseActivity implements PicAdapter.AddPicLis
                 dialog.dismiss();
                 switch (position) {
                     case 1://分享给好友
-                        toUpload(1);
+                        type = 1;
+                        getVipStatus();
                         break;
                     case 2://分享给微信朋友圈
-                        toUpload(2);
+                        type = 2;
+                        getVipStatus();
                         break;
                     case 3://批量保存
                         if (dynamic != null){
@@ -338,4 +371,66 @@ public class AddPicActivity extends BaseActivity implements PicAdapter.AddPicLis
     }
 
 
+    @Override
+    public void showData(Result result) {
+        if (result != null) {
+            if (result.getResultCode() == Constans.REQUEST_OK) {
+                dealWithResult(result);
+            } else {
+                showFailed();
+            }
+        } else {
+            showFailed();
+        }
+    }
+
+    private void dealWithResult(Result result) {
+        try {
+            JSONObject jsonObject = new JSONObject(result.getData());
+            UserInfo userInfo = new Gson().fromJson(jsonObject.optString("userInfo"), UserInfo.class);
+            if (userInfo != null) {
+                if (userInfo.getIsVip() != null){
+                    if (userInfo.getIsVip() == 1){
+                        isVip = true;
+                    }else {
+                        isVip = false;
+                    }
+                    uploadDynamic();
+                }else {
+                    ToastUtils.showShort(getResources().getString(R.string.data_error));
+                }
+            }else {
+                ToastUtils.showShort(getResources().getString(R.string.data_error));
+            }
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+    }
+
+    private void uploadDynamic() {
+        if (isVip) {
+            if (checkClause.isChecked()) {
+                toUpload(type);
+            } else {
+                Toast.makeText(this, getResources().getString(R.string.please_read_and_agree_clause), Toast.LENGTH_SHORT).show();
+            }
+        }else {
+            showVipHintDialog();
+        }
+    }
+
+    public void getVipStatus() {
+        DeviceProperties dr = DrUtils.getInstance();
+        SharedPreferences sp =
+                SharedPreferencesUtils.getInstance();
+        int userId = sp.getInt(Constans.USERID, 0);
+        UserInfo userInfo = new UserInfo();
+        userInfo.setUserId(userId);
+        NetRequestBean netRequestBean = new NetRequestBean();
+        netRequestBean.setDeviceProperties(dr);
+        netRequestBean.setUserInfo(userInfo);
+        if (mPresenter != null) {
+            mPresenter.getVipStatus(netRequestBean);
+        }
+    }
 }
