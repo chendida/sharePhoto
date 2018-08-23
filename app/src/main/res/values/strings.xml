@@ -300,4 +300,5 @@
     <string name="tv_half_vip">元 · 半年会员</string>
     <string name="xufei">续费</string>
     <string name="kaiqi">开启</string>
+    <string name="upload_fail">上传图片失败</string>
 </resources>

@@ -176,7 +176,8 @@
         <activity android:name=".ui.RecommendActivity" />
         <activity android:name=".ui.UploadWaterAvatarActivity" />
         <activity android:name=".ui.LabelWatermarkActivity" />
-        <activity android:name=".ui.OpenVipActivity"></activity>
+        <activity android:name=".ui.OpenVipActivity" />
+        <activity android:name=".ui.SearchActivity"></activity>
     </application>
 
 </manifest>

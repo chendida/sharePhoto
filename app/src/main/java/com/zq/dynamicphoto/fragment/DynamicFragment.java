@@ -1,6 +1,7 @@
 package com.zq.dynamicphoto.fragment;
 
 import android.app.Dialog;
+import android.app.Fragment;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.support.v7.widget.LinearLayoutManager;
@@ -23,6 +24,7 @@ import com.scwang.smartrefresh.layout.listener.OnRefreshListener;
 import com.zq.dynamicphoto.MyApplication;
 import com.zq.dynamicphoto.R;
 import com.zq.dynamicphoto.adapter.DynamicListAdapter;
+import com.zq.dynamicphoto.adapter.FriendCircleAdapter;
 import com.zq.dynamicphoto.base.BaseFragment;
 import com.zq.dynamicphoto.bean.DeviceProperties;
 import com.zq.dynamicphoto.bean.DrUtils;
@@ -30,34 +32,41 @@ import com.zq.dynamicphoto.bean.Dynamic;
 import com.zq.dynamicphoto.bean.MessageEvent;
 import com.zq.dynamicphoto.bean.NetRequestBean;
 import com.zq.dynamicphoto.bean.Result;
+import com.zq.dynamicphoto.bean.UserInfo;
 import com.zq.dynamicphoto.bean.UserRelation;
 import com.zq.dynamicphoto.common.Constans;
 import com.zq.dynamicphoto.presenter.DynamicLoadPresenter;
+import com.zq.dynamicphoto.ui.HomeActivity;
 import com.zq.dynamicphoto.ui.SettingPermissionActivity;
 import com.zq.dynamicphoto.ui.widge.DynamicDialog;
 import com.zq.dynamicphoto.ui.widge.ShareDialog;
+import com.zq.dynamicphoto.utils.CosUtils;
 import com.zq.dynamicphoto.utils.ImageLoaderUtils;
 import com.zq.dynamicphoto.utils.ImageSaveUtils;
 import com.zq.dynamicphoto.utils.MFGT;
 import com.zq.dynamicphoto.utils.ShareUtils;
 import com.zq.dynamicphoto.utils.SharedPreferencesUtils;
+import com.zq.dynamicphoto.view.BgUpdate;
 import com.zq.dynamicphoto.view.DynamicDelete;
 import com.zq.dynamicphoto.view.IDynamicView;
+import com.zq.dynamicphoto.view.UploadView;
+import com.zxy.tiny.Tiny;
+import com.zxy.tiny.callback.FileBatchCallback;
+import com.zxy.tiny.callback.FileCallback;
 
-import org.greenrobot.eventbus.EventBus;
 import org.json.JSONException;
 import org.json.JSONObject;
 import java.util.ArrayList;
 import java.util.List;
 import butterknife.BindView;
-
 import static android.app.Activity.RESULT_OK;
 
 /**
  * 动态列表界面
  */
 public class DynamicFragment extends BaseFragment<IDynamicView,DynamicLoadPresenter<IDynamicView>>
-        implements IDynamicView,DynamicListAdapter.MyClickListener,ImageSaveUtils.DownLoadListener{
+        implements IDynamicView,DynamicListAdapter.MyClickListener,
+        ImageSaveUtils.DownLoadListener,UploadView{
 
     @BindView(R.id.rcl)
     RecyclerView rcl;
@@ -72,6 +81,8 @@ public class DynamicFragment extends BaseFragment<IDynamicView,DynamicLoadPresen
     private DynamicDelete listener;
     private int positon;
     private ImageView ivBg;
+    private String imageUrl;
+    private static BgUpdate bgListener;
     @Override
     protected int getLayoutId() {
         return R.layout.fragment_dynamic;
@@ -79,6 +90,7 @@ public class DynamicFragment extends BaseFragment<IDynamicView,DynamicLoadPresen
 
     @Override
     protected void initView(View view) {
+        FriendCircleFragment.setOnDataListener(new OnDataListener());
         if (dynamicsList == null) {
             dynamicsList = new ArrayList<>();
         }
@@ -270,7 +282,7 @@ public class DynamicFragment extends BaseFragment<IDynamicView,DynamicLoadPresen
                 .maxSelectNum(1)
                 .previewImage(true)
                 .enableCrop(true)
-                .withAspectRatio(1,1)
+                .withAspectRatio(16,8)
                 .forResult(PictureConfig.CHOOSE_REQUEST);
     }
 
@@ -286,10 +298,33 @@ public class DynamicFragment extends BaseFragment<IDynamicView,DynamicLoadPresen
                     String path = localMedia.get(0).getCutPath();
                     //updatePic(path);
                     //mAdapter.updateBg(path);
-                    ImageLoaderUtils.displayImg(ivBg,path);
+                    //ImageLoaderUtils.displayImg(ivBg,path);
+                    compossImage(path,7);
                     break;
             }
         }
+    }
+
+    /**
+     * 压缩并上传图片
+     *
+     * @param
+     */
+    private void compossImage(final String path, final int flag) {
+        showLoading();
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                Tiny.FileCompressOptions tiny = new Tiny.FileCompressOptions();
+                Tiny.getInstance().source(path).asFile().withOptions(tiny)
+                        .compress(new FileCallback() {
+                            @Override
+                            public void callback(boolean isSuccess, String outfile, Throwable t) {
+                                CosUtils.getInstance(DynamicFragment.this).uploadToCos(outfile,7);
+                            }
+                        });
+            }
+        }).start();
     }
 
 
@@ -404,8 +439,72 @@ public class DynamicFragment extends BaseFragment<IDynamicView,DynamicLoadPresen
     }
 
     @Override
+    public void showUpdateBgResult(Result result) {
+        if (result != null) {
+            if (result.getResultCode() == Constans.REQUEST_OK) {
+                //ToastUtils.showShort(getResources().getString(R.string.tv_stick_success));
+                ImageLoaderUtils.displayImg(ivBg,imageUrl);
+                SharedPreferences sp = SharedPreferencesUtils.getInstance();
+                sp.edit().putString(Constans.BGIMAGE,imageUrl).commit();
+                bgListener.onBgUpdate(imageUrl);
+            }else {
+                showFailed();
+            }
+        }else {
+            showFailed();
+        }
+    }
+
+    @Override
     public void callBack(int code,String msg) {
         hideLoading();
         ToastUtils.showShort(msg);
+    }
+
+    @Override
+    public void onUploadProcess(int percent) {
+
+    }
+
+    @Override
+    public void onUploadResult(int code, String url) {
+        hideLoading();
+        if (code == Constans.REQUEST_OK){
+            imageUrl = url;
+            updateBg();
+        }else {
+            ToastUtils.showShort(getResources().getString(R.string.upload_fail));
+        }
+    }
+
+    private void updateBg() {
+        DeviceProperties dr = DrUtils.getInstance();
+        final SharedPreferences sp =
+                SharedPreferencesUtils.getInstance();
+        int userId = sp.getInt(Constans.USERID, 0);
+        UserInfo userInfo = new UserInfo();
+        userInfo.setUserId(userId);
+        userInfo.setBgImage(imageUrl);
+        NetRequestBean netRequestBean = new NetRequestBean();
+        netRequestBean.setDeviceProperties(dr);
+        netRequestBean.setUserInfo(userInfo);
+        if (mPresenter != null){
+            mPresenter.updateBg(netRequestBean);
+        }
+    }
+
+    //创建注册回调的函数
+    public static void setOnDataListener(BgUpdate listener){
+        //将参数赋值给接口类型的成员变量
+        bgListener = listener;
+    }
+
+    //用于实现回调的类,实现的是处理回调的接口,并实现接口里面的函数
+    class OnDataListener implements BgUpdate{
+        //实现接口中处理数据的函数,只要右边的Fragment调用onData函数,这里就会收到传递的数据
+        @Override
+        public void onBgUpdate(String url) {
+            ToastUtils.showShort(url);
+        }
     }
 }

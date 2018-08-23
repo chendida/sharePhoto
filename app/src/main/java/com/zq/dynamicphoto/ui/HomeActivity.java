@@ -100,6 +100,10 @@ public class HomeActivity extends BaseActivity<IUploadDynamicView,
         return R.layout.activity_home;
     }
 
+    public ArrayList<Fragment> getmFragments() {
+        return mFragments;
+    }
+
     @Override
     protected void initView() {
         initFragments();

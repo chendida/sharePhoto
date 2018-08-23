@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.SharedPreferences;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,14 +12,19 @@ import android.view.inputmethod.EditorInfo;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
+
+import com.blankj.utilcode.util.ToastUtils;
 import com.zhy.autolayout.AutoRelativeLayout;
 import com.zq.dynamicphoto.R;
 import com.zq.dynamicphoto.bean.Moments;
 import com.zq.dynamicphoto.bean.UserInfo;
 import com.zq.dynamicphoto.common.Constans;
+import com.zq.dynamicphoto.fragment.DynamicFragment;
 import com.zq.dynamicphoto.utils.ImageLoaderUtils;
 import com.zq.dynamicphoto.utils.SharedPreferencesUtils;
 import com.zq.dynamicphoto.utils.SoftUtils;
+import com.zq.dynamicphoto.view.BgUpdate;
+
 import java.util.ArrayList;
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -39,6 +45,8 @@ public class FriendCircleAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
     private int headCount = 1;//头部个数，后续可以自己拓展
     private Activity mActivity;
     private String etSearchContent;
+    private HeadViewHolder headViewHolder;
+    SharedPreferences sp = SharedPreferencesUtils.getInstance();
 
     public FriendCircleAdapter(Activity mContext, ArrayList<Moments> mList,
                                MyClickListener listener, Activity activity) {
@@ -46,7 +54,6 @@ public class FriendCircleAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
         this.mList = mList;
         mListener = listener;
         mActivity = activity;
-        SharedPreferences sp = SharedPreferencesUtils.getInstance();
         userLogo = sp.getString(Constans.USERLOGO, "");
         realName = sp.getString(Constans.REMARKNAME, "");
         bgUrl = sp.getString(Constans.BGIMAGE,"");
@@ -82,17 +89,17 @@ public class FriendCircleAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
         return etSearchContent;
     }
 
-
     //自定义接口，用于回调按钮点击事件到Activity
     public interface MyClickListener {
-        public void clickListener(View v, Moments moments);
+        void clickListener(View v, Moments moments);
     }
 
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         switch (viewType) {
             case HEAD_TYPE:
-                return new HeadViewHolder(View.inflate(mContext, R.layout.layout_friend_head, null));
+                headViewHolder = new HeadViewHolder(View.inflate(mContext, R.layout.layout_friend_head, null));
+                return headViewHolder;
             case BODY_TYPE:
                 return new FriendCircleViewHolder(View.inflate(mContext, R.layout.friend_circle_list, null));
             default:
@@ -276,15 +283,16 @@ public class FriendCircleAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
         AutoRelativeLayout layoutInit;
         @BindView(R.id.layout_clear_input)
         AutoRelativeLayout layoutClearInput;
-
         HeadViewHolder(View view) {
             super(view);
             ButterKnife.bind(this, view);
         }
 
         public void bind() {
+            bgUrl = sp.getString(Constans.BGIMAGE,"");
             if (!TextUtils.isEmpty(bgUrl)){
                 ImageLoaderUtils.displayImg(ivBg,bgUrl);
+                Log.i("momentsList",bgUrl);
             }
             if (!TextUtils.isEmpty(userLogo)){
                 ImageLoaderUtils.displayImg(ivAvatar,userLogo);
@@ -300,6 +308,10 @@ public class FriendCircleAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
                     tvAddAllNum.setText(userInfo.getTotalDynamicNum()+"");
                 }
             }
+        }
+
+        private void updateBg(String url) {
+            ImageLoaderUtils.displayImg(ivBg,url);
         }
     }
 }

@@ -264,7 +264,6 @@ public class OpenVipActivity extends BaseActivity<IAccountRechargeView,
     }
 
     private void charge(String orderId, String totalDiamound, String ipAddress) {
-        totalDiamound = "1";
         //调用统一支付接口
         ZYSDK.initPay(this, "A100001102", totalDiamound, "充值" + totalDiamound + "分",
                 orderId, "app_name=微共享相册demo&package_name=" + getPackageName(),

@@ -214,4 +214,8 @@ public class DataManager {
     public Observable<Result> getVipStatus(NetRequestBean netRequestBean){
         return mRetrofitService.getVipStatus(netRequestBean);
     }
+
+    public Observable<Result> updateBg(NetRequestBean netRequestBean){
+        return mRetrofitService.updateBg(netRequestBean);
+    }
 }

@@ -7,6 +7,7 @@ import com.zq.dynamicphoto.bean.Result;
 import com.zq.dynamicphoto.model.DynamicDeleteImp;
 import com.zq.dynamicphoto.model.DynamicLoadImp;
 import com.zq.dynamicphoto.model.DynamicStickImp;
+import com.zq.dynamicphoto.model.UploadBgImp;
 import com.zq.dynamicphoto.view.IDynamicView;
 import com.zq.dynamicphoto.view.ILoadView;
 
@@ -21,6 +22,8 @@ public class DynamicLoadPresenter<T extends IDynamicView> extends BasePresenter<
     BaseModel deleteDynamicModel = new DynamicDeleteImp();//删除动态的model
 
     BaseModel stickDynamicModel = new DynamicStickImp();//置顶动态的model
+
+    BaseModel uploadBgImp = new UploadBgImp();//修改背景图片
 
     //3.构造方法
     public DynamicLoadPresenter() {
@@ -89,6 +92,31 @@ public class DynamicLoadPresenter<T extends IDynamicView> extends BasePresenter<
                         if (mView != null){
                             mView.get().hideLoading();
                             mView.get().showStickResult(result);
+                        }
+                    }
+
+                    @Override
+                    public void onFail() {
+                        if (mView != null){
+                            mView.get().hideLoading();
+                            mView.get().showFailed();
+                        }
+                    }
+                },netRequestBean);
+            }
+        }
+    }
+
+    public void updateBg(NetRequestBean netRequestBean){
+        if (mView.get() != null){
+            mView.get().showLoading();
+            if (uploadBgImp != null){
+                uploadBgImp.loadData(new BaseModel.OnLoadListener() {
+                    @Override
+                    public void onComplete(Result result) {
+                        if (mView != null){
+                            mView.get().hideLoading();
+                            mView.get().showUpdateBgResult(result);
                         }
                     }
 

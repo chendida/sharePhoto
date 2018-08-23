@@ -34,10 +34,12 @@ import com.zq.dynamicphoto.bean.UserInfo;
 import com.zq.dynamicphoto.common.Constans;
 import com.zq.dynamicphoto.presenter.MomentOperatePresenter;
 import com.zq.dynamicphoto.ui.widge.ShareWxDialog;
+import com.zq.dynamicphoto.utils.ImageLoaderUtils;
 import com.zq.dynamicphoto.utils.ImageSaveUtils;
 import com.zq.dynamicphoto.utils.MFGT;
 import com.zq.dynamicphoto.utils.ShareUtils;
 import com.zq.dynamicphoto.utils.SharedPreferencesUtils;
+import com.zq.dynamicphoto.view.BgUpdate;
 import com.zq.dynamicphoto.view.IFriendCircleView;
 
 import org.json.JSONException;
@@ -56,6 +58,7 @@ import butterknife.Unbinder;
 public class FriendCircleFragment extends BaseFragment<IFriendCircleView,
         MomentOperatePresenter<IFriendCircleView>> implements IFriendCircleView,
         FriendCircleAdapter.MyClickListener{
+    private static final String TAG = "FriendCircleFragment";
     @BindView(R.id.rcl_friend_circle_list)
     RecyclerView rclFriendCircleList;
     @BindView(R.id.refreshLayout)
@@ -65,6 +68,24 @@ public class FriendCircleFragment extends BaseFragment<IFriendCircleView,
     FriendCircleAdapter mAdapter;
     ArrayList<Moments> friendCircleList = new ArrayList<>();
     private ShareWxDialog shareWxDialog;
+    private static BgUpdate bgListener;
+
+    //创建注册回调的函数
+    public static void setOnDataListener(BgUpdate listener){
+        //将参数赋值给接口类型的成员变量
+        bgListener = listener;
+    }
+
+    //用于实现回调的类,实现的是处理回调的接口,并实现接口里面的函数
+    class OnDataListener implements BgUpdate{
+        //实现接口中处理数据的函数,只要右边的Fragment调用onData函数,这里就会收到传递的数据
+        @Override
+        public void onBgUpdate(String url) {
+            pager = 1;
+            getFriendCircleList(pager);
+        }
+    }
+
     @Override
     protected int getLayoutId() {
         return R.layout.fragment_friend_circle;
@@ -72,6 +93,7 @@ public class FriendCircleFragment extends BaseFragment<IFriendCircleView,
 
     @Override
     protected void initView(View view) {
+        DynamicFragment.setOnDataListener(new OnDataListener());
         LinearLayoutManager manager = new LinearLayoutManager(getActivity());
         rclFriendCircleList.setLayoutManager(manager);
         mAdapter = new FriendCircleAdapter(getActivity(), friendCircleList,this,getActivity());
