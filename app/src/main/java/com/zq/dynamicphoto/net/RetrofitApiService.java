@@ -47,6 +47,14 @@ public interface RetrofitApiService {
     @POST("sdkData.shtml?requestId=2&a=0&b=0")
     Observable<Result> login(@Body NetRequestBean netRequestBean);
 
+    /**
+     * 查询标签
+     * @param netRequestBean
+     * @return
+     */
+    @POST("sdkData.shtml?requestId=13&a=0&b=0")
+    Observable<Result> getLabelList(@Body NetRequestBean netRequestBean);
+
 
     /**
      * 删除动态
@@ -360,6 +368,14 @@ public interface RetrofitApiService {
      */
     @POST("sdkData.shtml?requestId=52&a=0&b=0")
     Observable<Result> getOrderId(@Body NetRequestBean netRequestBean);
+
+    /**
+     * 动态搜索
+     * @param netRequestBean
+     * @return
+     */
+    @POST("sdkData.shtml?requestId=34&a=0&b=0")
+    Observable<Result> serchDynamic(@Body NetRequestBean netRequestBean);
 
     /**
      * 修改背景

@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.zhy.autolayout.AutoRelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+    <com.zhy.autolayout.AutoRelativeLayout
+        android:id="@+id/layout_no_limit"
+        android:background="@color/white"
+        android:layout_marginBottom="20px"
+        android:layout_width="match_parent"
+        android:layout_height="80px">
+        <TextView
+            android:layout_marginLeft="20px"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:textSize="28px"
+            android:textColor="@color/black"
+            android:text="@string/no_limit"/>
+        <ImageView
+            android:id="@+id/iv_select"
+            android:visibility="gone"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_marginRight="30px"
+            android:layout_centerVertical="true"
+            android:src="@drawable/icon_no_limit"/>
+    </com.zhy.autolayout.AutoRelativeLayout>
+</com.zhy.autolayout.AutoRelativeLayout>

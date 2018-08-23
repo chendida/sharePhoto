@@ -257,7 +257,7 @@ public class DynamicFragment extends BaseFragment<IDynamicView,DynamicLoadPresen
                 showShareDialog(netRequestBean.getDynamic());
                 break;
             case  R.id.layout_search:
-
+                MFGT.gotoSearchActivity(getActivity());
                 break;
             case R.id.iv_my_avatar:
                 MFGT.gotoHtmlPhotoDetailsActivity(getActivity(),"friends.html?userId="+

@@ -24,6 +24,8 @@ import com.zq.dynamicphoto.ui.AboutAppActivity;
 import com.zq.dynamicphoto.ui.AddFriendCircleActivity;
 import com.zq.dynamicphoto.ui.AddLabelActivity;
 import com.zq.dynamicphoto.ui.AddPicActivity;
+import com.zq.dynamicphoto.ui.CategorySelectActivity;
+import com.zq.dynamicphoto.ui.ContactSelectActivity;
 import com.zq.dynamicphoto.ui.DynamicDetailsActivity;
 import com.zq.dynamicphoto.ui.DynamicSelectActivity;
 import com.zq.dynamicphoto.ui.EditDynamicActivity;
@@ -41,6 +43,7 @@ import com.zq.dynamicphoto.ui.PhotoSelectActivity;
 import com.zq.dynamicphoto.ui.ProblemAndFeedbackActivity;
 import com.zq.dynamicphoto.ui.RecommendActivity;
 import com.zq.dynamicphoto.ui.ResetPwdActivity;
+import com.zq.dynamicphoto.ui.SearchActivity;
 import com.zq.dynamicphoto.ui.UploadWaterAvatarActivity;
 import com.zq.dynamicphoto.ui.VideoPlayActivity;
 import com.zq.dynamicphoto.ui.WaterStyleActivity;
@@ -230,5 +233,17 @@ public class MFGT {
 
     public static void gotoOpenVipActivity(Activity activity) {
         activity.startActivity(new Intent(activity, OpenVipActivity.class));
+    }
+
+    public static void gotoSearchActivity(Activity activity) {
+        activity.startActivity(new Intent(activity, SearchActivity.class));
+    }
+
+    public static void gotoCategorySelectActivity(Activity activity) {
+        activity.startActivity(new Intent(activity, CategorySelectActivity.class));
+    }
+
+    public static void gotoContactSelectActivity(Activity activity) {
+        activity.startActivity(new Intent(activity, ContactSelectActivity.class));
     }
 }

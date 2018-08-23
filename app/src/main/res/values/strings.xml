@@ -301,4 +301,12 @@
     <string name="xufei">续费</string>
     <string name="kaiqi">开启</string>
     <string name="upload_fail">上传图片失败</string>
+    <string name="filter_publish_and_time">筛选发布人和时间</string>
+    <string name="kinds">标签</string>
+    <string name="no_limit">不限</string>
+    <string name="promulgator">发布人</string>
+    <string name="publish_time">发布时间</string>
+    <string name="clear">清空</string>
+    <string name="no_search">没有找到相关内容哦！</string>
+    <string name="select_contact">选择发布人</string>
 </resources>

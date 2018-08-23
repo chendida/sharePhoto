@@ -218,4 +218,12 @@ public class DataManager {
     public Observable<Result> updateBg(NetRequestBean netRequestBean){
         return mRetrofitService.updateBg(netRequestBean);
     }
+
+    public Observable<Result> searchDynamic(NetRequestBean netRequestBean){
+        return mRetrofitService.serchDynamic(netRequestBean);
+    }
+
+    public Observable<Result> getLabels(NetRequestBean netRequestBean){
+        return mRetrofitService.getLabelList(netRequestBean);
+    }
 }

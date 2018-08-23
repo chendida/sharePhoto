@@ -59,7 +59,7 @@ public class ImageSaveUtils {
     private static DownLoadListener mListener;
 
     private static ImageSaveUtils instance;
-
+    String savePath = "";
     /**
      * 单例
      * @return
@@ -189,7 +189,15 @@ public class ImageSaveUtils {
         Log.i("TEST","videoUrl = " + videoUrl);
         CosXmlService cosXmlService = new CosXmlService(MyApplication.getAppContext(),
                 serviceConfig, localCredentialProvider);
-        String savePath = Environment.getExternalStorageDirectory()+"/";
+        if (flag == 1){
+            try {
+                savePath = Environment.getExternalStorageDirectory().getCanonicalPath()+ "/共享相册/";
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }else {
+            savePath = Environment.getExternalStorageDirectory()+"/";
+        }
         final GetObjectRequest getObjectRequest = new GetObjectRequest(bucket, videoUrl, savePath);
         getObjectRequest.setSign(signDuration,null,null);
         getObjectRequest.setProgressListener(new CosXmlProgressListener() {
@@ -205,7 +213,7 @@ public class ImageSaveUtils {
             public void onSuccess(CosXmlRequest cosXmlRequest, CosXmlResult cosXmlResult) {
                 Log.w("TEST","success" + cosXmlResult.printResult());
                 if (flag == 1) {
-                    scanPhoto(MyApplication.getAppContext(), getObjectRequest.getSavePath());
+                    scanPhoto(MyApplication.getAppContext(), savePath);
                     mListener.callBack(0,"视频保存成功");
                 }else {
                     mListener.callBack(0,getObjectRequest.getSavePath());
