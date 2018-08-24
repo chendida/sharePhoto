@@ -5,8 +5,10 @@ import android.app.Activity;
 import android.app.Dialog;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.text.TextUtils;
 import android.view.View;
 import android.view.WindowManager;
+import android.widget.TextView;
 
 import com.zq.dynamicphoto.R;
 
@@ -18,7 +20,7 @@ public class SelectDialog extends Dialog implements View.OnClickListener {
 
     private Activity mContext;
     private OnItemClickListener mListener;
-
+    private String title;
     public interface OnItemClickListener{
         void onClick(Dialog dialog, int position);
     }
@@ -33,10 +35,11 @@ public class SelectDialog extends Dialog implements View.OnClickListener {
         this.mContext = context;
     }
 
-    public SelectDialog(Activity context, int themeResId, OnItemClickListener mListener) {
+    public SelectDialog(Activity context, int themeResId, OnItemClickListener mListener,String msg) {
         super(context, themeResId);
         this.mContext = context;
         this.mListener = mListener;
+        this.title = msg;
     }
 
     protected SelectDialog(Activity context, boolean cancelable, @Nullable OnCancelListener cancelListener) {
@@ -64,6 +67,10 @@ public class SelectDialog extends Dialog implements View.OnClickListener {
         findViewById(R.id.layout_sure).setOnClickListener(this);
         findViewById(R.id.layout_cancel).setOnClickListener(this);
         findViewById(R.id.layout_outside).setOnClickListener(this);
+        TextView tvTitle = findViewById(R.id.tv_title);
+        if (!TextUtils.isEmpty(title)){
+            tvTitle.setText(title);
+        }
     }
 
 

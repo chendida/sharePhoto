@@ -45,6 +45,7 @@ import com.zq.dynamicphoto.mylive.bean.MessageBean;
 import com.zq.dynamicphoto.mylive.bean.MessageEvent;
 import com.zq.dynamicphoto.mylive.heart.RxHeartLayout;
 import com.zq.dynamicphoto.mylive.ui.LiveActivity;
+import com.zq.dynamicphoto.ui.widge.GlideCircleTransformWithBorder;
 import com.zq.dynamicphoto.utils.SharedPreferencesUtils;
 import com.zq.dynamicphoto.utils.SoftKeyBoardListener;
 import com.zq.dynamicphoto.view.GroupListener;
@@ -162,6 +163,16 @@ public class LayerFragment extends LiveFragment implements Observer, GroupListen
                 }
             }
         }
+        view.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (llInputParent.getVisibility() == View.VISIBLE) {
+                    ivChat.setVisibility(View.VISIBLE);
+                    llInputParent.setVisibility(View.GONE);
+                    hideKeyboard();
+                }
+            }
+        });
     }
 
     @Override
@@ -182,16 +193,6 @@ public class LayerFragment extends LiveFragment implements Observer, GroupListen
                 ivCustom.setVisibility(View.GONE);
             }
         }
-        getView().setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (llInputParent.getVisibility() == View.VISIBLE) {
-                    ivChat.setVisibility(View.VISIBLE);
-                    llInputParent.setVisibility(View.GONE);
-                    hideKeyboard();
-                }
-            }
-        });
         softKeyboardListnenr();
         messageAdapter = new MessageAdapter(getActivity(), messageData);
         lvmessage.setAdapter(messageAdapter);
@@ -208,7 +209,13 @@ public class LayerFragment extends LiveFragment implements Observer, GroupListen
         if (LiveActivity.getUserInfo() != null) {
             if (!TextUtils.isEmpty(LiveActivity.getUserInfo().getUserLogo())) {
                 Glide.with(this).load(LiveActivity.getUserInfo().getUserLogo())
-                        .apply(options).into(ivAnchorAvatar);
+                        .apply(new RequestOptions().error(getResources()
+                                .getDrawable(R.drawable.vip_avatar))
+                                .placeholder(R.drawable.vip_avatar)
+                                .centerCrop()
+                                .transform(new GlideCircleTransformWithBorder(getActivity(), 1,
+                                        getActivity().getResources().getColor(R.color.white)))
+                        ).into(ivAnchorAvatar);
             }
             if (!TextUtils.isEmpty(LiveActivity.getUserInfo().getRemarkName())) {
                 tvAnchorNick.setText(LiveActivity.getUserInfo().getRemarkName());
@@ -397,7 +404,6 @@ public class LayerFragment extends LiveFragment implements Observer, GroupListen
     @Override
     public void onDestroyView() {
         super.onDestroyView();
-        unbinder.unbind();
     }
 
     @Override

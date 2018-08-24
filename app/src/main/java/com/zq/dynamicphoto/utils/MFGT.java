@@ -13,6 +13,7 @@ import com.zq.dynamicphoto.bean.Image;
 import com.zq.dynamicphoto.bean.Moments;
 import com.zq.dynamicphoto.bean.UserInfo;
 import com.zq.dynamicphoto.common.Constans;
+import com.zq.dynamicphoto.mylive.bean.LiveRoom;
 import com.zq.dynamicphoto.mylive.bean.NewLiveRoom;
 import com.zq.dynamicphoto.mylive.ui.AccountRechargeActivity;
 import com.zq.dynamicphoto.mylive.ui.AddLiveGoodActivity;
@@ -245,5 +246,14 @@ public class MFGT {
 
     public static void gotoContactSelectActivity(Activity activity) {
         activity.startActivity(new Intent(activity, ContactSelectActivity.class));
+    }
+
+    public static void gotoLiveActivity(Activity activity, UserInfo userInfo,
+                                        NewLiveRoom newLiveRoom, LiveRoom liveRoom, boolean flag) {
+        activity.startActivity(new Intent(activity, LiveActivity.class)
+                .putExtra("userInfo",userInfo)
+                .putExtra("newLiveRoom",newLiveRoom)
+                .putExtra("liveRoom",liveRoom)
+                .putExtra("isAnchor",flag));
     }
 }

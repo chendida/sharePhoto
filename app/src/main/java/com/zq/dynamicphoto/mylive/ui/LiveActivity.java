@@ -1,35 +1,63 @@
 package com.zq.dynamicphoto.mylive.ui;
 
+import android.Manifest;
 import android.app.Dialog;
 import android.content.ClipboardManager;
 import android.content.Context;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.net.Uri;
+import android.os.Build;
+import android.support.v4.app.ActivityCompat;
 import android.text.TextUtils;
+import android.util.Log;
+import android.view.Window;
+import android.view.WindowManager;
 import android.widget.Toast;
 
+import com.blankj.utilcode.util.ToastUtils;
+import com.tencent.imsdk.TIMCallBack;
+import com.tencent.imsdk.TIMGroupAddOpt;
+import com.tencent.imsdk.TIMGroupManager;
+import com.tencent.imsdk.TIMValueCallBack;
+import com.zq.dynamicphoto.MyApplication;
 import com.zq.dynamicphoto.R;
 import com.zq.dynamicphoto.base.BaseActivity;
 import com.zq.dynamicphoto.base.BaseFragment;
 import com.zq.dynamicphoto.base.BasePresenter;
+import com.zq.dynamicphoto.bean.DeviceProperties;
+import com.zq.dynamicphoto.bean.DrUtils;
+import com.zq.dynamicphoto.bean.NetRequestBean;
+import com.zq.dynamicphoto.bean.Result;
 import com.zq.dynamicphoto.bean.UserInfo;
 import com.zq.dynamicphoto.common.Constans;
 import com.zq.dynamicphoto.mylive.bean.LiveRoom;
 import com.zq.dynamicphoto.mylive.bean.NewLiveRoom;
+import com.zq.dynamicphoto.mylive.fragment.GoodsDialog;
 import com.zq.dynamicphoto.mylive.fragment.LayerFragment;
 import com.zq.dynamicphoto.mylive.fragment.LiveFragment;
 import com.zq.dynamicphoto.mylive.fragment.LiveViewFragment;
 import com.zq.dynamicphoto.mylive.fragment.MainDialogFragment;
 import com.zq.dynamicphoto.mylive.struct.FunctionManager;
 import com.zq.dynamicphoto.mylive.struct.FunctionNoParamNoResult;
+import com.zq.dynamicphoto.presenter.LivePresenter;
 import com.zq.dynamicphoto.ui.AnchorContactDialog;
 import com.zq.dynamicphoto.ui.widge.SelectDialog;
 import com.zq.dynamicphoto.ui.widge.ShareWxDialog;
 import com.zq.dynamicphoto.utils.ShareUtils;
+import com.zq.dynamicphoto.view.LiveView;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Timer;
+import java.util.TimerTask;
 
-public class LiveActivity extends BaseActivity {
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+
+public class LiveActivity extends BaseActivity<LiveView,
+        LivePresenter<LiveView>> implements LiveView {
     private static final String TAG = "LiveActivity";
     private Timer heartTimer;//心跳定时器
     SelectDialog selectDialog;
@@ -59,12 +87,141 @@ public class LiveActivity extends BaseActivity {
     }
     @Override
     protected int getLayoutId() {
+        getWindow().setFlags(WindowManager.LayoutParams. FLAG_FULLSCREEN ,WindowManager.LayoutParams. FLAG_FULLSCREEN);
+        requestWindowFeature(Window.FEATURE_NO_TITLE);
         return R.layout.activity_live;
     }
 
     @Override
     protected void initView() {
+        checkPublishPermission();
+        getWindow().addFlags(WindowManager.LayoutParams.FLAG_TURN_SCREEN_ON);
+        getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
+        /*这里可以看到的就是我们将初始化直播的Fragment添加到了这个页面作为填充
+        * 并且将MainDialogFragment显示在该页面的顶部已达到各种不同交互的需求*/
+        newLiveRoom = (NewLiveRoom) getIntent().getSerializableExtra("newLiveRoom");
+        isAnchor = (Boolean) getIntent().getSerializableExtra("isAnchor");
+        userInfo = (UserInfo) getIntent().getSerializableExtra("userInfo");
+        liveRoom = (LiveRoom) getIntent().getSerializableExtra("liveRoom");
+        //接收参数
+        acceptParam(newLiveRoom,isAnchor,userInfo);
+    }
 
+    private void acceptParam(NewLiveRoom newLiveRoom, Boolean isAnchor, UserInfo userInfo) {
+        liveViewFragment = new LiveViewFragment();
+        if (isAnchor){
+            createGroup(newLiveRoom.getLiveId());
+        }
+        getSupportFragmentManager().beginTransaction().add(R.id.flmain, liveViewFragment).commit();
+        if (mainDialogFragment == null){
+            mainDialogFragment = new MainDialogFragment();
+        }
+        mainDialogFragment.show(getSupportFragmentManager(), "MainDialogFragment");
+        if (isAnchor) {
+            heartTiming();
+        }else {
+            joinLiveRoom();
+        }
+    }
+
+    private void joinLiveRoom() {
+        TIMGroupManager.getInstance().applyJoinGroup(""+newLiveRoom.getLiveId(), "some reason", new TIMCallBack() {
+            @Override
+            public void onError(int code, String desc) {
+                //接口返回了错误码 code 和错误描述 desc，可用于原因
+                //错误码 code 列表请参见错误码表
+                Log.e(TAG, "disconnected");
+            }
+            @Override
+            public void onSuccess() {
+                Log.i(TAG, "join group");
+            }
+        });
+    }
+
+    /**
+     * 定时心跳汇报,10s一次
+     */
+    private void heartTiming() {
+        TimerTask task = new TimerTask() {
+            @Override
+            public void run() {
+                notifyHeart();
+            }
+        };
+        heartTimer = new Timer();
+        heartTimer.schedule(task, 0, 5000);
+    }
+
+    /**
+     * 心跳
+     */
+    private void notifyHeart() {
+        if (newLiveRoom == null){
+            return;
+        }else {
+            if (newLiveRoom.getId() == null){
+                return;
+            }
+        }
+        Log.i(TAG,"heart");
+        DeviceProperties dr = DrUtils.getInstance();
+        NetRequestBean netRequestBean = new NetRequestBean();
+        netRequestBean.setDeviceProperties(dr);
+        NewLiveRoom newLiveRoom = new NewLiveRoom();
+        newLiveRoom.setId(this.newLiveRoom.getId());
+        netRequestBean.setNewLiveRoom(newLiveRoom);
+        if (mPresenter != null){
+            mPresenter.liveHeart(netRequestBean);
+        }
+    }
+
+    /**
+     * 创建群组
+     * @param liveId
+     */
+    private void createGroup(final int liveId) {
+        TIMGroupManager.CreateGroupParam createGroupParam = new TIMGroupManager.CreateGroupParam("AVChatRoom",""+liveId);
+        createGroupParam.setGroupId(""+liveId);
+        createGroupParam.setAddOption(TIMGroupAddOpt.TIM_GROUP_ADD_ANY);
+        TIMGroupManager.getInstance().createGroup(createGroupParam, new TIMValueCallBack<String>() {
+            @Override
+            public void onError(int i, String s) {
+                Log.i(TAG,"code = "+i);
+                Log.i(TAG,"s = "+s);
+            }
+
+            @Override
+            public void onSuccess(String s) {
+                Log.i(TAG,"成功s = "+s);
+            }
+        });
+    }
+
+    private boolean checkPublishPermission() {
+        if (Build.VERSION.SDK_INT >= 23) {
+            List<String> permissions = new ArrayList<>();
+            if (PackageManager.PERMISSION_GRANTED != ActivityCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE)) {
+                permissions.add(Manifest.permission.WRITE_EXTERNAL_STORAGE);
+            }
+            if (PackageManager.PERMISSION_GRANTED != ActivityCompat.checkSelfPermission(this, Manifest.permission.CAMERA)) {
+                permissions.add(Manifest.permission.CAMERA);
+            }
+            if (PackageManager.PERMISSION_GRANTED != ActivityCompat.checkSelfPermission(this, Manifest.permission.RECORD_AUDIO)) {
+                permissions.add(Manifest.permission.RECORD_AUDIO);
+            }
+            if (PackageManager.PERMISSION_GRANTED != ActivityCompat.checkSelfPermission(this, Manifest.permission.READ_PHONE_STATE)) {
+                permissions.add(Manifest.permission.READ_PHONE_STATE);
+            }
+            if (permissions.size() != 0) {
+                ActivityCompat.requestPermissions(this,
+                        permissions.toArray(new String[0]),
+                        100);
+                return false;
+            }
+        }
+
+        return true;
     }
 
     @Override
@@ -73,8 +230,8 @@ public class LiveActivity extends BaseActivity {
     }
 
     @Override
-    protected BasePresenter createPresenter() {
-        return null;
+    protected LivePresenter<LiveView> createPresenter() {
+        return new LivePresenter<>();
     }
 
 
@@ -152,19 +309,158 @@ public class LiveActivity extends BaseActivity {
     }
 
     private void showGoodsList() {
-
+        new GoodsDialog(newLiveRoom).show(getSupportFragmentManager(),"GoodsDialog");
     }
 
+    /**
+     * 给主播点赞
+     */
     private void upvoteAnchor() {
-
+        DeviceProperties dr = DrUtils.getInstance();
+        NewLiveRoom newLiveRoom = new NewLiveRoom();
+        newLiveRoom.setId(this.newLiveRoom.getId());
+        newLiveRoom.setLiveId(this.newLiveRoom.getLiveId());
+        NetRequestBean netRequestBean = new NetRequestBean();
+        netRequestBean.setDeviceProperties(dr);
+        netRequestBean.setNewLiveRoom(newLiveRoom);
+        if (mPresenter != null){
+            mPresenter.upvote(netRequestBean);
+        }
     }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        MyApplication.getInstance().setGroupListener(null);
+        liveViewFragment = null;
+        mainDialogFragment = null;
+        if (isAnchor){
+            deleteGroup(newLiveRoom.getLiveId());
+        }else {
+            quitLiveGroup();
+        }
+        if (heartTimer != null) {
+            heartTimer.cancel();
+        }
+        if (selectDialog != null){
+            if (selectDialog.isShowing()){
+                selectDialog.dismiss();
+            }
+            selectDialog = null;
+        }
+        if (anchorContactDialog != null){
+            if (anchorContactDialog.isShowing()){
+                anchorContactDialog.dismiss();
+            }
+            anchorContactDialog = null;
+        }
+        newLiveRoom = null;
+        userInfo = null;
+        isAnchor = null;
+    }
+
+    /**
+     * 退出群组
+     */
+    private void quitLiveGroup() {
+        //创建回调
+        TIMCallBack cb = new TIMCallBack() {
+            @Override
+            public void onError(int code, String desc) {
+                //错误码 code 和错误描述 desc，可用于定位请求失败原因
+                //错误码 code 含义请参见错误码表
+            }
+
+            @Override
+            public void onSuccess() {
+                Log.e(TAG, "quit group succ");
+            }
+        };
+
+        //退出群组
+        TIMGroupManager.getInstance().quitGroup(
+                newLiveRoom.getLiveId()+"",  //群组 ID
+                cb);      //回调
+    }
+
+    private void deleteGroup(Integer liveId) {
+        //解散群组
+        TIMGroupManager.getInstance().deleteGroup(liveId+"", new TIMCallBack() {
+            @Override
+            public void onError(int code, String desc) {
+                //错误码 code 和错误描述 desc，可用于定位请求失败原因
+                //错误码 code 列表请参见错误码表
+                Log.d(TAG, "login failed. code: " + code + " errmsg: " + desc);
+            }
+
+            @Override
+            public void onSuccess() {
+                //解散群组成功
+                Log.d(TAG, "success");
+            }
+        });
+    }
+
 
     private void showCloseDialog() {
+        new SelectDialog(this, R.style.dialog, new SelectDialog.OnItemClickListener() {
+            @Override
+            public void onClick(Dialog dialog, int position) {
+                dialog.dismiss();
+                switch (position) {
+                    case 1://确定关闭
+                        if (heartTimer != null) {
+                            heartTimer.cancel();
+                        }
+                        closeLiveRoom();
+                        LiveActivity.this.finish();
+                        break;
+                    case 2://取消关闭
+                        break;
+                }
+            }
+        },"").show();
+    }
 
+    private void closeLiveRoom() {
+        if (newLiveRoom == null){
+            return;
+        }else {
+            if (newLiveRoom.getLiveId() == null){
+                return;
+            }
+        }
+        DeviceProperties dr = DrUtils.getInstance();
+        LiveRoom liveRoom = new LiveRoom();
+        liveRoom.setLiveId(newLiveRoom.getLiveId());
+        NetRequestBean netRequestBean = new NetRequestBean();
+        netRequestBean.setDeviceProperties(dr);
+        netRequestBean.setLiveRoom(liveRoom);
+        if (mPresenter != null){
+            mPresenter.closeLiveRoom(netRequestBean);
+        }
     }
 
     private void showAnchorContactDialog() {
-
+        if (anchorContactDialog == null) {
+            anchorContactDialog = new AnchorContactDialog(this, R.style.dialog, new AnchorContactDialog.OnItemClickListener() {
+                @Override
+                public void onClick(Dialog dialog, int position) {
+                    dialog.dismiss();
+                    switch (position) {
+                        case 1://复制微信
+                            copyWx(liveRoom.getWx());
+                            break;
+                        case 2://打电话
+                            gotoPhone(liveRoom.getPhone());
+                            break;
+                        case 3:
+                            break;
+                    }
+                }
+            }, liveRoom.getWx(), liveRoom.getPhone(), liveRoom.getContent());
+        }
+        anchorContactDialog.show();
     }
 
     /**
@@ -175,7 +471,7 @@ public class LiveActivity extends BaseActivity {
         ClipboardManager cm = (ClipboardManager) getSystemService(Context.CLIPBOARD_SERVICE);
         // 将文本内容放到系统剪贴板里。
         cm.setText(wx);
-        Toast.makeText(this, "主播微信号已复制到粘贴板", Toast.LENGTH_LONG).show();
+        ToastUtils.showShort("主播微信号已复制到粘贴板");
     }
 
     /**
@@ -189,16 +485,19 @@ public class LiveActivity extends BaseActivity {
     }
 
     private void showAnchorExitDialog(String msg) {
-        /*if (anchorExitDialog == null){
-            anchorExitDialog = new AnchorExitDialog(this, R.style.dialog, new AnchorExitDialog.OnItemClickListener() {
-                @Override
-                public void onClick(Dialog dialog) {
-                    dialog.dismiss();
-                    AppManager.getInstance().finishCurrentActivity();
+        new SelectDialog(this, R.style.dialog, new SelectDialog.OnItemClickListener() {
+            @Override
+            public void onClick(Dialog dialog, int position) {
+                dialog.dismiss();
+                switch (position) {
+                    case 1://确定关闭
+                        LiveActivity.this.finish();
+                        break;
+                    case 2://取消关闭
+                        break;
                 }
-            },msg);
-        }
-        anchorExitDialog.show();*/
+            }
+        },msg).show();
     }
 
     private void showShareWxDialog() {
@@ -222,5 +521,20 @@ public class LiveActivity extends BaseActivity {
                 }
             }
         }).show();
+    }
+
+    @Override
+    public void showCloseRoomResult(Result result) {
+
+    }
+
+    @Override
+    public void showLiveHeartResult(Result result) {
+
+    }
+
+    @Override
+    public void showUpvoteResult(Result result) {
+
     }
 }

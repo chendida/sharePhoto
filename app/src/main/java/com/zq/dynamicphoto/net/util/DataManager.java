@@ -226,4 +226,24 @@ public class DataManager {
     public Observable<Result> getLabels(NetRequestBean netRequestBean){
         return mRetrofitService.getLabelList(netRequestBean);
     }
+
+    public Observable<Result> liveHeart(NetRequestBean netRequestBean){
+        return mRetrofitService.liveHeart(netRequestBean);
+    }
+
+    public Observable<Result> closeLiveRoom(NetRequestBean netRequestBean){
+        return mRetrofitService.closeLiveRoom(netRequestBean);
+    }
+
+    public Observable<Result> upvoteAnchor(NetRequestBean netRequestBean){
+        return mRetrofitService.upvoteAnchor(netRequestBean);
+    }
+
+    public Observable<Result> gotoLiveRoom(NetRequestBean netRequestBean){
+        return mRetrofitService.gotoLiveRoom(netRequestBean);
+    }
+
+    public Observable<Result> getLiveList(NetRequestBean netRequestBean){
+        return mRetrofitService.getLiveList(netRequestBean);
+    }
 }

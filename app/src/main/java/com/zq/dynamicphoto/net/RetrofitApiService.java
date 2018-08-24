@@ -80,6 +80,39 @@ public interface RetrofitApiService {
     @POST("sdkData.shtml?requestId=33&a=0&b=0")
     Observable<Result> findLabel(@Body NetRequestBean netRequestBean);
 
+    /**
+     * 关闭直播间
+     * @param netRequestBean
+     * @return
+     */
+    @POST("sdkData.shtml?requestId=37&a=0&b=0")
+    Observable<Result> closeLiveRoom(@Body NetRequestBean netRequestBean);
+
+
+    /**
+     * 进入直播间
+     * @param netRequestBean
+     * @return
+     */
+    @POST("sdkData.shtml?requestId=39&a=0&b=0")
+    Observable<Result> gotoLiveRoom(@Body NetRequestBean netRequestBean);
+
+    /**
+     * 给主播点赞
+     * @param netRequestBean
+     * @return
+     */
+    @POST("sdkData.shtml?requestId=48&a=0&b=0")
+    Observable<Result> upvoteAnchor(@Body NetRequestBean netRequestBean);
+
+    /**
+     * 获取直播间产品列表
+     * @param netRequestBean
+     * @return
+     */
+    @POST("sdkData.shtml?requestId=41&a=0&b=0")
+    Observable<Result> getLiveRoomGoodsList(@Body NetRequestBean netRequestBean);
+
 
     /**
      * 新增标签
@@ -96,6 +129,14 @@ public interface RetrofitApiService {
      */
     @POST("sdkData.shtml?requestId=14&a=0&b=0")
     Observable<Result> deleteLabel(@Body NetRequestBean netRequestBean);
+
+    /**
+     * 提交订单
+     * @param netRequestBean
+     * @return
+     */
+    @POST("sdkData.shtml?requestId=42&a=0&b=0")
+    Observable<Result> uploadOrder(@Body NetRequestBean netRequestBean);
 
     /**
      * 修改标签
@@ -146,6 +187,14 @@ public interface RetrofitApiService {
      */
     @POST("sdkData.shtml?requestId=19&a=0&b=0")
     Observable<Result> getFriendCircleList(@Body NetRequestBean netRequestBean);
+
+    /**
+     * 获取直播列表
+     * @param netRequestBean
+     * @return
+     */
+    @POST("sdkData.shtml?requestId=44&a=0&b=0")
+    Observable<Result> getLiveList(@Body NetRequestBean netRequestBean);
 
 
     /**
@@ -228,6 +277,14 @@ public interface RetrofitApiService {
      */
     @POST("sdkData.shtml?requestId=20&a=0&b=0")
     Observable<Result> updatePwd(@Body NetRequestBean netRequestBean);
+
+    /**
+     * 直播心跳
+     * @param netRequestBean
+     * @return
+     */
+    @POST("sdkData.shtml?requestId=38&a=0&b=0")
+    Observable<Result> liveHeart(@Body NetRequestBean netRequestBean);
 
     /**
      * 获取验证码
