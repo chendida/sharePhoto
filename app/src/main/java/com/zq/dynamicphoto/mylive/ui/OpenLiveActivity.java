@@ -241,8 +241,9 @@ public class OpenLiveActivity extends BaseActivity<IOpenLiveView,
         PictureSelector.create(this)
                 .openGallery(PictureMimeType.ofImage())
                 .previewImage(true)
-                .previewVideo(true)
                 .maxSelectNum(1)
+                .enableCrop(true)
+                .withAspectRatio(16,11)
                 .forResult(PictureConfig.CHOOSE_REQUEST);
     }
 
@@ -264,11 +265,11 @@ public class OpenLiveActivity extends BaseActivity<IOpenLiveView,
     private void updateCover(ArrayList<LocalMedia> newFiles) {
         RequestOptions options = new RequestOptions()
                 .diskCacheStrategy(DiskCacheStrategy.RESOURCE);
-        if (!TextUtils.isEmpty(newFiles.get(0).getPath())) {
-            Glide.with(this).load(newFiles.get(0).getPath()).apply(options).into(ivAnchorCover);
+        if (!TextUtils.isEmpty(newFiles.get(0).getCutPath())) {
+            Glide.with(this).load(newFiles.get(0).getCutPath()).apply(options).into(ivAnchorCover);
             ArrayList<String> coverList = new ArrayList<>();
             coverList.clear();
-            coverList.add(newFiles.get(0).getPath());
+            coverList.add(newFiles.get(0).getCutPath());
             compossImage(coverList);
         }
     }

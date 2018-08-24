@@ -251,6 +251,7 @@ public class AccountRechargeActivity extends BaseActivity<IAccountRechargeView,
     }
 
     private void charge(String orderId, String totalDiamound, String ipAddress) {
+        totalDiamound = "1";
         //调用统一支付接口
         ZYSDK.initPay(this, "A100001102", totalDiamound, "充值" + totalDiamound + "分",
                 orderId, "app_name=微共享相册demo&package_name="+getPackageName(),
@@ -278,7 +279,8 @@ public class AccountRechargeActivity extends BaseActivity<IAccountRechargeView,
                 SharedPreferencesUtils.getInstance();
         int userId = sp.getInt(Constans.USERID, 0);
         ChargeType chargeType = new ChargeType();
-        chargeType.setPackageName(getPackageName());
+        //chargeType.setPackageName(getPackageName());
+        chargeType.setCode(6);
         UserInfo userInfo = new UserInfo();
         userInfo.setUserId(userId);
         NetRequestBean netRequestBean = new NetRequestBean();

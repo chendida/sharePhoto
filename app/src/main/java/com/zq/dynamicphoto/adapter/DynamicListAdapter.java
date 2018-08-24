@@ -59,6 +59,8 @@ public class DynamicListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
 
     private MyClickListener mListener;
 
+    SharedPreferences sp = SharedPreferencesUtils.getInstance();
+
     private int getBodySize() {
         return mList.size();
     }
@@ -99,7 +101,6 @@ public class DynamicListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
         this.mContext = context;
         this.mList = mList;
         this.mListener = listener;
-        SharedPreferences sp = SharedPreferencesUtils.getInstance();
         userId = sp.getInt(Constans.USERID, 0);
         userLogo = sp.getString(Constans.USERLOGO, "");
         realName = sp.getString(Constans.REMARKNAME, "");
@@ -405,6 +406,7 @@ public class DynamicListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
         }
 
         private void bind(int position) {
+            bgUrl = sp.getString(Constans.BGIMAGE, "");
             if (!TextUtils.isEmpty(bgUrl)){
                 ImageLoaderUtils.displayImg(ivBg,bgUrl);
             }

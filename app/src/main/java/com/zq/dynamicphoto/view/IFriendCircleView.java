@@ -10,4 +10,5 @@ import com.zq.dynamicphoto.bean.Result;
 public interface IFriendCircleView extends BaseView{
     void getMomentListResult(Result result);
     void deleteMomentResult(Result result);
+    void updateBg(Result result);
 }

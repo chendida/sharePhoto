@@ -27,6 +27,7 @@
     <color name="tv_text_select">#1bbf1f</color>
     <color name="tv_text_normal">#7c7c7c</color>
     <color name="black">#333333</color>
+    <color name="live_nick">#fd537f</color>
     <color name="tv_money_select">#80c67f</color>
     <color name="text_vip_color">#f6ce3b</color>
     <color name="no_vip_color">#7f7e84</color>

@@ -24,6 +24,7 @@ import com.zq.dynamicphoto.utils.ImageLoaderUtils;
 import com.zq.dynamicphoto.utils.SharedPreferencesUtils;
 import com.zq.dynamicphoto.utils.SoftUtils;
 import com.zq.dynamicphoto.view.BgUpdate;
+import com.zq.dynamicphoto.view.DynamicDelete;
 
 import java.util.ArrayList;
 import butterknife.BindView;
@@ -32,7 +33,8 @@ import butterknife.ButterKnife;
 /**
  * Created by Administrator on 2018/3/5.
  */
-public class FriendCircleAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>{
+public class FriendCircleAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
+        implements DynamicDelete{
     private static final String TAG = "FriendCircleAdapter";
     private Activity mContext;
     private ArrayList<Moments> mList;
@@ -89,9 +91,15 @@ public class FriendCircleAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
         return etSearchContent;
     }
 
+    @Override
+    public void deleteSuccess(int position) {
+        mList.remove(position);
+        notifyDataSetChanged();
+    }
+
     //自定义接口，用于回调按钮点击事件到Activity
     public interface MyClickListener {
-        void clickListener(View v, Moments moments);
+        void clickListener(View v, Moments moments, int position, DynamicDelete listener);
     }
 
     @Override
@@ -115,7 +123,13 @@ public class FriendCircleAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
             holder.ivAddFriendCircle.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    mListener.clickListener(v,null);
+                    mListener.clickListener(v,null,position,FriendCircleAdapter.this);
+                }
+            });
+            holder.ivBg.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    mListener.clickListener(v,null,position,FriendCircleAdapter.this);
                 }
             });
             holder.layoutSearch.setOnClickListener(new View.OnClickListener() {
@@ -143,7 +157,8 @@ public class FriendCircleAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
                     if (actionId == EditorInfo.IME_ACTION_SEARCH) {
                         SoftUtils.softShow(mActivity);
                         setEtSearchContent(holder.etSearch.getText().toString());
-                        mListener.clickListener(holder.etSearch,null);
+                        mListener.clickListener(holder.etSearch,null,
+                                position,FriendCircleAdapter.this);
                         return true;
                     }
                     return false;
@@ -154,31 +169,30 @@ public class FriendCircleAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
             holder.setIsRecyclable(false);
             holder.bind(position-1);
             final Moments moments = mList.get(position - 1);
+            final int index = position -1 ;
             holder.tvDelete.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
                     //删除朋友圈动态
-                    mListener.clickListener(view,moments);
-                    mList.remove(position-1);
-                    notifyDataSetChanged();
+                    mListener.clickListener(view,moments,index,FriendCircleAdapter.this);
                 }
             });
             holder.layoutArticle.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    mListener.clickListener(view,moments);
+                    mListener.clickListener(view,moments,index,FriendCircleAdapter.this);
                 }
             });
             holder.tvEdit.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    mListener.clickListener(view,moments);
+                    mListener.clickListener(view,moments,index,FriendCircleAdapter.this);
                 }
             });
             holder.layoutOneKeyShare.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    mListener.clickListener(view,moments);
+                    mListener.clickListener(view,moments,index,FriendCircleAdapter.this);
                 }
             });
         }

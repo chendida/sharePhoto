@@ -504,7 +504,9 @@ public class DynamicFragment extends BaseFragment<IDynamicView,DynamicLoadPresen
         //实现接口中处理数据的函数,只要右边的Fragment调用onData函数,这里就会收到传递的数据
         @Override
         public void onBgUpdate(String url) {
-            ToastUtils.showShort(url);
+            //ToastUtils.showShort(url);
+            pager = 1;
+            getDynamicList(pager);
         }
     }
 }

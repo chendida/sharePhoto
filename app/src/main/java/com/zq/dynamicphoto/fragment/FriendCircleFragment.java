@@ -2,6 +2,7 @@ package com.zq.dynamicphoto.fragment;
 
 
 import android.app.Dialog;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
@@ -12,11 +13,16 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.Toast;
 
 import com.blankj.utilcode.util.ToastUtils;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
+import com.luck.picture.lib.PictureSelector;
+import com.luck.picture.lib.config.PictureConfig;
+import com.luck.picture.lib.config.PictureMimeType;
+import com.luck.picture.lib.entity.LocalMedia;
 import com.scwang.smartrefresh.layout.SmartRefreshLayout;
 import com.scwang.smartrefresh.layout.api.RefreshLayout;
 import com.scwang.smartrefresh.layout.listener.OnLoadmoreListener;
@@ -34,13 +40,18 @@ import com.zq.dynamicphoto.bean.UserInfo;
 import com.zq.dynamicphoto.common.Constans;
 import com.zq.dynamicphoto.presenter.MomentOperatePresenter;
 import com.zq.dynamicphoto.ui.widge.ShareWxDialog;
+import com.zq.dynamicphoto.utils.CosUtils;
 import com.zq.dynamicphoto.utils.ImageLoaderUtils;
 import com.zq.dynamicphoto.utils.ImageSaveUtils;
 import com.zq.dynamicphoto.utils.MFGT;
 import com.zq.dynamicphoto.utils.ShareUtils;
 import com.zq.dynamicphoto.utils.SharedPreferencesUtils;
 import com.zq.dynamicphoto.view.BgUpdate;
+import com.zq.dynamicphoto.view.DynamicDelete;
 import com.zq.dynamicphoto.view.IFriendCircleView;
+import com.zq.dynamicphoto.view.UploadView;
+import com.zxy.tiny.Tiny;
+import com.zxy.tiny.callback.FileCallback;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -52,12 +63,14 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.Unbinder;
 
+import static android.app.Activity.RESULT_OK;
+
 /**
  * 朋友圈
  */
 public class FriendCircleFragment extends BaseFragment<IFriendCircleView,
         MomentOperatePresenter<IFriendCircleView>> implements IFriendCircleView,
-        FriendCircleAdapter.MyClickListener{
+        FriendCircleAdapter.MyClickListener,UploadView{
     private static final String TAG = "FriendCircleFragment";
     @BindView(R.id.rcl_friend_circle_list)
     RecyclerView rclFriendCircleList;
@@ -69,11 +82,46 @@ public class FriendCircleFragment extends BaseFragment<IFriendCircleView,
     ArrayList<Moments> friendCircleList = new ArrayList<>();
     private ShareWxDialog shareWxDialog;
     private static BgUpdate bgListener;
-
+    private ImageView ivBg;
+    private String imageUrl;
+    private DynamicDelete listener;
+    private int positon;
     //创建注册回调的函数
     public static void setOnDataListener(BgUpdate listener){
         //将参数赋值给接口类型的成员变量
         bgListener = listener;
+    }
+
+    @Override
+    public void onUploadProcess(int percent) {
+
+    }
+
+    @Override
+    public void onUploadResult(int code, String url) {
+        hideLoading();
+        if (code == Constans.REQUEST_OK){
+            imageUrl = url;
+            updateBg();
+        }else {
+            ToastUtils.showShort(getResources().getString(R.string.upload_fail));
+        }
+    }
+
+    private void updateBg() {
+        DeviceProperties dr = DrUtils.getInstance();
+        final SharedPreferences sp =
+                SharedPreferencesUtils.getInstance();
+        int userId = sp.getInt(Constans.USERID, 0);
+        UserInfo userInfo = new UserInfo();
+        userInfo.setUserId(userId);
+        userInfo.setBgImage(imageUrl);
+        NetRequestBean netRequestBean = new NetRequestBean();
+        netRequestBean.setDeviceProperties(dr);
+        netRequestBean.setUserInfo(userInfo);
+        if (mPresenter != null){
+            mPresenter.updateBg(netRequestBean);
+        }
     }
 
     //用于实现回调的类,实现的是处理回调的接口,并实现接口里面的函数
@@ -204,7 +252,34 @@ public class FriendCircleFragment extends BaseFragment<IFriendCircleView,
 
     @Override
     public void deleteMomentResult(Result result) {
+        if (result != null) {
+            if (result.getResultCode() == Constans.REQUEST_OK) {
+                ToastUtils.showShort(getResources().getString(R.string.tv_delete_success));
+                if (listener != null){
+                    listener.deleteSuccess(positon);
+                }
+            }else {
+                showFailed();
+            }
+        }else {
+            showFailed();
+        }
+    }
 
+    @Override
+    public void updateBg(Result result) {
+        if (result != null) {
+            if (result.getResultCode() == Constans.REQUEST_OK) {
+                ImageLoaderUtils.displayImg(ivBg,imageUrl);
+                SharedPreferences sp = SharedPreferencesUtils.getInstance();
+                sp.edit().putString(Constans.BGIMAGE,imageUrl).commit();
+                bgListener.onBgUpdate(imageUrl);
+            }else {
+                showFailed();
+            }
+        }else {
+            showFailed();
+        }
     }
 
     @Override
@@ -226,9 +301,11 @@ public class FriendCircleFragment extends BaseFragment<IFriendCircleView,
     }
 
     @Override
-    public void clickListener(View v, Moments moments) {
+    public void clickListener(View v, Moments moments,int positon,DynamicDelete listener) {
         switch (v.getId()){
             case R.id.tv_delete:
+                this.listener = listener;
+                this.positon = positon;
                 deleteMoment(moments);
                 break;
             case R.id.tv_edit:
@@ -248,7 +325,62 @@ public class FriendCircleFragment extends BaseFragment<IFriendCircleView,
             case R.id.layout_one_key_share:
                 showShareWxDialog(moments);
                 break;
+            case R.id.iv_bg:
+                ivBg = (ImageView) v;
+                intoPicSelect();
+                break;
         }
+    }
+
+    private void intoPicSelect() {
+        PictureSelector.create(this)
+                .openGallery(PictureMimeType.ofImage())
+                .maxSelectNum(1)
+                .previewImage(true)
+                .enableCrop(true)
+                .withAspectRatio(16,8)
+                .forResult(PictureConfig.CHOOSE_REQUEST);
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        // 接收图片选择器返回结果，更新所选图片集合
+        if (resultCode == RESULT_OK) {
+            switch (requestCode) {
+                case PictureConfig.CHOOSE_REQUEST:
+                    // 图片选择结果回调
+                    List<LocalMedia> localMedia = PictureSelector.obtainMultipleResult(data);
+                    String path = localMedia.get(0).getCutPath();
+                    //updatePic(path);
+                    //mAdapter.updateBg(path);
+                    //ImageLoaderUtils.displayImg(ivBg,path);
+                    compossImage(path,7);
+                    break;
+            }
+        }
+    }
+
+    /**
+     * 压缩并上传图片
+     *
+     * @param
+     */
+    private void compossImage(final String path, final int flag) {
+        showLoading();
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                Tiny.FileCompressOptions tiny = new Tiny.FileCompressOptions();
+                Tiny.getInstance().source(path).asFile().withOptions(tiny)
+                        .compress(new FileCallback() {
+                            @Override
+                            public void callback(boolean isSuccess, String outfile, Throwable t) {
+                                CosUtils.getInstance(FriendCircleFragment.this).uploadToCos(outfile,7);
+                            }
+                        });
+            }
+        }).start();
     }
 
     private void showShareWxDialog(final Moments moments) {

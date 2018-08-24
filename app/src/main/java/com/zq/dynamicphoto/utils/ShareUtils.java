@@ -361,27 +361,38 @@ public class ShareUtils /*implements CompressView,UploadView*/{
         }
     }
 
-   /* @Override
-    public void onCompressResult(int code, String url) {
-        if (code == 0){
-            CosUtils.getInstance(this).uploadToCos(url, 2);
-        }else {
-            LoadingUtils.hideLoading();
-            ToastUtils.showShort("分享失败");
-        }
-    }
+    /**
+     * 分享直播到微信好友，或者朋友圈
+     * flag  1表示好友，2表示朋友圈
+     */
+    public void shareLiveLink(final String playUrl, final String liveTitle,
+                              final int flag, final String liveCover){
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                if (!MyApplication.mWxApi.isWXAppInstalled()) {
+                    ToastUtils.showShort("您还没有安装微信");
+                    return;
+                }else {
+                    WXWebpageObject webpage = new WXWebpageObject();
+                    webpage.webpageUrl = playUrl;
+                    WXMediaMessage msg = new WXMediaMessage(webpage);
+                    msg.description = "直播";
+                    msg.title = liveTitle;
+                    //这里替换一张自己工程里的图片资源
 
-    @Override
-    public void onUploadProcess(int percent) {
-    }
+                    Bitmap bitmap = GetImageInputStream(liveCover);
 
-    @Override
-    public void onUploadResult(int code, String url) {
-        LoadingUtils.hideLoading();
-        if (code == Constans.REQUEST_OK){
-            shareUrlVideo(CDNUrl.toCNDURL(url),content,2);
-        }else {
-            ToastUtils.showShort("分享失败");
-        }
-    }*/
+                    bitmap = ThumbnailUtils.extractThumbnail(bitmap, 210, 210);
+                    msg.setThumbImage(bitmap);
+
+                    SendMessageToWX.Req req = new SendMessageToWX.Req();
+                    req.transaction = String.valueOf("webpage");
+                    req.message = msg;
+                    req.scene = flag == 1 ? SendMessageToWX.Req.WXSceneSession : SendMessageToWX.Req.WXSceneTimeline;
+                    MyApplication.mWxApi.sendReq(req);
+                }
+            }
+        }).start();
+    }
 }

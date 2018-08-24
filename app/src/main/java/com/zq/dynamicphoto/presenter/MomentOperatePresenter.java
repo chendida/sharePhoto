@@ -6,6 +6,7 @@ import com.zq.dynamicphoto.bean.NetRequestBean;
 import com.zq.dynamicphoto.bean.Result;
 import com.zq.dynamicphoto.model.MomentDeleteImp;
 import com.zq.dynamicphoto.model.MomentListGetImp;
+import com.zq.dynamicphoto.model.UploadBgImp;
 import com.zq.dynamicphoto.view.IFriendCircleView;
 
 /**
@@ -17,6 +18,8 @@ public class MomentOperatePresenter<T extends IFriendCircleView> extends BasePre
     BaseModel momentListGetImp = new MomentListGetImp();//请求朋友圈列表的model
 
     BaseModel momentDeleteImp = new MomentDeleteImp();//删除朋友圈的model
+
+    BaseModel uploadBgImp = new UploadBgImp();//删除朋友圈的model
 
 
     //3.构造方法
@@ -60,6 +63,31 @@ public class MomentOperatePresenter<T extends IFriendCircleView> extends BasePre
                         if (mView != null){
                             mView.get().hideLoading();
                             mView.get().deleteMomentResult(result);
+                        }
+                    }
+
+                    @Override
+                    public void onFail() {
+                        if (mView != null){
+                            mView.get().hideLoading();
+                            mView.get().showFailed();
+                        }
+                    }
+                },netRequestBean);
+            }
+        }
+    }
+
+    public void updateBg(NetRequestBean netRequestBean){
+        if (mView.get() != null){
+            mView.get().showLoading();
+            if (uploadBgImp != null){
+                uploadBgImp.loadData(new BaseModel.OnLoadListener() {
+                    @Override
+                    public void onComplete(Result result) {
+                        if (mView != null){
+                            mView.get().hideLoading();
+                            mView.get().updateBg(result);
                         }
                     }
 

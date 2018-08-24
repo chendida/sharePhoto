@@ -309,4 +309,7 @@
     <string name="clear">清空</string>
     <string name="no_search">没有找到相关内容哦！</string>
     <string name="select_contact">选择发布人</string>
+    <string name="sure_close_live">确定关闭直播间？</string>
+    <string name="wifi_error">您当前的网络状况不佳，推荐您离 WiFi 近一点，尽量不要让 WiFi 穿墙</string>
+    <string name="on_line">在线</string>
 </resources>

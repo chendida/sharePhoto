@@ -21,6 +21,7 @@ import com.zq.dynamicphoto.common.Constans;
 import com.zq.dynamicphoto.ui.widge.NineGridImageLayout;
 import com.zq.dynamicphoto.utils.ImageLoaderUtils;
 import com.zq.dynamicphoto.utils.SharedPreferencesUtils;
+import com.zq.dynamicphoto.view.DynamicDelete;
 
 import java.util.ArrayList;
 
@@ -31,7 +32,8 @@ import butterknife.ButterKnife;
  * Created by Administrator on 2018/3/14.
  */
 
-public class FriendCircleDynamicListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
+public class FriendCircleDynamicListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
+        implements DynamicDelete{
     private Context mContext;
     private ArrayList<Dynamic> mList;
     private String userLogo, realName;
@@ -71,6 +73,12 @@ public class FriendCircleDynamicListAdapter extends RecyclerView.Adapter<Recycle
     @Override
     public long getItemId(int position) {
         return super.getItemId(position);
+    }
+
+    @Override
+    public void deleteSuccess(int position) {
+        mList.remove(position);
+        notifyDataSetChanged();
     }
 
     class SelectDynamicListViewHolder extends RecyclerView.ViewHolder {

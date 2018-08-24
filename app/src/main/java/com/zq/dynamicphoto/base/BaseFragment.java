@@ -1,5 +1,6 @@
 package com.zq.dynamicphoto.base;
 
+import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.view.LayoutInflater;
@@ -11,6 +12,9 @@ import com.kaopiz.kprogresshud.KProgressHUD;
 import com.trello.rxlifecycle2.LifecycleTransformer;
 import com.trello.rxlifecycle2.components.support.RxFragment;
 import com.zq.dynamicphoto.R;
+import com.zq.dynamicphoto.mylive.struct.FunctionManager;
+import com.zq.dynamicphoto.mylive.ui.LiveActivity;
+
 import javax.inject.Inject;
 import butterknife.ButterKnife;
 import butterknife.Unbinder;

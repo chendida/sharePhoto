@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.zhy.autolayout.AutoRelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@android:color/transparent"
+    >
+    <com.zhy.autolayout.AutoRelativeLayout
+        android:id="@+id/layout_outside"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+    </com.zhy.autolayout.AutoRelativeLayout>
+    <com.zhy.autolayout.AutoLinearLayout
+        android:layout_centerInParent="true"
+        android:layout_width="500px"
+        android:layout_height="wrap_content"
+        android:background="@drawable/corner"
+        android:orientation="vertical">
+        <com.zhy.autolayout.AutoRelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="100px">
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                android:textColor="@color/black"
+                android:textSize="28px"
+                android:text="@string/sure_close_live"/>
+        </com.zhy.autolayout.AutoRelativeLayout>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="1px"
+            android:background="@color/line_bg_color"/>
+        <com.zhy.autolayout.AutoRelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="80px">
+            <com.zhy.autolayout.AutoRelativeLayout
+                android:id="@+id/layout_sure"
+                android:layout_width="250px"
+                android:layout_height="match_parent">
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/tv_text_select"
+                    android:textSize="28px"
+                    android:layout_centerInParent="true"
+                    android:text="@string/tv_ok"/>
+            </com.zhy.autolayout.AutoRelativeLayout>
+
+            <TextView
+                android:layout_width="1px"
+                android:layout_height="match_parent"
+                android:layout_toRightOf="@+id/layout_sure"
+                android:background="@color/line_bg_color"/>
+
+            <com.zhy.autolayout.AutoRelativeLayout
+                android:id="@+id/layout_cancel"
+                android:layout_width="250px"
+                android:layout_height="match_parent"
+                android:layout_alignParentRight="true">
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/tv_text_color1"
+                    android:textSize="28px"
+                    android:layout_centerInParent="true"
+                    android:text="@string/cancel"/>
+            </com.zhy.autolayout.AutoRelativeLayout>
+        </com.zhy.autolayout.AutoRelativeLayout>
+    </com.zhy.autolayout.AutoLinearLayout>
+</com.zhy.autolayout.AutoRelativeLayout>
