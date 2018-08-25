@@ -324,4 +324,15 @@
     <string name="please_input_message">请输入留言</string>
     <string name="tv_sure_buy">确定购买</string>
     <string name="tv_live_unstart">暂时还没有主播在直播哦！</string>
+    <string name="tv_title_1002">好评如潮!</string>
+    <string name="tv_title_1003">春夏爆款</string>
+    <string name="tv_title_1004">货真价实</string>
+    <string name="tv_title_1005">新品上市</string>
+    <string name="tv_title_1006">品牌授权</string>
+    <string name="tv_title_1009">特价促销</string>
+    <string name="tv_title2_1009">全场商品3折</string>
+    <string name="tv_title_1010">金牌代理</string>
+    <string name="tv_title_1011">质量保证</string>
+    <string name="tv_title_1012">五星好评</string>
+    <string name="tv_title_1013">感恩回馈</string>
 </resources>

@@ -1,8 +1,5 @@
 package com.zq.dynamicphoto.ui;
 
-import android.os.Bundle;
-import android.text.Editable;
-import android.text.TextWatcher;
 import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,7 +8,6 @@ import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.ImageView;
 import android.widget.TextView;
-
 import com.zhy.autolayout.AutoRelativeLayout;
 import com.zq.dynamicphoto.R;
 import com.zq.dynamicphoto.base.BaseActivity;
@@ -19,16 +15,8 @@ import com.zq.dynamicphoto.base.BasePresenter;
 import com.zq.dynamicphoto.common.Constans;
 import com.zq.dynamicphoto.ui.widge.StrokeTextView;
 import com.zq.dynamicphoto.utils.WatermarkLabelManager;
-import com.zq.dynamicphoto.utils.WatermarkMoneyManager;
-import com.zq.dynamicphoto.utils.WatermarkRecommedManager;
-
-import java.util.Timer;
-import java.util.TimerTask;
-
 import butterknife.BindView;
-import butterknife.ButterKnife;
 import butterknife.OnClick;
-
 /**
  * 标签贴纸水印模板
  */
@@ -91,7 +79,29 @@ public class LabelWatermarkActivity extends BaseActivity {
     @Override
     protected int getLayoutId() {
         watermarkId = getIntent().getStringExtra(Constans.WATERMARKID);
-        return R.layout.activity_scorll_test;
+        if (watermarkId.equals(Constans.WATERMARKID_1002)){
+            return R.layout.activity_watermark1002;
+        }else if (watermarkId.equals(Constans.WATERMARKID_1003)){
+            return R.layout.activity_watermark1003;
+        }else if (watermarkId.equals(Constans.WATERMARKID_1004)){
+            return R.layout.activity_watermark1004;
+        }else if (watermarkId.equals(Constans.WATERMARKID_1005)){
+            return R.layout.activity_watermark1005;
+        }else if (watermarkId.equals(Constans.WATERMARKID_1006)){
+            return R.layout.activity_watermark1006;
+        }else if (watermarkId.equals(Constans.WATERMARKID_1009)){
+            return R.layout.activity_watermark1009;
+        }else if (watermarkId.equals(Constans.WATERMARKID_1010)){
+            return R.layout.activity_watermark1010;
+        }else if (watermarkId.equals(Constans.WATERMARKID_1011)){
+            return R.layout.activity_watermark1011;
+        }else if (watermarkId.equals(Constans.WATERMARKID_1012)){
+            return R.layout.activity_watermark1012;
+        }else if (watermarkId.equals(Constans.WATERMARKID_1013)){
+            return R.layout.activity_watermark1013;
+        }else {
+            return R.layout.activity_scorll_test;
+        }
     }
 
     @Override
@@ -179,6 +189,39 @@ public class LabelWatermarkActivity extends BaseActivity {
             etTitle2.setText(getResources().getString(R.string.tv_quanchang));
             etTitle3.setText(getResources().getString(R.string.tv_wuzhe));
             etTitle4.setText(getResources().getString(R.string.tv_qishou));
+        }else if (watermarkId.equals(Constans.WATERMARKID_1002)){
+            tvTitle1.setText(getResources().getString(R.string.tv_title_1002));
+            etTitle1.setText(getResources().getString(R.string.tv_title_1002));
+        }else if (watermarkId.equals(Constans.WATERMARKID_1003)){
+            tvTitle1.setText(getResources().getString(R.string.tv_title_1003));
+            etTitle1.setText(getResources().getString(R.string.tv_title_1003));
+        }else if (watermarkId.equals(Constans.WATERMARKID_1004)){
+            tvTitle1.setText(getResources().getString(R.string.tv_title_1004));
+            etTitle1.setText(getResources().getString(R.string.tv_title_1004));
+        }else if (watermarkId.equals(Constans.WATERMARKID_1005)){
+            tvTitle1.setText(getResources().getString(R.string.tv_title_1005));
+            etTitle1.setText(getResources().getString(R.string.tv_title_1005));
+        }else if (watermarkId.equals(Constans.WATERMARKID_1006)){
+            tvTitle1.setText(getResources().getString(R.string.tv_title_1006));
+            etTitle1.setText(getResources().getString(R.string.tv_title_1006));
+        }else if (watermarkId.equals(Constans.WATERMARKID_1009)){
+            tvTitle1.setText(getResources().getString(R.string.tv_title_1009));
+            etTitle1.setText(getResources().getString(R.string.tv_title_1009));
+            layoutEtTitle2.setVisibility(View.VISIBLE);
+            tvTitle2.setText(getResources().getString(R.string.tv_title2_1009));
+            etTitle2.setText(getResources().getString(R.string.tv_title2_1009));
+        }else if (watermarkId.equals(Constans.WATERMARKID_1010)){
+            tvTitle1.setText(getResources().getString(R.string.tv_title_1010));
+            etTitle1.setText(getResources().getString(R.string.tv_title_1010));
+        }else if (watermarkId.equals(Constans.WATERMARKID_1011)){
+            tvTitle1.setText(getResources().getString(R.string.tv_title_1011));
+            etTitle1.setText(getResources().getString(R.string.tv_title_1011));
+        }else if (watermarkId.equals(Constans.WATERMARKID_1012)){
+            tvTitle1.setText(getResources().getString(R.string.tv_title_1012));
+            etTitle1.setText(getResources().getString(R.string.tv_title_1012));
+        }else if (watermarkId.equals(Constans.WATERMARKID_1013)){
+            tvTitle1.setText(getResources().getString(R.string.tv_title_1013));
+            etTitle1.setText(getResources().getString(R.string.tv_title_1013));
         }
     }
 

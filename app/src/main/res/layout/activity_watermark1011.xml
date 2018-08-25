@@ -27,35 +27,36 @@
                 android:layout_centerVertical="true"
                 >
                 <com.zhy.autolayout.AutoRelativeLayout
-                    android:layout_marginLeft="20px"
-                    android:layout_marginRight="20px"
-                    android:layout_marginTop="20px"
-                    android:layout_marginBottom="20px"
-                    android:layout_width="631px"
-                    android:layout_height="298px"
-                    >
-                    <ImageView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:id="@+id/iv_head"
-                        android:src="@drawable/water_1001"/>
+                    android:layout_marginLeft="40px"
+                    android:layout_marginRight="40px"
+                    android:layout_marginTop="40px"
+                    android:layout_marginBottom="40px"
+                    android:layout_width="540px"
+                    android:layout_height="wrap_content"
+                    android:layout_centerHorizontal="true">
                     <com.zhy.autolayout.AutoRelativeLayout
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_centerInParent="true">
+                        android:layout_centerInParent="true"
+                        >
+                        <ImageView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:id="@+id/iv_head"
+                            android:src="@drawable/water_1011"/>
                         <com.zq.dynamicphoto.ui.widge.StrokeTextView
                             android:id="@+id/tv_title1"
-                            android:layout_width="631px"
-                            android:layout_height="wrap_content"
-                            android:textSize="32sp"
-                            android:textColor="@color/red_color"
-                            android:text="@string/tv_title_1001"
-                            android:layout_centerHorizontal="true"
-                            android:gravity="center_horizontal"
+                            android:layout_width="540px"
+                            android:layout_height="150px"
+                            android:textSize="42sp"
+                            android:textColor="@color/colorAccent"
+                            android:text="@string/tv_title_1011"
                             android:maxLines="1"
+                            android:gravity="center"
                             />
                         <com.zhy.autolayout.AutoRelativeLayout
-                            android:layout_below="@+id/tv_title1"
+                            android:visibility="gone"
+                            android:layout_marginTop="70px"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_centerHorizontal="true"
@@ -63,34 +64,31 @@
                             <com.zq.dynamicphoto.ui.widge.StrokeTextView
                                 android:id="@+id/tv_title2"
                                 android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
+                                android:layout_height="match_parent"
                                 android:textSize="26sp"
                                 android:textColor="@color/water_bg_005"
                                 android:text="@string/tv_quanchang"
                                 android:maxLines="1"
-                                android:gravity="center"
                                 />
                             <com.zq.dynamicphoto.ui.widge.StrokeTextView
                                 android:layout_toRightOf="@+id/tv_title2"
                                 android:id="@+id/tv_title3"
                                 android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
+                                android:layout_height="match_parent"
                                 android:textSize="26sp"
                                 android:textColor="@color/red_color"
                                 android:text="@string/tv_wuzhe"
                                 android:maxLines="1"
-                                android:gravity="center"
                                 />
                             <com.zq.dynamicphoto.ui.widge.StrokeTextView
                                 android:layout_toRightOf="@+id/tv_title3"
                                 android:id="@+id/tv_title4"
                                 android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
+                                android:layout_height="match_parent"
                                 android:textSize="26sp"
                                 android:textColor="@color/water_bg_005"
                                 android:text="@string/tv_qishou"
                                 android:maxLines="1"
-                                android:gravity="center"
                                 />
                         </com.zhy.autolayout.AutoRelativeLayout>
                     </com.zhy.autolayout.AutoRelativeLayout>

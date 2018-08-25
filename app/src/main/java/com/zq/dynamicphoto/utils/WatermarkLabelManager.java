@@ -439,7 +439,7 @@ public class WatermarkLabelManager implements WatermarkSeekBarListener {
      * 全屏水印的设置
      */
     public void setScreenWatermark() {
-        Log.i("66666666666","tt = " + "setScreenWatermark()");
+        Log.i("66666666666","width = " + tvTitle1.getMeasuredWidth());
         layoutInitPic.refreshDrawableState();
         layoutInitPic.setDrawingCacheEnabled(true);
         Bitmap bitmap = layoutInitPic.getDrawingCache();
@@ -457,9 +457,9 @@ public class WatermarkLabelManager implements WatermarkSeekBarListener {
         Log.i("space","newHeight = " + newHeight);
         Bitmap repeater = createRepeater(default_screen_num,
                 zoomImg(getRoundedCornerBitmap(bitmap,round),newWidth, newHeight),default_watermark_space);
-        layoutInitPic.setVisibility(View.GONE);
         layoutWholeWaterContent.setBackground(new BitmapDrawable(repeater));
         layoutInitPic.setDrawingCacheEnabled(false);
+        layoutInitPic.setVisibility(View.GONE);
     }
 
     /**

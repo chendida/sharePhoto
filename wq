@@ -1,0 +1,503 @@
+[33mcommit 8f9f896d2dcdb505d1f3c532779fb8b49b4b9020[m
+Author: Chendida <495518592@qq.com>
+Date:   Fri Aug 24 11:21:58 2018 +0800
+
+    直播逻辑的初步完成，其中包含界面，UI回调逻辑，点赞动画效果
+
+[33mcommit 51e61bf98a56cc6913189178694f948be863b714[m
+Author: Chendida <495518592@qq.com>
+Date:   Thu Aug 23 17:46:58 2018 +0800
+
+    动态的搜索以及后续的分享，编辑，批量保存等操作
+
+[33mcommit f9b207b798da44d7ef66785b807475ee04d2440f[m
+Author: Chendida <495518592@qq.com>
+Date:   Thu Aug 23 14:43:47 2018 +0800
+
+    动态列表界面上传背景图片
+
+[33mcommit 089ab91959911792c895a776db82c6f8ff00fe97[m
+Author: Chendida <495518592@qq.com>
+Date:   Wed Aug 22 21:04:59 2018 +0800
+
+    增加vip机制
+
+[33mcommit cbca50fa091281bea27e658e32c41dfd53105734[m
+Author: Chendida <495518592@qq.com>
+Date:   Wed Aug 22 09:43:16 2018 +0800
+
+    初步完成标签贴纸水印1001
+
+[33mcommit 985496b39b1e28634ffb5e46afff79fb7bccb5c9[m
+Author: Chendida <495518592@qq.com>
+Date:   Mon Aug 20 20:23:53 2018 +0800
+
+    二维码模块水印的完成
+
+[33mcommit cb1a1cdf60b81219058be91ac10f162c65b93eef[m
+Author: Chendida <495518592@qq.com>
+Date:   Mon Aug 20 14:33:52 2018 +0800
+
+    更多个性模板水印的完成
+
+[33mcommit 5a23fab5204985fa1d0bdccba1565e4c9e48eda7[m
+Author: Chendida <495518592@qq.com>
+Date:   Mon Aug 20 10:53:24 2018 +0800
+
+    各种水印类型模板的完善
+
+[33mcommit 9dcb5ffa0d8273d1da4c2e460b00eb2a7755cbfe[m
+Author: Chendida <495518592@qq.com>
+Date:   Sat Aug 18 16:55:27 2018 +0800
+
+    各种形状水印模板的完成
+
+[33mcommit 9e580ac5839d0fac63e4a1fd2a3be69c02d9477d[m
+Author: Chendida <495518592@qq.com>
+Date:   Sat Aug 18 15:55:03 2018 +0800
+
+    精品推荐水印模板的完成
+
+[33mcommit ec367d8720906ef4e9d5ee7ae590ed287d7a4e5a[m
+Author: Chendida <495518592@qq.com>
+Date:   Fri Aug 17 11:31:21 2018 +0800
+
+    修复全屏水印，更新圆形头像时头像不更新bug
+
+[33mcommit 68bcaf5ffebfb74a07dacf60263547bdaa8b0c73[m
+Author: Chendida <495518592@qq.com>
+Date:   Thu Aug 16 20:33:52 2018 +0800
+
+    精品推荐中上传头像，头像加边框，圆形处理
+
+[33mcommit e1e1dd88a9f1ad76983222aa4710dcac98d2bcf7[m
+Author: Chendida <495518592@qq.com>
+Date:   Thu Aug 16 11:27:58 2018 +0800
+
+    修复花边水印微信号和价签模板初始间距无效bug，精品推荐水印初步的完成
+
+[33mcommit 594208df1a69fd56a845eaeb0b0f89a75f342ffe[m
+Author: Chendida <495518592@qq.com>
+Date:   Wed Aug 15 17:13:25 2018 +0800
+
+    价签水印添加的网络请求
+
+[33mcommit 47c369003029b445f8dcfbd630aaae7ae4e26c0c[m
+Author: Chendida <495518592@qq.com>
+Date:   Wed Aug 15 17:06:09 2018 +0800
+
+    价签模板水印的完成
+
+[33mcommit 04c6045dddf3ca731338e2ea2a8ec6ffaa0bda00[m
+Author: Chendida <495518592@qq.com>
+Date:   Tue Aug 14 11:33:55 2018 +0800
+
+    花边水印bug修复，价签水印的界面完成
+
+[33mcommit 59d43cab3e63993c8e54e08f66215c1b5450f2fc[m
+Author: Chendida <495518592@qq.com>
+Date:   Mon Aug 13 18:33:16 2018 +0800
+
+    花边水印的初步完成
+
+[33mcommit 821baeb4e45d731c61d12ad85b494e2d85cadcfd[m
+Author: Chendida <495518592@qq.com>
+Date:   Sat Aug 11 20:22:52 2018 +0800
+
+    封装水印编辑管理类以及水印id为5022和5023的水印的完成
+
+[33mcommit 6babdb8fc5fde28193fcff9e25a5ef99b1bb01dc[m
+Author: Chendida <495518592@qq.com>
+Date:   Wed Aug 1 12:08:02 2018 +0800
+
+    水印标题的修改，文字颜色和透明度的修改
+
+[33mcommit 618850bcb6cc0ce373fa5b5d958f62c6556e99fa[m
+Author: Chendida <495518592@qq.com>
+Date:   Tue Jul 31 15:29:55 2018 +0800
+
+    水印背景设置功能，圆角功能，背景颜色切换，透明度变化
+
+[33mcommit cbaea1d045d13176f645fa183581803c684816ee[m
+Author: Chendida <495518592@qq.com>
+Date:   Tue Jul 31 11:13:35 2018 +0800
+
+    全屏水印的数量设置和间距设置
+
+[33mcommit 0dae6e1bcf9e658c13ee8f3a71ecd4dd6cb206c8[m
+Author: Chendida <495518592@qq.com>
+Date:   Mon Jul 30 14:07:51 2018 +0800
+
+    添加水印和删除水印接口的调试，以及保存水印到相册中
+
+[33mcommit fc7ce0dfd7aba1874df2fd231c36f640b4829683[m
+Author: Chendida <495518592@qq.com>
+Date:   Mon Jul 30 09:40:49 2018 +0800
+
+    水印整体颜色修改，以及无背景颜色情况的水印生成
+
+[33mcommit 02566cdc4767a3025e5c21a4b0ada5428ba93ae2[m
+Author: Chendida <495518592@qq.com>
+Date:   Fri Jul 27 15:13:52 2018 +0800
+
+    水印整体颜色修改弹窗，全屏水印弹窗，背景设置弹窗，标题设置弹窗
+
+[33mcommit ab3fc2eb4d462f1942fdc6e6ff9f8799a1267063[m
+Author: Chendida <495518592@qq.com>
+Date:   Fri Jul 27 09:39:32 2018 +0800
+
+    水印模板预览界面，以及水印整体修改弹窗
+
+[33mcommit 8f73a92d5387bc57a9a1787f2b1f404a4fcffcc3[m
+Author: Chendida <495518592@qq.com>
+Date:   Wed Jul 25 15:37:58 2018 +0800
+
+    添加IMSDK及其配置，开播界面的UI和业务逻辑，IM消息监听器
+
+[33mcommit 14a74e79137dfb1d19e589fc3cc436a3f063bbc6[m
+Author: Chendida <495518592@qq.com>
+Date:   Wed Jul 25 11:30:43 2018 +0800
+
+    账户充值界面业务逻辑
+
+[33mcommit 1df2e6d69e19e18178d8f8b56f148009f0accb1a[m
+Author: Chendida <495518592@qq.com>
+Date:   Wed Jul 25 10:16:33 2018 +0800
+
+    添加支付SDK,及SDK的相关配置
+
+[33mcommit 900ae93487ba5f9d9599b70cd6e45ba3f64811f3[m
+Author: Chendida <495518592@qq.com>
+Date:   Wed Jul 25 10:05:00 2018 +0800
+
+    消费清单界面业务逻辑实现
+
+[33mcommit 946ddbdd93506dac3e064ee18c567c1191b9cef2[m
+Author: Chendida <495518592@qq.com>
+Date:   Tue Jul 24 19:21:18 2018 +0800
+
+    账户充值界面和消费清单界面以及自定义时间选择器
+
+[33mcommit ebc64a7d6751829c651dab6fd401e125650dd712[m
+Author: Chendida <495518592@qq.com>
+Date:   Tue Jul 24 18:14:30 2018 +0800
+
+    直播产品界面的实现
+
+[33mcommit 158703db58434a945c2131f35b881c842b2a0af4[m
+Author: Chendida <495518592@qq.com>
+Date:   Tue Jul 24 17:29:08 2018 +0800
+
+    直播功能我的订单列表界面的实现
+
+[33mcommit 4ca18eefbfa693f4b70199c0f24d3a4c72765517[m
+Author: Chendida <495518592@qq.com>
+Date:   Tue Jul 24 12:05:23 2018 +0800
+
+    直播fragment的实现，我的订单界面框架UI实现
+
+[33mcommit 447563132bbc83b4e5e005135852f88ecb043f41[m
+Author: Chendida <495518592@qq.com>
+Date:   Tue Jul 24 09:46:25 2018 +0800
+
+    添加水印，删除水印，获取用户添加过的水印列表，添加直播SDK
+
+[33mcommit 18a4bde92a7a596d36b28dcfb3b127a096b3230c[m
+Author: Chendida <495518592@qq.com>
+Date:   Mon Jul 23 11:27:45 2018 +0800
+
+    水印模板界面及其数据获取
+
+[33mcommit 37d846ca5fee899777ac3ee2dcdbf73e7b8d1327[m
+Author: Chendida <495518592@qq.com>
+Date:   Wed Jul 18 10:10:37 2018 +0800
+
+    添加水印，和水印图片的保存
+
+[33mcommit 99325b2682ebfe1ca94c7a8524943c020205d0db[m
+Author: Chendida <495518592@qq.com>
+Date:   Mon Jul 9 10:08:21 2018 +0800
+
+    水印界面的switchButton的定制
+
+[33mcommit c3127f148e4c6c968d03d18a5bf1f552f839da8d[m
+Author: Chendida <495518592@qq.com>
+Date:   Wed Jul 4 16:31:21 2018 +0800
+
+    选择水印图片的界面，拍照保存，界面显示和联动
+
+[33mcommit 67ac2ecf724a376de59b0033de73105459dd220f[m
+Author: Chendida <495518592@qq.com>
+Date:   Mon Jul 2 15:53:16 2018 +0800
+
+    添加相册列表界面和图片选择界面
+
+[33mcommit 00240a7dcf12876e0135e177c4a26dd825fc238b[m
+Author: Chendida <495518592@qq.com>
+Date:   Sat Jun 30 11:50:11 2018 +0800
+
+    修改分享微信的同时添加动态或者编辑动态
+
+[33mcommit ae2a2d4d26e32520bfd7b28b37e1a43b1a08f78b[m
+Author: Chendida <495518592@qq.com>
+Date:   Fri Jun 29 18:42:55 2018 +0800
+
+    添加视频压缩框架和工具类，修改分享本地视频到微信朋友圈的代码
+
+[33mcommit ba4dbaa4f7a0a0776c2404a154e83ab1b888085f[m
+Author: Chendida <495518592@qq.com>
+Date:   Fri Jun 29 14:51:19 2018 +0800
+
+    测试水印
+
+[33mcommit a68b8b80ca4fe01be6cf5e205a30d3dce3a0d75e[m
+Author: Chendida <495518592@qq.com>
+Date:   Thu Jun 28 15:21:52 2018 +0800
+
+    首页，相册详情页，朋友圈列表的分享
+
+[33mcommit 11940fe5db6be8ceb6f6a7732b01c0ec72d93df0[m
+Author: Chendida <495518592@qq.com>
+Date:   Wed Jun 27 15:51:14 2018 +0800
+
+    批量保存和动态列表中头像点击事件的响应
+
+[33mcommit e08c47de7198eb16a9ae3029beb1ccd1cf72c728[m
+Author: Chendida <495518592@qq.com>
+Date:   Wed Jun 27 14:17:26 2018 +0800
+
+    我的相册信息界面数据获取及编辑
+
+[33mcommit 18d7aa368216ce728146bdf88734592ab88beb86[m
+Author: Chendida <495518592@qq.com>
+Date:   Wed Jun 27 11:25:13 2018 +0800
+
+    绑定手机号和重置密码
+
+[33mcommit 9e72969bedc4b2341f15a3160093b3d2e75cfcf0[m
+Author: Chendida <495518592@qq.com>
+Date:   Wed Jun 27 09:59:18 2018 +0800
+
+    添加关于APP界面
+
+[33mcommit 611e1980010ea146416d371dee66d9fede7442e7[m
+Author: Chendida <495518592@qq.com>
+Date:   Tue Jun 26 20:44:29 2018 +0800
+
+    问题与反馈界面
+
+[33mcommit 5ad9fff161c7f036da7fbb90a74b1ae176db212e[m
+Author: Chendida <495518592@qq.com>
+Date:   Tue Jun 26 20:19:15 2018 +0800
+
+    我的粉丝界面
+
+[33mcommit 8dea172c5a5cc5c2f0dd08983274f4abaa4901ab[m
+Author: Chendida <495518592@qq.com>
+Date:   Tue Jun 26 18:17:42 2018 +0800
+
+    权限设置界面及其业务逻辑的实现
+
+[33mcommit 53e84a04d06b399afbf688f5f248ca5c2a7aeb32[m
+Author: Chendida <495518592@qq.com>
+Date:   Tue Jun 26 16:55:38 2018 +0800
+
+    相册详情界面和动态详情界面
+
+[33mcommit eeeb1096a7f311419bae44a363d874de7c5f0583[m
+Author: Chendida <495518592@qq.com>
+Date:   Tue Jun 26 15:16:41 2018 +0800
+
+    我的关注界面业务逻辑
+
+[33mcommit a96e926590a65e5b2a338f6ed639748780795926[m
+Author: Chendida <495518592@qq.com>
+Date:   Tue Jun 26 14:38:33 2018 +0800
+
+    添加我的关注界面，及其适配器的实现
+
+[33mcommit 7b8271a143df6840b05192d913d92e3f0b51de41[m
+Author: Chendida <495518592@qq.com>
+Date:   Tue Jun 26 12:05:43 2018 +0800
+
+    添加相册二维码界面，并让二维码可以进行微信分享
+
+[33mcommit 166ef008674247292e6d6742ff50cea9822ea3d0[m
+Author: Chendida <495518592@qq.com>
+Date:   Tue Jun 26 11:31:26 2018 +0800
+
+    新增和编辑朋友圈
+
+[33mcommit 923d420e04165ee7370c533eabd212b628a45d69[m
+Author: Chendida <495518592@qq.com>
+Date:   Mon Jun 25 15:13:34 2018 +0800
+
+    图片视频的预览，选择动态界面的逻辑实现
+
+[33mcommit 166a9319a16105788c7844c76e751ec37a4642c6[m
+Author: Chendida <495518592@qq.com>
+Date:   Mon Jun 25 10:57:08 2018 +0800
+
+    添加选择动态界面，双重RecycleView嵌套，添加适配器
+
+[33mcommit 1171d487d8ac2717e833377b36a05f51dfea88bb[m
+Author: Chendida <495518592@qq.com>
+Date:   Fri Jun 22 18:36:43 2018 +0800
+
+    添加新增朋友圈界面
+
+[33mcommit 452f719e9a027a44b4d71eed181dd40eca7facd1[m
+Author: Chendida <495518592@qq.com>
+Date:   Fri Jun 22 18:07:18 2018 +0800
+
+    添加朋友圈搜索功能
+
+[33mcommit f1b6e8ad3b60f0db41fd3b9ddc531bc8a96c4fff[m
+Author: Chendida <495518592@qq.com>
+Date:   Fri Jun 22 17:36:42 2018 +0800
+
+    删除朋友圈item
+
+[33mcommit 43d296def50eb9325f0d671a665a7242843cde07[m
+Author: Chendida <495518592@qq.com>
+Date:   Fri Jun 22 17:13:39 2018 +0800
+
+    获取朋友圈列表并将继承自BaseFragment的Fragment设置成懒加载模式
+
+[33mcommit f5bd911d47e1e47e30820ed53b9c735d9a0fa256[m
+Author: Chendida <495518592@qq.com>
+Date:   Fri Jun 22 16:51:45 2018 +0800
+
+    添加朋友圈界面，添加朋友圈UI逻辑和业务逻辑
+
+[33mcommit a6120cfe0124b02ee2c670ce9912a1e38f20e6f1[m
+Author: Chendida <495518592@qq.com>
+Date:   Fri Jun 22 15:57:54 2018 +0800
+
+    初始化，添加上传动态时的相关协议
+
+[33mcommit fb956b112522d8b8398cbded97eeeb4acf8a826f[m
+Author: Chendida <495518592@qq.com>
+Date:   Fri Jun 22 15:29:27 2018 +0800
+
+    添加H5管理界面
+
+[33mcommit 307ef4dd9691b90a2d742814c0ba25d7a52c73b2[m
+Author: Chendida <495518592@qq.com>
+Date:   Fri Jun 22 15:09:45 2018 +0800
+
+    编辑动态和转发动态
+
+[33mcommit 1d549cd9248b5760952092e05bf9ef84a8d7817b[m
+Author: Chendida <495518592@qq.com>
+Date:   Fri Jun 22 11:43:02 2018 +0800
+
+    解决上传动态时，只传文字时报错问题
+
+[33mcommit c18c94b70f387bc808d24d68c755812b2a3b8429[m
+Author: Chendida <495518592@qq.com>
+Date:   Fri Jun 22 11:09:51 2018 +0800
+
+    修改上传动态时标签问题，添加编辑动态界面
+
+[33mcommit f9cdaea2dfaed186e612f980b3a5128ba314a5e3[m
+Author: Chendida <495518592@qq.com>
+Date:   Thu Jun 21 18:00:26 2018 +0800
+
+    上传动态
+
+[33mcommit d2e9ab45d4dd4a92a4fdf69664c42d768e1bd0d4[m
+Author: Chendida <495518592@qq.com>
+Date:   Thu Jun 21 11:06:49 2018 +0800
+
+    “上传动态，添加COS工具类和SDK
+
+[33mcommit 8a4f50794264deb30245a81f6a96454520d2808c[m
+Author: Chendida <495518592@qq.com>
+Date:   Wed Jun 20 19:05:32 2018 +0800
+
+    添加后台任务管理及其配置
+
+[33mcommit 37e6f517bfde86a79e0ad1390ce1cf9ab5953153[m
+Author: Chendida <495518592@qq.com>
+Date:   Wed Jun 20 18:53:43 2018 +0800
+
+    上传动态
+
+[33mcommit 3ad67e3b092c88da54eb7364e2519d80c658d084[m
+Author: Chendida <495518592@qq.com>
+Date:   Wed Jun 20 17:04:38 2018 +0800
+
+    标签管理，修改和删除标签
+
+[33mcommit 0c1ff69f19d86fbe954baa2a8116901c3186f28c[m
+Author: Chendida <495518592@qq.com>
+Date:   Wed Jun 20 14:46:58 2018 +0800
+
+    标签界面中获取标签和创建标签
+
+[33mcommit 8ad3fa419731468f33ad1d61e8cc3dfaa3cfe990[m
+Author: Chendida <495518592@qq.com>
+Date:   Wed Jun 20 11:42:32 2018 +0800
+
+    添加图片的显示，添加标签界面
+
+[33mcommit 9e325c4334ff3519d1b55546890ccb6c69c90fcc[m
+Author: Chendida <495518592@qq.com>
+Date:   Thu Jun 14 10:46:16 2018 +0800
+
+    添加自定义图片选择弹框，完成基础的图片视频选择逻辑
+
+[33mcommit 1b260e8325e25b934ae3816227e177ff31bab880[m
+Author: Chendida <495518592@qq.com>
+Date:   Wed Jun 13 12:05:23 2018 +0800
+
+    添加图片选择框架
+
+[33mcommit 00983f1bb322dc4cda1c7e644c68adf2b53b7dfd[m
+Author: Chendida <495518592@qq.com>
+Date:   Wed Jun 13 11:48:46 2018 +0800
+
+    首页的实现以及添加动态界面的实现
+
+[33mcommit 9c929619feb2cf9a2e4d2f17e3f3a6fb7c06712b[m
+Author: Chendida <495518592@qq.com>
+Date:   Fri Jun 8 16:00:24 2018 +0800
+
+    将首页中的四个碎片和底部按钮进行联动
+
+[33mcommit 91f21c0709feff454b42aeb19ca712977c7689b9[m
+Author: Chendida <495518592@qq.com>
+Date:   Fri Jun 8 15:35:39 2018 +0800
+
+    添加首页4个碎片，我的界面的布局
+
+[33mcommit 7b741b8fef3866d5808661dae2f074ac94951710[m
+Author: Chendida <495518592@qq.com>
+Date:   Fri Jun 8 14:58:30 2018 +0800
+
+    重置密码界面和首页的界面
+
+[33mcommit 811d566e15326482335eaa6c32c91e766f4c5382[m
+Author: Chendida <495518592@qq.com>
+Date:   Fri Jun 8 12:16:10 2018 +0800
+
+    解决imei随机的问题
+
+[33mcommit 87979c46bd4e45a9a48dd684815814f862f9b869[m
+Author: Chendida <495518592@qq.com>
+Date:   Fri Jun 8 12:10:17 2018 +0800
+
+    完成手机号登录，提取跳转工具类
+
+[33mcommit 0dfab3ff7a23f4abee8ad70425829ec1c872a306[m
+Author: Chendida <495518592@qq.com>
+Date:   Thu Jun 7 19:16:49 2018 +0800
+
+    搭建项目架构，完成微信登录
+
+[33mcommit 0d5915dedfb806e32f0507626fd6e45e8d2f6301[m
+Author: Chendida <495518592@qq.com>
+Date:   Thu Jun 7 09:41:09 2018 +0800
+
+    first commit
