@@ -151,7 +151,46 @@
         android:layout_height="1px"
         android:background="@color/line_bg_color"
         />
-    <!--我的小程序码-->
+    <!--我的朋友圈-->
+    <com.zhy.autolayout.AutoRelativeLayout
+        android:id="@+id/layout_my_friend_circle"
+        android:layout_width="match_parent"
+        android:layout_height="80px"
+        android:background="@color/white"
+        >
+        <ImageView
+            android:id="@+id/iv_my_friend_circle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="20px"
+            android:layout_centerVertical="true"
+            android:src="@drawable/btn_friend_circle_select"/>
+        <TextView
+            android:id="@+id/tv_my_friend_circle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="20px"
+            android:layout_toRightOf="@+id/iv_my_friend_circle"
+            android:layout_centerVertical="true"
+            android:textColor="@color/black"
+            android:textSize="30px"
+            android:text="@string/tv_my_two_friend_circle"/>
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_marginRight="20px"
+            android:layout_centerVertical="true"
+            android:src="@drawable/right_go"/>
+    </com.zhy.autolayout.AutoRelativeLayout>
+
+    <TextView
+        android:layout_marginLeft="20px"
+        android:layout_width="match_parent"
+        android:layout_height="1px"
+        android:background="@color/line_bg_color"
+        />
+    <!--已关注-->
     <com.zhy.autolayout.AutoRelativeLayout
         android:id="@+id/layout_my_follow"
         android:layout_width="match_parent"

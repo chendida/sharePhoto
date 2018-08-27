@@ -1,17 +1,12 @@
-<com.zhy.autolayout.AutoRelativeLayout
+<?xml version="1.0" encoding="utf-8"?>
+<com.zhy.autolayout.AutoLinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/colorBackground"
+    android:orientation="vertical"
     >
-    <com.scwang.smartrefresh.layout.SmartRefreshLayout
-        android:id="@+id/refreshLayout"
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/rcl_photo_dir_list"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
-        <android.support.v7.widget.RecyclerView
-            android:id="@+id/rcl_friend_circle_list"
-            android:layout_below="@+id/layout_init"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"/>
-    </com.scwang.smartrefresh.layout.SmartRefreshLayout>
-</com.zhy.autolayout.AutoRelativeLayout>
+        android:layout_height="match_parent"/>
+</com.zhy.autolayout.AutoLinearLayout>

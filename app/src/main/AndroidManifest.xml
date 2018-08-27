@@ -141,45 +141,123 @@
             android:launchMode="singleTop"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme" />
-        <activity android:name=".ui.PhoneLoginActivity" />
-        <activity android:name=".ui.ResetPwdActivity" />
-        <activity android:name=".ui.SettingActivity" />
-        <activity android:name=".ui.AddPicActivity" />
-        <activity android:name=".ui.AddLabelActivity" />
-        <activity android:name=".ui.LabelManagerActivity" />
-        <activity android:name=".ui.EditDynamicActivity" />
-        <activity android:name=".ui.HtmlManagerActivity" />
-        <activity android:name=".ui.AddFriendCircleActivity" />
-        <activity android:name=".ui.DynamicSelectActivity" />
-        <activity android:name=".ui.MyFollowsActivity" />
-        <activity android:name=".ui.HtmlPhotoDetailsActivity" />
-        <activity android:name=".ui.DynamicDetailsActivity" />
-        <activity android:name=".ui.SettingPermissionActivity" />
-        <activity android:name=".ui.MyFansActivity" />
-        <activity android:name=".ui.ProblemAndFeedbackActivity" />
-        <activity android:name=".ui.AboutAppActivity" />
-        <activity android:name=".ui.PhotoInfoActivity" />
+        <activity
+            android:name=".ui.PhoneLoginActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".ui.ResetPwdActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".ui.SettingActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".ui.AddPicActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".ui.AddLabelActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".ui.LabelManagerActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".ui.EditDynamicActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".ui.HtmlManagerActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".ui.AddFriendCircleActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".ui.DynamicSelectActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".ui.MyFollowsActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".ui.HtmlPhotoDetailsActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".ui.DynamicDetailsActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".ui.SettingPermissionActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".ui.MyFansActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".ui.ProblemAndFeedbackActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".ui.AboutAppActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".ui.PhotoInfoActivity"
+            android:screenOrientation="portrait" />
         <activity android:name=".ui.VideoPlayActivity" />
-        <activity android:name=".ui.PhotoListActivity" />
-        <activity android:name=".ui.PhotoSelectActivity" />
-        <activity android:name=".ui.WatermarkActivity" />
-        <activity android:name=".ui.WaterStyleActivity" />
-        <activity android:name=".mylive.ui.MyOrdersActivity" />
-        <activity android:name=".mylive.ui.AddLiveGoodActivity" />
-        <activity android:name=".mylive.ui.AccountRechargeActivity" />
-        <activity android:name=".mylive.ui.ConsumptionListActivity" />
-        <activity android:name=".mylive.ui.OpenLiveActivity" />
-        <activity android:name=".mylive.ui.LiveActivity" />
-        <activity android:name=".ui.EditWaterActivity" />
-        <activity android:name=".ui.Watermark5009Activity" />
-        <activity android:name=".ui.MoneyWatermarkActivity" />
-        <activity android:name=".ui.RecommendActivity" />
-        <activity android:name=".ui.UploadWaterAvatarActivity" />
-        <activity android:name=".ui.LabelWatermarkActivity" />
-        <activity android:name=".ui.OpenVipActivity" />
-        <activity android:name=".ui.SearchActivity" />
-        <activity android:name=".ui.CategorySelectActivity" />
-        <activity android:name=".ui.ContactSelectActivity"></activity>
+        <activity
+            android:name=".ui.PhotoListActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".ui.PhotoSelectActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".ui.WatermarkActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".ui.WaterStyleActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".mylive.ui.MyOrdersActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".mylive.ui.AddLiveGoodActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".mylive.ui.AccountRechargeActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".mylive.ui.ConsumptionListActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".mylive.ui.OpenLiveActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".mylive.ui.LiveActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".ui.EditWaterActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".ui.Watermark5009Activity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".ui.MoneyWatermarkActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".ui.RecommendActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".ui.UploadWaterAvatarActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".ui.LabelWatermarkActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".ui.OpenVipActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".ui.SearchActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".ui.CategorySelectActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".ui.ContactSelectActivity"
+            android:screenOrientation="portrait" />
+        <activity android:name=".ui.MyFriendCircleActivity"
+            android:screenOrientation="portrait" />
     </application>
 
 </manifest>

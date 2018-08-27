@@ -88,7 +88,9 @@ public class LivePresenter<T extends LiveView> extends BasePresenter<T> {
                     public void onComplete(Result result) {
                         if (mView != null){
                             //mView.get().hideLoading();
-                            mView.get().showCloseRoomResult(result);
+                            if(mView.get() != null) {
+                                mView.get().showCloseRoomResult(result);
+                            }
                         }
                     }
 

@@ -1,7 +1,6 @@
 package com.zq.dynamicphoto.fragment;
 
 import android.app.Dialog;
-import android.app.Fragment;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.support.v7.widget.LinearLayoutManager;
@@ -24,21 +23,19 @@ import com.scwang.smartrefresh.layout.listener.OnRefreshListener;
 import com.zq.dynamicphoto.MyApplication;
 import com.zq.dynamicphoto.R;
 import com.zq.dynamicphoto.adapter.DynamicListAdapter;
-import com.zq.dynamicphoto.adapter.FriendCircleAdapter;
 import com.zq.dynamicphoto.base.BaseFragment;
 import com.zq.dynamicphoto.bean.DeviceProperties;
 import com.zq.dynamicphoto.bean.DrUtils;
 import com.zq.dynamicphoto.bean.Dynamic;
-import com.zq.dynamicphoto.bean.MessageEvent;
 import com.zq.dynamicphoto.bean.NetRequestBean;
 import com.zq.dynamicphoto.bean.Result;
 import com.zq.dynamicphoto.bean.UserInfo;
 import com.zq.dynamicphoto.bean.UserRelation;
 import com.zq.dynamicphoto.common.Constans;
 import com.zq.dynamicphoto.presenter.DynamicLoadPresenter;
-import com.zq.dynamicphoto.ui.HomeActivity;
 import com.zq.dynamicphoto.ui.SettingPermissionActivity;
 import com.zq.dynamicphoto.ui.widge.DynamicDialog;
+import com.zq.dynamicphoto.ui.widge.SelectDialog;
 import com.zq.dynamicphoto.ui.widge.ShareDialog;
 import com.zq.dynamicphoto.utils.CosUtils;
 import com.zq.dynamicphoto.utils.ImageLoaderUtils;
@@ -51,7 +48,6 @@ import com.zq.dynamicphoto.view.DynamicDelete;
 import com.zq.dynamicphoto.view.IDynamicView;
 import com.zq.dynamicphoto.view.UploadView;
 import com.zxy.tiny.Tiny;
-import com.zxy.tiny.callback.FileBatchCallback;
 import com.zxy.tiny.callback.FileCallback;
 
 import org.json.JSONException;
@@ -82,7 +78,6 @@ public class DynamicFragment extends BaseFragment<IDynamicView,DynamicLoadPresen
     private int positon;
     private ImageView ivBg;
     private String imageUrl;
-    private static BgUpdate bgListener;
     @Override
     protected int getLayoutId() {
         return R.layout.fragment_dynamic;
@@ -90,7 +85,6 @@ public class DynamicFragment extends BaseFragment<IDynamicView,DynamicLoadPresen
 
     @Override
     protected void initView(View view) {
-        FriendCircleFragment.setOnDataListener(new OnDataListener());
         if (dynamicsList == null) {
             dynamicsList = new ArrayList<>();
         }
@@ -396,9 +390,17 @@ public class DynamicFragment extends BaseFragment<IDynamicView,DynamicLoadPresen
      * 删除动态
      * @param netRequestBean
      */
-    private void deleteDynamic(NetRequestBean netRequestBean){
-        if (mPresenter != null)
-            mPresenter.fetchDeleteDynamic(netRequestBean);
+    private void deleteDynamic(final NetRequestBean netRequestBean){
+        new SelectDialog(getActivity(), R.style.dialog, new SelectDialog.OnItemClickListener() {
+            @Override
+            public void onClick(Dialog dialog, int position) {
+                dialog.dismiss();
+                if (position == 1){
+                    if (mPresenter != null)
+                        mPresenter.fetchDeleteDynamic(netRequestBean);
+                }
+            }
+        },"确定删除？").show();
     }
 
     /**
@@ -446,7 +448,6 @@ public class DynamicFragment extends BaseFragment<IDynamicView,DynamicLoadPresen
                 ImageLoaderUtils.displayImg(ivBg,imageUrl);
                 SharedPreferences sp = SharedPreferencesUtils.getInstance();
                 sp.edit().putString(Constans.BGIMAGE,imageUrl).commit();
-                bgListener.onBgUpdate(imageUrl);
             }else {
                 showFailed();
             }
@@ -490,23 +491,6 @@ public class DynamicFragment extends BaseFragment<IDynamicView,DynamicLoadPresen
         netRequestBean.setUserInfo(userInfo);
         if (mPresenter != null){
             mPresenter.updateBg(netRequestBean);
-        }
-    }
-
-    //创建注册回调的函数
-    public static void setOnDataListener(BgUpdate listener){
-        //将参数赋值给接口类型的成员变量
-        bgListener = listener;
-    }
-
-    //用于实现回调的类,实现的是处理回调的接口,并实现接口里面的函数
-    class OnDataListener implements BgUpdate{
-        //实现接口中处理数据的函数,只要右边的Fragment调用onData函数,这里就会收到传递的数据
-        @Override
-        public void onBgUpdate(String url) {
-            //ToastUtils.showShort(url);
-            pager = 1;
-            getDynamicList(pager);
         }
     }
 }

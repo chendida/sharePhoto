@@ -37,6 +37,7 @@ import com.zq.dynamicphoto.ui.LabelManagerActivity;
 import com.zq.dynamicphoto.ui.MoneyWatermarkActivity;
 import com.zq.dynamicphoto.ui.MyFansActivity;
 import com.zq.dynamicphoto.ui.MyFollowsActivity;
+import com.zq.dynamicphoto.ui.MyFriendCircleActivity;
 import com.zq.dynamicphoto.ui.OpenVipActivity;
 import com.zq.dynamicphoto.ui.PhotoInfoActivity;
 import com.zq.dynamicphoto.ui.PhotoListActivity;
@@ -255,5 +256,9 @@ public class MFGT {
                 .putExtra("newLiveRoom",newLiveRoom)
                 .putExtra("liveRoom",liveRoom)
                 .putExtra("isAnchor",flag));
+    }
+
+    public static void gotoMyFriendCircleActivity(Activity activity) {
+        activity.startActivity(new Intent(activity, MyFriendCircleActivity.class));
     }
 }

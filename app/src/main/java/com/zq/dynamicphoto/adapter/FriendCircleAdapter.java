@@ -45,17 +45,15 @@ public class FriendCircleAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
     private static final int HEAD_TYPE = 00001;
     private static final int BODY_TYPE = 00002;
     private int headCount = 1;//头部个数，后续可以自己拓展
-    private Activity mActivity;
     private String etSearchContent;
     private HeadViewHolder headViewHolder;
     SharedPreferences sp = SharedPreferencesUtils.getInstance();
 
     public FriendCircleAdapter(Activity mContext, ArrayList<Moments> mList,
-                               MyClickListener listener, Activity activity) {
+                               MyClickListener listener) {
         this.mContext = mContext;
         this.mList = mList;
         mListener = listener;
-        mActivity = activity;
         userLogo = sp.getString(Constans.USERLOGO, "");
         realName = sp.getString(Constans.REMARKNAME, "");
         bgUrl = sp.getString(Constans.BGIMAGE,"");
@@ -155,7 +153,7 @@ public class FriendCircleAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
                 @Override
                 public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
                     if (actionId == EditorInfo.IME_ACTION_SEARCH) {
-                        SoftUtils.softShow(mActivity);
+                        SoftUtils.softShow(mContext);
                         setEtSearchContent(holder.etSearch.getText().toString());
                         mListener.clickListener(holder.etSearch,null,
                                 position,FriendCircleAdapter.this);

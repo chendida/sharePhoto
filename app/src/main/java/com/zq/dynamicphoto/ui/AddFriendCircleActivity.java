@@ -17,6 +17,7 @@ import com.bumptech.glide.Glide;
 import com.google.gson.Gson;
 import com.luck.picture.lib.PictureSelector;
 import com.luck.picture.lib.config.PictureConfig;
+import com.luck.picture.lib.config.PictureMimeType;
 import com.luck.picture.lib.entity.LocalMedia;
 import com.zq.dynamicphoto.R;
 import com.zq.dynamicphoto.adapter.FriendCircleDynamicListAdapter;
@@ -137,11 +138,11 @@ public class AddFriendCircleActivity extends BaseActivity<IUploadMomentsView,
                 break;
             case R.id.iv_add_article_pic:
                 isSelectBg = false;
-                PicSelectUtils.getInstance().gotoSelectPic(this, 1);
+                gotoSelectPic();
                 break;
             case R.id.layout_bg:
                 isSelectBg = true;
-                PicSelectUtils.getInstance().gotoSelectPic(this, 1);
+                gotoSelectPic();
                 break;
             case R.id.iv_add_dynamic:
                 if (isUpload) {
@@ -151,6 +152,16 @@ public class AddFriendCircleActivity extends BaseActivity<IUploadMomentsView,
                 }
                 break;
         }
+    }
+
+    private void gotoSelectPic() {
+        PictureSelector.create(this)
+                .openGallery(PictureMimeType.ofImage())
+                .maxSelectNum(1)
+                .previewImage(true)
+                .enableCrop(true)
+                .withAspectRatio(1, 1)
+                .forResult(PictureConfig.CHOOSE_REQUEST);
     }
 
     private void editImages() {
@@ -271,10 +282,10 @@ public class AddFriendCircleActivity extends BaseActivity<IUploadMomentsView,
     private void updateImages(ArrayList<LocalMedia> mSelectPic) {
         if (mSelectPic.size() != 0) {
             if (isSelectBg) {
-                bgUrl = mSelectPic.get(0).getPath();
+                bgUrl = mSelectPic.get(0).getCutPath();
                 ImageLoaderUtils.displayImg(ivBg, bgUrl);
             } else {
-                titleUrl = mSelectPic.get(0).getPath();
+                titleUrl = mSelectPic.get(0).getCutPath();
                 ImageLoaderUtils.displayImg(ivAddArticlePic, titleUrl);
             }
         }

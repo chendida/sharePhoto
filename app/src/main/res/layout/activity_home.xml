@@ -39,7 +39,7 @@
             android:id="@+id/rb_tab_friend_circle"
             style="@style/tab_radio_button_style"
             android:drawableTop="@drawable/selector_menu_item_friend_circle_ying"
-            android:text="@string/tv_friend_circle"/>
+            android:text="@string/tv_add_water"/>
 
         <RadioButton
             android:id="@+id/rb_tab_live"

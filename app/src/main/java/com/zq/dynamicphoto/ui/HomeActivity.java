@@ -28,7 +28,7 @@ import com.zq.dynamicphoto.bean.MessageEvent;
 import com.zq.dynamicphoto.bean.NetRequestBean;
 import com.zq.dynamicphoto.bean.Result;
 import com.zq.dynamicphoto.common.Constans;
-import com.zq.dynamicphoto.fragment.FriendCircleFragment;
+import com.zq.dynamicphoto.fragment.AddWaterFragment;
 import com.zq.dynamicphoto.fragment.HomePageFragment;
 import com.zq.dynamicphoto.fragment.LiveFragment;
 import com.zq.dynamicphoto.fragment.MineFragment;
@@ -80,7 +80,7 @@ public class HomeActivity extends BaseActivity<IUploadDynamicView,
     private ArrayList<Fragment> mFragments = new ArrayList<>();
     private ArrayList<String> mTitleStrs = new ArrayList<>();
     private HomePageFragment dynamicFragment;
-    private FriendCircleFragment friendCircleFragment;
+    private AddWaterFragment friendCircleFragment;
     private LiveFragment liveFragment;
     private MineFragment mineFragment;
     private int mCurrentTabPos = 0;
@@ -474,7 +474,7 @@ public class HomeActivity extends BaseActivity<IUploadDynamicView,
 
     private void initFragments() {
         dynamicFragment = new HomePageFragment();
-        friendCircleFragment = new FriendCircleFragment();
+        friendCircleFragment = new AddWaterFragment();
         liveFragment = new LiveFragment();
         mineFragment = new MineFragment();
 
@@ -484,7 +484,7 @@ public class HomeActivity extends BaseActivity<IUploadDynamicView,
         mFragments.add(mineFragment);
 
         mTitleStrs.add(getResources().getString(R.string.tv_photo_dynamic));
-        mTitleStrs.add(getResources().getString(R.string.tv_friend_circle));
+        mTitleStrs.add(getResources().getString(R.string.tv_add_water));
         mTitleStrs.add(getResources().getString(R.string.tv_live));
         mTitleStrs.add(getResources().getString(R.string.tv_mine));
     }

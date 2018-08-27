@@ -335,4 +335,7 @@
     <string name="tv_title_1011">质量保证</string>
     <string name="tv_title_1012">五星好评</string>
     <string name="tv_title_1013">感恩回馈</string>
+    <string name="upload_cover_fail">封面上传失败</string>
+    <string name="tv_my_two_friend_circle">我的朋友圈</string>
+    <string name="tv_add_water">添加水印</string>
 </resources>

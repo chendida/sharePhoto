@@ -1,5 +1,4 @@
-package com.zq.dynamicphoto.fragment;
-
+package com.zq.dynamicphoto.ui;
 
 import android.app.Dialog;
 import android.content.Intent;
@@ -9,12 +8,10 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
 import android.util.Log;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
-import android.widget.EditText;
+import android.view.WindowManager;
 import android.widget.ImageView;
-import android.widget.Toast;
+import android.widget.TextView;
 
 import com.blankj.utilcode.util.ToastUtils;
 import com.google.gson.Gson;
@@ -27,10 +24,11 @@ import com.scwang.smartrefresh.layout.SmartRefreshLayout;
 import com.scwang.smartrefresh.layout.api.RefreshLayout;
 import com.scwang.smartrefresh.layout.listener.OnLoadmoreListener;
 import com.scwang.smartrefresh.layout.listener.OnRefreshListener;
+import com.zhy.autolayout.AutoRelativeLayout;
 import com.zq.dynamicphoto.MyApplication;
 import com.zq.dynamicphoto.R;
 import com.zq.dynamicphoto.adapter.FriendCircleAdapter;
-import com.zq.dynamicphoto.base.BaseFragment;
+import com.zq.dynamicphoto.base.BaseActivity;
 import com.zq.dynamicphoto.bean.DeviceProperties;
 import com.zq.dynamicphoto.bean.DrUtils;
 import com.zq.dynamicphoto.bean.Moments;
@@ -39,14 +37,13 @@ import com.zq.dynamicphoto.bean.Result;
 import com.zq.dynamicphoto.bean.UserInfo;
 import com.zq.dynamicphoto.common.Constans;
 import com.zq.dynamicphoto.presenter.MomentOperatePresenter;
+import com.zq.dynamicphoto.ui.widge.SelectDialog;
 import com.zq.dynamicphoto.ui.widge.ShareWxDialog;
 import com.zq.dynamicphoto.utils.CosUtils;
 import com.zq.dynamicphoto.utils.ImageLoaderUtils;
-import com.zq.dynamicphoto.utils.ImageSaveUtils;
 import com.zq.dynamicphoto.utils.MFGT;
 import com.zq.dynamicphoto.utils.ShareUtils;
 import com.zq.dynamicphoto.utils.SharedPreferencesUtils;
-import com.zq.dynamicphoto.view.BgUpdate;
 import com.zq.dynamicphoto.view.DynamicDelete;
 import com.zq.dynamicphoto.view.IFriendCircleView;
 import com.zq.dynamicphoto.view.UploadView;
@@ -61,36 +58,31 @@ import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
-import butterknife.Unbinder;
+import butterknife.OnClick;
 
-import static android.app.Activity.RESULT_OK;
-
-/**
- * 朋友圈
- */
-public class FriendCircleFragment extends BaseFragment<IFriendCircleView,
+public class MyFriendCircleActivity extends BaseActivity<IFriendCircleView,
         MomentOperatePresenter<IFriendCircleView>> implements IFriendCircleView,
-        FriendCircleAdapter.MyClickListener,UploadView{
-    private static final String TAG = "FriendCircleFragment";
+        FriendCircleAdapter.MyClickListener, UploadView {
+    private static final String TAG = "MyFriendCircleActivity";
     @BindView(R.id.rcl_friend_circle_list)
     RecyclerView rclFriendCircleList;
     @BindView(R.id.refreshLayout)
     SmartRefreshLayout refreshLayout;
+    @BindView(R.id.layout_back)
+    AutoRelativeLayout layoutBack;
+    @BindView(R.id.tv_title)
+    TextView tvTitle;
+    @BindView(R.id.layout_finish)
+    AutoRelativeLayout layoutFinish;
     private int pager = 1;
     int pagerCount = 1;//总页码数
     FriendCircleAdapter mAdapter;
     ArrayList<Moments> friendCircleList = new ArrayList<>();
     private ShareWxDialog shareWxDialog;
-    private static BgUpdate bgListener;
     private ImageView ivBg;
     private String imageUrl;
     private DynamicDelete listener;
     private int positon;
-    //创建注册回调的函数
-    public static void setOnDataListener(BgUpdate listener){
-        //将参数赋值给接口类型的成员变量
-        bgListener = listener;
-    }
 
     @Override
     public void onUploadProcess(int percent) {
@@ -100,10 +92,10 @@ public class FriendCircleFragment extends BaseFragment<IFriendCircleView,
     @Override
     public void onUploadResult(int code, String url) {
         hideLoading();
-        if (code == Constans.REQUEST_OK){
+        if (code == Constans.REQUEST_OK) {
             imageUrl = url;
             updateBg();
-        }else {
+        } else {
             ToastUtils.showShort(getResources().getString(R.string.upload_fail));
         }
     }
@@ -119,32 +111,25 @@ public class FriendCircleFragment extends BaseFragment<IFriendCircleView,
         NetRequestBean netRequestBean = new NetRequestBean();
         netRequestBean.setDeviceProperties(dr);
         netRequestBean.setUserInfo(userInfo);
-        if (mPresenter != null){
+        if (mPresenter != null) {
             mPresenter.updateBg(netRequestBean);
-        }
-    }
-
-    //用于实现回调的类,实现的是处理回调的接口,并实现接口里面的函数
-    class OnDataListener implements BgUpdate{
-        //实现接口中处理数据的函数,只要右边的Fragment调用onData函数,这里就会收到传递的数据
-        @Override
-        public void onBgUpdate(String url) {
-            pager = 1;
-            getFriendCircleList(pager);
         }
     }
 
     @Override
     protected int getLayoutId() {
-        return R.layout.fragment_friend_circle;
+        return R.layout.activity_my_friend_circle;
     }
 
     @Override
-    protected void initView(View view) {
-        DynamicFragment.setOnDataListener(new OnDataListener());
-        LinearLayoutManager manager = new LinearLayoutManager(getActivity());
+    protected void initView() {
+        getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_HIDDEN);
+        layoutBack.setVisibility(View.VISIBLE);
+        layoutFinish.setVisibility(View.GONE);
+        tvTitle.setText(getResources().getString(R.string.tv_friend_circle));
+        LinearLayoutManager manager = new LinearLayoutManager(this);
         rclFriendCircleList.setLayoutManager(manager);
-        mAdapter = new FriendCircleAdapter(getActivity(), friendCircleList,this,getActivity());
+        mAdapter = new FriendCircleAdapter(this, friendCircleList, this);
         rclFriendCircleList.setAdapter(mAdapter);
         rclFriendCircleList.setNestedScrollingEnabled(false);
         rclFriendCircleList.setHasFixedSize(true);
@@ -168,8 +153,6 @@ public class FriendCircleFragment extends BaseFragment<IFriendCircleView,
                 pager++;
                 if (pagerCount >= pager) {
                     getFriendCircleList(pager);
-                } else {
-                    ToastUtils.showShort("没有更多数据");
                 }
                 refreshlayout.finishLoadmore(1000);
             }
@@ -188,13 +171,15 @@ public class FriendCircleFragment extends BaseFragment<IFriendCircleView,
         NetRequestBean netRequestBean = new NetRequestBean();
         netRequestBean.setDeviceProperties(dr);
         netRequestBean.setMoments(moments);
-        if (mPresenter != null){
+        if (mPresenter != null) {
             mPresenter.getMomentList(netRequestBean);
         }
     }
 
     @Override
     protected void initData() {
+        pager = 1;
+        getFriendCircleList(pager);
     }
 
     @Override
@@ -202,21 +187,16 @@ public class FriendCircleFragment extends BaseFragment<IFriendCircleView,
         return new MomentOperatePresenter<>();
     }
 
-    @Override
-    protected void loadData() {
-        pager = 1;
-        getFriendCircleList(pager);
-    }
 
     @Override
     public void getMomentListResult(Result result) {
         if (result != null) {
             if (result.getResultCode() == Constans.REQUEST_OK) {
                 dealWithResult(result);
-            }else {
+            } else {
                 showFailed();
             }
-        }else {
+        } else {
             showFailed();
         }
     }
@@ -225,24 +205,24 @@ public class FriendCircleFragment extends BaseFragment<IFriendCircleView,
         try {
             JSONObject jsonObject = new JSONObject(result.getData());
             pagerCount = jsonObject.optInt("pageCount", 1);
-            UserInfo userInfo = new Gson().fromJson(jsonObject.optString("userInfo"),UserInfo.class);
+            UserInfo userInfo = new Gson().fromJson(jsonObject.optString("userInfo"), UserInfo.class);
             friendCircleList = new Gson().fromJson(jsonObject.optString("momentsList"), new TypeToken<List<Moments>>() {
             }.getType());
             Log.i("momentsList", "size = " + friendCircleList.size());
             if (friendCircleList.size() != 0) {
-                if (pager == 1){
+                if (pager == 1) {
                     mAdapter.initMomentsList(friendCircleList);
                     mAdapter.notifyDataSetChanged();
-                }else {
+                } else {
                     mAdapter.addMomentsList(friendCircleList);
                 }
-            }else {
-                if (pager == 1){
+            } else {
+                if (pager == 1) {
                     mAdapter.initMomentsList(friendCircleList);
                     mAdapter.notifyDataSetChanged();
                 }
             }
-            if (userInfo != null){
+            if (userInfo != null) {
                 mAdapter.setUserInfo(userInfo);
             }
         } catch (JSONException e) {
@@ -255,13 +235,13 @@ public class FriendCircleFragment extends BaseFragment<IFriendCircleView,
         if (result != null) {
             if (result.getResultCode() == Constans.REQUEST_OK) {
                 ToastUtils.showShort(getResources().getString(R.string.tv_delete_success));
-                if (listener != null){
+                if (listener != null) {
                     listener.deleteSuccess(positon);
                 }
-            }else {
+            } else {
                 showFailed();
             }
-        }else {
+        } else {
             showFailed();
         }
     }
@@ -270,49 +250,43 @@ public class FriendCircleFragment extends BaseFragment<IFriendCircleView,
     public void updateBg(Result result) {
         if (result != null) {
             if (result.getResultCode() == Constans.REQUEST_OK) {
-                ImageLoaderUtils.displayImg(ivBg,imageUrl);
+                ImageLoaderUtils.displayImg(ivBg, imageUrl);
                 SharedPreferences sp = SharedPreferencesUtils.getInstance();
-                sp.edit().putString(Constans.BGIMAGE,imageUrl).commit();
-                bgListener.onBgUpdate(imageUrl);
-            }else {
+                sp.edit().putString(Constans.BGIMAGE, imageUrl).commit();
+            } else {
                 showFailed();
             }
-        }else {
+        } else {
             showFailed();
         }
     }
 
     @Override
-    public void onDestroyView() {
-        super.onDestroyView();
-    }
-
-    @Override
     public void onDestroy() {
         super.onDestroy();
-        if (shareWxDialog != null){
-            if (shareWxDialog.isShowing()){
+        if (shareWxDialog != null) {
+            if (shareWxDialog.isShowing()) {
                 shareWxDialog.dismiss();
                 shareWxDialog = null;
-            }else {
+            } else {
                 shareWxDialog = null;
             }
         }
     }
 
     @Override
-    public void clickListener(View v, Moments moments,int positon,DynamicDelete listener) {
-        switch (v.getId()){
+    public void clickListener(View v, Moments moments, int positon, DynamicDelete listener) {
+        switch (v.getId()) {
             case R.id.tv_delete:
                 this.listener = listener;
                 this.positon = positon;
                 deleteMoment(moments);
                 break;
             case R.id.tv_edit:
-                MFGT.gotoAddFriendCircleActivity(getActivity(),moments);
+                MFGT.gotoAddFriendCircleActivity(this, moments);
                 break;
             case R.id.layout_article:
-                MFGT.gotoHtmlManagerActivity(getActivity(),"moments.html?id="+moments.getId(),
+                MFGT.gotoHtmlManagerActivity(this, "moments.html?id=" + moments.getId(),
                         getResources().getString(R.string.tv_friend_circle_details));
                 break;
             case R.id.et_search:
@@ -320,7 +294,7 @@ public class FriendCircleFragment extends BaseFragment<IFriendCircleView,
                 getFriendCircleList(pager);
                 break;
             case R.id.iv_add_friend_circle:
-                MFGT.gotoAddFriendCircleActivity(getActivity());
+                MFGT.gotoAddFriendCircleActivity(this);
                 break;
             case R.id.layout_one_key_share:
                 showShareWxDialog(moments);
@@ -338,7 +312,7 @@ public class FriendCircleFragment extends BaseFragment<IFriendCircleView,
                 .maxSelectNum(1)
                 .previewImage(true)
                 .enableCrop(true)
-                .withAspectRatio(16,8)
+                .withAspectRatio(16, 8)
                 .forResult(PictureConfig.CHOOSE_REQUEST);
     }
 
@@ -352,10 +326,7 @@ public class FriendCircleFragment extends BaseFragment<IFriendCircleView,
                     // 图片选择结果回调
                     List<LocalMedia> localMedia = PictureSelector.obtainMultipleResult(data);
                     String path = localMedia.get(0).getCutPath();
-                    //updatePic(path);
-                    //mAdapter.updateBg(path);
-                    //ImageLoaderUtils.displayImg(ivBg,path);
-                    compossImage(path,7);
+                    compossImage(path, 7);
                     break;
             }
         }
@@ -376,7 +347,7 @@ public class FriendCircleFragment extends BaseFragment<IFriendCircleView,
                         .compress(new FileCallback() {
                             @Override
                             public void callback(boolean isSuccess, String outfile, Throwable t) {
-                                CosUtils.getInstance(FriendCircleFragment.this).uploadToCos(outfile,7);
+                                CosUtils.getInstance(MyFriendCircleActivity.this).uploadToCos(outfile, 7);
                             }
                         });
             }
@@ -384,44 +355,57 @@ public class FriendCircleFragment extends BaseFragment<IFriendCircleView,
     }
 
     private void showShareWxDialog(final Moments moments) {
-        shareWxDialog = new ShareWxDialog(getActivity(), R.style.dialog, new ShareWxDialog.OnItemClickListener() {
+        shareWxDialog = new ShareWxDialog(this, R.style.dialog, new ShareWxDialog.OnItemClickListener() {
             @Override
             public void onClick(Dialog dialog, int position) {
                 dialog.dismiss();
                 SharedPreferences sp = SharedPreferencesUtils.getInstance();
                 String forwordUrl = sp.getString(Constans.FORWORDURL, "");
-                if (TextUtils.isEmpty(forwordUrl)){
+                if (TextUtils.isEmpty(forwordUrl)) {
                     forwordUrl = "http://www.redshoping.cn";
                 }
                 String url = forwordUrl + "/moments.html?id=" + moments.getId();
-                switch (position){
+                switch (position) {
                     case 1:
-                        ShareUtils.getInstance().shareLink(url,moments.getTitle(),
-                                moments.getSignature(),moments.getForwardLogo(),position);
+                        ShareUtils.getInstance().shareLink(url, moments.getTitle(),
+                                moments.getSignature(), moments.getForwardLogo(), position);
                         break;
                     case 2:
-                        ShareUtils.getInstance().shareLink(url,moments.getTitle(),
-                                moments.getSignature(),moments.getForwardLogo(),position);
+                        ShareUtils.getInstance().shareLink(url, moments.getTitle(),
+                                moments.getSignature(), moments.getForwardLogo(), position);
                         break;
                 }
             }
         });
         if (!MyApplication.mWxApi.isWXAppInstalled()) {
             ToastUtils.showShort(getResources().getString(R.string.have_no_wx));
-        }else {
+        } else {
             shareWxDialog.show();
         }
     }
 
-    private void deleteMoment(Moments moments) {
-        DeviceProperties dr = DrUtils.getInstance();
-        Moments moment = new Moments();
-        moment.setId(moments.getId());
-        NetRequestBean netRequestBean = new NetRequestBean();
-        netRequestBean.setDeviceProperties(dr);
-        netRequestBean.setMoments(moment);
-        if (mPresenter != null){
-            mPresenter.deleteMoment(netRequestBean);
-        }
+    private void deleteMoment(final Moments moments) {
+        new SelectDialog(this, R.style.dialog, new SelectDialog.OnItemClickListener() {
+            @Override
+            public void onClick(Dialog dialog, int position) {
+                dialog.dismiss();
+                if (position == 1) {
+                    DeviceProperties dr = DrUtils.getInstance();
+                    Moments moment = new Moments();
+                    moment.setId(moments.getId());
+                    NetRequestBean netRequestBean = new NetRequestBean();
+                    netRequestBean.setDeviceProperties(dr);
+                    netRequestBean.setMoments(moment);
+                    if (mPresenter != null) {
+                        mPresenter.deleteMoment(netRequestBean);
+                    }
+                }
+            }
+        }, "确定删除？").show();
+    }
+
+    @OnClick(R.id.layout_finish)
+    public void onViewClicked() {
+        finish();
     }
 }
