@@ -143,6 +143,7 @@ public class Constans {
     public static Integer REQUEST_OK = 0;
     public static int REQUEST_CODE = 1001;
     public static int RESULT_CODE = 1008;
+    public static int RESULT_CODE_FINISH = 1009;
     public static String AVATAR_CHANGE = "avatar_change";
     public static String AVATAR_PATH = "avatar_path";
     public static String FRAME_TYPE = "frame_type";

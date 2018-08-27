@@ -34,6 +34,7 @@ import com.zq.dynamicphoto.ui.EditWaterActivity;
 import com.zq.dynamicphoto.ui.HtmlManagerActivity;
 import com.zq.dynamicphoto.ui.HtmlPhotoDetailsActivity;
 import com.zq.dynamicphoto.ui.LabelManagerActivity;
+import com.zq.dynamicphoto.ui.LabelWatermarkActivity;
 import com.zq.dynamicphoto.ui.MoneyWatermarkActivity;
 import com.zq.dynamicphoto.ui.MyFansActivity;
 import com.zq.dynamicphoto.ui.MyFollowsActivity;
@@ -203,24 +204,24 @@ public class MFGT {
     }
 
     public static void gotoEditWaterActivity(Activity activity,String watermarkId) {
-        activity.startActivity(new Intent(activity, EditWaterActivity.class)
-                .putExtra(Constans.WATERMARKID,watermarkId));
+        activity.startActivityForResult(new Intent(activity, EditWaterActivity.class)
+                .putExtra(Constans.WATERMARKID,watermarkId),Constans.REQUEST_CODE);
         //activity.finish();
     }
 
     public static void gotoEditWatermark5009Activity(Activity activity,String watermarkId) {
-        activity.startActivity(new Intent(activity, Watermark5009Activity.class)
-                .putExtra(Constans.WATERMARKID,watermarkId));
+        activity.startActivityForResult(new Intent(activity, Watermark5009Activity.class)
+                .putExtra(Constans.WATERMARKID,watermarkId),Constans.REQUEST_CODE);
     }
 
     public static void gotoMoneyWatermarkActivity(Activity activity, String watermarkId) {
-        activity.startActivity(new Intent(activity, MoneyWatermarkActivity.class)
-                .putExtra(Constans.WATERMARKID,watermarkId));
+        activity.startActivityForResult(new Intent(activity, MoneyWatermarkActivity.class)
+                .putExtra(Constans.WATERMARKID,watermarkId),Constans.REQUEST_CODE);
     }
 
     public static void gotoRecommendActivity(Activity activity, String watermarkId) {
-        activity.startActivity(new Intent(activity, RecommendActivity.class)
-                .putExtra(Constans.WATERMARKID,watermarkId));
+        activity.startActivityForResult(new Intent(activity, RecommendActivity.class)
+                .putExtra(Constans.WATERMARKID,watermarkId),Constans.REQUEST_CODE);
     }
 
     public static void gotoUploadWaterAvatarActivity(Activity activity, String watermarkId,Boolean isChange,
@@ -260,5 +261,11 @@ public class MFGT {
 
     public static void gotoMyFriendCircleActivity(Activity activity) {
         activity.startActivity(new Intent(activity, MyFriendCircleActivity.class));
+    }
+
+    public static void gotoLabelWatermarkActivity(Activity activity,String watermarkId) {
+        activity.startActivityForResult(new Intent(activity,
+                        LabelWatermarkActivity.class).putExtra(Constans.WATERMARKID,watermarkId),
+                Constans.REQUEST_CODE);
     }
 }

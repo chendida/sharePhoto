@@ -1,5 +1,7 @@
 package com.zq.dynamicphoto.bean;
 
+import java.util.ArrayList;
+
 /**
  * Created by Administrator on 2018/7/18.
  */
@@ -10,6 +12,16 @@ public class WaterEvent {
     private int type;//类型，1添加水印，2保存图片，3修改水印透明度
 
     private int alpha;
+
+    private ArrayList<UserWatermark> userWatermarkList;
+
+    public ArrayList<UserWatermark> getUserWatermarkList() {
+        return userWatermarkList;
+    }
+
+    public void setUserWatermarkList(ArrayList<UserWatermark> userWatermarkList) {
+        this.userWatermarkList = userWatermarkList;
+    }
 
     public int getAlpha() {
         return alpha;

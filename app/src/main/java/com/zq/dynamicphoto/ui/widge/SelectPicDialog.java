@@ -62,6 +62,7 @@ public class SelectPicDialog extends Dialog implements View.OnClickListener {
         findViewById(R.id.lay_cancel).setOnClickListener(this);
         findViewById(R.id.layout_pic).setOnClickListener(this);
         findViewById(R.id.layout_video).setOnClickListener(this);
+        findViewById(R.id.layout_cancel).setOnClickListener(this);
         TextView tv1 = findViewById(R.id.tv_title1);
         TextView tv2 = findViewById(R.id.tv_title2);
         tv1.setText(title1);
@@ -73,6 +74,7 @@ public class SelectPicDialog extends Dialog implements View.OnClickListener {
     public void onClick(View v) {
         switch (v.getId()){
             case R.id.lay_cancel:
+            case R.id.layout_cancel:
                 dismiss();
                 break;
             case R.id.layout_pic:

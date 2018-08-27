@@ -2,7 +2,9 @@ package com.zq.dynamicphoto.ui;
 
 import android.app.Dialog;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.content.SharedPreferences;
+import android.os.Bundle;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
 import android.support.v7.widget.LinearLayoutManager;
@@ -13,15 +15,18 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
+import android.widget.CheckBox;
 import android.widget.ImageView;
-import android.widget.RadioButton;
-import android.widget.RadioGroup;
 import android.widget.SeekBar;
 import android.widget.TextView;
 
 import com.blankj.utilcode.util.ToastUtils;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
+import com.luck.picture.lib.PictureSelector;
+import com.luck.picture.lib.config.PictureConfig;
+import com.luck.picture.lib.config.PictureMimeType;
+import com.luck.picture.lib.entity.LocalMedia;
 import com.zhy.autolayout.AutoRelativeLayout;
 import com.zq.dynamicphoto.R;
 import com.zq.dynamicphoto.adapter.SelectWaterPicAdapter;
@@ -42,7 +47,6 @@ import com.zq.dynamicphoto.ui.widge.SaveImageUtils;
 import com.zq.dynamicphoto.ui.widge.SelectPicDialog;
 import com.zq.dynamicphoto.ui.widge.SwitchButton;
 import com.zq.dynamicphoto.ui.widge.WaterMouldSelectDialog;
-import com.zq.dynamicphoto.utils.ImageSaveUtils;
 import com.zq.dynamicphoto.utils.MFGT;
 import com.zq.dynamicphoto.utils.SharedPreferencesUtils;
 import com.zq.dynamicphoto.view.IOperateWaterView;
@@ -59,6 +63,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.BindView;
+import butterknife.ButterKnife;
 import butterknife.OnClick;
 
 /**
@@ -66,7 +71,7 @@ import butterknife.OnClick;
  */
 public class WatermarkActivity extends BaseActivity<IOperateWaterView,
         OperateWaterPresenter<IOperateWaterView>> implements
-        WaterMouldView,IOperateWaterView {
+        WaterMouldView, IOperateWaterView {
     private static final String TAG = "WatermarkActivity";
 
     @BindView(R.id.btn_switchbutton)
@@ -80,20 +85,21 @@ public class WatermarkActivity extends BaseActivity<IOperateWaterView,
     ImageView ivTopPic;
     @BindView(R.id.iv_next_pic)
     ImageView ivNextPic;
-    @BindView(R.id.rg_tab)
+    /*@BindView(R.id.rg_tab)
     RadioGroup rgTab;
     @BindView(R.id.rb_tab_water)
     RadioButton rbTabWater;
     @BindView(R.id.rb_tab_text)
-    RadioButton rbTabText;
+    RadioButton rbTabText;*/
     @BindView(R.id.seek_bar)
     SeekBar seekBar;
+    @BindView(R.id.check_water)
+    CheckBox checkWater;
     private PictureSlidePagerAdapter mAdapter;
     private Dialog selectWaterDialog;
-    private Dialog selectTextWaterDialog;
     private SelectWaterPicAdapter mWaterAdapter;
     private WaterMouldSelectDialog selectDialog;
-    private SelectPicDialog selectPicDialog;
+
     @Override
     protected int getLayoutId() {
         return R.layout.activity_watermark;
@@ -113,7 +119,7 @@ public class WatermarkActivity extends BaseActivity<IOperateWaterView,
                 WaterEvent event = new WaterEvent(3);
                 event.setAlpha(progress);
                 EventBus.getDefault().post(event);
-                Log.i(TAG,"progress = " + progress);
+                Log.i(TAG, "progress = " + progress);
             }
 
             @Override
@@ -192,18 +198,12 @@ public class WatermarkActivity extends BaseActivity<IOperateWaterView,
     };
 
     @OnClick({R.id.layout_back, R.id.iv_top_pic, R.id.iv_next_pic,
-            R.id.layout_save, R.id.rb_tab_water, R.id.rb_tab_text})
+            R.id.layout_save, R.id.layout_water,R.id.check_water})
     public void onClicked(View view) {
         int currentItem = viewPager.getCurrentItem();
-        /*ArrayList<String> url = new ArrayList<>();
-        for (Image im : imgs) {
-            url.add(im.getPath());
-        }*/
         switch (view.getId()) {
             case R.id.layout_back:
-                WaterEvent event = new WaterEvent(1);
-                event.setImage(imgs.get(0));
-                EventBus.getDefault().post(event);
+                finish();
                 break;
             case R.id.iv_top_pic:
                 viewPager.setCurrentItem(currentItem - 1);
@@ -212,21 +212,17 @@ public class WatermarkActivity extends BaseActivity<IOperateWaterView,
                 viewPager.setCurrentItem(currentItem + 1);
                 break;
             case R.id.layout_save:
-                Log.i("PictureSlideFragment", "save");
                 WaterEvent event1 = new WaterEvent(2);
                 EventBus.getDefault().post(event1);
                 break;
-            case R.id.rb_tab_water:
-                Log.i("PictureSlideFragment", "rb_tab_water");
+            case R.id.layout_water:
+            case R.id.check_water:
+                checkWater.setChecked(true);
                 getAddWaterList(1);
-                /*url.remove(0);
-                showPopWindow(url);*/
                 break;
-            case R.id.rb_tab_text:
-                Log.i("PictureSlideFragment", "rb_tab_text");
-                //showTextPopWindow(url);
+            /*case R.id.rb_tab_text:
                 getAddWaterList(2);
-                break;
+                break;*/
         }
     }
 
@@ -236,12 +232,11 @@ public class WatermarkActivity extends BaseActivity<IOperateWaterView,
                 .inflate(R.layout.water_pic_popup_window, null);
         selectWaterDialog.setContentView(root);
         RecyclerView rclWaterPic = root.findViewById(R.id.rcl_water_select);
-        final RadioButton btnWater = root.findViewById(R.id.rb_tab_water);
-        RadioButton btnText = root.findViewById(R.id.rb_tab_text);
+        TextView cancel = root.findViewById(R.id.layout_cancel);
         LinearLayoutManager manager = new LinearLayoutManager(this,
                 LinearLayoutManager.HORIZONTAL, false);
         rclWaterPic.setLayoutManager(manager);
-        mWaterAdapter = new SelectWaterPicAdapter(urls,this);
+        mWaterAdapter = new SelectWaterPicAdapter(urls, this);
         rclWaterPic.setAdapter(mWaterAdapter);
         Window dialogWindow = selectWaterDialog.getWindow();
         dialogWindow.setGravity(Gravity.BOTTOM); //设置显示在底部
@@ -255,102 +250,32 @@ public class WatermarkActivity extends BaseActivity<IOperateWaterView,
         lp.alpha = 9f;
         dialogWindow.setAttributes(lp);
         selectWaterDialog.setCanceledOnTouchOutside(true);
-        selectWaterDialog.setOnDismissListener(new DialogInterface.OnDismissListener() {
-            @Override
-            public void onDismiss(DialogInterface dialog) {
-                rbTabWater.setChecked(false);
-                btnWater.setChecked(false);
-            }
-        });
-        selectWaterDialog.setOnShowListener(new DialogInterface.OnShowListener() {
-            @Override
-            public void onShow(DialogInterface dialog) {
-                btnWater.setChecked(true);
-            }
-        });
-        btnWater.setOnClickListener(new View.OnClickListener() {
+        cancel.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (selectWaterDialog.isShowing()) {
-                    selectWaterDialog.dismiss();
-                }
-            }
-        });
-        btnText.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (selectWaterDialog.isShowing()) {
-                    selectWaterDialog.dismiss();
-                    //showTextPopWindow(urls);
-                    getAddWaterList(2);
-                }
+                selectWaterDialog.dismiss();
             }
         });
         selectWaterDialog.show();
-    }
-
-    private void showTextPopWindow(final ArrayList<UserWatermark> urls) {
-        selectTextWaterDialog = new Dialog(this, R.style.MainDialog);
-        AutoRelativeLayout root = (AutoRelativeLayout) LayoutInflater.from(this)
-                .inflate(R.layout.water_pic_popup_window, null);
-        selectTextWaterDialog.setContentView(root);
-        RecyclerView rclWaterPic = root.findViewById(R.id.rcl_water_select);
-        RadioButton btnWater = root.findViewById(R.id.rb_tab_water);
-        final RadioButton btnText = root.findViewById(R.id.rb_tab_text);
-        LinearLayoutManager manager = new LinearLayoutManager(this,
-                LinearLayoutManager.HORIZONTAL, false);
-        rclWaterPic.setLayoutManager(manager);
-        mWaterAdapter = new SelectWaterPicAdapter(urls,this);
-        rclWaterPic.setAdapter(mWaterAdapter);
-        Window dialogWindow = selectTextWaterDialog.getWindow();
-        dialogWindow.setGravity(Gravity.BOTTOM); //设置显示在底部
-        dialogWindow.setWindowAnimations(R.style.dialogWindowAnim);
-        WindowManager.LayoutParams lp = dialogWindow.getAttributes();
-        lp.x = 0;
-        lp.y = 0;
-        lp.width = getResources().getDisplayMetrics().widthPixels; // 宽度
-        root.measure(0, 0);
-        lp.height = root.getMeasuredHeight();
-        lp.alpha = 9f;
-        dialogWindow.setAttributes(lp);
-        selectTextWaterDialog.setCanceledOnTouchOutside(true);
-        selectTextWaterDialog.setOnDismissListener(new DialogInterface.OnDismissListener() {
-            @Override
-            public void onDismiss(DialogInterface dialog) {
-                btnText.setChecked(false);
-                rbTabText.setChecked(false);
-            }
-        });
-        selectTextWaterDialog.setOnShowListener(new DialogInterface.OnShowListener() {
+        selectWaterDialog.setOnShowListener(new DialogInterface.OnShowListener() {
             @Override
             public void onShow(DialogInterface dialog) {
-                btnText.setChecked(true);
+                checkWater.setChecked(true);
             }
         });
-        btnWater.setOnClickListener(new View.OnClickListener() {
+
+        selectWaterDialog.setOnDismissListener(new DialogInterface.OnDismissListener() {
             @Override
-            public void onClick(View v) {
-                if (selectTextWaterDialog.isShowing()) {
-                    selectTextWaterDialog.dismiss();
-                    //showPopWindow(urls);
-                    getAddWaterList(1);
-                }
+            public void onDismiss(DialogInterface dialog) {
+                checkWater.setChecked(false);
             }
         });
-        btnText.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (selectTextWaterDialog.isShowing()) {
-                    selectTextWaterDialog.dismiss();
-                }
-            }
-        });
-        selectTextWaterDialog.show();
     }
+
 
     @Override
     public void showSelectDialog() {
-        if (selectDialog == null){
+        if (selectDialog == null) {
             selectDialog = new WaterMouldSelectDialog(this, R.style.dialog,
                     new WaterMouldSelectDialog.OnItemClickListener() {
                         @Override
@@ -363,7 +288,7 @@ public class WatermarkActivity extends BaseActivity<IOperateWaterView,
                                 case 2://付费水印设计
                                     break;
                                 case 3://相册上传
-
+                                    intoPicSelect();
                                     break;
                             }
                         }
@@ -373,9 +298,34 @@ public class WatermarkActivity extends BaseActivity<IOperateWaterView,
         selectDialog.show();
     }
 
+    private void intoPicSelect() {
+        PictureSelector.create(this)
+                .openGallery(PictureMimeType.ofImage())
+                .maxSelectNum(1)
+                .previewImage(true)
+                .forResult(PictureConfig.CHOOSE_REQUEST);
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        // 接收图片选择器返回结果，更新所选图片集合
+        if (resultCode == RESULT_OK) {
+            switch (requestCode) {
+                case PictureConfig.CHOOSE_REQUEST:
+                    // 图片选择结果回调
+                    List<LocalMedia> localMedia = PictureSelector.obtainMultipleResult(data);
+                    String path = localMedia.get(0).getPath();
+                    Image image = new Image(path);
+                    addWaterImage(image);
+                    break;
+            }
+        }
+    }
+
     @Override
     public void addWaterImage(Image image) {
-        WaterEvent waterEvent =new WaterEvent(1);
+        WaterEvent waterEvent = new WaterEvent(1);
         waterEvent.setImage(image);
         EventBus.getDefault().post(waterEvent);
     }
@@ -386,30 +336,27 @@ public class WatermarkActivity extends BaseActivity<IOperateWaterView,
     }
 
     private void showSelectPicDialog(final UserWatermark image) {
-        if (selectPicDialog == null){
-            selectPicDialog = new SelectPicDialog("存入相册","删除",this, R.style.dialog, new SelectPicDialog.OnItemClickListener() {
-                @Override
-                public void onClick(Dialog dialog, int position) {
-                    dialog.dismiss();
-                    switch (position) {
-                        case 1://选择存入相册
-                            SaveImageUtils.saveImageByGlide(image.getWatermarkUrl());
-                            break;
-                        case 2://选择删除水印
-                            deleteWatermark(image);
-                            break;
-                    }
+        new SelectPicDialog("存入相册", "删除", this, R.style.dialog, new SelectPicDialog.OnItemClickListener() {
+            @Override
+            public void onClick(Dialog dialog, int position) {
+                dialog.dismiss();
+                switch (position) {
+                    case 1://选择存入相册
+                        SaveImageUtils.saveImageByGlide(image.getWatermarkUrl());
+                        break;
+                    case 2://选择删除水印
+                        deleteWatermark(image);
+                        break;
                 }
-            });
-        }
-        selectPicDialog.show();
+            }
+        }).show();
     }
 
     private void deleteWatermark(UserWatermark image) {
         NetRequestBean netRequestBean = new NetRequestBean();
         netRequestBean.setDeviceProperties(DrUtils.getInstance());
         netRequestBean.setUserWatermark(image);
-        if (mPresenter != null){
+        if (mPresenter != null) {
             mPresenter.deleteWaterMould(netRequestBean);
         }
     }
@@ -419,10 +366,10 @@ public class WatermarkActivity extends BaseActivity<IOperateWaterView,
         if (result != null) {
             if (result.getResultCode() == Constans.REQUEST_OK) {
                 dealWithResult(result);
-            }else {
+            } else {
                 showFailed();
             }
-        }else {
+        } else {
             showFailed();
         }
     }
@@ -432,12 +379,12 @@ public class WatermarkActivity extends BaseActivity<IOperateWaterView,
             JSONObject jsonObject = new JSONObject(result.getData());
             ArrayList<UserWatermark> userWatermarkList = new Gson().fromJson(jsonObject.optString("userWatermarkList"),
                     new TypeToken<List<UserWatermark>>() {
-            }.getType());
+                    }.getType());
             int type = jsonObject.optInt("watermarkType");
-            if (type == 1){//显示水印弹窗
+            if (type == 1) {//显示水印弹窗
                 showPopWindow(userWatermarkList);
-            }else if (type == 2){//显示文字水印弹窗
-                showTextPopWindow(userWatermarkList);
+            } else if (type == 2) {//显示文字水印弹窗
+                //showTextPopWindow(userWatermarkList);
             }
             Log.i("userWatermarkList", "userWatermarkList = " + userWatermarkList.size());
         } catch (JSONException e) {
@@ -447,7 +394,18 @@ public class WatermarkActivity extends BaseActivity<IOperateWaterView,
 
     @Override
     public void deleteWaterMould(Result result) {
-
+        if (result != null) {
+            if (result.getResultCode() == Constans.REQUEST_OK) {
+                if (selectWaterDialog.isShowing()) {
+                    selectWaterDialog.dismiss();
+                }
+                getAddWaterList(1);
+            } else {
+                showFailed();
+            }
+        } else {
+            showFailed();
+        }
     }
 
     public void getAddWaterList(int type) {
@@ -460,7 +418,7 @@ public class WatermarkActivity extends BaseActivity<IOperateWaterView,
         userWatermark.setUserId(userId);
         netRequestBean.setDeviceProperties(dr);
         netRequestBean.setUserWatermark(userWatermark);
-        if (mPresenter != null){
+        if (mPresenter != null) {
             mPresenter.getAddWaterMouldList(netRequestBean);
         }
     }
@@ -487,8 +445,8 @@ public class WatermarkActivity extends BaseActivity<IOperateWaterView,
 
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void Event(WaterImage image) {
-        Log.i(TAG,"image = " + image.getUrl());
-        WaterEvent waterEvent =new WaterEvent(1);
+        Log.i(TAG, "image = " + image.getUrl());
+        WaterEvent waterEvent = new WaterEvent(1);
         waterEvent.setImage(new Image(image.getUrl()));
         EventBus.getDefault().post(waterEvent);
     }

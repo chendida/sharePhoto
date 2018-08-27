@@ -169,17 +169,6 @@ public class WaterMouldFragment extends BaseFragment<IGetWaterMouldView,
     @Override
     public void click(Watermark watermark) {
         String watermarkId = watermark.getWatermarkId();
-        /*if (watermarkId.equals(Constans.WATERMARKID_5008) ||
-                watermarkId.equals(Constans.WATERMARKID_5016) ||
-                watermarkId.equals(Constans.WATERMARKID_5017) ||
-                watermarkId.equals(Constans.WATERMARKID_5018) ||
-                watermarkId.equals(Constans.WATERMARKID_5019) ||
-                watermarkId.equals(Constans.WATERMARKID_5022) ||
-                watermarkId.equals(Constans.WATERMARKID_5020) ||
-                watermarkId.equals(Constans.WATERMARKID_5021) ||
-                watermarkId.equals(Constans.WATERMARKID_5023)) {
-            MFGT.gotoEditWaterActivity(this.getActivity(),watermarkId);
-        }*/
         if (watermarkId.startsWith("5")) {
             if (watermarkId.equals("5009") || watermarkId.equals("5014")){
                 MFGT.gotoEditWatermark5009Activity(this.getActivity(),watermarkId);
@@ -193,8 +182,7 @@ public class WaterMouldFragment extends BaseFragment<IGetWaterMouldView,
                 || watermarkId.startsWith("2")){
             MFGT.gotoRecommendActivity(this.getActivity(),watermarkId);
         }else if (watermarkId.startsWith("1")){
-            startActivity(new Intent(this.getActivity(),
-                    LabelWatermarkActivity.class).putExtra(Constans.WATERMARKID,watermarkId));
+            MFGT.gotoLabelWatermarkActivity(this.getActivity(),watermarkId);
         }
     }
 }

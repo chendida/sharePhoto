@@ -116,6 +116,7 @@
             android:layout_height="wrap_content"
             android:orientation="vertical">
             <com.zhy.autolayout.AutoLinearLayout
+                android:visibility="gone"
                 android:layout_below="@+id/layout_head"
                 android:layout_width="match_parent"
                 android:layout_height="360px"

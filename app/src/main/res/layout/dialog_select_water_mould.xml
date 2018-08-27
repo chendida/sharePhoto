@@ -14,7 +14,7 @@
         android:orientation="vertical">
         <com.zhy.autolayout.AutoRelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="272px"
+            android:layout_height="wrap_content"
             android:background="@color/white"
             >
             <com.zhy.autolayout.AutoRelativeLayout
@@ -38,6 +38,7 @@
                 android:layout_height="1px"
                 android:background="@color/line_bg_color"/>
             <com.zhy.autolayout.AutoRelativeLayout
+                android:visibility="gone"
                 android:layout_below="@+id/tv_line1"
                 android:id="@+id/layout_money_water_design"
                 android:layout_width="match_parent"
@@ -53,6 +54,7 @@
             </com.zhy.autolayout.AutoRelativeLayout>
 
             <TextView
+                android:visibility="gone"
                 android:id="@+id/tv_line2"
                 android:layout_below="@+id/layout_money_water_design"
                 android:layout_width="match_parent"

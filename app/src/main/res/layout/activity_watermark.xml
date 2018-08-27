@@ -58,14 +58,33 @@
                 android:textColor="@color/tv_text_color7"/>
         </com.zhy.autolayout.AutoRelativeLayout>
     </com.zhy.autolayout.AutoRelativeLayout>
-    <RadioGroup
+
+    <com.zhy.autolayout.AutoRelativeLayout
+        android:id="@+id/layout_water"
+        android:layout_alignParentBottom="true"
+        android:layout_width="match_parent"
+        android:layout_height="100px"
+        android:gravity="center_vertical"
+        android:background="@color/white"
+        >
+        <CheckBox
+            android:id="@+id/check_water"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:button="@drawable/select_watermark"
+            android:layout_centerInParent="true"
+            />
+    </com.zhy.autolayout.AutoRelativeLayout>
+    <!--<RadioGroup
+        android:visibility="gone"
         android:layout_alignParentBottom="true"
         android:id="@+id/rg_tab"
         android:layout_width="match_parent"
         android:layout_height="100px"
         android:gravity="center_vertical"
         android:background="@color/white"
-        android:orientation="horizontal">
+        android:orientation="horizontal"
+        >
 
         <RadioButton
             android:id="@+id/rb_tab_water"
@@ -74,12 +93,14 @@
             />
 
         <RadioButton
+            android:visibility="gone"
             android:id="@+id/rb_tab_text"
             style="@style/tab_radio_button_style"
             android:drawableTop="@drawable/select_water_text"
             />
     </RadioGroup>
     <com.zhy.autolayout.AutoRelativeLayout
+        android:visibility="gone"
         android:layout_width="match_parent"
         android:layout_height="100px"
         android:layout_alignParentBottom="true">
@@ -88,13 +109,13 @@
             android:layout_height="80px"
             android:layout_centerInParent="true"
             android:background="@color/line_bg_color"/>
-    </com.zhy.autolayout.AutoRelativeLayout>
+    </com.zhy.autolayout.AutoRelativeLayout>-->
 
 
     <com.zhy.autolayout.AutoRelativeLayout
         android:id="@+id/layout_pic_parent"
         android:layout_below="@+id/layout_head"
-        android:layout_above="@+id/rg_tab"
+        android:layout_above="@+id/layout_water"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="@color/layout_head_bg"

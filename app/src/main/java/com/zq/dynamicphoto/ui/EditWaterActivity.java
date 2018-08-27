@@ -279,9 +279,11 @@ public class EditWaterActivity extends BaseActivity<ILoadView, AddWatermarkPrese
                 WatermarkManager.getInstance().showTextEditDialog(2);
                 break;
             case R.id.layout_back:
+                setResult(Constans.RESULT_CODE);
                 EditWaterActivity.this.finish();
                 break;
             case R.id.layout_finish:
+                setResult(Constans.RESULT_CODE_FINISH);
                 addWater();
                 break;
             case R.id.layout_bg:

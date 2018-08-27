@@ -197,9 +197,11 @@ public class Watermark5009Activity extends BaseActivity <ILoadView, AddWatermark
                 WatermarkManager.getInstance().showTextEditDialog(2);
                 break;
             case R.id.layout_back:
+                setResult(Constans.RESULT_CODE);
                 Watermark5009Activity.this.finish();
                 break;
             case R.id.layout_finish:
+                setResult(Constans.RESULT_CODE_FINISH);
                 addWater();
                 break;
             case R.id.layout_bg:

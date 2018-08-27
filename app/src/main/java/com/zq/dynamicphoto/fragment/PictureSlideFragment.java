@@ -49,7 +49,8 @@ import butterknife.BindView;
 /**
  * Created by Administrator on 2016/1/3.
  */
-public class PictureSlideFragment extends BaseFragment implements ImageSaveUtils.DownLoadListener{
+public class PictureSlideFragment extends BaseFragment implements
+        ImageSaveUtils.DownLoadListener{
     private static final String TAG = "PictureSlideFragment";
     @BindView(R.id.drawing_view_container)
     AutoRelativeLayout drawArea;

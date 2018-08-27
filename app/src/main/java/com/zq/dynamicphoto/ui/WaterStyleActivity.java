@@ -1,5 +1,6 @@
 package com.zq.dynamicphoto.ui;
 
+import android.content.Intent;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
@@ -77,5 +78,15 @@ public class WaterStyleActivity extends BaseActivity {
     @OnClick(R.id.layout_back)
     public void onClicked() {
         finish();
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == Constans.REQUEST_CODE){
+            if (resultCode == Constans.RESULT_CODE_FINISH){
+                WaterStyleActivity.this.finish();
+            }
+        }
     }
 }

@@ -370,9 +370,11 @@ public class MoneyWatermarkActivity extends BaseActivity<ILoadView, AddWatermark
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.layout_back:
+                setResult(Constans.RESULT_CODE);
                 MoneyWatermarkActivity.this.finish();
                 break;
             case R.id.layout_finish:
+                setResult(Constans.RESULT_CODE_FINISH);
                 addWater();
                 break;
             case R.id.layout_whole_color:
