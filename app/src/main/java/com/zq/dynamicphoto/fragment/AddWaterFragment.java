@@ -71,13 +71,19 @@ public class AddWaterFragment extends BaseFragment implements PhotoListAdapter.S
     }
 
     @Override
+    public void onResume() {
+        super.onResume();
+        loadImageForSDCard();
+    }
+
+    @Override
     protected BasePresenter createPresenter() {
         return null;
     }
 
     @Override
     protected void loadData() {
-        loadImageForSDCard();
+        //loadImageForSDCard();
     }
 
 

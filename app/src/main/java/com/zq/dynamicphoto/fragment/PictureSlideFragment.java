@@ -1,6 +1,8 @@
 package com.zq.dynamicphoto.fragment;
 
+import android.app.Dialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -18,10 +20,8 @@ import android.view.ViewGroup;
 import android.view.ViewTreeObserver;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
-
 import com.blankj.utilcode.util.ToastUtils;
 import com.bumptech.glide.Glide;
-import com.luck.picture.lib.entity.LocalMedia;
 import com.luck.picture.lib.photoview.PhotoViewAttacher;
 import com.zhy.autolayout.AutoRelativeLayout;
 import com.zq.dynamicphoto.MyApplication;
@@ -30,27 +30,27 @@ import com.zq.dynamicphoto.base.BaseFragment;
 import com.zq.dynamicphoto.base.BasePresenter;
 import com.zq.dynamicphoto.bean.Image;
 import com.zq.dynamicphoto.bean.WaterEvent;
-import com.zq.dynamicphoto.utils.ImageSaveUtils;
+import com.zq.dynamicphoto.common.Constans;
+import com.zq.dynamicphoto.ui.widge.SaveFinishDialog;
+import com.zq.dynamicphoto.ui.widge.SavePicDialog;
 import com.zq.dynamicphoto.waterutil.EffectUtil;
 import com.zq.dynamicphoto.waterutil.customview.MyHighlightView;
 import com.zq.dynamicphoto.waterutil.customview.MyImageViewDrawableOverlay;
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
-
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.ArrayList;
-
+import java.util.concurrent.ExecutionException;
 import butterknife.BindView;
 
 /**
  * Created by Administrator on 2016/1/3.
  */
-public class PictureSlideFragment extends BaseFragment implements
-        ImageSaveUtils.DownLoadListener{
+public class PictureSlideFragment extends BaseFragment{
     private static final String TAG = "PictureSlideFragment";
     @BindView(R.id.drawing_view_container)
     AutoRelativeLayout drawArea;
@@ -61,6 +61,7 @@ public class PictureSlideFragment extends BaseFragment implements
     private PhotoViewAttacher mAttacher;
     private MyImageViewDrawableOverlay mImageView;
     private static ArrayList<Image>images = new ArrayList<>();
+    SavePicDialog savePicDialog;
     public static PictureSlideFragment newInstance(ArrayList<Image> imgs,Image i) {
         PictureSlideFragment f = new PictureSlideFragment();
         image = i;
@@ -68,7 +69,6 @@ public class PictureSlideFragment extends BaseFragment implements
         images.addAll(imgs);
         Bundle args = new Bundle();
         url = image.getPath();
-        BitmapFactory.Options options = new BitmapFactory.Options();
         args.putString("url", url);
         f.setArguments(args);
         return f;
@@ -161,26 +161,11 @@ public class PictureSlideFragment extends BaseFragment implements
     //保存图片
     private void savePicture() {
         if (EffectUtil.getHightlistViews() != null){
-            if (EffectUtil.getHightlistViews().size() == 0){//未加水印情况
-                Log.i(TAG,"未加水印情况");
-                showLoading();
-                ArrayList<LocalMedia> list = new ArrayList<>();
-                for (Image image:images) {
-                    LocalMedia localMedia = new LocalMedia();
-                    localMedia.setPath(image.getPath());
-                    list.add(localMedia);
-                }
-                ImageSaveUtils.getInstance(this).saveAllImage(list);
-            }else {//加水印情况的保存
-                saveWaterBitmap();
-            }
-        }else {//加水印情况的保存
-
+            startSave(images.size());
         }
     }
 
     private void saveWaterBitmap() {
-        //showLoading();
         ArrayList<Bitmap> bitmaps = new ArrayList<>();
         bitmaps.clear();
         Log.i(TAG,"image.size = " + images.size());
@@ -208,14 +193,84 @@ public class PictureSlideFragment extends BaseFragment implements
             bitmaps.add(zoomImg(newBitmap,options.outWidth,options.outHeight));
             bitmap.recycle();
         }
-        for (Bitmap bitmap:bitmaps) {
+        for (int i = 0; i < bitmaps.size(); i++) {
+            savePicDialog.saveProcess(i,bitmaps.size());
             ByteArrayOutputStream baos = new ByteArrayOutputStream();
-            bitmap.compress(Bitmap.CompressFormat.JPEG, 100, baos);
+            bitmaps.get(i).compress(Bitmap.CompressFormat.JPEG, 100, baos);
             byte[] bytes = baos.toByteArray();
             savaBitmap(System.currentTimeMillis()+".jpg",bytes);
         }
-        //hideLoading();
-        ToastUtils.showShort("保存成功");
+        savePicDialog.endSave();
+    }
+
+    private void startSave(final int size) {
+        getActivity().runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                savePicDialog = new SavePicDialog(getActivity(),R.style.dialog,size);
+                savePicDialog.startSave(size);
+                if (savePicDialog.isShowing()) {
+                    new Thread(new Runnable() {
+                        @Override
+                        public void run() {
+                            if (EffectUtil.getHightlistViews().size() == 0) {//未加水印情况
+                                Log.i(TAG, "未加水印情况");
+                                saveAllImage();
+                            } else {//加水印情况的保存
+                                saveWaterBitmap();
+                            }
+                        }
+                    }).start();
+                }
+
+                savePicDialog.setOnDismissListener(new DialogInterface.OnDismissListener() {
+                    @Override
+                    public void onDismiss(DialogInterface dialog) {
+                        showSaveFinishDialog();
+                    }
+                });
+            }
+        });
+    }
+
+    private void saveAllImage() {
+        for (int i = 0; i < images.size(); i ++){
+            savePicDialog.saveProcess(i,images.size());
+            try {
+                Bitmap bitmap = Glide.with(MyApplication.getAppContext())
+                        .asBitmap()
+                        .load(images.get(i).getPath())
+                        .into(1080, 1920)
+                        .get();
+                ByteArrayOutputStream baos = new ByteArrayOutputStream();
+                bitmap.compress(Bitmap.CompressFormat.JPEG, 100, baos);
+                byte[] bytes = baos.toByteArray();
+                savaBitmap(System.currentTimeMillis()+".jpg", bytes);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            } catch (ExecutionException e) {
+                e.printStackTrace();
+            }
+        }
+        savePicDialog.endSave();
+    }
+
+    /**
+     * 展示保存完成的dialog
+     */
+    private void showSaveFinishDialog() {
+        new SaveFinishDialog(getActivity(), R.style.dialog, new SaveFinishDialog.OnItemClickListener() {
+            @Override
+            public void onClick(Dialog dialog, int position) {
+                dialog.dismiss();
+                if (position == 1){//查看照片
+                    if (getActivity() != null) {
+                        getActivity().setResult(Constans.RESULT_CODE_FINISH);
+                        getActivity().finish();
+                    }
+                }
+            }
+        }).show();
     }
 
     // 等比缩放图片
@@ -329,11 +384,5 @@ public class PictureSlideFragment extends BaseFragment implements
                         }
                     });
         }
-    }
-
-    @Override
-    public void callBack(int code, String msg) {
-        hideLoading();
-        ToastUtils.showShort(msg);
     }
 }

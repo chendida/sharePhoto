@@ -75,42 +75,6 @@
             android:layout_centerInParent="true"
             />
     </com.zhy.autolayout.AutoRelativeLayout>
-    <!--<RadioGroup
-        android:visibility="gone"
-        android:layout_alignParentBottom="true"
-        android:id="@+id/rg_tab"
-        android:layout_width="match_parent"
-        android:layout_height="100px"
-        android:gravity="center_vertical"
-        android:background="@color/white"
-        android:orientation="horizontal"
-        >
-
-        <RadioButton
-            android:id="@+id/rb_tab_water"
-            style="@style/tab_radio_button_style"
-            android:drawableTop="@drawable/select_watermark"
-            />
-
-        <RadioButton
-            android:visibility="gone"
-            android:id="@+id/rb_tab_text"
-            style="@style/tab_radio_button_style"
-            android:drawableTop="@drawable/select_water_text"
-            />
-    </RadioGroup>
-    <com.zhy.autolayout.AutoRelativeLayout
-        android:visibility="gone"
-        android:layout_width="match_parent"
-        android:layout_height="100px"
-        android:layout_alignParentBottom="true">
-        <TextView
-            android:layout_width="2px"
-            android:layout_height="80px"
-            android:layout_centerInParent="true"
-            android:background="@color/line_bg_color"/>
-    </com.zhy.autolayout.AutoRelativeLayout>-->
-
 
     <com.zhy.autolayout.AutoRelativeLayout
         android:id="@+id/layout_pic_parent"

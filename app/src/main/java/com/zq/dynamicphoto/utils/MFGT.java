@@ -166,9 +166,9 @@ public class MFGT {
                 .putExtra(Constans.IMAGEBUCKET,imageBucket));
     }
 
-    public static void gotoWatermarkActivity(Context context, ArrayList<Image>list) {
-        context.startActivity(new Intent(context, WatermarkActivity.class)
-                .putExtra(Constans.SELECT_LIST,list));
+    public static void gotoWatermarkActivity(Activity context, ArrayList<Image>list) {
+        context.startActivityForResult(new Intent(context, WatermarkActivity.class)
+                .putExtra(Constans.SELECT_LIST,list),Constans.REQUEST_CODE);
     }
 
     public static void gotoWaterStyleActivity(Context context) {

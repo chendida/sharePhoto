@@ -28,6 +28,7 @@ import com.zq.dynamicphoto.ui.LabelWatermarkActivity;
 import com.zq.dynamicphoto.utils.MFGT;
 import com.zq.dynamicphoto.view.EditWaterListener;
 import com.zq.dynamicphoto.view.IGetWaterMouldView;
+import com.zq.dynamicphoto.view.SaveWaterImage;
 
 import org.json.JSONException;
 import org.json.JSONObject;

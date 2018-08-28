@@ -10,6 +10,7 @@ import com.zq.dynamicphoto.base.BaseActivity;
 import com.zq.dynamicphoto.base.BasePresenter;
 import com.zq.dynamicphoto.common.Constans;
 import com.zq.dynamicphoto.fragment.WaterMouldFragment;
+import com.zq.dynamicphoto.view.SaveWaterImage;
 
 import java.util.ArrayList;
 import butterknife.BindView;
@@ -18,7 +19,7 @@ import butterknife.OnClick;
 /**
  * 水印样式
  */
-public class WaterStyleActivity extends BaseActivity {
+public class WaterStyleActivity extends BaseActivity{
 
     @BindView(R.id.tab_layout)
     TabLayout tabLayout;

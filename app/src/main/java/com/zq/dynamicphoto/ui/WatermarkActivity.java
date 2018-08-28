@@ -27,6 +27,7 @@ import com.luck.picture.lib.PictureSelector;
 import com.luck.picture.lib.config.PictureConfig;
 import com.luck.picture.lib.config.PictureMimeType;
 import com.luck.picture.lib.entity.LocalMedia;
+import com.zhy.autolayout.AutoLinearLayout;
 import com.zhy.autolayout.AutoRelativeLayout;
 import com.zq.dynamicphoto.R;
 import com.zq.dynamicphoto.adapter.SelectWaterPicAdapter;
@@ -44,12 +45,15 @@ import com.zq.dynamicphoto.fragment.PictureSlideFragment;
 import com.zq.dynamicphoto.presenter.OperateWaterPresenter;
 import com.zq.dynamicphoto.ui.widge.NoPreloadViewPager;
 import com.zq.dynamicphoto.ui.widge.SaveImageUtils;
+import com.zq.dynamicphoto.ui.widge.SelectDialog;
 import com.zq.dynamicphoto.ui.widge.SelectPicDialog;
 import com.zq.dynamicphoto.ui.widge.SwitchButton;
 import com.zq.dynamicphoto.ui.widge.WaterMouldSelectDialog;
+import com.zq.dynamicphoto.utils.FastClickUtils;
 import com.zq.dynamicphoto.utils.MFGT;
 import com.zq.dynamicphoto.utils.SharedPreferencesUtils;
 import com.zq.dynamicphoto.view.IOperateWaterView;
+import com.zq.dynamicphoto.view.SaveWaterImage;
 import com.zq.dynamicphoto.view.WaterMouldView;
 import com.zq.dynamicphoto.waterutil.EffectUtil;
 
@@ -71,7 +75,7 @@ import butterknife.OnClick;
  */
 public class WatermarkActivity extends BaseActivity<IOperateWaterView,
         OperateWaterPresenter<IOperateWaterView>> implements
-        WaterMouldView, IOperateWaterView {
+        WaterMouldView, IOperateWaterView/*, SaveWaterImage */{
     private static final String TAG = "WatermarkActivity";
 
     @BindView(R.id.btn_switchbutton)
@@ -198,7 +202,7 @@ public class WatermarkActivity extends BaseActivity<IOperateWaterView,
     };
 
     @OnClick({R.id.layout_back, R.id.iv_top_pic, R.id.iv_next_pic,
-            R.id.layout_save, R.id.layout_water,R.id.check_water})
+            R.id.layout_save, R.id.layout_water, R.id.check_water})
     public void onClicked(View view) {
         int currentItem = viewPager.getCurrentItem();
         switch (view.getId()) {
@@ -212,8 +216,9 @@ public class WatermarkActivity extends BaseActivity<IOperateWaterView,
                 viewPager.setCurrentItem(currentItem + 1);
                 break;
             case R.id.layout_save:
-                WaterEvent event1 = new WaterEvent(2);
-                EventBus.getDefault().post(event1);
+                if (!FastClickUtils.isFastDoubleClick()) {
+                    showHintDialog();
+                }
                 break;
             case R.id.layout_water:
             case R.id.check_water:
@@ -224,6 +229,20 @@ public class WatermarkActivity extends BaseActivity<IOperateWaterView,
                 getAddWaterList(2);
                 break;*/
         }
+    }
+
+    private void showHintDialog() {
+        Log.i(TAG, "save");
+        new SelectDialog(this, R.style.dialog, new SelectDialog.OnItemClickListener() {
+            @Override
+            public void onClick(Dialog dialog, int position) {
+                dialog.dismiss();
+                if (position == 1) {
+                    WaterEvent event1 = new WaterEvent(2);
+                    EventBus.getDefault().post(event1);
+                }
+            }
+        }, "确认保存？").show();
     }
 
     private void showPopWindow(final ArrayList<UserWatermark> urls) {
@@ -422,6 +441,38 @@ public class WatermarkActivity extends BaseActivity<IOperateWaterView,
             mPresenter.getAddWaterMouldList(netRequestBean);
         }
     }
+
+    /*@Override
+    public void startSave(final int size) {
+        Log.i(TAG, "startSave");
+        runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                layoutProcess.setVisibility(View.VISIBLE);
+                String str = 0 + "/" + size + ")";
+                tvNum.setText(str);
+                seekBarProcess.setMax(size);
+            }
+        });
+    }
+
+    @Override
+    public void saveProcess(final int num, final int size) {
+        runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                String str = num + "/" + size + ")";
+                tvNum.setText(str);
+                seekBarProcess.setProgress(num);
+            }
+        });
+    }
+
+    @Override
+    public void endSave() {
+        layoutProcess.setVisibility(View.GONE);
+        ToastUtils.showShort("保存成功");
+    }*/
 
 
     private class PictureSlidePagerAdapter extends FragmentStatePagerAdapter {

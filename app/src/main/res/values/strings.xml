@@ -338,4 +338,8 @@
     <string name="upload_cover_fail">封面上传失败</string>
     <string name="tv_my_two_friend_circle">我的朋友圈</string>
     <string name="tv_add_water">添加水印</string>
+    <string name="tv_save_loading">高清质量保存中，请耐心等待 (</string>
+    <string name="tv_save_finish">已保存到本地相册：共享相册</string>
+    <string name="tv_finish_home">返回首页</string>
+    <string name="tv_see_photos">查看照片</string>
 </resources>

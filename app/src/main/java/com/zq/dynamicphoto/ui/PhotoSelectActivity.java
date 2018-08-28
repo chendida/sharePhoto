@@ -249,6 +249,12 @@ public class PhotoSelectActivity extends BaseActivity implements
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         Log.d(TAG, "拍摄结束。");
+        if (requestCode == Constans.REQUEST_CODE){
+            if (resultCode == Constans.RESULT_CODE_FINISH){
+                PhotoSelectActivity.this.finish();
+                return;
+            }
+        }
         if (resultCode == Activity.RESULT_OK) {
             showLoading();
             Log.d(TAG, "返回成功。");

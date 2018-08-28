@@ -273,8 +273,8 @@ public class ImageSaveUtils {
                 try {
                     Bitmap bitmap = Glide.with(MyApplication.getAppContext())
                             .asBitmap()
-                            .apply(myOptions)
-                            .load(url).into(720, 1280)
+                            //.apply(myOptions)
+                            .load(url).into(1080, 1920)
                             .get();
                     ByteArrayOutputStream baos = new ByteArrayOutputStream();
                     bitmap.compress(Bitmap.CompressFormat.JPEG, 100, baos);
