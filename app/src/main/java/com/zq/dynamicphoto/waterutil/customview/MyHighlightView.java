@@ -369,6 +369,34 @@ public class MyHighlightView implements EditableDrawable.OnSizeChange {
         return retval;
     }
 
+    public Boolean isInner(float x,float y){
+        final RectF rect = new RectF(mDrawRect);
+        rect.inset(-mPadding, -mPadding);
+
+        final float pts[] = new float[] { x, y };
+
+        final Matrix rotateMatrix = new Matrix();
+        rotateMatrix.postTranslate(-rect.centerX(), -rect.centerY());
+        rotateMatrix.postRotate(-mRotation);
+        rotateMatrix.postTranslate(rect.centerX(), rect.centerY());
+        rotateMatrix.mapPoints(pts);
+
+        x = pts[0];
+        y = pts[1];
+
+        // mContext.invalidate();
+        //垂直校验
+        final boolean verticalCheck = (y >= (rect.top - HIT_TOLERANCE))
+                && (y < (rect.bottom + HIT_TOLERANCE));
+        //水平校验
+        final boolean horizCheck = (x >= (rect.left - HIT_TOLERANCE))
+                && (x < (rect.right + HIT_TOLERANCE));
+        if(!(verticalCheck && horizCheck)){
+            return false;
+        }
+        return true;
+    }
+
     public void onSingleTapConfirmed(float x, float y) {
         final RectF rect = new RectF(mDrawRect);
         rect.inset(-mPadding, -mPadding);
@@ -385,9 +413,10 @@ public class MyHighlightView implements EditableDrawable.OnSizeChange {
         y = pts[1];
 
         // mContext.invalidate();
-
+        //垂直校验
         final boolean verticalCheck = (y >= (rect.top - HIT_TOLERANCE))
                                       && (y < (rect.bottom + HIT_TOLERANCE));
+        //水平校验
         final boolean horizCheck = (x >= (rect.left - HIT_TOLERANCE))
                                    && (x < (rect.right + HIT_TOLERANCE));
 
@@ -398,6 +427,12 @@ public class MyHighlightView implements EditableDrawable.OnSizeChange {
                     mDeleteClickListener.onDeleteClick();
                 }
             }
+        }
+
+        if(!(verticalCheck && horizCheck)){
+            //dispose();
+            setSelected(false);
+            Log.i("mOverlayViews","setSelected(false)" + false);
         }
     }
 
@@ -665,10 +700,11 @@ public class MyHighlightView implements EditableDrawable.OnSizeChange {
 
     public void setSelected(final boolean selected) {
         Log.d(LOG_TAG, "setSelected: " + selected);
+        Log.d(LOG_TAG, "isSelected(): " + isSelected());
         boolean is_selected = isSelected();
         if (is_selected != selected) {
             mState ^= STATE_SELECTED;
-            updateDrawableState();
+            //updateDrawableState();
         }
     }
 

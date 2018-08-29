@@ -79,7 +79,7 @@
                     android:id="@+id/tv_cancel"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="@string/tv_details"
+                    android:text="@string/cancel"
                     android:layout_centerInParent="true"
                     android:textSize="34px"
                     android:textColor="@color/black"/>

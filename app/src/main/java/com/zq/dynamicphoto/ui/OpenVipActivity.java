@@ -287,8 +287,7 @@ public class OpenVipActivity extends BaseActivity<IAccountRechargeView,
     }
 
 
-    @OnClick({R.id.layout_back, R.id.btn_half_year_vip, R.id.btn_year_vip,
-            R.id.layout_vip_good, R.id.layout_free_open_vip})
+    @OnClick({R.id.layout_back, R.id.btn_half_year_vip, R.id.btn_year_vip})
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.layout_back:
@@ -307,10 +306,6 @@ public class OpenVipActivity extends BaseActivity<IAccountRechargeView,
                 } else {
                     ToastUtils.showShort(getResources().getString(R.string.data_error));
                 }
-                break;
-            case R.id.layout_vip_good:
-                break;
-            case R.id.layout_free_open_vip:
                 break;
         }
     }

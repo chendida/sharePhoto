@@ -7,10 +7,14 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.CheckBox;
 import android.widget.ImageView;
+
+import com.luck.picture.lib.entity.LocalMedia;
 import com.zhy.autolayout.AutoRelativeLayout;
 import com.zq.dynamicphoto.R;
 import com.zq.dynamicphoto.bean.Image;
 import com.zq.dynamicphoto.utils.ImageLoaderUtils;
+import com.zq.dynamicphoto.utils.PicSelectUtils;
+
 import java.util.ArrayList;
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -23,15 +27,17 @@ public class WaterPhotoListAdapter extends RecyclerView.Adapter<WaterPhotoListAd
     ArrayList<Image> mList;
     private MyClickListener mListener;
     private PhotoViewHolder mHolder;
+    private Boolean isPreview;
 
     //自定义接口，用于回调按钮点击事件到Activity
     public interface MyClickListener {
         void clickListener(Image imageItem,Boolean isAdd);
     }
 
-    public WaterPhotoListAdapter(ArrayList<Image> mList,MyClickListener listener) {
+    public WaterPhotoListAdapter(ArrayList<Image> mList,MyClickListener listener,Boolean isPreview) {
         this.mList = mList;
         this.mListener = listener;
+        this.isPreview = isPreview;
     }
 
     private int getBodySize() {
@@ -51,18 +57,28 @@ public class WaterPhotoListAdapter extends RecyclerView.Adapter<WaterPhotoListAd
         holder.layout_photo.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (holder.check_photo.getVisibility() == View.GONE){
-                    mList.get(position).setSelected(true);
-                    mListener.clickListener(mList.get(position),true);
-                    holder.layout_photo.setAlpha(0.6f);
-                    holder.check_photo.setVisibility(View.VISIBLE);
-                    holder.check_photo.setChecked(true);
+                if (isPreview){
+                    ArrayList<LocalMedia> list = new ArrayList<>();
+                    for (Image pic:mList) {
+                        LocalMedia media = new LocalMedia();
+                        media.setPath(pic.getPath());
+                        list.add(media);
+                    }
+                    PicSelectUtils.getInstance().preview(position,list,v.getContext());
                 }else {
-                    mList.get(position).setSelected(false);
-                    mListener.clickListener(mList.get(position),false);
-                    holder.layout_photo.setAlpha(1.0f);
-                    holder.check_photo.setChecked(false);
-                    holder.check_photo.setVisibility(View.GONE);
+                    if (holder.check_photo.getVisibility() == View.GONE) {
+                        mList.get(position).setSelected(true);
+                        mListener.clickListener(mList.get(position), true);
+                        holder.layout_photo.setAlpha(0.6f);
+                        holder.check_photo.setVisibility(View.VISIBLE);
+                        holder.check_photo.setChecked(true);
+                    } else {
+                        mList.get(position).setSelected(false);
+                        mListener.clickListener(mList.get(position), false);
+                        holder.layout_photo.setAlpha(1.0f);
+                        holder.check_photo.setChecked(false);
+                        holder.check_photo.setVisibility(View.GONE);
+                    }
                 }
             }
         });

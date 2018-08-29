@@ -31,6 +31,7 @@ import com.zq.dynamicphoto.ui.DynamicDetailsActivity;
 import com.zq.dynamicphoto.ui.DynamicSelectActivity;
 import com.zq.dynamicphoto.ui.EditDynamicActivity;
 import com.zq.dynamicphoto.ui.EditWaterActivity;
+import com.zq.dynamicphoto.ui.HomeActivity;
 import com.zq.dynamicphoto.ui.HtmlManagerActivity;
 import com.zq.dynamicphoto.ui.HtmlPhotoDetailsActivity;
 import com.zq.dynamicphoto.ui.LabelManagerActivity;
@@ -161,14 +162,15 @@ public class MFGT {
         activity.startActivity(new Intent(activity, PhotoListActivity.class));
     }
 
-    public static void gotoWaterPhotoListActivity(Context context, Folder imageBucket) {
+    public static void gotoWaterPhotoListActivity(Context context, Folder imageBucket,Boolean isHide) {
         context.startActivity(new Intent(context, PhotoSelectActivity.class)
-                .putExtra(Constans.IMAGEBUCKET,imageBucket));
+                .putExtra(Constans.IMAGEBUCKET,imageBucket)
+                .putExtra(Constans.IS_HIDE,isHide));
     }
 
     public static void gotoWatermarkActivity(Activity context, ArrayList<Image>list) {
-        context.startActivityForResult(new Intent(context, WatermarkActivity.class)
-                .putExtra(Constans.SELECT_LIST,list),Constans.REQUEST_CODE);
+        context.startActivity(new Intent(context, WatermarkActivity.class)
+                .putExtra(Constans.SELECT_LIST,list));
     }
 
     public static void gotoWaterStyleActivity(Context context) {
@@ -267,5 +269,10 @@ public class MFGT {
         activity.startActivityForResult(new Intent(activity,
                         LabelWatermarkActivity.class).putExtra(Constans.WATERMARKID,watermarkId),
                 Constans.REQUEST_CODE);
+    }
+
+    public static void gotoHomeActivity(Activity activity) {
+        activity.startActivity(new Intent(activity, HomeActivity.class));
+        activity.finish();
     }
 }

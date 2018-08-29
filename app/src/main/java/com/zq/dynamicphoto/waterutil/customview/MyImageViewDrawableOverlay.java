@@ -10,6 +10,7 @@ import android.graphics.RectF;
 import android.util.AttributeSet;
 import android.util.Log;
 import android.view.MotionEvent;
+import android.view.View;
 import android.view.ViewConfiguration;
 
 import com.zq.dynamicphoto.MyApplication;
@@ -291,14 +292,17 @@ public class MyImageViewDrawableOverlay extends ImageViewTouch {
         // iterate the items and post a single tap event to the selected item
         Iterator<MyHighlightView> iterator = mOverlayViews.iterator();
         while (iterator.hasNext()) {
+            Log.i("mOverlayViews","MotionEvent" + e.getX());
             MyHighlightView view = iterator.next();
             if (view.isSelected()) {
+                Log.i("mOverlayViews","MotionEvent" + e.getX());
                 view.onSingleTapConfirmed(e.getX(), e.getY());
                 postInvalidate();
             }
         }
         return super.onSingleTapConfirmed(e);
     }
+
 
     @Override
     public boolean onDown(MotionEvent e) {
@@ -317,8 +321,12 @@ public class MyImageViewDrawableOverlay extends ImageViewTouch {
             // turned on
             newSelection = mOverlayViews.get(0);
         }
-
-        setSelectedHighlightView(newSelection);
+        if (newSelection != null){
+            Boolean inner = newSelection.isInner(mLastMotionScrollX, mLastMotionScrollY);
+            if (inner) {
+                setSelectedHighlightView(newSelection);
+            }
+        }
 
         if (realNewSelection != null && mScaleWithContent) {
             RectF displayRect = realNewSelection.getDisplayRect(realNewSelection.getMatrix(),
@@ -388,7 +396,7 @@ public class MyImageViewDrawableOverlay extends ImageViewTouch {
         Log.i(LOG_TAG, "onUp");
 
         if (mOverlayView != null) {
-            Log.i(LOG_TAG, "mOverlayView != null");
+            Log.i(LOG_TAG, "mOverlayView != null" + mOverlayView.isSelected());
             mOverlayView.setMode(NONE);
             postInvalidate();
         }
@@ -398,7 +406,6 @@ public class MyImageViewDrawableOverlay extends ImageViewTouch {
     @Override
     public boolean onSingleTapUp(MotionEvent e) {
         Log.i(LOG_TAG, "onSingleTapUp");
-
         if (mOverlayView != null) {
             int edge = mOverlayView.getHit(e.getX(), e.getY());
             Log.i(LOG_TAG, "onSingleTapUp  mOverlayView != null"+"edge = " + edge);

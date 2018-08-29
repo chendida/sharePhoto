@@ -147,6 +147,7 @@ public class Constans {
     public static String AVATAR_CHANGE = "avatar_change";
     public static String AVATAR_PATH = "avatar_path";
     public static String FRAME_TYPE = "frame_type";
+    public static String IS_HIDE = "is_hide";
 
     public static Integer REQUEST_LOIGN_ERROR = -4;//登录时手机号或密码错误
 

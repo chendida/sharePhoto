@@ -60,7 +60,7 @@ public class PhotoListAdapter extends RecyclerView.Adapter<PhotoListAdapter.Phot
                 if (isPhotoSelectView){
                     mListener.selectListener(mList.get(position));
                 }else {
-                    MFGT.gotoWaterPhotoListActivity(v.getContext(), mList.get(position));
+                    MFGT.gotoWaterPhotoListActivity(v.getContext(), mList.get(position),false);
                 }
             }
         });

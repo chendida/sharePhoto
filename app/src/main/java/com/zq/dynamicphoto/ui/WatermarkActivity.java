@@ -78,8 +78,6 @@ public class WatermarkActivity extends BaseActivity<IOperateWaterView,
         WaterMouldView, IOperateWaterView/*, SaveWaterImage */{
     private static final String TAG = "WatermarkActivity";
 
-    @BindView(R.id.btn_switchbutton)
-    SwitchButton btnSwitchbutton;
     @BindView(R.id.imgs_viewpager)
     NoPreloadViewPager viewPager;
     ArrayList<Image> imgs;
@@ -89,12 +87,6 @@ public class WatermarkActivity extends BaseActivity<IOperateWaterView,
     ImageView ivTopPic;
     @BindView(R.id.iv_next_pic)
     ImageView ivNextPic;
-    /*@BindView(R.id.rg_tab)
-    RadioGroup rgTab;
-    @BindView(R.id.rb_tab_water)
-    RadioButton rbTabWater;
-    @BindView(R.id.rb_tab_text)
-    RadioButton rbTabText;*/
     @BindView(R.id.seek_bar)
     SeekBar seekBar;
     @BindView(R.id.check_water)
@@ -149,8 +141,6 @@ public class WatermarkActivity extends BaseActivity<IOperateWaterView,
     }
 
     private void setListener() {
-        btnSwitchbutton.setHydropowerListener(hydropowerListener);
-        btnSwitchbutton.setSoftFloorListener(softFloorListener);
         imgs = (ArrayList<Image>) getIntent().getSerializableExtra(Constans.SELECT_LIST);
         mAdapter = new PictureSlidePagerAdapter(getSupportFragmentManager());
         viewPager.setAdapter(mAdapter);
@@ -186,20 +176,6 @@ public class WatermarkActivity extends BaseActivity<IOperateWaterView,
             }
         });
     }
-
-
-    SwitchButton.HydropowerListener hydropowerListener = new SwitchButton.HydropowerListener() {
-        @Override
-        public void hydropower() {
-            ToastUtils.showShort("单张");
-        }
-    };
-    SwitchButton.SoftFloorListener softFloorListener = new SwitchButton.SoftFloorListener() {
-        @Override
-        public void softFloor() {
-            ToastUtils.showShort("批量");
-        }
-    };
 
     @OnClick({R.id.layout_back, R.id.iv_top_pic, R.id.iv_next_pic,
             R.id.layout_save, R.id.layout_water, R.id.check_water})

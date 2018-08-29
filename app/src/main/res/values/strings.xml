@@ -342,4 +342,19 @@
     <string name="tv_save_finish">已保存到本地相册：共享相册</string>
     <string name="tv_finish_home">返回首页</string>
     <string name="tv_see_photos">查看照片</string>
+    <string name="tv_watermark_operate">水印制作</string>
+    <string name="qulity_share">一键转图</string>
+    <string name="one_key_share_hint">无论您自己多微信号还是下家都可以告别重复存图发图，都免费获得一键转图特权轻松同步朋友圈</string>
+    <string name="qulity_upload">高清传图</string>
+    <string name="upload_cover">无限制上传高清大图，避免多次转图后图片模糊</string>
+    <string name="send_small_routine">送小程序</string>
+    <string name="send_small_routine_hint">赠送微商专属小程序，给客户看图效果杠杠的</string>
+    <string name="more_rom">无限容量</string>
+    <string name="more_rom_hint">手机内存太小？VIP会员可以将您手机相册全部发布到云库，VIP会员没有内存容量限制</string>
+    <string name="set_watermark">水印设置</string>
+    <string name="set_watermark_hint">VIP会员可以对图片进行水印处理，上传图片或者分享时加上水印，防止他人恶意盗图</string>
+    <string name="more_dr_login">多台设备登录</string>
+    <string name="more_dr_login_hint">VIP会员可使用不同手机，无缝切换登录，免除微信登录在不同设备登录烦恼</string>
+    <string name="extend_hint">分享自己的相册二维码给好友下载微商云相册APP并成为VIP会员，可获得20%的推荐奖励</string>
+    <string name="extend">推广奖励</string>
 </resources>

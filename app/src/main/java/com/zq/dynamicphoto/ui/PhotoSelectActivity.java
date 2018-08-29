@@ -23,6 +23,7 @@ import android.widget.TextView;
 import com.blankj.utilcode.util.ToastUtils;
 import com.luck.picture.lib.decoration.GridSpacingItemDecoration;
 import com.zhy.autolayout.AutoLinearLayout;
+import com.zhy.autolayout.AutoRelativeLayout;
 import com.zq.dynamicphoto.R;
 import com.zq.dynamicphoto.adapter.PhotoListAdapter;
 import com.zq.dynamicphoto.adapter.SelectedPhotoListAdapter;
@@ -67,9 +68,12 @@ public class PhotoSelectActivity extends BaseActivity implements
     RecyclerView rclPhotoFile;
     @BindView(R.id.layout_dialog)
     AutoLinearLayout layoutDialog;
+    @BindView(R.id.layout_select)
+    AutoRelativeLayout layoutSelect;
     PhotoListAdapter photoListAdapter;
     ArrayList<Folder> imageBuckets;
     Folder imageBucket;
+    Boolean isHide;
 
     public static final int PHOTO_RESULT_CODE = 100;        //标志符，图片的结果码，判断是哪一个Intent
     private Uri mImageUri;                                  //指定的uri
@@ -79,6 +83,7 @@ public class PhotoSelectActivity extends BaseActivity implements
 
     @Override
     protected int getLayoutId() {
+        isHide = getIntent().getBooleanExtra(Constans.IS_HIDE,false);
         return R.layout.activity_photo_select;
     }
 
@@ -87,6 +92,10 @@ public class PhotoSelectActivity extends BaseActivity implements
         if (imageItems == null) {
             imageItems = new ArrayList<>();
         }
+        if (isHide){
+            layoutSelect.setVisibility(View.GONE);
+        }
+        Log.i(TAG,"isHide = " + isHide);
         selectAdapter = new SelectedPhotoListAdapter(imageItems, this);
         LinearLayoutManager manager = new LinearLayoutManager(this,
                 LinearLayoutManager.HORIZONTAL, false);
@@ -102,7 +111,8 @@ public class PhotoSelectActivity extends BaseActivity implements
     public void setAdapter(Folder imageBucket) {
         if (imageBucket != null) {
             tvTitle.setText(imageBucket.getName());
-            mAdapter = new WaterPhotoListAdapter((ArrayList<Image>) imageBucket.getImages(), this);
+            mAdapter = new WaterPhotoListAdapter((ArrayList<Image>) imageBucket.getImages(),
+                    this,isHide);
             rclAllList.setAdapter(mAdapter);
         }
     }
@@ -249,12 +259,12 @@ public class PhotoSelectActivity extends BaseActivity implements
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         Log.d(TAG, "拍摄结束。");
-        if (requestCode == Constans.REQUEST_CODE){
+        /*if (requestCode == Constans.REQUEST_CODE){
             if (resultCode == Constans.RESULT_CODE_FINISH){
                 PhotoSelectActivity.this.finish();
                 return;
             }
-        }
+        }*/
         if (resultCode == Activity.RESULT_OK) {
             showLoading();
             Log.d(TAG, "返回成功。");

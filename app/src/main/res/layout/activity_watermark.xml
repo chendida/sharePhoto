@@ -31,17 +31,14 @@
             android:layout_height="wrap_content"
             android:layout_centerHorizontal="true"
             android:layout_centerVertical="true">
-            <com.zq.dynamicphoto.ui.widge.SwitchButton
-                android:id="@+id/btn_switchbutton"
-                android:layout_width="240px"
-                android:layout_height="50px"
-                myc:bg_bitmap="@drawable/bg"
-                myc:btn_bitmap="@drawable/btn"
-                myc:textSize_ab="15sp"
-                myc:textOn="批量"
-                myc:textOff="单张"
-                android:padding="10dp"
-                android:layout_centerHorizontal="true"/>
+            <TextView
+                android:id="@+id/tv_title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@color/black"
+                android:textSize="32px"
+                android:text="@string/tv_watermark_operate"
+                />
         </com.zhy.autolayout.AutoRelativeLayout>
 
         <com.zhy.autolayout.AutoRelativeLayout

@@ -5,13 +5,19 @@ import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
+
+import com.luck.picture.lib.entity.LocalMedia;
 import com.zhy.autolayout.AutoRelativeLayout;
 import com.zq.dynamicphoto.R;
 import com.zq.dynamicphoto.adapter.PhotoListAdapter;
 import com.zq.dynamicphoto.base.BaseActivity;
 import com.zq.dynamicphoto.base.BasePresenter;
 import com.zq.dynamicphoto.bean.Folder;
+import com.zq.dynamicphoto.bean.Image;
 import com.zq.dynamicphoto.bean.ImageModel;
+import com.zq.dynamicphoto.utils.MFGT;
+import com.zq.dynamicphoto.utils.PicSelectUtils;
+
 import java.util.ArrayList;
 import butterknife.BindView;
 import butterknife.OnClick;
@@ -44,11 +50,8 @@ public class PhotoListActivity extends BaseActivity implements PhotoListAdapter.
     @Override
     protected void initView() {
         layoutBack.setVisibility(View.VISIBLE);
-        ivCamera.setVisibility(View.GONE);
         tvTitle.setText("系统相册");
-        tvFinish.setText("素材库");
-        tvFinish.setTextColor(getResources().getColor(R.color.tv_text_color3));
-        layoutFinish.setVisibility(View.VISIBLE);
+        layoutFinish.setVisibility(View.GONE);
     }
 
     @Override
@@ -65,7 +68,7 @@ public class PhotoListActivity extends BaseActivity implements PhotoListAdapter.
         LinearLayoutManager manager = new LinearLayoutManager(this,
                 LinearLayoutManager.VERTICAL, false);
         rclPhotoDirList.setLayoutManager(manager);
-        mAdapter = new PhotoListAdapter(imageBuckets,false,this);
+        mAdapter = new PhotoListAdapter(imageBuckets,true,this);
         rclPhotoDirList.setAdapter(mAdapter);
         rclPhotoDirList.setNestedScrollingEnabled(false);
         rclPhotoDirList.setHasFixedSize(true);
@@ -104,7 +107,7 @@ public class PhotoListActivity extends BaseActivity implements PhotoListAdapter.
     public void onClicked(View view) {
         switch (view.getId()) {
             case R.id.layout_back:
-                finish();
+                MFGT.gotoHomeActivity(this);
                 break;
             case R.id.layout_finish:
                 break;
@@ -113,6 +116,6 @@ public class PhotoListActivity extends BaseActivity implements PhotoListAdapter.
 
     @Override
     public void selectListener(Folder imageBucket) {
-
+        MFGT.gotoWaterPhotoListActivity(this,imageBucket,true);
     }
 }

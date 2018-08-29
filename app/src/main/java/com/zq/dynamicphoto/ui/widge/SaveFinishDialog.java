@@ -58,21 +58,21 @@ public class SaveFinishDialog extends Dialog implements View.OnClickListener {
     }
 
     private void initView(){
-        //findViewById(R.id.layout_back_home).setOnClickListener(this);
+        findViewById(R.id.layout_back_home).setOnClickListener(this);
         findViewById(R.id.layout_see_photos).setOnClickListener(this);
     }
 
     @Override
     public void onClick(View v) {
         switch (v.getId()){
-            /*case R.id.layout_back_home:
+            case R.id.layout_back_home:
                 if(mListener != null){
                     mListener.onClick(this, 1);
                 }
-                break;*/
+                break;
             case R.id.layout_see_photos:
                 if(mListener != null){
-                    mListener.onClick(this, 1);
+                    mListener.onClick(this, 2);
                 }
                 break;
         }

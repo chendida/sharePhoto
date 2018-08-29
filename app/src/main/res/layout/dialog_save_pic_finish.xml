@@ -29,20 +29,42 @@
 
         <com.zhy.autolayout.AutoRelativeLayout
             android:layout_marginTop="50px"
-            android:id="@+id/layout_see_photos"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:background="@drawable/see_photo_bg">
-            <TextView
-                android:layout_marginLeft="30px"
-                android:layout_marginRight="30px"
-                android:layout_marginTop="20px"
-                android:layout_marginBottom="20px"
+            android:layout_height="wrap_content">
+            <com.zhy.autolayout.AutoRelativeLayout
+                android:id="@+id/layout_back_home"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textColor="@color/white"
-                android:textSize="32px"
-                android:text="@string/tv_see_photos"/>
+                android:background="@drawable/back_home_bg">
+                <TextView
+                    android:layout_marginLeft="40px"
+                    android:layout_marginRight="40px"
+                    android:layout_marginTop="15px"
+                    android:layout_marginBottom="15px"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/white"
+                    android:textSize="32px"
+                    android:text="@string/tv_finish_home"/>
+            </com.zhy.autolayout.AutoRelativeLayout>
+            <com.zhy.autolayout.AutoRelativeLayout
+                android:layout_marginLeft="50px"
+                android:layout_toRightOf="@+id/layout_back_home"
+                android:id="@+id/layout_see_photos"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@drawable/see_photo_bg">
+                <TextView
+                    android:layout_marginLeft="40px"
+                    android:layout_marginRight="40px"
+                    android:layout_marginTop="15px"
+                    android:layout_marginBottom="15px"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/white"
+                    android:textSize="32px"
+                    android:text="@string/tv_see_photos"/>
+            </com.zhy.autolayout.AutoRelativeLayout>
         </com.zhy.autolayout.AutoRelativeLayout>
     </com.zhy.autolayout.AutoLinearLayout>
 </com.zhy.autolayout.AutoRelativeLayout>

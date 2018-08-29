@@ -33,6 +33,7 @@ import com.zq.dynamicphoto.bean.WaterEvent;
 import com.zq.dynamicphoto.common.Constans;
 import com.zq.dynamicphoto.ui.widge.SaveFinishDialog;
 import com.zq.dynamicphoto.ui.widge.SavePicDialog;
+import com.zq.dynamicphoto.utils.MFGT;
 import com.zq.dynamicphoto.waterutil.EffectUtil;
 import com.zq.dynamicphoto.waterutil.customview.MyHighlightView;
 import com.zq.dynamicphoto.waterutil.customview.MyImageViewDrawableOverlay;
@@ -263,10 +264,13 @@ public class PictureSlideFragment extends BaseFragment{
             @Override
             public void onClick(Dialog dialog, int position) {
                 dialog.dismiss();
-                if (position == 1){//查看照片
+                if (position == 1){//返回首页
                     if (getActivity() != null) {
-                        getActivity().setResult(Constans.RESULT_CODE_FINISH);
-                        getActivity().finish();
+                        MFGT.gotoHomeActivity(getActivity());
+                    }
+                }else {
+                    if (getActivity() != null){
+                        MFGT.gotoPhotoListActivity(getActivity());
                     }
                 }
             }
