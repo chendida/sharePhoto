@@ -92,4 +92,5 @@ dependencies {
     implementation files('libs/zysdk.jar')
     implementation files('libs/bugly_2.4.0_imsdk_release.jar')
     implementation files('libs/pldroid-shortvideo-1.10.0.jar')
+    implementation 'com.hjq:xxpermissions:3.8'
 }

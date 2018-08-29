@@ -6,6 +6,10 @@ import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
 import android.widget.Toast;
+
+import com.hjq.permissions.OnPermission;
+import com.hjq.permissions.Permission;
+import com.hjq.permissions.XXPermissions;
 import com.tencent.mm.opensdk.modelmsg.SendAuth;
 import com.zq.dynamicphoto.MyApplication;
 import com.zq.dynamicphoto.R;
@@ -21,6 +25,9 @@ import com.zq.dynamicphoto.presenter.WxLoginPresenter;
 import com.zq.dynamicphoto.utils.MFGT;
 import com.zq.dynamicphoto.utils.SharedPreferencesUtils;
 import com.zq.dynamicphoto.view.ILoadView;
+
+import java.util.List;
+
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
@@ -28,7 +35,27 @@ public class LoginActivity extends BaseActivity<ILoadView,WxLoginPresenter<ILoad
     public static String token,openId;
     @Override
     protected int getLayoutId() {
+        if (!XXPermissions.isHasPermission(this, Permission.READ_PHONE_STATE)) {
+            requestPermission();
+        }
         return R.layout.activity_login;
+    }
+
+    private void requestPermission() {
+        XXPermissions.with(this)
+                .permission(Permission.READ_PHONE_STATE) //不指定权限则自动获取清单中的危险权限
+                .request(new OnPermission() {
+
+                    @Override
+                    public void hasPermission(List<String> granted, boolean isAll) {
+
+                    }
+
+                    @Override
+                    public void noPermission(List<String> denied, boolean quick) {
+
+                    }
+                });
     }
 
     @Override

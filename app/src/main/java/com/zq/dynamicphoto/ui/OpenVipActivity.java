@@ -1,5 +1,6 @@
 package com.zq.dynamicphoto.ui;
 
+import android.Manifest;
 import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.os.Bundle;
@@ -11,11 +12,15 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.blankj.utilcode.util.PermissionUtils;
 import com.blankj.utilcode.util.ToastUtils;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
+import com.hjq.permissions.OnPermission;
+import com.hjq.permissions.Permission;
+import com.hjq.permissions.XXPermissions;
 import com.zhy.autolayout.AutoRelativeLayout;
 import com.zq.dynamicphoto.R;
 import com.zq.dynamicphoto.base.BaseActivity;
@@ -294,20 +299,53 @@ public class OpenVipActivity extends BaseActivity<IAccountRechargeView,
                 this.finish();
                 break;
             case R.id.btn_half_year_vip:
-                if (halfDiamound != 0) {
-                    getOrderId(String.valueOf(halfDiamound * 100), 2);
-                } else {
-                    ToastUtils.showShort(getResources().getString(R.string.data_error));
+                if (!XXPermissions.isHasPermission(this, Permission.READ_PHONE_STATE)) {
+                    requestPermission(2);
+                }else {
+                    vipTypes(2);
                 }
                 break;
             case R.id.btn_year_vip:
-                if (yearDiamound != 0) {
-                    getOrderId(String.valueOf(yearDiamound * 100), 3);
-                } else {
-                    ToastUtils.showShort(getResources().getString(R.string.data_error));
+                if (!XXPermissions.isHasPermission(this, Permission.READ_PHONE_STATE)) {
+                    requestPermission(3);
+                }else {
+                    vipTypes(3);
                 }
                 break;
         }
+    }
+
+    private void vipTypes(int type){
+        if (type == 2){
+            if (halfDiamound != 0) {
+                getOrderId(String.valueOf(halfDiamound * 100), type);
+            } else {
+                ToastUtils.showShort(getResources().getString(R.string.data_error));
+            }
+        }else {
+            if (yearDiamound != 0) {
+                getOrderId(String.valueOf(yearDiamound * 100), type);
+            } else {
+                ToastUtils.showShort(getResources().getString(R.string.data_error));
+            }
+        }
+    }
+
+    private void requestPermission(final int type) {
+        XXPermissions.with(this)
+                .permission(Permission.READ_PHONE_STATE) //不指定权限则自动获取清单中的危险权限
+                .request(new OnPermission() {
+
+                    @Override
+                    public void hasPermission(List<String> granted, boolean isAll) {
+                        vipTypes(type);
+                    }
+
+                    @Override
+                    public void noPermission(List<String> denied, boolean quick) {
+
+                    }
+                });
     }
 
     private void getOrderId(String totalDiamond, int type) {
@@ -327,12 +365,5 @@ public class OpenVipActivity extends BaseActivity<IAccountRechargeView,
             this.totalDiamound = totalDiamond;
             mPresenter.getRechargeOrderId(netRequestBean);
         }
-    }
-
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        // TODO: add setContentView(...) invocation
-        ButterKnife.bind(this);
     }
 }
