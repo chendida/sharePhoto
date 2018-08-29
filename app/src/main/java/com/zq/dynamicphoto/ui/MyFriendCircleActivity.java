@@ -404,7 +404,7 @@ public class MyFriendCircleActivity extends BaseActivity<IFriendCircleView,
         }, "确定删除？").show();
     }
 
-    @OnClick(R.id.layout_finish)
+    @OnClick(R.id.layout_back)
     public void onViewClicked() {
         finish();
     }

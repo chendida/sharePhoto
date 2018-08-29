@@ -2,7 +2,9 @@ package com.zq.dynamicphoto.ui;
 
 import android.content.SharedPreferences;
 import android.graphics.Bitmap;
+import android.os.Build;
 import android.os.Environment;
+import android.os.StrictMode;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
@@ -97,6 +99,11 @@ public class HomeActivity extends BaseActivity<IUploadDynamicView,
 
     @Override
     protected int getLayoutId() {
+        //取消严格模式  FileProvider
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+            StrictMode.VmPolicy.Builder builder = new StrictMode.VmPolicy.Builder();
+            StrictMode.setVmPolicy( builder.build() );
+        }
         return R.layout.activity_home;
     }
 
