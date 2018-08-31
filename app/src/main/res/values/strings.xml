@@ -362,4 +362,5 @@
     <string name="tv_added">已添加</string>
     <string name="to_expand_hint">全文</string>
     <string name="to_shrink_hint">收起</string>
+    <string name="tv_code_view_hint">推荐使用微共享相册转图</string>
 </resources>

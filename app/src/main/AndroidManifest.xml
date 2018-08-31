@@ -259,7 +259,8 @@
         <activity
             android:name=".ui.MyFriendCircleActivity"
             android:screenOrientation="portrait" />
-        <activity android:name=".ui.MySmallProgrameActivity"></activity>
+        <activity android:name=".ui.MySmallProgrameActivity" />
+        <activity android:name=".ui.MyTwoCodeActivity"></activity>
     </application>
 
 </manifest>

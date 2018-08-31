@@ -109,10 +109,11 @@ public class MineFragment extends BaseFragment {
                 MFGT.gotoOpenVipActivity(getActivity());
                 break;
             case R.id.layout_my_two_code:
-                SharedPreferences sp = SharedPreferencesUtils.getInstance();
+                /*SharedPreferences sp = SharedPreferencesUtils.getInstance();
                 int userId = sp.getInt(Constans.USERID,0);
                 MFGT.gotoHtmlManagerActivity(getActivity(),"share.html?userid="+userId,
-                        getResources().getString(R.string.photo_two_code),1);
+                        getResources().getString(R.string.photo_two_code),1);*/
+                MFGT.gotoMyTwoCodeActivity(getActivity());
                 break;
             case R.id.layout_my_follow:
                 MFGT.gotoMyFollowActivity(getActivity());
