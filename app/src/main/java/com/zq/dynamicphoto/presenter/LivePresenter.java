@@ -5,9 +5,7 @@ import com.zq.dynamicphoto.base.BasePresenter;
 import com.zq.dynamicphoto.bean.NetRequestBean;
 import com.zq.dynamicphoto.bean.Result;
 import com.zq.dynamicphoto.model.CloseLiveRoomImp;
-import com.zq.dynamicphoto.model.GetLiveGoodListImp;
 import com.zq.dynamicphoto.model.LiveHeartImp;
-import com.zq.dynamicphoto.model.UploadLiveGoodsImp;
 import com.zq.dynamicphoto.model.UpvoteAnchorImp;
 import com.zq.dynamicphoto.view.LiveView;
 

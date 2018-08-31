@@ -138,8 +138,6 @@ public class LiveOrdersFragment extends BaseFragment<ILiveOrdersView,
                 pager++;
                 if (pagerCount >= pager) {
                     getOrdersList(pager, "");
-                } else {
-                    ToastUtils.showShort("没有更多数据");
                 }
                 refreshlayout.finishLoadmore(1000);
             }

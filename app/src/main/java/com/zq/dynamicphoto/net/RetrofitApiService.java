@@ -466,4 +466,20 @@ public interface RetrofitApiService {
      */
     @POST("sdkData.shtml?requestId=91&a=0&b=0")
     Observable<Result> getVipStatus(@Body NetRequestBean netRequestBean);
+
+    /**
+     * 举报主播
+     * @param netRequestBean
+     * @return
+     */
+    @POST("sdkData.shtml?requestId=80&a=0&b=0")
+    Observable<Result> reportAnchor(@Body NetRequestBean netRequestBean);
+
+    /**
+     * 获取小程序码
+     * @param netRequestBean
+     * @return
+     */
+    @POST("sdkData.shtml?requestId=92&a=0&b=0")
+    Observable<Result> getSmallPrograme(@Body NetRequestBean netRequestBean);
 }

@@ -246,4 +246,12 @@ public class DataManager {
     public Observable<Result> getLiveList(NetRequestBean netRequestBean){
         return mRetrofitService.getLiveList(netRequestBean);
     }
+
+    public Observable<Result> reportAnchor(NetRequestBean netRequestBean){
+        return mRetrofitService.reportAnchor(netRequestBean);
+    }
+
+    public Observable<Result> getSmallPrograme(NetRequestBean netRequestBean){
+        return mRetrofitService.getSmallPrograme(netRequestBean);
+    }
 }

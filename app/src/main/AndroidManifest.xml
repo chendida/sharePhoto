@@ -256,8 +256,10 @@
         <activity
             android:name=".ui.ContactSelectActivity"
             android:screenOrientation="portrait" />
-        <activity android:name=".ui.MyFriendCircleActivity"
+        <activity
+            android:name=".ui.MyFriendCircleActivity"
             android:screenOrientation="portrait" />
+        <activity android:name=".ui.MySmallProgrameActivity"></activity>
     </application>
 
 </manifest>

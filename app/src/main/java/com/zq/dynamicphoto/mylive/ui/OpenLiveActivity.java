@@ -224,7 +224,7 @@ public class OpenLiveActivity extends BaseActivity<IOpenLiveView,
                 @Override
                 public void onClick(Dialog dialog) {
                     dialog.dismiss();
-                    MFGT.gotoOpenLiveActivity(OpenLiveActivity.this);
+                    MFGT.gotoAccountRechargeActivity(OpenLiveActivity.this);
                 }
             }, "余额不足，去充值？");
         }

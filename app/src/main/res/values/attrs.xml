@@ -22,6 +22,7 @@
         <attr name="TextColor" format="reference|color"/>
     </declare-styleable>
 
+
     <declare-styleable name="RxHeartLayout">
         <attr name="initX" format="dimension"/>
         <attr name="initY" format="dimension"/>

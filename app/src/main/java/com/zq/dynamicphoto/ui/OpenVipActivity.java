@@ -343,7 +343,7 @@ public class OpenVipActivity extends BaseActivity<IAccountRechargeView,
 
                     @Override
                     public void noPermission(List<String> denied, boolean quick) {
-
+                        ToastUtils.showShort(getResources().getString(R.string.permission_hint));
                     }
                 });
     }

@@ -122,8 +122,6 @@ public class ConsumptionListActivity extends BaseActivity<ILoadView,
                 pager++;
                 if (pagerCount >= pager) {
                     getConsumptionList(pager,beginTime,finishTime);
-                } else {
-                    ToastUtils.showShort("没有更多数据");
                 }
                 refreshlayout.finishLoadmore(1000);
             }

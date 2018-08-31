@@ -207,7 +207,7 @@ public class ShareUtils /*implements CompressView,UploadView*/{
     /**
      * 分享多张图片给好友
      */
-    private void shareToFriend(File[] file,int flag,Activity mContext) {
+    public void shareToFriend(File[] file,int flag,Activity mContext) {
         String  ail = "";
         if (flag == 1){
             ail = "com.tencent.mm.ui.tools.ShareImgUI";

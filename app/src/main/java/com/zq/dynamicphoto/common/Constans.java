@@ -156,8 +156,8 @@ public class Constans {
 
     public static String HTML_Url = "http://redshoping.cn/";
     //public static String HTML_Url = "http://192.168.1.184:8080/photo/";
-    public static String Base_Url = "http://redshoping.cn/interface/";
-    //public static String Base_Url = "http://www.gongxiangxiangce.cn/interface/";
+    //public static String Base_Url = "http://redshoping.cn/interface/";
+    public static String Base_Url = "http://www.gongxiangxiangce.cn/photo/interface/";
 
     private static volatile Constans instance;
 

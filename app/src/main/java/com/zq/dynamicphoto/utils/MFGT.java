@@ -40,6 +40,7 @@ import com.zq.dynamicphoto.ui.MoneyWatermarkActivity;
 import com.zq.dynamicphoto.ui.MyFansActivity;
 import com.zq.dynamicphoto.ui.MyFollowsActivity;
 import com.zq.dynamicphoto.ui.MyFriendCircleActivity;
+import com.zq.dynamicphoto.ui.MySmallProgrameActivity;
 import com.zq.dynamicphoto.ui.OpenVipActivity;
 import com.zq.dynamicphoto.ui.PhotoInfoActivity;
 import com.zq.dynamicphoto.ui.PhotoListActivity;
@@ -274,5 +275,9 @@ public class MFGT {
     public static void gotoHomeActivity(Activity activity) {
         activity.startActivity(new Intent(activity, HomeActivity.class));
         activity.finish();
+    }
+
+    public static void gotoMySmallProgrameActivity(Activity activity) {
+        activity.startActivity(new Intent(activity, MySmallProgrameActivity.class));
     }
 }

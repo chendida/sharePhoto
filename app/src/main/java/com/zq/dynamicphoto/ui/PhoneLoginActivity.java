@@ -7,6 +7,9 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.blankj.utilcode.util.ToastUtils;
+import com.hjq.permissions.OnPermission;
+import com.hjq.permissions.Permission;
+import com.hjq.permissions.XXPermissions;
 import com.zhy.autolayout.AutoRelativeLayout;
 import com.zq.dynamicphoto.R;
 import com.zq.dynamicphoto.base.BaseActivity;
@@ -22,13 +25,17 @@ import com.zq.dynamicphoto.utils.MD5;
 import com.zq.dynamicphoto.utils.MFGT;
 import com.zq.dynamicphoto.utils.TitleUtils;
 import com.zq.dynamicphoto.view.ILoadView;
+
+import java.util.List;
+
 import butterknife.BindView;
 import butterknife.OnClick;
 
 /**
  * 手机号登录界面
  */
-public class PhoneLoginActivity extends BaseActivity<ILoadView,PhoneLoginPresenter<ILoadView>> implements ILoadView {
+public class PhoneLoginActivity extends BaseActivity<ILoadView,PhoneLoginPresenter<ILoadView>>
+        implements ILoadView {
     @BindView(R.id.layout_back)
     AutoRelativeLayout layoutBack;
     @BindView(R.id.tv_title)
@@ -71,10 +78,33 @@ public class PhoneLoginActivity extends BaseActivity<ILoadView,PhoneLoginPresent
                 break;
             case R.id.btn_login:
                 if (isAll()) {
-                    login();
+                    if (!XXPermissions.isHasPermission(this,
+                            Permission.READ_EXTERNAL_STORAGE)) {
+                        requestPermission();
+                    }else {
+                        login();
+                    }
                 }
                 break;
         }
+    }
+
+    private void requestPermission() {
+        XXPermissions.with(this)
+                .permission(Permission.READ_PHONE_STATE) //不指定权限则自动获取清单中的危险权限
+                .permission(Permission.READ_EXTERNAL_STORAGE)
+                .request(new OnPermission() {
+
+                    @Override
+                    public void hasPermission(List<String> granted, boolean isAll) {
+                        login();
+                    }
+
+                    @Override
+                    public void noPermission(List<String> denied, boolean quick) {
+                        ToastUtils.showShort(getResources().getString(R.string.permission_hint));
+                    }
+                });
     }
 
     private void login() {

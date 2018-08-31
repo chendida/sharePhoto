@@ -10,6 +10,9 @@ import android.widget.Toast;
 import com.blankj.utilcode.util.ToastUtils;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
+import com.hjq.permissions.OnPermission;
+import com.hjq.permissions.Permission;
+import com.hjq.permissions.XXPermissions;
 import com.zhy.autolayout.AutoRelativeLayout;
 import com.zq.dynamicphoto.R;
 import com.zq.dynamicphoto.base.BaseActivity;
@@ -149,17 +152,41 @@ public class AccountRechargeActivity extends BaseActivity<IAccountRechargeView,
                 updateTextColor(4);
                 break;
             case R.id.btn_recharge_ok:
-                //充值
-                if (rechargeList != null){
-                    if (rechargeList.size() == 4){
-                        getOrderId(rechargeList.get(flag).getFeeCode());
-                    }else {
-                        ToastUtils.showShort("数据异常，请稍后重试");
-                    }
+                if (!XXPermissions.isHasPermission(this, Permission.READ_PHONE_STATE)) {
+                    requestPermission();
                 }else {
-                    ToastUtils.showShort("数据异常，请稍后重试");
+                    recharge();
                 }
                 break;
+        }
+    }
+
+    private void requestPermission() {
+        XXPermissions.with(this)
+                .permission(Permission.READ_PHONE_STATE) //不指定权限则自动获取清单中的危险权限
+                .request(new OnPermission() {
+                    @Override
+                    public void hasPermission(List<String> granted, boolean isAll) {
+                        recharge();
+                    }
+
+                    @Override
+                    public void noPermission(List<String> denied, boolean quick) {
+                        ToastUtils.showShort(getResources().getString(R.string.permission_hint));
+                    }
+                });
+    }
+
+    private void recharge() {
+        //充值
+        if (rechargeList != null){
+            if (rechargeList.size() == 4){
+                getOrderId(rechargeList.get(flag).getFeeCode());
+            }else {
+                ToastUtils.showShort("数据异常，请稍后重试");
+            }
+        }else {
+            ToastUtils.showShort("数据异常，请稍后重试");
         }
     }
 

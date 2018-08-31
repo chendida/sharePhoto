@@ -7,6 +7,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Toast;
 
+import com.blankj.utilcode.util.ToastUtils;
 import com.hjq.permissions.OnPermission;
 import com.hjq.permissions.Permission;
 import com.hjq.permissions.XXPermissions;
@@ -35,25 +36,29 @@ public class LoginActivity extends BaseActivity<ILoadView,WxLoginPresenter<ILoad
     public static String token,openId;
     @Override
     protected int getLayoutId() {
-        if (!XXPermissions.isHasPermission(this, Permission.READ_PHONE_STATE)) {
-            requestPermission();
+        if (!XXPermissions.isHasPermission(this,
+                Permission.READ_PHONE_STATE,Permission.READ_EXTERNAL_STORAGE)) {
+            requestPermission(false);
         }
         return R.layout.activity_login;
     }
 
-    private void requestPermission() {
+    private void requestPermission(final Boolean flag) {
         XXPermissions.with(this)
                 .permission(Permission.READ_PHONE_STATE) //不指定权限则自动获取清单中的危险权限
+                .permission(Permission.READ_EXTERNAL_STORAGE)
                 .request(new OnPermission() {
 
                     @Override
                     public void hasPermission(List<String> granted, boolean isAll) {
-
+                        if (flag){
+                            wxLogin();
+                        }
                     }
 
                     @Override
                     public void noPermission(List<String> denied, boolean quick) {
-
+                        ToastUtils.showShort(getResources().getString(R.string.permission_hint));
                     }
                 });
     }
@@ -115,7 +120,12 @@ public class LoginActivity extends BaseActivity<ILoadView,WxLoginPresenter<ILoad
     public void onClicked(View view) {
         switch (view.getId()) {
             case R.id.btn_wx_login:
-                wxLogin();
+                if (!XXPermissions.isHasPermission(this,
+                        Permission.READ_EXTERNAL_STORAGE)) {
+                    requestPermission(true);
+                }else {
+                    wxLogin();
+                }
                 break;
             case R.id.layout_phone_login:
                 MFGT.startActivity(this,PhoneLoginActivity.class);

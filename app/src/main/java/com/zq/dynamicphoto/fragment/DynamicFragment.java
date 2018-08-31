@@ -114,8 +114,6 @@ public class DynamicFragment extends BaseFragment<IDynamicView,DynamicLoadPresen
                 pager++;
                 if (pagerCount >= pager) {
                     getDynamicList(pager);
-                } else {
-                    Toast.makeText(getActivity(), "没有更多数据", Toast.LENGTH_SHORT).show();
                 }
                 refreshlayout.finishLoadmore(1000);
             }

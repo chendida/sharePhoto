@@ -99,8 +99,6 @@ public class LiveListFragment extends BaseFragment<ILiveListView,LiveListPresent
                 pager++;
                 if (pagerCount >= pager) {
                     getLiveList(pager);
-                } else {
-                    ToastUtils.showShort(R.string.tv_no_more_data);
                 }
                 refreshlayout.finishLoadmore(1000);
             }
@@ -110,6 +108,7 @@ public class LiveListFragment extends BaseFragment<ILiveListView,LiveListPresent
     @Override
     public void onResume() {
         super.onResume();
+        getLiveList(pager);
     }
 
     @Override
@@ -124,8 +123,8 @@ public class LiveListFragment extends BaseFragment<ILiveListView,LiveListPresent
 
     @Override
     protected void loadData() {
-        getLiveList(pager);
     }
+
 
     private void getLiveList(int pager) {
         DeviceProperties dr = DrUtils.getInstance();

@@ -154,7 +154,6 @@ public class LayerFragment extends LiveFragment implements Observer, GroupListen
             ivCustom.setVisibility(View.GONE);
         } else {
             ivCamera.setVisibility(View.GONE);
-            layoutReportAnchor.setVisibility(View.VISIBLE);
             //判断主播是否传了电话号码或者微信
             if (LiveActivity.getLiveRoom() != null) {
                 if (TextUtils.isEmpty(LiveActivity.getLiveRoom().getPhone()) &&

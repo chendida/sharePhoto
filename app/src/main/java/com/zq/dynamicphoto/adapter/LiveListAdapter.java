@@ -16,6 +16,7 @@ import com.zq.dynamicphoto.R;
 import com.zq.dynamicphoto.bean.DeviceProperties;
 import com.zq.dynamicphoto.bean.DrUtils;
 import com.zq.dynamicphoto.bean.NetRequestBean;
+import com.zq.dynamicphoto.common.Constans;
 import com.zq.dynamicphoto.mylive.bean.LiveDynamic;
 import com.zq.dynamicphoto.mylive.bean.LiveUser;
 import com.zq.dynamicphoto.mylive.bean.NewLiveRoom;
@@ -62,8 +63,8 @@ public class LiveListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
         final DeviceProperties dr = DrUtils.getInstance();
         SharedPreferences sp =
                 SharedPreferencesUtils.getInstance();
-        int userId = sp.getInt("userId", 0);
-        String unionId = sp.getString("unionId", "");
+        int userId = sp.getInt(Constans.USERID, 0);
+        String unionId = sp.getString(Constans.UNIONID, "");
         LiveUser liveUser = new LiveUser();
         liveUser.setUnionid(unionId);
         liveUser.setUserId(userId);
@@ -71,6 +72,7 @@ public class LiveListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
         NetRequestBean netRequestBean = new NetRequestBean();
         netRequestBean.setDeviceProperties(dr);
         netRequestBean.setNewLiveRoom(newLiveRoom);
+        netRequestBean.setLiveUser(liveUser);
         listener.gotoLiveRoom(newLiveRoom,netRequestBean);
     }
 

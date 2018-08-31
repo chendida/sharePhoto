@@ -92,9 +92,13 @@ public class MineFragment extends BaseFragment {
 
     @OnClick({R.id.layout_mine_info, R.id.layout_open_vip, R.id.layout_my_two_code,
             R.id.layout_my_follow, R.id.layout_my_fans, R.id.layout_problem,
-            R.id.layout_about_app, R.id.layout_setting,R.id.layout_my_friend_circle})
+            R.id.layout_about_app, R.id.layout_setting,R.id.layout_my_friend_circle,
+            R.id.layout_my_small_programe})
     public void onClicked(View view) {
         switch (view.getId()) {
+            case R.id.layout_my_small_programe:
+                MFGT.gotoMySmallProgrameActivity(getActivity());
+                break;
             case R.id.layout_my_friend_circle:
                 MFGT.gotoMyFriendCircleActivity(getActivity());
                 break;
