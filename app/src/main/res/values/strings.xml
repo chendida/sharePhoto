@@ -363,4 +363,9 @@
     <string name="to_expand_hint">全文</string>
     <string name="to_shrink_hint">收起</string>
     <string name="tv_code_view_hint">推荐使用微共享相册转图</string>
+    <string name="tv_small_program_hint">亲，快来扫码进入我的「微共享相册小程序」吧\n\n每日上新，第一时间就来看新品\n\n精准搜款，分类齐全找款超简单\n\n轻松批量保存高清照片与小视频，还能一键分享至朋友圈呢～\n\nPS.扫码一次，以后任何时候在微信里的【 发现 → 小程序 】中都可以直接打开我的云动态哦＾3＾。</string>
+    <string name="tv_two_code_hint1">亲们,关注我的共享相册🌹\n\n不仅第一时间查看上新动态👄\n\n还能轻松一键转图朋友圈😍"</string>
+    <string name="tv_two_code_hint4">[色]快关注我的微共享相册！安全免费一键转图～\n#现在学习1分钟，以后每天节省2小时#\n ①长按相册二维码，关注我的相册\n ②下载【微共享相册】App\n ③进入微共享相册，一键分享我的图文\n ④修改价格后，点右上角分享即可发朋友圈\n ⑤(苹果手机)点分享后需选微信，
+        并粘贴文字\n\n具体方法请按顺序查看下图，超好懂</string>
+    <string name="tv_two_code_hint5">在微信上做生意的人，80%以上的时间围绕着「图」。到处「搜图」、费心「做图」、来回「传图」、反复「发图」。\n如果你愿意继续这样也没关系：\n365天，每天多花2个小时，一年也只需要浪费90天。\n——不过，你也可以选择更好的方式：\n比如来找我聊聊微共享相册吧</string>
 </resources>

@@ -258,8 +258,9 @@ public class DynamicFragment extends BaseFragment<IDynamicView,DynamicLoadPresen
                         userId);
                 break;
             case R.id.layout_share_my_photo:
-                MFGT.gotoHtmlManagerActivity(getActivity(),"share.html?userid="+userId,
-                        getResources().getString(R.string.photo_two_code),1);
+                MFGT.gotoMyTwoCodeActivity(getActivity());
+                /*MFGT.gotoHtmlManagerActivity(getActivity(),"share.html?userid="+userId,
+                        getResources().getString(R.string.photo_two_code),1);*/
                 break;
             case R.id.iv_bg:
                 ivBg = (ImageView) view;

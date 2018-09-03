@@ -2,18 +2,12 @@ package com.zq.dynamicphoto.ui;
 
 import android.app.Dialog;
 import android.content.ClipboardManager;
-import android.content.Context;
-import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
-import android.graphics.Matrix;
 import android.graphics.Paint;
 import android.graphics.Rect;
-import android.net.Uri;
-import android.os.Environment;
-import android.provider.MediaStore;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.text.TextUtils;
@@ -21,7 +15,6 @@ import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
-
 import com.blankj.utilcode.util.ToastUtils;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
@@ -42,25 +35,20 @@ import com.zq.dynamicphoto.bean.Result;
 import com.zq.dynamicphoto.bean.User;
 import com.zq.dynamicphoto.common.Constans;
 import com.zq.dynamicphoto.presenter.GetSmallProgramePresenter;
-import com.zq.dynamicphoto.ui.widge.ExpandableTextView;
 import com.zq.dynamicphoto.ui.widge.ShareDialog;
+import com.zq.dynamicphoto.utils.CodeUtils;
 import com.zq.dynamicphoto.utils.PicSelectUtils;
 import com.zq.dynamicphoto.utils.ShareUtils;
 import com.zq.dynamicphoto.utils.SharedPreferencesUtils;
 import com.zq.dynamicphoto.view.ILoadView;
-
 import org.json.JSONException;
 import org.json.JSONObject;
-
-import java.io.ByteArrayOutputStream;
 import java.io.File;
-import java.io.FileOutputStream;
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
-
 import butterknife.BindView;
 import butterknife.OnClick;
+import cn.carbs.android.expandabletextview.library.ExpandableTextView;
 
 /**
  * 我的小程序码界面
@@ -160,13 +148,8 @@ public class MySmallProgrameActivity extends BaseActivity<ILoadView,
         try {
             JSONObject jsonObject = new JSONObject(result.getData());
             String urlCode = jsonObject.optString("urlCode", "");
-            ArrayList<DynamicStatic> list = new Gson().fromJson(jsonObject.optString("dynamicStaticList"), new TypeToken<List<DynamicStatic>>() {
+            final ArrayList<DynamicStatic> list = new Gson().fromJson(jsonObject.optString("dynamicStaticList"), new TypeToken<List<DynamicStatic>>() {
             }.getType());
-            if (list != null) {
-                if (list.size() == 6) {
-                    tvHint.setText(list.get(1).getJson());
-                }
-            }
             drawPic(urlCode);
         } catch (JSONException e) {
             e.printStackTrace();
@@ -217,9 +200,9 @@ public class MySmallProgrameActivity extends BaseActivity<ILoadView,
         Log.i(TAG, "w = " + mySmallPrograme.getWidth());
         Log.i(TAG, "h = " + mySmallPrograme.getHeight());
         //通过ThumbnailUtils压缩原图片，并指定宽高为背景图的3/4
-        mySmallPrograme = zoomImg(mySmallPrograme, 360, 360);
-        myAvatar = zoomImg(myAvatar, 84, 84);
-        bgBitmap = zoomImg(bgBitmap, 720, 1280);
+        mySmallPrograme = CodeUtils.getInstance().zoomImg(mySmallPrograme, 360, 360);
+        myAvatar = CodeUtils.getInstance().zoomImg(myAvatar, 84, 84);
+        bgBitmap = CodeUtils.getInstance().zoomImg(bgBitmap, 720, 1280);
         Bitmap cvBitmap = Bitmap.createBitmap(720, 1280, Bitmap.Config.ARGB_8888);
         Canvas canvas = new Canvas(cvBitmap);
         // 开始合成图片
@@ -244,62 +227,8 @@ public class MySmallProgrameActivity extends BaseActivity<ILoadView,
         if (cvBitmap.isRecycled()) {
             cvBitmap.recycle();
         }
-        saveImage(cvBitmap);
+        imageName = CodeUtils.getInstance().saveImage(cvBitmap);
         return cvBitmap;
-    }
-
-    private void saveImage(Bitmap bitmap) {
-        ByteArrayOutputStream baos = new ByteArrayOutputStream();
-        bitmap.compress(Bitmap.CompressFormat.PNG, 100, baos);
-        byte[] bytes = baos.toByteArray();
-        saveBitmap(System.currentTimeMillis()+".jpg", bytes);
-    }
-
-    private void saveBitmap(String imgName, byte[] bytes) {
-        if (Environment.getExternalStorageState().equals(Environment.MEDIA_MOUNTED)) {
-            FileOutputStream fos = null;
-            //filePath = null;
-            try {
-                String filePath = Environment.getExternalStorageDirectory().getCanonicalPath()+ "/共享相册";
-                File imgDir = new File(filePath);
-                if (!imgDir.exists()) {
-                    imgDir.mkdirs();
-                }
-                imageName = filePath + "/" + imgName;
-                fos = new FileOutputStream(imageName);
-                fos.write(bytes);
-                /*scanPhoto(MyApplication.getAppContext(),imgName);
-                ToastUtils.showShort("图片成功保存到"+filePath);*/
-            } catch (IOException e) {
-                e.printStackTrace();
-            } finally {
-                try {
-                    if (fos != null) {
-                        fos.close();
-                    }
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-            }
-        } else {
-            ToastUtils.showShort("请检查SD卡是否可用");
-        }
-    }
-
-    // 等比缩放图片
-    private Bitmap zoomImg(Bitmap bm, int newWidth, int newHeight) {
-        // 获得图片的宽高
-        int width = bm.getWidth();
-        int height = bm.getHeight();
-        // 计算缩放比例
-        float scaleWidth = ((float) newWidth) / width;
-        float scaleHeight = ((float) newHeight) / height;
-        // 取得想要缩放的matrix参数
-        Matrix matrix = new Matrix();
-        matrix.postScale(scaleWidth, scaleHeight);
-        // 得到新的图片
-        Bitmap newbm = Bitmap.createBitmap(bm, 0, 0, width, height, matrix, true);
-        return newbm;
     }
 
     @OnClick({R.id.layout_back, R.id.iv_pic, R.id.layout_one_key_share})
@@ -334,31 +263,19 @@ public class MySmallProgrameActivity extends BaseActivity<ILoadView,
                 files[0] = new File(imageName);
                 switch (position){
                     case 1:
-                        copyText(tvHint.getText().toString());
+                        copyText(getResources().getString(R.string.tv_small_program_hint));
                         ShareUtils.getInstance().shareToFriend(files,1,MySmallProgrameActivity.this);
                         break;
                     case 2:
-                        copyText(tvHint.getText().toString());
+                        copyText(getResources().getString(R.string.tv_small_program_hint));
                         ShareUtils.getInstance().shareToFriend(files,2,MySmallProgrameActivity.this);
                         break;
                     case 3:
-                        insertImageToSystemGallery(MySmallProgrameActivity.this,imageName,myBitmap);
+                        CodeUtils.getInstance().insertImageToSystemGallery(MySmallProgrameActivity.this,imageName,myBitmap);
                         break;
                 }
             }
         }).show();
-    }
-
-    /**
-     * 图片插入到系统相册,解决系统图库不能打开图片的问题
-     */
-    private static void insertImageToSystemGallery(Context context, String filePath, Bitmap bitmap){
-        MediaStore.Images.Media.insertImage(context.getContentResolver(), bitmap, "", "");
-        Intent intent = new Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE);
-        Uri uri = Uri.fromFile(new File(filePath));
-        intent.setData(uri);
-        context.sendBroadcast(intent);
-        ToastUtils.showShort("图片已成功保存到共享相册中");
     }
 
     private void copyText(String content){

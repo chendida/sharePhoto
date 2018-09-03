@@ -36,10 +36,7 @@ import com.zq.dynamicphoto.bean.NetRequestBean;
 import com.zq.dynamicphoto.bean.Result;
 import com.zq.dynamicphoto.bean.User;
 import com.zq.dynamicphoto.common.Constans;
-import com.zq.dynamicphoto.fragment.DynamicFragment;
 import com.zq.dynamicphoto.presenter.GetSmallProgramePresenter;
-import com.zq.dynamicphoto.ui.widge.ExpandableTextView;
-import com.zq.dynamicphoto.ui.widge.SaveImageUtils;
 import com.zq.dynamicphoto.ui.widge.ShareDialog;
 import com.zq.dynamicphoto.utils.CodeUtils;
 import com.zq.dynamicphoto.utils.ImageSaveUtils;
@@ -53,12 +50,11 @@ import org.json.JSONObject;
 
 import java.io.File;
 import java.util.ArrayList;
-import java.util.Hashtable;
 import java.util.List;
 
 import butterknife.BindView;
-import butterknife.ButterKnife;
 import butterknife.OnClick;
+import cn.carbs.android.expandabletextview.library.ExpandableTextView;
 
 public class MyTwoCodeActivity extends BaseActivity<ILoadView,
         GetSmallProgramePresenter<ILoadView>> implements ILoadView,ImageSaveUtils.DownLoadListener {
@@ -226,13 +222,6 @@ public class MyTwoCodeActivity extends BaseActivity<ILoadView,
             String url = jsonObject.optString("url", "");
             ArrayList<DynamicStatic> list = new Gson().fromJson(jsonObject.optString("dynamicStaticList"), new TypeToken<List<DynamicStatic>>() {
             }.getType());
-            if (list != null) {
-                if (list.size() == 6) {
-                    tvHint.setText(list.get(0).getJson());
-                    tvHint4.setText(list.get(4).getJson());
-                    tvHint5.setText(list.get(5).getJson());
-                }
-            }
             drawPic(url);
         } catch (JSONException e) {
             e.printStackTrace();
@@ -400,7 +389,8 @@ public class MyTwoCodeActivity extends BaseActivity<ILoadView,
                 break;
             case R.id.layout_one_key_share:
                 if (!TextUtils.isEmpty(imageName1)){
-                    showShareDialog(imageName1,myBitmap);
+                    showShareDialog(imageName1,myBitmap,getResources()
+                            .getString(R.string.tv_two_code_hint1));
                 }
                 break;
             case R.id.iv_pic2:
@@ -408,7 +398,7 @@ public class MyTwoCodeActivity extends BaseActivity<ILoadView,
                 break;
             case R.id.layout_one_key_share2:
                 if (!TextUtils.isEmpty(imageName2)){
-                    showShareDialog(imageName2,myBitmap2);
+                    showShareDialog(imageName2,myBitmap2,"");
                 }
                 break;
             case R.id.iv_pic3:
@@ -416,7 +406,7 @@ public class MyTwoCodeActivity extends BaseActivity<ILoadView,
                 break;
             case R.id.layout_one_key_share3:
                 if (!TextUtils.isEmpty(imageName3)){
-                    showShareDialog(imageName3,myBitmap3);
+                    showShareDialog(imageName3,myBitmap3,"");
                 }
                 break;
             case R.id.iv_pic41:
@@ -427,7 +417,8 @@ public class MyTwoCodeActivity extends BaseActivity<ILoadView,
                 break;
             case R.id.layout_one_key_share4:
                 if (!TextUtils.isEmpty(imageName1)){
-                    showShareDialog(imageName1,sl,0);
+                    showShareDialog(imageName1,sl,0,getResources()
+                            .getString(R.string.tv_two_code_hint4));
                 }
                 break;
             case R.id.iv_pic51:
@@ -438,7 +429,8 @@ public class MyTwoCodeActivity extends BaseActivity<ILoadView,
                 break;
             case R.id.layout_one_key_share5:
                 if (!TextUtils.isEmpty(imageName1)){
-                    showShareDialog(rz,imageName1,1);
+                    showShareDialog(rz,imageName1,1,getResources()
+                            .getString(R.string.tv_two_code_hint5));
                 }
                 break;
         }
@@ -480,7 +472,7 @@ public class MyTwoCodeActivity extends BaseActivity<ILoadView,
         }
     }
 
-    private void showShareDialog(final String imageName,final Bitmap myBitmap) {
+    private void showShareDialog(final String imageName, final Bitmap myBitmap, final String content) {
         new ShareDialog(this, R.style.dialog, new ShareDialog.OnItemClickListener() {
             @Override
             public void onClick(Dialog dialog, int position) {
@@ -489,11 +481,11 @@ public class MyTwoCodeActivity extends BaseActivity<ILoadView,
                 files[0] = new File(imageName);
                 switch (position){
                     case 1:
-                        copyText(tvHint.getText().toString());
+                        copyText(content);
                         ShareUtils.getInstance().shareToFriend(files,1,MyTwoCodeActivity.this);
                         break;
                     case 2:
-                        copyText(tvHint.getText().toString());
+                        copyText(content);
                         ShareUtils.getInstance().shareToFriend(files,2,MyTwoCodeActivity.this);
                         break;
                     case 3:
@@ -506,7 +498,8 @@ public class MyTwoCodeActivity extends BaseActivity<ILoadView,
     }
 
 
-    private void showShareDialog(final String imageName,final String imageName1,int flag) {
+    private void showShareDialog(final String imageName,final String imageName1
+            ,int flag,String content) {
         if (flag == 0){
             if (!TextUtils.isEmpty(imageName)){
                 Dynamic dynamic = new Dynamic();
@@ -520,7 +513,7 @@ public class MyTwoCodeActivity extends BaseActivity<ILoadView,
                 dynamicPhoto1.setThumbnailURL(imageName1);
                 dynamicPhotos.add(dynamicPhoto1);
                 dynamic.setDynamicPhotos(dynamicPhotos);
-                showShareDialog(dynamic,tvHint4.getText().toString());
+                showShareDialog(dynamic,content);
             }
         }else {
             if (!TextUtils.isEmpty(imageName1)){
@@ -535,7 +528,7 @@ public class MyTwoCodeActivity extends BaseActivity<ILoadView,
                 dynamicPhoto1.setThumbnailURL(imageName1);
                 dynamicPhotos.add(dynamicPhoto1);
                 dynamic.setDynamicPhotos(dynamicPhotos);
-                showShareDialog(dynamic,tvHint5.getText().toString());
+                showShareDialog(dynamic,content);
             }
         }
     }

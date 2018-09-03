@@ -49,8 +49,7 @@ public class ImageModel {
         Cursor mCursor = mContentResolver.query(mImageUri, new String[]{
                         MediaStore.Images.Media.DATA,
                         MediaStore.Images.Media.DISPLAY_NAME,
-                        MediaStore.Images.Media.DATE_ADDED,
-                        MediaStore.Images.Media._ID},
+                },
                 null,
                 null,
                 MediaStore.Images.Media.DATE_ADDED);
@@ -64,10 +63,10 @@ public class ImageModel {
             //获取图片名称
             String name = mCursor.getString(
                     mCursor.getColumnIndex(MediaStore.Images.Media.DISPLAY_NAME));
-            //获取图片时间
+            /*//获取图片时间
             long time = mCursor.getLong(
-                    mCursor.getColumnIndex(MediaStore.Images.Media.DATE_ADDED));
-            images.add(new Image(path, time, name));
+                    mCursor.getColumnIndex(MediaStore.Images.Media.DATE_ADDED));*/
+            images.add(new Image(path,name));
         }
         mCursor.close();
         Collections.reverse(images);

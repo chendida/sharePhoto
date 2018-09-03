@@ -1,10 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <com.zhy.autolayout.AutoRelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    tools:context="com.zq.dynamicphoto.ui.MySmallProgrameActivity">
+    xmlns:app="http://schemas.android.com/apk/res-auto">
     <include
         android:id="@+id/layout_head"
         layout="@layout/layout_head"/>
@@ -44,7 +42,7 @@
                         android:singleLine="true"
                         android:maxLength="14"
                         />
-                    <com.zq.dynamicphoto.ui.widge.ExpandableTextView
+                    <cn.carbs.android.expandabletextview.library.ExpandableTextView
                         android:layout_below="@+id/tv_nick"
                         android:layout_marginTop="40px"
                         android:id="@+id/tv_hint"
@@ -52,7 +50,7 @@
                         android:layout_height="wrap_content"
                         android:textColor="@color/tv_text_color1"
                         android:textSize="32px"
-                        android:text="@string/tv_default_app_name"
+                        android:text="@string/tv_two_code_hint1"
                         app:etv_MaxLinesOnShrink="6"
                         />
                     <com.zhy.autolayout.AutoRelativeLayout
@@ -125,7 +123,7 @@
                         android:singleLine="true"
                         android:maxLength="14"
                         />
-                    <com.zq.dynamicphoto.ui.widge.ExpandableTextView
+                    <cn.carbs.android.expandabletextview.library.ExpandableTextView
                         android:visibility="gone"
                         android:layout_below="@+id/tv_nick2"
                         android:layout_marginTop="40px"
@@ -134,7 +132,6 @@
                         android:layout_height="wrap_content"
                         android:textColor="@color/tv_text_color1"
                         android:textSize="32px"
-                        app:etv_MaxLinesOnShrink="6"
                         />
                     <com.zhy.autolayout.AutoRelativeLayout
                         android:id="@+id/layout_my_small_programe2"
@@ -207,7 +204,7 @@
                         android:singleLine="true"
                         android:maxLength="14"
                         />
-                    <com.zq.dynamicphoto.ui.widge.ExpandableTextView
+                    <cn.carbs.android.expandabletextview.library.ExpandableTextView
                         android:visibility="gone"
                         android:layout_below="@+id/tv_nick3"
                         android:layout_marginTop="40px"
@@ -216,7 +213,6 @@
                         android:layout_height="wrap_content"
                         android:textColor="@color/tv_text_color1"
                         android:textSize="32px"
-                        app:etv_MaxLinesOnShrink="6"
                         />
                     <com.zhy.autolayout.AutoRelativeLayout
                         android:id="@+id/layout_my_small_programe3"
@@ -288,7 +284,7 @@
                         android:singleLine="true"
                         android:maxLength="14"
                         />
-                    <com.zq.dynamicphoto.ui.widge.ExpandableTextView
+                    <cn.carbs.android.expandabletextview.library.ExpandableTextView
                         android:layout_below="@+id/tv_nick4"
                         android:layout_marginTop="40px"
                         android:id="@+id/tv_hint4"
@@ -297,6 +293,7 @@
                         android:textColor="@color/tv_text_color1"
                         android:textSize="32px"
                         app:etv_MaxLinesOnShrink="6"
+                        android:text="@string/tv_two_code_hint4"
                         />
                     <com.zhy.autolayout.AutoRelativeLayout
                         android:id="@+id/layout_my_small_programe4"
@@ -377,7 +374,7 @@
                         android:singleLine="true"
                         android:maxLength="14"
                         />
-                    <com.zq.dynamicphoto.ui.widge.ExpandableTextView
+                    <cn.carbs.android.expandabletextview.library.ExpandableTextView
                         android:layout_below="@+id/tv_nick5"
                         android:layout_marginTop="40px"
                         android:id="@+id/tv_hint5"
@@ -386,6 +383,7 @@
                         android:textColor="@color/tv_text_color1"
                         android:textSize="32px"
                         app:etv_MaxLinesOnShrink="6"
+                        android:text="@string/tv_two_code_hint5"
                         />
                     <com.zhy.autolayout.AutoRelativeLayout
                         android:id="@+id/layout_my_small_programe5"

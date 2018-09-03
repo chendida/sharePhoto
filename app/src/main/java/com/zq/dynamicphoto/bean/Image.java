@@ -34,6 +34,11 @@ public class Image implements Serializable{
         this.name = name;
     }
 
+    public Image(String path, String name) {
+        this.path = path;
+        this.name = name;
+    }
+
     public String getPath() {
         return path;
     }

@@ -248,7 +248,7 @@ public class DynamicListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
                     Integer isForward = mList.get(position-1).getIsForward();
                     if (isForward == 1) {
                         MFGT.gotoDynamicDetailsActivity((Activity) mContext,
-                                "detail.html?id=" + mList.get(position-1).getUserId()
+                                "detail.html?id=" + mList.get(position-1).getParentId()
                                 , mContext.getResources().getString(R.string.tv_dynamic_details));
                     }
                 }

@@ -44,16 +44,17 @@
                         android:singleLine="true"
                         android:maxLength="14"
                         />
-                    <com.zq.dynamicphoto.ui.widge.ExpandableTextView
+                    <cn.carbs.android.expandabletextview.library.ExpandableTextView
                         android:layout_below="@+id/tv_nick"
                         android:layout_marginTop="40px"
                         android:id="@+id/tv_hint"
+                        android:layout_centerVertical="true"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:textColor="@color/tv_text_color1"
                         android:textSize="32px"
-                        android:text="@string/tv_default_app_name"
                         app:etv_MaxLinesOnShrink="6"
+                        android:text="@string/tv_small_program_hint"
                         />
                     <com.zhy.autolayout.AutoRelativeLayout
                         android:id="@+id/layout_my_small_programe"

@@ -4,7 +4,7 @@
     android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="wrap_content">
-    <com.zq.dynamicphoto.ui.widge.ExpandableTextView
+    <com.zq.dynamicphoto.ui.widge.ExpandTextView
         android:id="@+id/expandable_text"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
@@ -18,5 +18,5 @@
             android:layout_height="wrap_content"
             android:textColor="@android:color/holo_red_light"
             android:text="展开" />
-    </com.zq.dynamicphoto.ui.widge.ExpandableTextView>
+    </com.zq.dynamicphoto.ui.widge.ExpandTextView>
 </com.zhy.autolayout.AutoLinearLayout>
