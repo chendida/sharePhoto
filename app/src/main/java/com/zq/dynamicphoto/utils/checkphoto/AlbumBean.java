@@ -7,6 +7,8 @@ import android.net.Uri;
 import android.provider.MediaStore;
 import android.util.Log;
 
+import com.zq.dynamicphoto.adapter.SelectPhotoAdapter;
+
 import java.io.File;
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -46,7 +48,7 @@ public class AlbumBean implements Serializable{
     /**
      * 查询手机上的所有相册
      */
-    public void getAllAlbumFromLocalStorage(final Context context, final AlbumListCallback completeCallback) {
+    public static void getAllAlbumFromLocalStorage(final Context context, final AlbumListCallback completeCallback) {
         new AlxMultiTask<Void,Void,ArrayList<AlbumBean>>(){
 
             @Override
@@ -118,13 +120,15 @@ public class AlbumBean implements Serializable{
         void onSuccess(ArrayList<AlbumBean> albumList);
     }
 
-    public void getAlbumPhotosFromLocalStorage(final Context context, final AlbumBean album, final AlbumPhotosCallback completeCallback) {
+    public static void getAlbumPhotosFromLocalStorage(final Context context,
+                                                      final AlbumBean album,
+                                                      final AlbumPhotosCallback completeCallback) {
 
-        new AlxMultiTask<Void,Void,ArrayList<SelectPhotoEntity>>(){
+        new AlxMultiTask<Void,Void,ArrayList<SelectPhotoAdapter.SelectPhotoEntity>>(){
 
             @Override
-            protected ArrayList<SelectPhotoEntity> doInBackground(Void... params) {
-                ArrayList<SelectPhotoEntity> photoList = new ArrayList<SelectPhotoEntity>();
+            protected ArrayList<SelectPhotoAdapter.SelectPhotoEntity> doInBackground(Void... params) {
+                ArrayList<SelectPhotoAdapter.SelectPhotoEntity> photoList = new ArrayList<SelectPhotoAdapter.SelectPhotoEntity>();
                 Uri mImageUri = MediaStore.Images.Media.EXTERNAL_CONTENT_URI;
                 if(context == null || album == null)return photoList;
                 ContentResolver mContentResolver = context.getContentResolver();//得到内容处理者实例
@@ -133,8 +137,18 @@ public class AlbumBean implements Serializable{
                 // 只该查询该相册下的jpeg和png的图片
                 Cursor mCursor = null;
                 //这里要区分自设的最近500张的相册和普通相册
-                if("Recently".equals(album.folderName))  mCursor = mContentResolver.query(mImageUri, new String[]{MediaStore.Images.Media.DATA}, MediaStore.Images.Media.MIME_TYPE + "=? or " + MediaStore.Images.Media.MIME_TYPE + "=?", new String[]{"image/jpeg", "image/png"}, sortOrder+" LIMIT 500");
-                else mCursor = mContentResolver.query(mImageUri, new String[]{MediaStore.Images.Media.DATA}, "("+ MediaStore.Images.Media.MIME_TYPE + "=? or " + MediaStore.Images.Media.MIME_TYPE + "=?)"+" AND " + MediaStore.Images.Media.DATA + " LIKE '"+album.albumFolder.getAbsolutePath()+"%'", new String[]{"image/jpeg", "image/png"}, sortOrder);
+                if("Recently".equals(album.folderName))  mCursor = mContentResolver.query(mImageUri,
+                        new String[]{MediaStore.Images.Media.DATA},
+                        MediaStore.Images.Media.MIME_TYPE + "=? or "
+                                + MediaStore.Images.Media.MIME_TYPE + "=?",
+                        new String[]{"image/jpeg", "image/png"}, sortOrder+" LIMIT 500");
+                else mCursor = mContentResolver.query(mImageUri,
+                        new String[]{MediaStore.Images.Media.DATA},
+                        "("+MediaStore.Images.Media.MIME_TYPE + "=? or "
+                                + MediaStore.Images.Media.MIME_TYPE + "=?)"+" AND " +
+                                MediaStore.Images.Media.DATA + " LIKE '"+
+                                album.albumFolder.getAbsolutePath()+"%'",
+                        new String[]{"image/jpeg", "image/png"}, sortOrder);
                 if(mCursor == null)return null;
                 int size = mCursor.getCount();
                 Log.i("Alex","查到的该相册的图片的数量是"+size);
@@ -142,9 +156,11 @@ public class AlbumBean implements Serializable{
                 for (int i = 0; i < size; i++) {//遍历全部图片
                     mCursor.moveToPosition(i);
                     String path = mCursor.getString(0);// 获取图片的路径
-                    SelectPhotoEntity entity = new SelectPhotoEntity();
+                    SelectPhotoAdapter.SelectPhotoEntity entity = new SelectPhotoAdapter.SelectPhotoEntity();
                     entity.url = path;//将图片的uri放到对象里去
-                    if(!"Recently".equals(album.folderName) && !new File(path).getParentFile().getAbsolutePath().equals(album.albumFolder.getAbsolutePath()))continue;//经常会有相册相互包含的情况
+                    if(!"Recently".equals(album.folderName) &&
+                            !new File(path).getParentFile().getAbsolutePath()
+                                    .equals(album.albumFolder.getAbsolutePath()))continue;//经常会有相册相互包含的情况
                     photoList.add(entity);
                 }
                 mCursor.close();
@@ -152,7 +168,7 @@ public class AlbumBean implements Serializable{
             }
 
             @Override
-            protected void onPostExecute(ArrayList<SelectPhotoEntity> photoList) {
+            protected void onPostExecute(ArrayList<SelectPhotoAdapter.SelectPhotoEntity> photoList) {
                 super.onPostExecute(photoList);
                 if(photoList == null)return;
                 completeCallback.onSuccess(photoList);
@@ -161,6 +177,6 @@ public class AlbumBean implements Serializable{
     }
 
     public interface AlbumPhotosCallback{
-        void onSuccess(ArrayList<SelectPhotoEntity> photos);
+        void onSuccess(ArrayList<SelectPhotoAdapter.SelectPhotoEntity> photos);
     }
 }

@@ -16,10 +16,6 @@ public class Image implements Serializable{
     private String name;
     private Boolean isSelected = false;
 
-    public Boolean isSelected() {
-        return isSelected;
-    }
-
     public void setSelected(Boolean selected) {
         isSelected = selected;
     }
@@ -61,5 +57,9 @@ public class Image implements Serializable{
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public Boolean isSelected() {
+        return isSelected;
     }
 }

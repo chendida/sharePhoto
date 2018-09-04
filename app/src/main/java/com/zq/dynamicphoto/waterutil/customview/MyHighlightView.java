@@ -212,7 +212,7 @@ public class MyHighlightView implements EditableDrawable.OnSizeChange {
                 outlinePaint.setColor(Color.WHITE);
                 outlinePaint.setStyle(Paint.Style.STROKE);
                 outlinePaint.setStrokeWidth(MyApplication.getInstance().dp2px(1));
-                outlinePaint.setPathEffect ( new DashPathEffect( new float [ ] { 30, 20 }, 0 ) ) ;
+                outlinePaint.setPathEffect ( new DashPathEffect( new float [ ] { 2, 2 }, 0 ) ) ;
                 canvas.drawPath(outlinePath, outlinePaint);
 
                 final int left = (int) (mTempRect.left);

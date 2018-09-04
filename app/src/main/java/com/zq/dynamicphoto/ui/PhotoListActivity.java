@@ -6,17 +6,16 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.luck.picture.lib.entity.LocalMedia;
 import com.zhy.autolayout.AutoRelativeLayout;
 import com.zq.dynamicphoto.R;
 import com.zq.dynamicphoto.adapter.PhotoListAdapter;
+import com.zq.dynamicphoto.adapter.SelectPhotoAdapter;
 import com.zq.dynamicphoto.base.BaseActivity;
 import com.zq.dynamicphoto.base.BasePresenter;
 import com.zq.dynamicphoto.bean.Folder;
-import com.zq.dynamicphoto.bean.Image;
 import com.zq.dynamicphoto.bean.ImageModel;
 import com.zq.dynamicphoto.utils.MFGT;
-import com.zq.dynamicphoto.utils.PicSelectUtils;
+import com.zq.dynamicphoto.utils.checkphoto.AlbumBean;
 
 import java.util.ArrayList;
 import butterknife.BindView;
@@ -37,7 +36,7 @@ public class PhotoListActivity extends BaseActivity implements PhotoListAdapter.
     ImageView ivCamera;
     @BindView(R.id.rcl_photo_dir_list)
     RecyclerView rclPhotoDirList;
-    private ArrayList<Folder> imageBuckets;
+    private ArrayList<AlbumBean> imageBuckets;
     @BindView(R.id.layout_finish)
     AutoRelativeLayout layoutFinish;
     private PhotoListAdapter mAdapter;
@@ -84,16 +83,10 @@ public class PhotoListActivity extends BaseActivity implements PhotoListAdapter.
      * 从SDCard加载图片。
      */
     private void loadImageForSDCard() {
-        ImageModel.loadImageForSDCard(this, new ImageModel.DataCallback() {
+        AlbumBean.getAllAlbumFromLocalStorage(this, new AlbumBean.AlbumListCallback() {
             @Override
-            public void onSuccess(final ArrayList<Folder> folders) {
-                //folders是图片文件夹的列表，每个文件夹中都有若干张图片。
-                runOnUiThread(new Runnable() {
-                    @Override
-                    public void run() {
-                        mAdapter.initFolders(folders);
-                    }
-                });
+            public void onSuccess(ArrayList<AlbumBean> albumList) {
+                mAdapter.initFolders(albumList);
             }
         });
     }
@@ -115,7 +108,18 @@ public class PhotoListActivity extends BaseActivity implements PhotoListAdapter.
     }
 
     @Override
-    public void selectListener(Folder imageBucket) {
-        MFGT.gotoWaterPhotoListActivity(this,imageBucket,true);
+    public void onBackPressed() {
+        super.onBackPressed();
+        MFGT.gotoHomeActivity(this);
+    }
+
+    @Override
+    public void selectListener(final AlbumBean folder) {
+        AlbumBean.getAlbumPhotosFromLocalStorage(this, folder, new AlbumBean.AlbumPhotosCallback() {
+            @Override
+            public void onSuccess(ArrayList<SelectPhotoAdapter.SelectPhotoEntity> photos) {
+                MFGT.gotoWaterPhotoListActivity(PhotoListActivity.this,photos,true,folder.getFolderName());
+            }
+        });
     }
 }

@@ -20,19 +20,19 @@ import butterknife.ButterKnife;
  */
 
 public class SelectedPhotoListAdapter extends RecyclerView.Adapter<SelectedPhotoListAdapter.SelectedViewHolder> {
-    ArrayList<Image> mList;
+    ArrayList<SelectPhotoAdapter.SelectPhotoEntity> mList;
     private DeleteListener mListener;
 
-    public ArrayList<Image> getmList() {
+    public ArrayList<SelectPhotoAdapter.SelectPhotoEntity> getmList() {
         return mList;
     }
 
     //自定义接口，用于回调按钮点击事件到Activity
     public interface DeleteListener {
-        void deleteItem(Image imageItem);
+        void deleteItem(SelectPhotoAdapter.SelectPhotoEntity imageItem);
     }
 
-    public SelectedPhotoListAdapter(ArrayList<Image> mList,DeleteListener listener) {
+    public SelectedPhotoListAdapter(ArrayList<SelectPhotoAdapter.SelectPhotoEntity> mList,DeleteListener listener) {
         this.mList = mList;
         this.mListener = listener;
     }
@@ -47,11 +47,11 @@ public class SelectedPhotoListAdapter extends RecyclerView.Adapter<SelectedPhoto
     @Override
     public void onBindViewHolder(@NonNull SelectedViewHolder holder, final int position) {
         holder.bind(mList.get(position));
-        final Image imageItem = mList.get(position);
+        final SelectPhotoAdapter.SelectPhotoEntity imageItem = mList.get(position);
         holder.ivDeletePic.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                mList.get(position).setSelected(false);
+                //mList.get(position).setSelected(false);
                 mList.remove(position);
                 mListener.deleteItem(imageItem);
                 notifyDataSetChanged();
@@ -61,9 +61,9 @@ public class SelectedPhotoListAdapter extends RecyclerView.Adapter<SelectedPhoto
             @Override
             public void onClick(View v) {
                 ArrayList<LocalMedia> list = new ArrayList<>();
-                for (Image pic:mList) {
+                for (SelectPhotoAdapter.SelectPhotoEntity pic:mList) {
                     LocalMedia media = new LocalMedia();
-                    media.setPath(pic.getPath());
+                    media.setPath(pic.url);
                     list.add(media);
                 }
                 PicSelectUtils.getInstance().preview(position,list,v.getContext());
@@ -88,28 +88,22 @@ public class SelectedPhotoListAdapter extends RecyclerView.Adapter<SelectedPhoto
             ButterKnife.bind(this, view);
         }
 
-        public void bind(Image imageItem) {
+        public void bind(SelectPhotoAdapter.SelectPhotoEntity imageItem) {
             if (imageItem != null){
-                if (!TextUtils.isEmpty(imageItem.getPath())){
-                    ImageLoaderUtils.displayImg(ivSelectPhoto,imageItem.getPath());
+                if (!TextUtils.isEmpty(imageItem.url)){
+                    ImageLoaderUtils.displayImg(ivSelectPhoto,imageItem.url);
                 }
             }
         }
     }
 
-    public void addImageItemList(Image imageItem) {
+    public void addImageItemList(SelectPhotoAdapter.SelectPhotoEntity imageItem) {
         this.mList.add(imageItem);
         notifyDataSetChanged();
     }
 
-    public void deleteImageItemList(Image imageItem) {
+    public void deleteImageItemList(SelectPhotoAdapter.SelectPhotoEntity imageItem) {
         if (mList != null){
-            for (Image image:mList) {
-                if (image.getPath().equals(imageItem.getPath())){
-                    imageItem = image;
-                    break;
-                }
-            }
             mList.remove(imageItem);
             notifyDataSetChanged();
         }

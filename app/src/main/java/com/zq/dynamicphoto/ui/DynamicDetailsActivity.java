@@ -1,5 +1,6 @@
 package com.zq.dynamicphoto.ui;
 
+import android.app.Dialog;
 import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Bundle;
@@ -11,22 +12,27 @@ import android.webkit.WebViewClient;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.blankj.utilcode.util.ToastUtils;
 import com.google.gson.Gson;
 import com.tencent.mm.opensdk.utils.Log;
 import com.zhy.autolayout.AutoRelativeLayout;
+import com.zq.dynamicphoto.MyApplication;
 import com.zq.dynamicphoto.R;
 import com.zq.dynamicphoto.base.BaseActivity;
 import com.zq.dynamicphoto.base.BasePresenter;
 import com.zq.dynamicphoto.bean.Dynamic;
 import com.zq.dynamicphoto.common.Constans;
+import com.zq.dynamicphoto.ui.widge.ShareDialog;
+import com.zq.dynamicphoto.utils.ImageSaveUtils;
 import com.zq.dynamicphoto.utils.MFGT;
+import com.zq.dynamicphoto.utils.ShareUtils;
 import com.zq.dynamicphoto.utils.TitleUtils;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
-public class DynamicDetailsActivity extends BaseActivity {
+public class DynamicDetailsActivity extends BaseActivity implements ImageSaveUtils.DownLoadListener {
     private static final String TAG = "DynamicDetailsActivity";
     @BindView(R.id.layout_back)
     AutoRelativeLayout layoutBack;
@@ -38,7 +44,7 @@ public class DynamicDetailsActivity extends BaseActivity {
     WebView htmlWebView;
     @BindView(R.id.iv_camera)
     ImageView ivCamera;
-
+    private ShareDialog shareDialog;
     @Override
     protected int getLayoutId() {
         return R.layout.activity_html_manager;
@@ -104,7 +110,7 @@ public class DynamicDetailsActivity extends BaseActivity {
                         if (!TextUtils.isEmpty(share)) {
                             Dynamic dynamic = new Gson().fromJson(share, Dynamic.class);
                             if (dynamic != null) {
-                                //showShareWxDialog(dynamic);
+                                showShareDialog(dynamic);
                             }
                         } else if (!TextUtils.isEmpty(xedit)) {
                             Dynamic dynamic = new Gson().fromJson(xedit, Dynamic.class);
@@ -121,6 +127,34 @@ public class DynamicDetailsActivity extends BaseActivity {
         });
     }
 
+    private void showShareDialog(final Dynamic dynamic) {
+        shareDialog = new ShareDialog(this, R.style.dialog, new ShareDialog.OnItemClickListener() {
+            @Override
+            public void onClick(Dialog dialog, int position) {
+                dialog.dismiss();
+                switch (position) {
+                    case 1://分享给好友
+                        ShareUtils.getInstance().shareFriend(dynamic,1,DynamicDetailsActivity.this);
+                        break;
+                    case 2://分享给微信朋友圈
+                        ShareUtils.getInstance().shareFriend(dynamic,2,DynamicDetailsActivity.this);
+                        break;
+                    case 3://批量保存
+                        if (dynamic != null){
+                            showLoading();
+                            ImageSaveUtils.getInstance(DynamicDetailsActivity.this).saveAll(dynamic);
+                        }
+                        break;
+                }
+            }
+        });
+        if (!MyApplication.mWxApi.isWXAppInstalled()) {
+            ToastUtils.showShort(getResources().getString(R.string.have_no_wx));
+        }else {
+            shareDialog.show();
+        }
+    }
+
     @Override
     protected BasePresenter createPresenter() {
         return null;
@@ -130,5 +164,11 @@ public class DynamicDetailsActivity extends BaseActivity {
     @OnClick(R.id.layout_back)
     public void onClicked() {
         finish();
+    }
+
+    @Override
+    public void callBack(int code, String msg) {
+        hideLoading();
+        ToastUtils.showShort(msg);
     }
 }

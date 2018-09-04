@@ -6,13 +6,11 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
-
 import com.zhy.autolayout.AutoLinearLayout;
+import com.zq.dynamicphoto.MyApplication;
 import com.zq.dynamicphoto.R;
-import com.zq.dynamicphoto.bean.Folder;
-import com.zq.dynamicphoto.utils.ImageLoaderUtils;
-import com.zq.dynamicphoto.utils.MFGT;
-
+import com.zq.dynamicphoto.utils.checkphoto.AlbumBean;
+import com.zq.dynamicphoto.utils.checkphoto.AlxImageLoader;
 import java.util.ArrayList;
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -22,11 +20,12 @@ import butterknife.ButterKnife;
  */
 
 public class PhotoListAdapter extends RecyclerView.Adapter<PhotoListAdapter.PhotoListViewHolder> {
-    ArrayList<Folder> mList;
+    ArrayList<AlbumBean> mList;
     private Boolean isPhotoSelectView;//是否是图片选择界面
     private SelectListener mListener;
+    private AlxImageLoader alxImageLoader;
 
-    public void initFolders(ArrayList<Folder> folders) {
+    public void initFolders(ArrayList<AlbumBean> folders) {
         if (mList != null){
             mList.clear();
             mList.addAll(folders);
@@ -36,13 +35,14 @@ public class PhotoListAdapter extends RecyclerView.Adapter<PhotoListAdapter.Phot
 
     //自定义接口，用于回调按钮点击事件到Activity
     public interface SelectListener {
-        void selectListener(Folder folder);
+        void selectListener(AlbumBean folder);
     }
 
-    public PhotoListAdapter(ArrayList<Folder> mList,Boolean flag,SelectListener listener) {
+    public PhotoListAdapter(ArrayList<AlbumBean> mList, Boolean flag, SelectListener listener) {
         this.mList = mList;
         this.isPhotoSelectView = flag;
         this.mListener = listener;
+        alxImageLoader = new AlxImageLoader(MyApplication.getAppContext());
     }
 
     @NonNull
@@ -57,11 +57,12 @@ public class PhotoListAdapter extends RecyclerView.Adapter<PhotoListAdapter.Phot
         holder.layoutAvatar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (isPhotoSelectView){
+                /*if (isPhotoSelectView){
                     mListener.selectListener(mList.get(position));
                 }else {
                     MFGT.gotoWaterPhotoListActivity(v.getContext(), mList.get(position),false);
-                }
+                }*/
+                mListener.selectListener(mList.get(position));
             }
         });
     }
@@ -86,15 +87,15 @@ public class PhotoListAdapter extends RecyclerView.Adapter<PhotoListAdapter.Phot
             ButterKnife.bind(this, view);
         }
 
-        public void bind(Folder imageBucket) {
+        public void bind(AlbumBean imageBucket) {
             if (imageBucket != null){
-                if (imageBucket.getImages() != null){
-                    if (imageBucket.getImages().size() != 0){
-                        ImageLoaderUtils.displayImg(ivAvatar,imageBucket.getImages().get(0).getPath());
-                    }
+                if (imageBucket.getTopImagePath() != null){
+                    alxImageLoader.setAsyncBitmapFromSD(imageBucket.getTopImagePath()
+                            ,ivAvatar,300,false,
+                            true,true);
                 }
-                tvPhotoName.setText(imageBucket.getName());
-                String num = imageBucket.getImages().size()+"";
+                tvPhotoName.setText(imageBucket.getFolderName());
+                String num = imageBucket.getImageCounts()+"";
                 tvImageNum.setText(num);
             }
         }

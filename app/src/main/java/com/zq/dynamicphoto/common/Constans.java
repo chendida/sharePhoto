@@ -38,6 +38,7 @@ public class Constans {
     public static String MOMENTS_ID = "momentsId";
     public static String VIDEO_URL = "videoUrl";
     public static String IMAGEBUCKET = "imageBucket";
+    public static String FOLDERNAME = "folderName";
     public static String SELECT_LIST = "bucketList";
     public static String NEW_LIVE_ROOM = "newLiveRoom";
     public static String USERINFO = "userInfo";

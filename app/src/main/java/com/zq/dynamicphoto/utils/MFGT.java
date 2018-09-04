@@ -7,6 +7,7 @@ import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
 
+import com.zq.dynamicphoto.adapter.SelectPhotoAdapter;
 import com.zq.dynamicphoto.bean.Dynamic;
 import com.zq.dynamicphoto.bean.Folder;
 import com.zq.dynamicphoto.bean.Image;
@@ -55,6 +56,7 @@ import com.zq.dynamicphoto.ui.VideoPlayActivity;
 import com.zq.dynamicphoto.ui.WaterStyleActivity;
 import com.zq.dynamicphoto.ui.Watermark5009Activity;
 import com.zq.dynamicphoto.ui.WatermarkActivity;
+import com.zq.dynamicphoto.utils.checkphoto.AlbumBean;
 import com.zq.dynamicphoto.view.UploadView;
 
 import java.util.ArrayList;
@@ -164,9 +166,11 @@ public class MFGT {
         activity.startActivity(new Intent(activity, PhotoListActivity.class));
     }
 
-    public static void gotoWaterPhotoListActivity(Context context, Folder imageBucket,Boolean isHide) {
+    public static void gotoWaterPhotoListActivity(Context context, ArrayList<SelectPhotoAdapter.SelectPhotoEntity> photos,
+                                                  Boolean isHide,String folderName) {
         context.startActivity(new Intent(context, PhotoSelectActivity.class)
-                .putExtra(Constans.IMAGEBUCKET,imageBucket)
+                .putExtra(Constans.IMAGEBUCKET,photos)
+                .putExtra(Constans.FOLDERNAME,folderName)
                 .putExtra(Constans.IS_HIDE,isHide));
     }
 

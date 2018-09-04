@@ -1,5 +1,6 @@
 package com.zq.dynamicphoto.ui;
 
+import android.app.Dialog;
 import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.os.Build;
@@ -35,6 +36,7 @@ import com.zq.dynamicphoto.fragment.HomePageFragment;
 import com.zq.dynamicphoto.fragment.LiveFragment;
 import com.zq.dynamicphoto.fragment.MineFragment;
 import com.zq.dynamicphoto.presenter.DynamicUploadPresenter;
+import com.zq.dynamicphoto.ui.widge.DynamicLeadDialog;
 import com.zq.dynamicphoto.ui.widge.ScrollViewPager;
 import com.zq.dynamicphoto.utils.CDNUrl;
 import com.zq.dynamicphoto.utils.CompressVideoUtils;
@@ -116,6 +118,21 @@ public class HomeActivity extends BaseActivity<IUploadDynamicView,
         initFragments();
         EventBus.getDefault().register(this);
         getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_HIDDEN);
+        showLeadDialog();
+    }
+
+    private void showLeadDialog() {
+        SharedPreferences sp = SharedPreferencesUtils.getInstance();
+        int isFirstDynamic = sp.getInt("isFirstDynamic", 0);
+        if (isFirstDynamic < 3) {
+            sp.edit().putInt("isFirstDynamic", isFirstDynamic+1).commit();
+            new DynamicLeadDialog(this, R.style.dialog, new DynamicLeadDialog.OnItemClickListener() {
+                @Override
+                public void onClick(Dialog dialog, int position) {
+                    dialog.dismiss();
+                }
+            }).show();
+        }
     }
 
     @Subscribe(threadMode = ThreadMode.MAIN)

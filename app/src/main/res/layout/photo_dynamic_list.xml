@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
-<com.zhy.autolayout.AutoRelativeLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<com.zhy.autolayout.AutoRelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:background="@color/colorBackground">
     <com.zhy.autolayout.AutoRelativeLayout
         android:layout_width="match_parent"
@@ -70,7 +70,7 @@
             android:layout_marginLeft="8px"
             android:src="@drawable/icon_lock"
             />
-        <TextView
+        <cn.carbs.android.expandabletextview.library.ExpandableTextView
             android:id="@+id/tv_article"
             android:layout_marginLeft="126px"
             android:layout_marginRight="20px"
@@ -80,8 +80,8 @@
             android:layout_marginTop="16px"
             android:textSize="28px"
             android:textColor="@color/tv_text_color5"
-            android:maxLines="8"
-            android:ellipsize="end"
+            app:etv_MaxLinesOnShrink="6"
+            app:etv_InitState="shrink"
             />
 
         <com.zhy.autolayout.AutoRelativeLayout

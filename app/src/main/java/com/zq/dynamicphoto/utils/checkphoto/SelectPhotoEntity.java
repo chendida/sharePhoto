@@ -12,23 +12,6 @@ import java.io.Serializable;
 public class SelectPhotoEntity implements Serializable, Parcelable {
     public String url;
     public int isSelect;
-    private Boolean isSelected = false;
-
-    public Boolean isSelected() {
-        return isSelected;
-    }
-
-    public void setSelected(Boolean selected) {
-        isSelected = selected;
-    }
-
-    public String getUrl() {
-        return url;
-    }
-
-    public int getIsSelect() {
-        return isSelect;
-    }
 
     @Override
     public int describeContents() {

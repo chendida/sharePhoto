@@ -1,7 +1,9 @@
 package com.zq.dynamicphoto.fragment;
 
+import android.content.Intent;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -9,10 +11,13 @@ import android.widget.TextView;
 import com.zhy.autolayout.AutoRelativeLayout;
 import com.zq.dynamicphoto.R;
 import com.zq.dynamicphoto.adapter.PhotoListAdapter;
+import com.zq.dynamicphoto.adapter.SelectPhotoAdapter;
 import com.zq.dynamicphoto.base.BaseFragment;
 import com.zq.dynamicphoto.base.BasePresenter;
 import com.zq.dynamicphoto.bean.Folder;
 import com.zq.dynamicphoto.bean.ImageModel;
+import com.zq.dynamicphoto.utils.MFGT;
+import com.zq.dynamicphoto.utils.checkphoto.AlbumBean;
 
 import java.util.ArrayList;
 
@@ -22,11 +27,12 @@ import butterknife.OnClick;
 /**
  * 朋友圈
  */
-public class AddWaterFragment extends BaseFragment implements PhotoListAdapter.SelectListener{
+public class AddWaterFragment extends BaseFragment
+        implements PhotoListAdapter.SelectListener{
     private static final String TAG = "AddWaterFragment";
     @BindView(R.id.rcl_photo_dir_list)
     RecyclerView rclPhotoDirList;
-    private ArrayList<Folder> imageBuckets;
+    private ArrayList<AlbumBean> imageBuckets;
     private PhotoListAdapter mAdapter;
 
     @Override
@@ -56,16 +62,10 @@ public class AddWaterFragment extends BaseFragment implements PhotoListAdapter.S
      * 从SDCard加载图片。
      */
     private void loadImageForSDCard() {
-        ImageModel.loadImageForSDCard(getActivity(), new ImageModel.DataCallback() {
+        AlbumBean.getAllAlbumFromLocalStorage(getActivity(), new AlbumBean.AlbumListCallback() {
             @Override
-            public void onSuccess(final ArrayList<Folder> folders) {
-                //folders是图片文件夹的列表，每个文件夹中都有若干张图片。
-                getActivity().runOnUiThread(new Runnable() {
-                    @Override
-                    public void run() {
-                        mAdapter.initFolders(folders);
-                    }
-                });
+            public void onSuccess(ArrayList<AlbumBean> albumList) {
+                mAdapter.initFolders(albumList);
             }
         });
     }
@@ -99,7 +99,12 @@ public class AddWaterFragment extends BaseFragment implements PhotoListAdapter.S
     }
 
     @Override
-    public void selectListener(Folder folder) {
-
+    public void selectListener(final AlbumBean folder) {
+        AlbumBean.getAlbumPhotosFromLocalStorage(getActivity(), folder, new AlbumBean.AlbumPhotosCallback() {
+            @Override
+            public void onSuccess(ArrayList<SelectPhotoAdapter.SelectPhotoEntity> photos) {
+                MFGT.gotoWaterPhotoListActivity(getContext(),photos,false,folder.getFolderName());
+            }
+        });
     }
 }

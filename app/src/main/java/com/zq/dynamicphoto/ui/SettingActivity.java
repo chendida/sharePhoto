@@ -89,7 +89,9 @@ public class SettingActivity extends BaseActivity {
     private void logout() {
         SharedPreferences sp = SharedPreferencesUtils.getInstance();
         SharedPreferences.Editor edit = sp.edit();
+        int isFirstDynamic = sp.getInt("isFirstDynamic", 0);
         edit.clear().commit();
+        edit.putInt("isFirstDynamic",isFirstDynamic).commit();
         finishAffinity();
         Intent intent = new Intent(Intent.ACTION_MAIN);
         intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);

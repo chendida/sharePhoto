@@ -97,6 +97,7 @@
     <string name="tv_select_dynamic">选择动态</string>
     <string name="tv_no_more_data">没有更多数据</string>
     <string name="please_least_select_one">请至少选择一个动态</string>
+    <string name="please_least_select_pic">请至少选择一张图片</string>
     <string name="tv_title_pic_is_null">标题图片不能为空</string>
     <string name="content_is_null">朋友圈内容不能为空</string>
     <string name="bg_is_null">背景不能为空</string>

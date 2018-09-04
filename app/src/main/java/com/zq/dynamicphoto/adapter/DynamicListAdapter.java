@@ -36,6 +36,7 @@ import com.zq.dynamicphoto.view.DynamicDelete;
 import java.util.ArrayList;
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import cn.carbs.android.expandabletextview.library.ExpandableTextView;
 
 /**
  * Created by Administrator on 2018/6/11.
@@ -200,7 +201,7 @@ public class DynamicListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
                     }
                 }
             });
-            holder.tvArticle.setOnClickListener(new View.OnClickListener() {
+            /*holder.tvArticle.setOnClickListener(new View.OnClickListener() {
                 Boolean flag = true;
                 @Override
                 public void onClick(View view) {
@@ -214,7 +215,7 @@ public class DynamicListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
                         holder.tvArticle.setEllipsize(TextUtils.TruncateAt.END); // 收缩
                     }
                 }
-            });
+            });*/
             holder.tvAllSave.setOnClickListener(new View.OnClickListener() {//批量保存功能
                 @Override
                 public void onClick(View view) {
@@ -274,7 +275,7 @@ public class DynamicListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
         @BindView(R.id.iv_locked)
         ImageView ivLocked;
         @BindView(R.id.tv_article)
-        TextView tvArticle;
+        ExpandableTextView tvArticle;
         @BindView(R.id.layout_nine_grid)
         NineGridImageLayout layoutNineGrid;
         @BindView(R.id.tv_delete)

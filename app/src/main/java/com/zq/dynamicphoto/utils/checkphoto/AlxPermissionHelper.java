@@ -55,7 +55,7 @@ public class AlxPermissionHelper {
         }
     }
 
-    interface AskPermissionCallBack{
+    public interface AskPermissionCallBack{
         void onSuccess();
         void onFailed();
     }
